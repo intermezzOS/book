@@ -125,3 +125,6 @@ Here are the guiding principles of intermezzOS:
 * The only thing that matters about your language background is the amount you
   may have to learn.
 * Everything must be documented, or it’s not done.
+
+And of course, everything related to this project is under the [Code of
+Conduct](http://intermezzos.github.io/code-of-conduct.html).
