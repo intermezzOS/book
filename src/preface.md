@@ -1,4 +1,10 @@
-# Preface
+<h1 class="center">intermezzOS</h1>
+
+<img class="center" src="rhizome.jpg" alt="rhizome" />
+
+<p class="center">An operating system for learning</p>
+
+## Preface
 
 This book describes the intermezzOS project. intermezzOS is a hobby operating
 system, specifically targeted at showing beginners how to get into operating
