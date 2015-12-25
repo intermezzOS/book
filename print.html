@@ -45,7 +45,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind.html"><strong>1.2.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.3.</strong> What tools will we use?</a></li></ul></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -177,8 +177,89 @@ may have to learn.</li>
 <p>And of course, everything related to this project is under the <a href="http://intermezzos.github.io/code-of-conduct.html">Code of
 Conduct</a>.</p>
 <h1>Background</h1>
-<p>Before we actually get into working on an operating system, let’s talk about what that
-even means, exactly.</p>
+<p>Before we get going, we should probably have some idea of where we’re headed.</p>
+<h1>What is an OS?</h1>
+<p>It’s actually kind of difficult to define what an operating system is. There
+are a lot of different kinds of operating systems, and they all do different
+kinds of things.</p>
+<p>There are some shared goals, however. Let’s try this out as a working
+definition:</p>
+<blockquote>
+<p>An operating system is a program that provides a platform for other
+programs. It provides two things to these programs: abstractions and
+isolation.</p>
+</blockquote>
+<p>This is good enough for now. Let’s consider this a test for inclusion,
+but not exclusion. In other words, things that fit this definition
+<em>are</em> operating systems, but things that don’t may or may not be,
+we don’t quite know.</p>
+<h2>Creating abstractions</h2>
+<p>There are many reasons to create a platform for other programs, but a
+common one for operating systems is to abstract over hardware.</p>
+<p>Consider a program, running on some hardware:</p>
+<p>** DIAGRAM GOES HERE **</p>
+<p>This program will need to know <em>exactly</em> about what kind of hardware exists.
+If you want to run it on a different computer, it will have to know exactly
+about that computer too. And if you want to write a second program, you’ll
+have to re-write all of that code.</p>
+<blockquote>
+<p>All problems in computer science can be solved by another level of
+indirection.</p>
+<ul>
+<li>David Wheeler</li>
+</ul>
+</blockquote>
+<p>To solve this problem, we can introduce an abstraction:</p>
+<p>** DIAGRAM GOES HERE **</p>
+<p>Now, the operating system can handle the details of the hardware, and provide
+an API for it. A program can be written for that operating system’s API, and
+can then run on any hardware that the operating system supports.</p>
+<p>At some point, though, we developed many operating systems. Since operating
+systems are platforms, most people pick one and have only that one on their
+computer. So now we have a problem that looks the same, but is a bit
+different: our program is now specific to an OS, rather than specific to
+a particular bit of hardware.</p>
+<p>To solve this, some programming languages have a ‘virtual machine.’ This
+was a bit selling point of Java, for example: the Java Virtual Machine.
+The idea here is that we create a <em>virtual</em> machine on top of the <em>real</em>
+machine.</p>
+<p>** DIAGRAM GOES HERE **</p>
+<p>Now, you write programs for the Java Virtual Machine, which is then ported
+to each operating system, which is then ported to all the hardware. Whew!</p>
+<blockquote>
+<p>...except for the problem of too many layers of indirection.</p>
+<ul>
+<li>Kevlin Henney</li>
+</ul>
+</blockquote>
+<p>Now consider this: what if we have a big server, and we want to run a bunch of
+services on it? Well, we can write a special kind of operating system, a
+‘hypervisor’, whose client programs are operating systems:</p>
+<p>** DIAGRAM GOES HERE **</p>
+<p>Now we have hardware, which is abstracted by a hypervisor. We then have
+an operating system, providing a layer on top of the hypervisor. From
+there, we have a virtual machine, abstracting over operating systems.</p>
+<p>Then inside that, we have our program. Whew!</p>
+<p>The point is, ‘hypervisors’, ‘operating systems’, and ‘virtual machines’
+are all sort of the same thing, in a sense. They do the same kind of
+job; it’s just what is on top of and below them that’s different.</p>
+<h2>Isolation</h2>
+<p>Many of the abstractions provided are, as we discussed, abstractions over
+hardware. And hardware often has a pretty serious restriction: only one
+program can access the hardware at a time. So if our operating system is going
+to be able to run multiple programs, which is a common feature of many
+operating systems, we’ll also need to make sure that multiple programs cannot
+access hardware at the same time.</p>
+<p>This really applies to more than just hardware though: once we have two
+programs, it would not be ideal to let them mess with each other. Consider any
+sort of program that deals with your password: if programs could mess with each
+other’s memory and code, then a program could trivially steal your password
+from another program!</p>
+<p>This is just one symptom of a general problem. It’s much better to isolate
+programs from each other, for a number of different reasons. For now, we’ll
+just consider isolation as one of our important jobs, as OS authors.</p>
+<h1>What kind are we making?</h1>
+<h1>What tools will we use?</h1>
 <h1>Boot -&gt; kmain()</h1>
 <p>COMING SOON</p>
 <h1>Hello, world!</h1>
