@@ -2,4 +2,7 @@
 
 [Preface](preface.md)
 
-- [Chapter 1](./chapter_1.md)
+- [Background](background.md)
+- [Boot -> kmain()](boot-to-kmain.md)
+- [Hello, world!](hello-world.md)
+- [Keyboard input](keyboard-input.md)
