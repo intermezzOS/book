@@ -45,7 +45,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what-does-an-os-do.html"><strong>1.1.</strong> What does an OS do?</a></li></ul></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what-does-an-os-do.html"><strong>1.1.</strong> What does an OS do?</a></li><li><a href="kernel-vs-os.html"><strong>1.2.</strong> Kernel vs. OS</a></li></ul></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -210,6 +210,29 @@ can use its abstractions to not have to think about those details.</p>
 you can work with a framework that gives you common abstractions. An operating
 system is sort of like Ruby on Rails, but for hardware.</p>
 <p>The devil, of course, is in the details.</p>
+<h1>Kernel vs. OS</h1>
+<p>One term you’ll hear thrown around a lot in operating systems is ‘kernel’.
+There’s a distinction between ‘the kenerl’ and ‘userland programs’. You can
+see it in the grammar: it’s <em>the</em> kernel vs program <em>s</em>, singular versus
+multiple.</p>
+<p>A full-fledged operating system is often comprised of multiple programs. The
+kernel is the program at the heart of the OS: it’s in charge of talking to
+hardware, and keeping track of everything. Other programs run on top of the
+kernel, making use of its services.</p>
+<p>One way to think about a kernel is that it’s the program that controls
+the shared resources between programs. You can think of it like giant mutex,
+making sure that programs don’t try to use the same stuff at the same time.
+It also makes sure that a particular program isn’t hogging too many resources
+on the system.</p>
+<p>As such, we’ll start off making a kernel. Eventually, our kernel will be able
+to run other programs. But not at the start.</p>
+<p>There are various ways in which a kernel can be designed. The classic two
+are ‘monolithic kernel’ vs ‘microkernel’, but there are others as well,
+like an ‘exokernel’ or a ‘unikernel’. We’re not going to worry about this
+level of detail yet. We haven’t even started! You can spend a lot of time
+making plans, but never actually develop your system. So we won’t worry
+about what kind of kernel we’re making for now, and just worry about
+making it do things at all.</p>
 <h1>Boot -&gt; kmain()</h1>
 <p>COMING SOON</p>
 <h1>Hello, world!</h1>
