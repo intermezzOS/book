@@ -23,7 +23,7 @@ common one for operating systems is to abstract over hardware.
 
 Consider a program, running on some hardware:
 
-** DIAGRAM GOES HERE **
+![program-hardware](assets/program_hardware.png)
 
 This program will need to know _exactly_ about what kind of hardware exists.
 If you want to run it on a different computer, it will have to know exactly
@@ -37,7 +37,7 @@ have to re-write all of that code.
 
 To solve this problem, we can introduce an abstraction:
 
-** DIAGRAM GOES HERE **
+![program-os-hardware](assets/program_os_hardware.png)
 
 Now, the operating system can handle the details of the hardware, and provide
 an API for it. A program can be written for that operating system’s API, and
@@ -54,7 +54,7 @@ was a bit selling point of Java, for example: the Java Virtual Machine.
 The idea here is that we create a _virtual_ machine on top of the _real_
 machine.
 
-** DIAGRAM GOES HERE **
+![program-vm-os-hardware](assets/program_vm_os_hardware.png)
 
 Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!
