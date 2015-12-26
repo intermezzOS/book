@@ -49,9 +49,11 @@ Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
 up being one, but Mac OS X uses a version of Mach from before that work was
 done... so it’s a bit blurry.
 
-If a microkerenel were a web application, it would be made of microservices.
-It’s a bit cooler than a single app by itself, and the communication is nice
-for flexibility’s sake, but has some overhead.
+If a microkerenel were a web application, it would be a microservice. And a
+bunch of the other stuff that’s in kernel space in a monolithic kernel are
+other microservices, but in userspace instead. It’s a bit cooler than a single
+monolithic web app by itself, and the communication is nice for flexibility’s
+sake, but has some overhead.
 
 ## Exokernels & Unikernels
 
