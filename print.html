@@ -197,7 +197,7 @@ we don’t quite know.</p>
 <p>There are many reasons to create a platform for other programs, but a
 common one for operating systems is to abstract over hardware.</p>
 <p>Consider a program, running on some hardware:</p>
-<p><img src="assets/program_hardware.png" alt="program-hardware" /></p>
+<p><img alt="program on hardware" class="center" alt="assets/program_hardware.png" /></p>
 <p>This program will need to know <em>exactly</em> about what kind of hardware exists.
 If you want to run it on a different computer, it will have to know exactly
 about that computer too. And if you want to write a second program, you’ll
@@ -210,7 +210,7 @@ indirection.</p>
 </ul>
 </blockquote>
 <p>To solve this problem, we can introduce an abstraction:</p>
-<p><img src="assets/program_os_hardware.png" alt="program-os-hardware" /></p>
+<p><img alt="program on os on hardware" class="center" alt="assets/program_os_hardware.png" /></p>
 <p>Now, the operating system can handle the details of the hardware, and provide
 an API for it. A program can be written for that operating system’s API, and
 can then run on any hardware that the operating system supports.</p>
@@ -223,7 +223,7 @@ a particular bit of hardware.</p>
 was a bit selling point of Java, for example: the Java Virtual Machine.
 The idea here is that we create a <em>virtual</em> machine on top of the <em>real</em>
 machine.</p>
-<p><img src="assets/program_vm_os_hardware.png" alt="program-vm-os-hardware" /></p>
+<p><img alt="program on vm " class="center" alt="assets/program_vm_os_hardware.png" /></p>
 <p>Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!</p>
 <blockquote>
