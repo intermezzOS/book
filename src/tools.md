@@ -11,6 +11,8 @@ _every_ kernel must use: assembly language.
 Assembly language looks like this:
 
 ```x86asm
+; lol.asm
+
 section .data
 global _start
 
@@ -52,6 +54,8 @@ rough edges, but they’re not too big of a deal.
 Rust will allow us to write:
 
 ```rust
+// lol.rs
+
 use std::process;
 
 fn main() {
