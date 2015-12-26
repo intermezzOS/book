@@ -164,6 +164,10 @@ journey. You start off in ignorance, and end in knowledge. In other words,
 something, there’s something new to learn, and you’re on a journey again.</p>
 <p>If you want to learn a lot, then you’ll find yourself perpetually in the
 middle.</p>
+<p>There is another sense by which this name makes sense: as we’ll learn in the
+beginning of the book, operating systems are largely about abstractions. And
+abstractions are themselves ‘in the middle’, between what they’re abstracting
+and who they are abstracting it for.</p>
 <h2>Principles</h2>
 <p>Here are the guiding principles of intermezzOS:</p>
 <ul>
@@ -226,23 +230,22 @@ machine.</p>
 <p><img alt="program on vm " class="center" src="assets/program_vm_os_hardware.png" /></p>
 <p>Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!</p>
+<p>This, of course, leads to the collary to the previous maxim:</p>
 <blockquote>
 <p>...except for the problem of too many layers of indirection.</p>
 <ul>
 <li>Kevlin Henney</li>
 </ul>
 </blockquote>
-<p>Now consider this: what if we have a big server, and we want to run a bunch of
-services on it? Well, we can write a special kind of operating system, a
-‘hypervisor’, whose client programs are operating systems:</p>
-<p>** DIAGRAM GOES HERE **</p>
-<p>Now we have hardware, which is abstracted by a hypervisor. We then have
-an operating system, providing a layer on top of the hypervisor. From
-there, we have a virtual machine, abstracting over operating systems.</p>
-<p>Then inside that, we have our program. Whew!</p>
-<p>The point is, ‘hypervisors’, ‘operating systems’, and ‘virtual machines’
-are all sort of the same thing, in a sense. They do the same kind of
-job; it’s just what is on top of and below them that’s different.</p>
+<p>We now have a pattern:</p>
+<ul>
+<li>I have <code>A</code>.</li>
+<li><code>A</code> is written explicitly for <code>X</code>...</li>
+<li>... but I want to support <code>X</code> and <code>Y</code>,</li>
+<li>so I put abstraction <code>B</code> in the middle.</li>
+</ul>
+<p>We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
+are always in the middle.</p>
 <h2>Isolation</h2>
 <p>Many of the abstractions provided are, as we discussed, abstractions over
 hardware. And hardware often has a pretty serious restriction: only one
@@ -258,6 +261,13 @@ from another program!</p>
 <p>This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
 just consider isolation as one of our important jobs, as OS authors.</p>
+<h3>Wait a minute...</h3>
+<p>Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
+just a poor abstraction? In other words, if we had an abstraction where we
+could interact with other things being abstracted... isn’t that just a bad job
+of doing the abstraction? And in that sense, is the only thing an operating
+system does abstraction? Is the only thing everything does abstraction?</p>
+<p>I don’t have answers for you. If you figure it out, let me know...</p>
 <h1>What kind are we making?</h1>
 <h1>What tools will we use?</h1>
 <h1>Boot -&gt; kmain()</h1>
