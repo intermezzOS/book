@@ -10,7 +10,7 @@ _every_ kernel must use: assembly language.
 
 Assembly language looks like this:
 
-```asm
+```x86asm
 section .data
 global _start
 
