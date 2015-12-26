@@ -59,25 +59,21 @@ machine.
 Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!
 
+This, of course, leads to the collary to the previous maxim:
+
 > ...except for the problem of too many layers of indirection.
 > 
 > - Kevlin Henney
 
-Now consider this: what if we have a big server, and we want to run a bunch of
-services on it? Well, we can write a special kind of operating system, a
-‘hypervisor’, whose client programs are operating systems:
+We now have a pattern:
 
-** DIAGRAM GOES HERE **
+* I have `A`.
+* `A` is written explicitly for `X`...
+* ... but I want to support `X` and `Y`,
+* so I put abstraction `B` in the middle.
 
-Now we have hardware, which is abstracted by a hypervisor. We then have
-an operating system, providing a layer on top of the hypervisor. From
-there, we have a virtual machine, abstracting over operating systems.
-
-Then inside that, we have our program. Whew!
-
-The point is, ‘hypervisors’, ‘operating systems’, and ‘virtual machines’
-are all sort of the same thing, in a sense. They do the same kind of
-job; it’s just what is on top of and below them that’s different.
+We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
+are always in the middle.
 
 ## Isolation
 
@@ -98,4 +94,12 @@ This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
 just consider isolation as one of our important jobs, as OS authors.
 
+### Wait a minute...
 
+Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
+just a poor abstraction? In other words, if we had an abstraction where we
+could interact with other things being abstracted... isn’t that just a bad job
+of doing the abstraction? And in that sense, is the only thing an operating
+system does abstraction? Is the only thing everything does abstraction?
+
+I don’t have answers for you. If you figure it out, let me know...
