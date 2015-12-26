@@ -78,8 +78,17 @@ $
 That Rust code probably looks more like a programming language you’ve used in
 the past. It’s a lot nicer to write complex things in a higher-level
 programming language like Rust. That said, virtually all languages are
-higher-level than assembly, so that’s not saying all that much. Rust is still
-a low-level language by many standards.
+higher-level than assembly, so that’s not saying all that much. Rust is still a
+low-level language by many standards.
+
+So why choose Rust? Well, I’m picking it for two reasons:
+
+1) I love it.
+2) There aren’t a lot of kernels in it yet.
+
+There are a suprising number of people working on kernels in Rust. But since
+it’s a newer language, there aren’t nearly as many as for older, more
+established languages.
 
 ## Do I need to be a wizard?
 
