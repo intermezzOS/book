@@ -45,7 +45,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind.html"><strong>1.2.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.3.</strong> What tools will we use?</a></li></ul></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -268,7 +268,72 @@ could interact with other things being abstracted... isn’t that just a bad job
 of doing the abstraction? And in that sense, is the only thing an operating
 system does abstraction? Is the only thing everything does abstraction?</p>
 <p>I don’t have answers for you. If you figure it out, let me know...</p>
+<h1>What kinds of OS are there?</h1>
+<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of
+components. The core component is called a ‘kernel’. So, as OS developers, when
+we categorize operating systems, we tend to categorize them by what kinds of
+kernel they have. At the start, our ‘operating system’ will be just the kernel,
+and so we’ll tend to focus on kernels for the first part of our journey.</p>
+<p>The non-kernel bits of an operating system are called a ‘userland’. It’s where
+the users live. This is also while you’ll hear some people say, “It’s
+GNU/Linux, not Linux.” That’s because virtually all Linux distributions today
+use a Linux kernel + a GNU userland. So the GNU folks are a bit annoyed that
+the kernel gets all the credit. By the same token, a lot of people say ‘the
+kernel’ when they mean ‘the Linux kernel.’ This gets an entirely different set
+of people mad.</p>
+<p>Sometimes, it just seems like everything makes everyone mad.</p>
+<p>Anyway...</p>
+<p>The way that we categorize different kernels largely comes down to “what is in
+the kernel and what is in userspace.” Upon reading this, you might then think
+the easiest kind of kernel to write is the smallest, where everything is in
+userspace, but... that’s not actually true. Or at least, it’s not clear that
+it’s true.</p>
+<h2>Monolithic kernels</h2>
+<p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ‘ol kernel.
+Everything that we need, the kernel has it all. A massive, towering achievement
+of what we have accomplished.</p>
+<p>Most real-world kernels are monolithic kernels, or at least, pretend to be.
+Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
+<h2>Microkernels</h2>
+<p>Microkernels are, well, micro. Smaller. The idea is this: if everything is in
+the kernel, and something crashes, well, the whole ship is going down. Not
+good. So there’s a small core kernel, and then there are components which
+communicate with each other to get their job done.</p>
+<p>This is a good idea in theory, but historically, microkernels have had issues.
+All that communication has overhead, which makes them slower. Various things
+have been done to try to mitigate this problem.</p>
+<p>Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
+up being one, but Mac OS X uses a version of Mach from before that work was
+done... so it’s a bit blurry.</p>
+<p>GNU Hurd is a microkernel. It’s also kind of a running joke amongst kernel
+people. It’s... a long story. Let’s just say that it’s been in development
+since 1990. You see, once Linux happened, the need for Hurd was significantly
+less, since a free software kernel now existed, and so it’s kind of languished.
+There are people still working on it though! We may see a real release someday.</p>
+<p>Don’t worry, Hurd will still be more successful than intermezzOS, I’d bet. If
+you’re writing kernels for the glory, well, I’ve got some bad news. The vast
+majority of kernels, like the vast majority of programs, have been relegated
+to the dustbin of history. Don’t have the hubris to assume yours is different.
+Life will serve you up some humble pie right quick.</p>
+<h2>Exokernels</h2>
+<p>What’s smaller than a microkernel? An exokernel, of course! An exokernel tries
+to only do one thing: securely multiplex hardware. Everything that’s not
+directly that lives in user space.</p>
+<p>Exokernels are really interesting, but haven’t really made it outside of
+university papers on exokernels. The hobby OS I worked on in college was an
+exokernel.</p>
+<p>There isn’t much to exokernels, so there’s not a lot to say about them.</p>
+<h2>Unikernels</h2>
+<p>Unikernels are kind of like exokernels, but with a fresh paint job and a
+Twitter account. Okay, that’s a bit too glib. Unikernels are a major source
+of excitement these days. Here’s the idea: an operating system that only
+runs one program.</p>
+<p>We haven’t really talked enough about the features of operating systems
+generally to really discuss more about unikernels and why they matter, and
+this isn’t a book about them, so more detail is going to have to have to
+wait for another day.</p>
 <h1>What kind are we making?</h1>
+<h2>The Plan</h2>
 <h1>What tools will we use?</h1>
 <h1>Boot -&gt; kmain()</h1>
 <p>COMING SOON</p>
