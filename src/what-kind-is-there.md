@@ -34,7 +34,7 @@ This means that monolithic kernels are kind of ‘the default’. Other kernels
 usually define themselves by solving some kind of problem that monolithic
 kernels have.
 
-If a monolithic kerenel were a web application, it would be a big ‘ol Rails
+If a monolithic kernel were a web application, it would be a big ‘ol Rails
 application. One repository. A million subdirectories. It may be a big ball
 of mud, but it pays the bills.
 
@@ -49,7 +49,7 @@ Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
 up being one, but Mac OS X uses a version of Mach from before that work was
 done... so it’s a bit blurry.
 
-If a microkerenel were a web application, it would be made of microservices.
+If a microkernel were a web application, it would be made of microservices.
 It’s a bit cooler than a single app by itself, and the communication is nice
 for flexibility’s sake, but has some overhead.
 
