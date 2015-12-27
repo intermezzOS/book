@@ -57,7 +57,7 @@ for flexibility’s sake, but has some overhead.
 
 These two kinds of operating systems are closely related, but it’s a bit harder
 to dig into what exactly makes them different. Unikernels have one
-easy-to-describe feature: they only one one single program at a time.
+easy-to-describe feature: they only run one single program at a time.
 Exokernels are ‘more micro than micro’, but the details aren’t important right
 now.
 
