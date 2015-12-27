@@ -1,0 +1,319 @@
+# Multiboot headers
+
+Let’s get going! The very first thing we’re going to do is create a ‘multiboot
+header’. What’s that, you ask? Well, to explain it, let’s take a small step
+back and talk about how a computer boots up.
+
+One of the amazing and terrible things about the x86 architecture is that it’s
+maintained backwards compatibility throughout the years. This has been a
+competitive advantage, but it’s also meant that the boot process is largely a
+pile of hacks. Each time a new iteration comes out, a new step gets added to
+the process. That’s right, when your fancy new computer starts up, it thinks
+it’s an 8086 from 197?. And then, through a succession of steps, we transition
+through each step.
+
+The first mode is called ‘real mode’. This is a 16 bit mode that the original
+x86 chips used. The second is ‘protected mode’. This 32 bit mode adds new
+things on top of real mode. It’s called ‘protected’ because real mode sort of
+let you do whatever you wanted, even if it was a bad idea. Protected mode was
+the first time that the hardware enabled certain kinds of protections. We’ll
+talk more about those details later.
+
+The final mode is called ‘long mode’, and it’s 64 bits. Well, that’s actually a
+lie: there’s two. Initially, you’re not in long mode, you’re in ‘compatibility
+mode’. You see, when the industry was undergoing the transition from 32 to 64
+bits, there were two options: the first was Intel’s Itanium 64-bit
+architecture. It did away with all of the stuff I just told you about. But that
+meant that programs had to be completely recompiled from scratch for the new
+chips. Intel’s big competitor, AMD, saw an opportunity here, and released a new
+set of chips called amd64. These chips were backwards compatible, and so you
+could run both 32 and 64 bit programs on them. Itanium wasn’t compelling enough
+to make the pain worth it, and so Intel released new chips that were compatible
+with amd64. The resulting architecture was then called x86\_64, the one we’re
+using today. The moral of the story? Intel tried to save you from all of the
+stuff we’re about to do, but they failed. So we have to do it.
+
+Where was I... oh yes. Compatibility mode. So when you initially transition
+to long mode, you’re not in _true_ long mode; you’re in compatibility mode.
+This is the ‘it all both works’ mode. From there, we can transition to
+actual, honest-to-goodness long mode.
+
+So that’s the task ahead of us: make the jump up the ladder and get to
+long mode. We can do it! Let’s talk more details.
+
+## Firmware and the BIOS
+
+COME BACK TO THIS LATER. I don’t know this well enough without internet,
+and I’d rather be accurate than write it out wrong.
+
+## Bootloaders
+
+The program that loads up our kernel is called a ‘bootloader’, since it loads
+things at boot time. The bootloader’s job is to take our kernel, put it into
+memory, and then transition control to it.
+
+Some people start their operating systems journey by writing a bootloader. We
+will not be doing that. Frankly, this whole startup process is more of an
+exercise in reading manuals and understanding the history of esoteric hardware
+than it is anything else. That stuff may interest you, and maybe someday we’ll
+come back and write a bootloader of our own. But in the interest of actually
+getting around to implementing a kernel, instead, we’ll use an existing
+bootloader: GRUB.
+
+## GRUB and Multiboot
+
+GRUB stands for ‘*gr*and *u*nified *b*ootloader’, and it’s a common one for
+GNU/Linux systems. GRUB implements a specification called Multiboot, which is a
+set of conventions for how a kernel should get loaded into memory. By following
+the Multiboot specification, we can let GRUB load our kernel.
+
+The way that we do this is through a ‘header’. We’ll put some information in a
+format that multiboot specifies right at the start of our kernel. GRUB will
+read this information, and follow it to do the right thing.
+
+One other advantage of using GRUB: it will handle the transition from real mode
+to protected mode for us, skipping the first step. We don’t even need to know
+anything about all of that old stuff. If you’re curious about the kinds of
+things you would have needed to know, put “A20 pin” into your favorite search
+engine, and get ready to cry yourself to sleep.
+
+## Writing our own Multiboot header
+
+I said we were gonna get to the code, and then I went on about more history.
+Sorry about that! It’s code time for real! Let’s make a directory to contain
+our project:
+
+```bash
+$ mkdir intermezzOS
+$ cd intermezzOS
+```
+
+A fun way to follow along is to pick a different name for your kernel, and
+then change it as we go. Call your kernel whatever you want. intermezzOS was
+almost called ‘Nucleus’, until I found out that there’s already a kernel with
+that name that’s installed on billions of embedded devices. Whoops!
+
+Inside that directory, make a new file called `multiboot_header.asm`, and
+open it in your favorite editor. I use `vim`, but you should feel free to use
+anything you’d like.
+
+```bash
+$ touch multiboot_header.asm
+$ vim multiboot_header.asm
+```
+
+Two notes about this: first of all, we’re just making this source file in the
+top level. Don’t worry, we’ll clean house later. Remember: we’re going to build
+stuff, and _then_ abstract it afterwards. It’s easier to start with a mess and
+clean it up than it is to try to get it perfect on the first try.
+
+Second, this is a `.asm` file, which is short for ‘assembly’. That’s right, we’re
+going to write some assembly code here. Don’t worry! It’s not super hard.
+
+### An aside about assembly
+
+Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
+In it, he draws a distinction between these two words, which are commonly used as
+synonyms. MORE STUFF GOES HERE BUT I WANT TO REWATCH THE TALK.
+
+Assembly coding is simple, but that doesn’t mean that it’s easy. We’ll be doing
+a little bit of assembly programming to build our operating system, but we
+don’t need to know _that much_. It is completely learnable, even for someone
+coming from a high-level language. You might need to practice a bit, and take
+it slow, but I believe in you. You’ve got this.
+
+### The Magic Number
+
+Our first assembly file will be almost entirely _data_, not code. Here’s the
+first line:
+
+```x86asm
+dd 0xe85250d6 ; magic number
+```
+
+Ugh! Gibberish! Let’s start with the semicolon (`;`). It’s a comment, that
+lasts until the end of the line. This particular comment says ‘magic number’.
+You’ll be seeing a lot of magic numbers in your operating system work. The idea
+of a magic number is that it’s completely and utterly arbitrary. It doesn’t mean
+anything. It’s just magic. The very first thing that the multiboot specification
+requires is that we have the magic number `0xe85250d6` right at the start.
+
+What’s the value in having an arbitrary number there? Well, it’s a kind of safeguard
+against bad things happening. This is one of the ways in which we can check that
+we actually have a real multiboot header. If it doesn’t have the magic number,
+something has gone wrong, and we can throw an error.
+
+I have no idea why it’s `0xe85250d6`, and I don’t need to care. It just is.
+
+Finally, the `dd`. It’s short for ‘define DATA I THINK CRAP LOOK THIS UP’. It
+declares that we’re going to stick some data at this location. Very
+straightforward.
+
+### The mode code
+
+Okay, time to add a second line:
+
+```x86asm
+dd 0xe85250d6 ; magic number
+dd 0          ; protected mode code
+```
+
+This is another form of magic number. We want to boot into protected mode, and
+so we put a zero here, using `dd` again. If we wanted GRUB to do something
+else, we could look up another code, but this is the one that we want.
+
+### Header length
+
+The next thing that’s required is a header length. We could use `dd` and count
+out exactly how many bytes that our header is, but there’s two reasons why
+we’re not doing that:
+
+1) Computers should do math, not people.
+2) We’re going to add more stuff, and we’d have to recalculate this number each
+   time. Or wait until the end and come back. See #1.
+
+Here’s what this looks like:
+
+```x86asm
+header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+header_end:
+```
+
+You don’t have to align the comments if you don’t want to. I usually don’t, but
+it looks nice and after we’re done with this file, we’re not going to mess with
+it again, so we won’t be constantly re-aligning them in the future.
+
+The `header_start:` and `header_end:` things are called ‘labels’. Labels let
+us use a name to refer to particular part of our code. Our third `dd` line
+uses those two labels to do some math: the header length is the value of
+`header_end` minus the value of `header_start`. When we compile this assembly
+code, the assembler will do this calculation for us. No need to figure out
+how many bytes there are by hand. Awesome.
+
+You’ll also notice that I indented the `dd` statements. Usually, labels go in
+the first column, and you indent actual instructions. How much you indent is up
+to you; it’s a pretty flexible format.
+
+### The Checksum
+
+The fourth field multiboot requires is a ‘checksum’. The idea is that we sum up
+some numbers, and then use that number to check that they’re all what we
+expected things to be. It’s similar to a hash, in this sense: it lets us and GRUB
+double-check that everything is accurate.
+
+Here’s the checksum:
+
+```x86asm
+header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+
+    ; checksum
+    dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+header_end:
+```
+
+Again, we’ll use math to let the computer calculate the sum for us. We add up
+the magic number, the mode code, and the header length, and then subtract it
+from a big number. `dd` then puts that value into this spot in our file.
+
+DESRIBE WHY IT”S SUBTRACTED LATER BECAUSE THAT”S SPECIAL.
+
+### Ending tag
+
+Finally, we have one more required bit: the end tag. it looks like this:
+
+```x86asm
+header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+
+    ; checksum
+    dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+
+    ; required end tag
+    dw 0    ; type
+    dw 0    ; flags
+    dd 8    ; size
+header_end:
+```
+
+Here we use `dw` to define a ‘word’ instead of just data. A word is SOME VALUE
+bytes on the x86\_64 architecture. The multiboot specification demands that this
+be exactly a word. You’ll find that this is super common in operating systems:
+the exact size and amount of everything matters. It’s just a side-effect of
+working at a low level.
+
+Anyway, we end up defining two zeroes and an eight. LOOK UP WHY THIS IS WHEN YOU
+HAVE INTERNET STEVE.
+
+### The Section
+
+We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
+sections later, so for now, just put what I tell you at the top of the file. 
+
+Here’s the final file:
+
+```x86asm
+section .multiboot_header
+header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+
+    ; checksum
+    dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+
+    ; required end tag
+    dw 0    ; type
+    dw 0    ; flags
+    dd 8    ; size
+header_end:
+```
+
+That’s it! Congrats, you’ve written a multiboot compliant header. It’s a lot of
+esoterica, but it’s pretty straightforward once you’ve seen it a few times.
+
+## Assembling with `nasm`
+
+We can’t use this file directly, we need to turn it into binary. We can use a
+program called an ‘assembler’ to ‘assemble’ our assembly code into binary code.
+It’s very similar to using a ‘compiler’ to ‘compile’ our source code into
+binary. But when it’s assembly, people often use the more specific name.
+
+We will be using an assembler called `nasm` to do this. You should invoke
+`nasm` like this:
+
+```bash
+$ nasm -f elf64 multiboot_header.asm
+```
+
+The `-f elf64` says that we want to output a *f*ile with the type `elf64`.
+ELF is a particular executable format that’s used by various UNIX systems,
+and we’ll be using it too. There are other formats, but ELF is pretty good.
+
+After you run this command, you should see a `multiboot_header.o` file in
+the same directory. This is our ‘object file’, hence the `.o`. This is
+the binary code, in ELF format. Later, we’ll take this file and use it
+to build our OS.
+
+## Summary
+
+Congratulations! This is the first step towards building an operating system.
+We learned about the boot process, the GRUB bootloader, and the Multiboot
+specification. We wrote a Multiboot-compliant header file in assembly code, and
+used `nasm` to create an object file from it.
+
+Next, we’ll write the actual code that prints “Hello world” to the screen.
+
+
+
+
+
+
+

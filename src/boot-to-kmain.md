@@ -1,3 +1,0 @@
-# Boot -> kmain()
-
-COMING SOON
