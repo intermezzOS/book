@@ -50,7 +50,7 @@ different: our program is now specific to an OS, rather than specific to
 a particular bit of hardware.
 
 To solve this, some programming languages have a ‘virtual machine.’ This
-was a bit selling point of Java, for example: the Java Virtual Machine.
+was a big selling point of Java, for example: the Java Virtual Machine.
 The idea here is that we create a _virtual_ machine on top of the _real_
 machine.
 
