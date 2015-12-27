@@ -45,7 +45,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="boot-to-kmain.html"><strong>2.</strong> Boot -> kmain()</a></li><li><a href="hello-world.html"><strong>3.</strong> Hello, world!</a></li><li><a href="keyboard-input.html"><strong>4.</strong> Keyboard input</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="linux.html"><strong>2.1.</strong> Linux</a></li><li><a href="osx.html"><strong>2.2.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.3.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li><li><a href="source-control-with-git.html"><strong>3.6.</strong> Source Control with Git</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><a href="a-rust-kmain.html"><strong>5.</strong> A Rust kmain()</a></li><li><a href="simple-vga.html"><strong>6.</strong> A simple VGA driver</a></li><li><a href="keyboard-input.html"><strong>7.</strong> Keyboard input</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -306,9 +306,11 @@ overhead, which makes them slower.</p>
 <p>Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
 up being one, but Mac OS X uses a version of Mach from before that work was
 done... so it’s a bit blurry.</p>
-<p>If a microkerenel were a web application, it would be made of microservices.
-It’s a bit cooler than a single app by itself, and the communication is nice
-for flexibility’s sake, but has some overhead.</p>
+<p>If a microkerenel were a web application, it would be a microservice. And a
+bunch of the other stuff that’s in kernel space in a monolithic kernel are
+other microservices, but in userspace instead. It’s a bit cooler than a single
+monolithic web app by itself, and the communication is nice for flexibility’s
+sake, but has some overhead.</p>
 <h2>Exokernels &amp; Unikernels</h2>
 <p>These two kinds of operating systems are closely related, but it’s a bit harder
 to dig into what exactly makes them different. Unikernels have one
@@ -416,10 +418,353 @@ move on. Do it at your own pace. Skip stuff. Come back when you don’t
 understand what’s going on. Try it, wait a week, and then try it again.</p>
 <p>There’s no wrong way to do this stuff, including by being a beginner. Everyone
 was once. Don’t let anyone discourage you.</p>
-<h1>Boot -&gt; kmain()</h1>
-<p>COMING SOON</p>
+<h1>Setting up a development environment</h1>
+<p>Frankly, one of the hardest parts of starting an operating system is getting a
+development environment going. Normally, you’re doing work on the same
+operating system you’re developing for, and we don’t have that luxury. Yet!</p>
+<p>There is a convention called a ‘target triple’ to describe a particular
+platform. It’s a ‘triple’ because it has three parts:</p>
+<pre><code class="language-text">arch-kernel-userland
+</code></pre>
+<p>So, a target triple for a computer which has an x86-64 bit processor running a
+Linux kernel and the GNU userland would look like this:</p>
+<pre><code class="language-text">x86_64-linux-gnu
+</code></pre>
+<p>However, it can also be useful to know the operating system as well, and so
+the ‘triple’ part can be extended to include it:</p>
+<pre><code class="language-text">x86_64-unknown-linux-gnu
+</code></pre>
+<p>This is for some unknown Linux. If we were targeting Debian specifically, it
+would be:</p>
+<pre><code class="language-text">x86_64-debian-linux-gnu
+</code></pre>
+<p>Since it’s four parts, it’s called a ‘target’ rather than a ‘target triple’,
+but you’ll still hear some people call it a triple anyway.</p>
+<p>Kernels themselves don’t need to be for a specific kernel, and so you’ll
+see ‘none’ get used:</p>
+<pre><code class="language-text">x86_64-unknown-none
+</code></pre>
+<h2>Hosts &amp; Targets</h2>
+<p>The reason that they’re called a ‘target’ is that it’s the architecture you’re
+compiling <em>to</em>. The architecture you’re compiling <em>from</em> is called the ‘host
+architecture’.</p>
+<p>If the target and the host are the same, we call it ‘compiling’. If they are
+different, we call it ‘cross-compiling’. So you’ll see people say things like</p>
+<blockquote>
+<p>I cross-compiled from x86_64-linux-gnu to x86-unknown-none.</p>
+</blockquote>
+<p>This means that the computer that the developer was using was a 64-bit
+GNU/Linux machine, but the final binary was for a 32-bit x86 machine with no
+OS.</p>
+<p>So we need a slightly special environment to build our OS: we need to
+cross-compile from whatever kind of computer we are using to our new target.</p>
+<h2>Cheat codes</h2>
+<p>... but we can also cheat. It’s okay to cheat. Well, in this case, it’s really
+only okay at the start. We’ll eventually <em>have</em> to cross-compile, or things
+will go wrong.</p>
+<p>Here’s the cheat: if you are developing on an x86_64 Linux machine, and you’re
+not using any special Linux kernel features, then the difference between
+<code>x86_64-linux-gnu</code> and <code>x86_64-unknown-none</code> is really just theoretical. It
+will still technically <em>work</em>. For now.</p>
+<p>This is a common pitfall with new operating system developers. They’ll start
+off with the cheat, and it will come back to haunt them later. Don’t worry;
+I will actually show you how to fix things before they go wrong. Knowing the
+difference here is still useful.</p>
+<h1>Linux</h1>
+<p>Here are the tools we’re going to need:</p>
+<ul>
+<li>Rust</li>
+<li><code>nasm</code></li>
+<li><code>ld</code></li>
+<li><code>grub-mkrescue</code> + <code>xorriso</code></li>
+<li><code>qemu</code></li>
+</ul>
+<p>To install Rust, check out <a href="https://github.com/brson/multirust">multirust</a>.</p>
+<p>Once you have it installed, grab a nightly build:</p>
+<pre><code class="language-bash">$ multirust update PUT NIGHTLY HERE
+$ multirust default PUT NIGHTLY HERE
+</code></pre>
+<p>To install the other tools, on Debian:</p>
+<pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu
+</code></pre>
+<h1>Mac OS X</h1>
+<p>For now, the easiest way to get going is to install Linux on a virtual
+machine, and follow the Linux instructions.</p>
+<p>I hope to have better instructions for OS X soon; since I don’t have a
+computer that runs it, I need to figure it out first. If you know how,
+this would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a></p>
+<h1>Windows</h1>
+<p>For now, the easiest way to get going is to install Linux on a virtual
+machine, and follow the Linux instructions.</p>
+<p>I hope to have better instructions for Windows soon; since I don’t have a
+computer that runs it, I need to figure it out first. If you know how, this
+would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a></p>
+<h1>Booting up</h1>
+<p>We’ve got some of the theory down, and we’ve got a development environment
+going. Let’s get down to actually writing some code, shall we?</p>
+<p>Our first task is going to be the same as in any programming language: Hello
+world! It’s going to take a <em>teeny</em> bit more code than in many languages. For
+example, here’s “Hello, World!” in Ruby:</p>
+<pre><code class="language-ruby">puts &quot;Hello, world!&quot;
+</code></pre>
+<p>Or in C:</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+
+int main(void) {
+    printf(&quot;Hello, world!&quot;);
+}
+</code></pre>
+<p>But it’s not actually <em>that</em> much more work. It’s going to take us <em>28 lines</em>
+to get there. And instead of a single command to build and run, like Ruby:</p>
+<pre><code class="language-bash">$ ruby hello_world.rb
+</code></pre>
+<p>It’s going to initially take us six commands to build and run our hello world
+kernel. Don’t worry, the next thing we’ll do is write a script to turn it back
+into a single command.</p>
+<h1>Multiboot headers</h1>
+<p>Let’s get going! The very first thing we’re going to do is create a ‘multiboot
+header’. What’s that, you ask? Well, to explain it, let’s take a small step
+back and talk about how a computer boots up.</p>
+<p>One of the amazing and terrible things about the x86 architecture is that it’s
+maintained backwards compatibility throughout the years. This has been a
+competitive advantage, but it’s also meant that the boot process is largely a
+pile of hacks. Each time a new iteration comes out, a new step gets added to
+the process. That’s right, when your fancy new computer starts up, it thinks
+it’s an 8086 from 197?. And then, through a succession of steps, we transition
+through each step.</p>
+<p>The first mode is called ‘real mode’. This is a 16 bit mode that the original
+x86 chips used. The second is ‘protected mode’. This 32 bit mode adds new
+things on top of real mode. It’s called ‘protected’ because real mode sort of
+let you do whatever you wanted, even if it was a bad idea. Protected mode was
+the first time that the hardware enabled certain kinds of protections. We’ll
+talk more about those details later.</p>
+<p>The final mode is called ‘long mode’, and it’s 64 bits. Well, that’s actually a
+lie: there’s two. Initially, you’re not in long mode, you’re in ‘compatibility
+mode’. You see, when the industry was undergoing the transition from 32 to 64
+bits, there were two options: the first was Intel’s Itanium 64-bit
+architecture. It did away with all of the stuff I just told you about. But that
+meant that programs had to be completely recompiled from scratch for the new
+chips. Intel’s big competitor, AMD, saw an opportunity here, and released a new
+set of chips called amd64. These chips were backwards compatible, and so you
+could run both 32 and 64 bit programs on them. Itanium wasn’t compelling enough
+to make the pain worth it, and so Intel released new chips that were compatible
+with amd64. The resulting architecture was then called x86_64, the one we’re
+using today. The moral of the story? Intel tried to save you from all of the
+stuff we’re about to do, but they failed. So we have to do it.</p>
+<p>Where was I... oh yes. Compatibility mode. So when you initially transition
+to long mode, you’re not in <em>true</em> long mode; you’re in compatibility mode.
+This is the ‘it all both works’ mode. From there, we can transition to
+actual, honest-to-goodness long mode.</p>
+<p>So that’s the task ahead of us: make the jump up the ladder and get to
+long mode. We can do it! Let’s talk more details.</p>
+<h2>Firmware and the BIOS</h2>
+<p>COME BACK TO THIS LATER. I don’t know this well enough without internet,
+and I’d rather be accurate than write it out wrong.</p>
+<h2>Bootloaders</h2>
+<p>The program that loads up our kernel is called a ‘bootloader’, since it loads
+things at boot time. The bootloader’s job is to take our kernel, put it into
+memory, and then transition control to it.</p>
+<p>Some people start their operating systems journey by writing a bootloader. We
+will not be doing that. Frankly, this whole startup process is more of an
+exercise in reading manuals and understanding the history of esoteric hardware
+than it is anything else. That stuff may interest you, and maybe someday we’ll
+come back and write a bootloader of our own. But in the interest of actually
+getting around to implementing a kernel, instead, we’ll use an existing
+bootloader: GRUB.</p>
+<h2>GRUB and Multiboot</h2>
+<p>GRUB stands for ‘<em>gr</em>and <em>u</em>nified <em>b</em>ootloader’, and it’s a common one for
+GNU/Linux systems. GRUB implements a specification called Multiboot, which is a
+set of conventions for how a kernel should get loaded into memory. By following
+the Multiboot specification, we can let GRUB load our kernel.</p>
+<p>The way that we do this is through a ‘header’. We’ll put some information in a
+format that multiboot specifies right at the start of our kernel. GRUB will
+read this information, and follow it to do the right thing.</p>
+<p>One other advantage of using GRUB: it will handle the transition from real mode
+to protected mode for us, skipping the first step. We don’t even need to know
+anything about all of that old stuff. If you’re curious about the kinds of
+things you would have needed to know, put “A20 pin” into your favorite search
+engine, and get ready to cry yourself to sleep.</p>
+<h2>Writing our own Multiboot header</h2>
+<p>I said we were gonna get to the code, and then I went on about more history.
+Sorry about that! It’s code time for real! Let’s make a directory to contain
+our project:</p>
+<pre><code class="language-bash">$ mkdir intermezzOS
+$ cd intermezzOS
+</code></pre>
+<p>A fun way to follow along is to pick a different name for your kernel, and
+then change it as we go. Call your kernel whatever you want. intermezzOS was
+almost called ‘Nucleus’, until I found out that there’s already a kernel with
+that name that’s installed on billions of embedded devices. Whoops!</p>
+<p>Inside that directory, make a new file called <code>multiboot_header.asm</code>, and
+open it in your favorite editor. I use <code>vim</code>, but you should feel free to use
+anything you’d like.</p>
+<pre><code class="language-bash">$ touch multiboot_header.asm
+$ vim multiboot_header.asm
+</code></pre>
+<p>Two notes about this: first of all, we’re just making this source file in the
+top level. Don’t worry, we’ll clean house later. Remember: we’re going to build
+stuff, and <em>then</em> abstract it afterwards. It’s easier to start with a mess and
+clean it up than it is to try to get it perfect on the first try.</p>
+<p>Second, this is a <code>.asm</code> file, which is short for ‘assembly’. That’s right, we’re
+going to write some assembly code here. Don’t worry! It’s not super hard.</p>
+<h3>An aside about assembly</h3>
+<p>Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
+In it, he draws a distinction between these two words, which are commonly used as
+synonyms. MORE STUFF GOES HERE BUT I WANT TO REWATCH THE TALK.</p>
+<p>Assembly coding is simple, but that doesn’t mean that it’s easy. We’ll be doing
+a little bit of assembly programming to build our operating system, but we
+don’t need to know <em>that much</em>. It is completely learnable, even for someone
+coming from a high-level language. You might need to practice a bit, and take
+it slow, but I believe in you. You’ve got this.</p>
+<h3>The Magic Number</h3>
+<p>Our first assembly file will be almost entirely <em>data</em>, not code. Here’s the
+first line:</p>
+<pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
+</code></pre>
+<p>Ugh! Gibberish! Let’s start with the semicolon (<code>;</code>). It’s a comment, that
+lasts until the end of the line. This particular comment says ‘magic number’.
+You’ll be seeing a lot of magic numbers in your operating system work. The idea
+of a magic number is that it’s completely and utterly arbitrary. It doesn’t mean
+anything. It’s just magic. The very first thing that the multiboot specification
+requires is that we have the magic number <code>0xe85250d6</code> right at the start.</p>
+<p>What’s the value in having an arbitrary number there? Well, it’s a kind of safeguard
+against bad things happening. This is one of the ways in which we can check that
+we actually have a real multiboot header. If it doesn’t have the magic number,
+something has gone wrong, and we can throw an error.</p>
+<p>I have no idea why it’s <code>0xe85250d6</code>, and I don’t need to care. It just is.</p>
+<p>Finally, the <code>dd</code>. It’s short for ‘define DATA I THINK CRAP LOOK THIS UP’. It
+declares that we’re going to stick some data at this location. Very
+straightforward.</p>
+<h3>The mode code</h3>
+<p>Okay, time to add a second line:</p>
+<pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
+dd 0          ; protected mode code
+</code></pre>
+<p>This is another form of magic number. We want to boot into protected mode, and
+so we put a zero here, using <code>dd</code> again. If we wanted GRUB to do something
+else, we could look up another code, but this is the one that we want.</p>
+<h3>Header length</h3>
+<p>The next thing that’s required is a header length. We could use <code>dd</code> and count
+out exactly how many bytes that our header is, but there’s two reasons why
+we’re not doing that:</p>
+<ol>
+<li>Computers should do math, not people.</li>
+<li>We’re going to add more stuff, and we’d have to recalculate this number each
+time. Or wait until the end and come back. See #1.</li>
+</ol>
+<p>Here’s what this looks like:</p>
+<pre><code class="language-x86asm">header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+header_end:
+</code></pre>
+<p>You don’t have to align the comments if you don’t want to. I usually don’t, but
+it looks nice and after we’re done with this file, we’re not going to mess with
+it again, so we won’t be constantly re-aligning them in the future.</p>
+<p>The <code>header_start:</code> and <code>header_end:</code> things are called ‘labels’. Labels let
+us use a name to refer to particular part of our code. Our third <code>dd</code> line
+uses those two labels to do some math: the header length is the value of
+<code>header_end</code> minus the value of <code>header_start</code>. When we compile this assembly
+code, the assembler will do this calculation for us. No need to figure out
+how many bytes there are by hand. Awesome.</p>
+<p>You’ll also notice that I indented the <code>dd</code> statements. Usually, labels go in
+the first column, and you indent actual instructions. How much you indent is up
+to you; it’s a pretty flexible format.</p>
+<h3>The Checksum</h3>
+<p>The fourth field multiboot requires is a ‘checksum’. The idea is that we sum up
+some numbers, and then use that number to check that they’re all what we
+expected things to be. It’s similar to a hash, in this sense: it lets us and GRUB
+double-check that everything is accurate.</p>
+<p>Here’s the checksum:</p>
+<pre><code class="language-x86asm">header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+
+    ; checksum
+    dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+header_end:
+</code></pre>
+<p>Again, we’ll use math to let the computer calculate the sum for us. We add up
+the magic number, the mode code, and the header length, and then subtract it
+from a big number. <code>dd</code> then puts that value into this spot in our file.</p>
+<p>DESRIBE WHY IT”S SUBTRACTED LATER BECAUSE THAT”S SPECIAL.</p>
+<h3>Ending tag</h3>
+<p>Finally, we have one more required bit: the end tag. it looks like this:</p>
+<pre><code class="language-x86asm">header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+
+    ; checksum
+    dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+
+    ; required end tag
+    dw 0    ; type
+    dw 0    ; flags
+    dd 8    ; size
+header_end:
+</code></pre>
+<p>Here we use <code>dw</code> to define a ‘word’ instead of just data. A word is SOME VALUE
+bytes on the x86_64 architecture. The multiboot specification demands that this
+be exactly a word. You’ll find that this is super common in operating systems:
+the exact size and amount of everything matters. It’s just a side-effect of
+working at a low level.</p>
+<p>Anyway, we end up defining two zeroes and an eight. LOOK UP WHY THIS IS WHEN YOU
+HAVE INTERNET STEVE.</p>
+<h3>The Section</h3>
+<p>We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
+sections later, so for now, just put what I tell you at the top of the file.</p>
+<p>Here’s the final file:</p>
+<pre><code class="language-x86asm">section .multiboot_header
+header_start:
+    dd 0xe85250d6                ; magic number
+    dd 0                         ; protected mode code
+    dd header_end - header_start ; header length
+
+    ; checksum
+    dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+
+    ; required end tag
+    dw 0    ; type
+    dw 0    ; flags
+    dd 8    ; size
+header_end:
+</code></pre>
+<p>That’s it! Congrats, you’ve written a multiboot compliant header. It’s a lot of
+esoterica, but it’s pretty straightforward once you’ve seen it a few times.</p>
+<h2>Assembling with <code>nasm</code></h2>
+<p>We can’t use this file directly, we need to turn it into binary. We can use a
+program called an ‘assembler’ to ‘assemble’ our assembly code into binary code.
+It’s very similar to using a ‘compiler’ to ‘compile’ our source code into
+binary. But when it’s assembly, people often use the more specific name.</p>
+<p>We will be using an assembler called <code>nasm</code> to do this. You should invoke
+<code>nasm</code> like this:</p>
+<pre><code class="language-bash">$ nasm -f elf64 multiboot_header.asm
+</code></pre>
+<p>The <code>-f elf64</code> says that we want to output a <em>f</em>ile with the type <code>elf64</code>.
+ELF is a particular executable format that’s used by various UNIX systems,
+and we’ll be using it too. There are other formats, but ELF is pretty good.</p>
+<p>After you run this command, you should see a <code>multiboot_header.o</code> file in
+the same directory. This is our ‘object file’, hence the <code>.o</code>. This is
+the binary code, in ELF format. Later, we’ll take this file and use it
+to build our OS.</p>
+<h2>Summary</h2>
+<p>Congratulations! This is the first step towards building an operating system.
+We learned about the boot process, the GRUB bootloader, and the Multiboot
+specification. We wrote a Multiboot-compliant header file in assembly code, and
+used <code>nasm</code> to create an object file from it.</p>
+<p>Next, we’ll write the actual code that prints “Hello world” to the screen.</p>
 <h1>Hello, world!</h1>
 <p>COMING SOON</p>
+<h1>Making an ISO</h1>
+<h1>Running in QEMU</h1>
+<h1>Automation with Make</h1>
+<h1>Source Control with Git</h1>
+<h1>Transitioning to Long Mode</h1>
+<h1>A Rust kmain()</h1>
+<h1>A simple VGA driver</h1>
 <h1>Keyboard input</h1>
 <p>COMING SOON</p>
 
