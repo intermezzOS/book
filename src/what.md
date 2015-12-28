@@ -5,9 +5,9 @@ are a lot of different kinds of operating systems, and they all do different
 kinds of things.
 
 Some things are commonly bundled with operating systems, but are arguably not
-part of the essence of what makes an OS and OS. For example, many operating
-systems are often marketed as coming equipped with an internet browser or email
-client. Are internet browsers and email clients essential to operating systems?
+part of the essence of what makes an OS an OS. For example, many operating
+systems are often marketed as coming equipped with an web browser or email
+client. Are web browsers and email clients essential to operating systems?
 Many would argue the answer is no.
 
 There are some shared goals we can find among all operating systems, however.
@@ -90,7 +90,7 @@ to be able to run multiple programs, which is a common feature of many
 operating systems, we’ll also need to make sure that multiple programs cannot
 access hardware at the same time.
 
-This really applies to more than just hardware though: it allows applies to
+This really applies to more than just hardware though: it also applies to
 shared resources (e.g. memory). Once we have two programs, it would
 be ideal to not let them mess with each other. Consider any sort of program that
 deals with your password: if programs could mess with each other’s memory

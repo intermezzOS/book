@@ -45,7 +45,7 @@ their attitudes.
 
 You see, a lot of people see low-level programming as some kind of superior,
 only-for-the-smartest kind of thing. They have a puritanical world-view: “I
-suffered to learn this, so you too must suffer to build character”. I think
+suffered to learn this, so you too must suffer to build character.” I think
 that’s short sighted. Low level programming _is_ difficult to get into, but
 that says more about the teachers’ faults than the students’.
 
