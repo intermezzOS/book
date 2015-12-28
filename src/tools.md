@@ -8,10 +8,14 @@ _every_ kernel must use: assembly language.
 
 ## Assembly
 
+Assembly language gives us direct access to a specific machine. If the basis of
+computer science is abstraction, the very bottom of the software abstraction layer
+is assembly. Below it lies only hardware and physics.
+
 Assembly language looks like this:
 
 ```x86asm
-; lol.asm
+; foo.asm
 
 section .data
 global _start
@@ -28,11 +32,14 @@ loop:
     int 80h
 ```
 
-This is a little program in assembly language. We can run it like this:
+This is a little program in assembly language. If it looks totally alien to you,
+don't worry. We'll be taking assembly language step by step.
+
+We can run it like this:
 
 ```bash
-$ nasm -f elf64 lol.asm # assemble into lol.o
-$ ld lol.o              # link into a.out
+$ nasm -f elf64 foo.asm # assemble into foo.o
+$ ld foo.o              # link into a.out
 $ ./a.out               # run it
 $ echo $?               # print out the exit code
 10
@@ -54,7 +61,7 @@ rough edges, but they’re not too big of a deal.
 Rust will allow us to write:
 
 ```rust
-// lol.rs
+// foo.rs
 
 use std::process;
 
@@ -72,8 +79,8 @@ fn main() {
 This does the same thing as our assembly code:
 
 ```bash
-$ rustc lol.rs # compile our Rust code to lol
-$ ./lol        # run it
+$ rustc foo.rs # compile our Rust code to foo
+$ ./foo        # run it
 $ echo $?      # print out the exit code
 10
 $
