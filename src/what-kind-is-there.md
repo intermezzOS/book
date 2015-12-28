@@ -40,7 +40,7 @@ of mud, but it pays the bills.
 
 ## Microkernels
 
-Microkernels are, well, micro. Smaller. A lot of the functionality that’s in
+Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
 the kernel is in userspace instead. This is a good idea in theory, but
 historically, microkernels have had issues. All that communication has
 overhead, which makes them slower.
