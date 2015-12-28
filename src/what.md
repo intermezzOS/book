@@ -4,8 +4,14 @@ It’s actually kind of difficult to define what an operating system is. There
 are a lot of different kinds of operating systems, and they all do different
 kinds of things.
 
-There are some shared goals, however. Let’s try this out as a working
-definition:
+Some things are commonly bundled with operating systems, but are arguably not
+part of the essence of what makes an OS and OS. For example, many operating
+systems are often marketed as coming equipped with an internet browser or email
+client. Are internet browsers and email clients essential to operating systems?
+Many would argue the answer is no.
+
+There are some shared goals we can find among all operating systems, however.
+Let’s try this out as a working definition:
 
 > An operating system is a program that provides a platform for other
 > programs. It provides two things to these programs: abstractions and
@@ -28,11 +34,11 @@ Consider a program, running on some hardware:
 This program will need to know _exactly_ about what kind of hardware exists.
 If you want to run it on a different computer, it will have to know exactly
 about that computer too. And if you want to write a second program, you’ll
-have to re-write all of that code.
+have to re-write a bunch of code for interacting with the hardware.
 
 > All problems in computer science can be solved by another level of
 > indirection.
-> 
+>
 > - David Wheeler
 
 To solve this problem, we can introduce an abstraction:
@@ -62,7 +68,7 @@ to each operating system, which is then ported to all the hardware. Whew!
 This, of course, leads to the collary to the previous maxim:
 
 > ...except for the problem of too many layers of indirection.
-> 
+>
 > - Kevlin Henney
 
 We now have a pattern:
@@ -84,11 +90,11 @@ to be able to run multiple programs, which is a common feature of many
 operating systems, we’ll also need to make sure that multiple programs cannot
 access hardware at the same time.
 
-This really applies to more than just hardware though: once we have two
-programs, it would not be ideal to let them mess with each other. Consider any
-sort of program that deals with your password: if programs could mess with each
-other’s memory and code, then a program could trivially steal your password
-from another program!
+This really applies to more than just hardware though: it allows applies to
+shared resources (e.g. memory). Once we have two programs, it would
+be ideal to not let them mess with each other. Consider any sort of program that
+deals with your password: if programs could mess with each other’s memory
+and code, then a program could trivially steal your password from another program!
 
 This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
