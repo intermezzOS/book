@@ -12,7 +12,7 @@ make the best OS that ever existed_. So really, what it ends up looking like
 just doesn’t really matter at all. Most hobby operating system projects die
 quite young.
 
-Let’s focus on the _doing_, and the less on the categorization, planning, and
+Let’s focus on the _doing_, and less on the categorization, planning, and
 being. A nice thing about operating systems is that there’s a lot of freedom of
 direction. To tie it back into the example earlier, Phil’s tutorial starts
 going into memory-management after getting printing to the screen going. We’ll
