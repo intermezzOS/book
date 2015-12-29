@@ -176,8 +176,8 @@ against bad things happening. This is one of the ways in which we can check that
 we actually have a real multiboot header. If it doesn’t have the magic number,
 something has gone wrong, and we can throw an error.</p>
 <p>I have no idea why it’s <code>0xe85250d6</code>, and I don’t need to care. It just is.</p>
-<p>Finally, the <code>dd</code>. It’s short for ‘define DATA I THINK CRAP LOOK THIS UP’. It
-declares that we’re going to stick some data at this location. Very
+<p>Finally, the <code>dd</code>. It’s short for ‘define double word’. It
+declares that we’re going to stick some 32-bit data at this location. Very
 straightforward.</p>
 <h3>The mode code</h3>
 <p>Okay, time to add a second line:</p>
@@ -250,7 +250,7 @@ from a big number. <code>dd</code> then puts that value into this spot in our fi
     dd 8    ; size
 header_end:
 </code></pre>
-<p>Here we use <code>dw</code> to define a ‘word’ instead of just data. A word is SOME VALUE
+<p>Here we use <code>dw</code> to define a ‘word’ instead of just data. A word is 2
 bytes on the x86_64 architecture. The multiboot specification demands that this
 be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
