@@ -66,20 +66,23 @@
 
                 <div id="content" class="content">
                     <h1>What kinds of OS are there?</h1>
-<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of
-components. The core component is called a ‘kernel’. So, as OS developers, when
-we categorize operating systems, we tend to categorize them by what kinds of
-kernel they have. At the start, our ‘operating system’ will be just the kernel,
-and so we’ll tend to focus on kernels for the first part of our journey.</p>
-<p>The non-kernel bits of an operating system are called a ‘userland’. It’s where
-the users live. This is also why you’ll hear some people say, “It’s
-GNU/Linux, not Linux.” That’s because virtually all Linux distributions today
-use a Linux kernel + a GNU userland. So the GNU folks are a bit annoyed that
-the kernel gets all the credit. By the same token, a lot of people say ‘the
-kernel’ when they mean ‘the Linux kernel.’ This gets an entirely different set
-of people mad.</p>
+<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
+The core component is called a ‘kernel’. The non-kernel bits of an operating system
+are collevtively called a ‘userland’. Typically a kernel has more direct access to the
+machine than a userland and thus acts somewhat like a super user (with powers that even
+‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
+So, as OS developers, when we categorize operating systems, we tend to categorize them
+by what kinds of kernel they have.</p>
+<p>Although you may be used to hearing the term ‘Linux’ used as a name for an
+operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
+That’s because virtually all Linux distributions today use a Linux kernel + a
+GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
+the credit. By the same token, a lot of people say ‘the kernel’ when they mean
+‘the Linux kernel.’ This gets an entirely different set of people mad.</p>
 <p>Sometimes, it just seems like everything makes everyone mad.</p>
 <p>Anyway...</p>
+<p>At the start, our ‘operating system’ will be just the kernel, and so we’ll tend
+to focus on kernels for the first part of our journey.</p>
 <p>The way that we categorize different kernels largely comes down to “what is in
 the kernel and what is in userspace.” Upon reading this, you might then think
 the easiest kind of kernel to write is the smallest, where everything is in

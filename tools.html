@@ -71,8 +71,11 @@ use. The first question, of course, is what programming language?</p>
 <p>In our case, we’re going to use two. The first one is the language that
 <em>every</em> kernel must use: assembly language.</p>
 <h2>Assembly</h2>
+<p>Assembly language gives us direct access to a specific machine. If the basis of
+computer science is abstraction, the very bottom of the software abstraction layer
+is assembly. Below it lies only hardware and physics.</p>
 <p>Assembly language looks like this:</p>
-<pre><code class="language-x86asm">; lol.asm
+<pre><code class="language-x86asm">; foo.asm
 
 section .data
 global _start
@@ -88,9 +91,11 @@ loop:
     mov rax, 1
     int 80h
 </code></pre>
-<p>This is a little program in assembly language. We can run it like this:</p>
-<pre><code class="language-bash">$ nasm -f elf64 lol.asm # assemble into lol.o
-$ ld lol.o              # link into a.out
+<p>This is a little program in assembly language. If it looks totally alien to you,
+don't worry. We'll be taking assembly language step by step.</p>
+<p>We can run it like this:</p>
+<pre><code class="language-bash">$ nasm -f elf64 foo.asm # assemble into foo.o
+$ ld foo.o              # link into a.out
 $ ./a.out               # run it
 $ echo $?               # print out the exit code
 10
@@ -106,7 +111,7 @@ Rust-land as quickly as we possibly can. Rust is a really great programming
 language, and it’s pretty great for writing operating systems. It has some
 rough edges, but they’re not too big of a deal.</p>
 <p>Rust will allow us to write:</p>
-<pre><code class="language-rust">// lol.rs
+<pre><code class="language-rust">// foo.rs
 
 use std::process;
 
@@ -121,8 +126,8 @@ fn main() {
 }
 </code></pre>
 <p>This does the same thing as our assembly code:</p>
-<pre><code class="language-bash">$ rustc lol.rs # compile our Rust code to lol
-$ ./lol        # run it
+<pre><code class="language-bash">$ rustc foo.rs # compile our Rust code to foo
+$ ./foo        # run it
 $ echo $?      # print out the exit code
 10
 $
