@@ -24,7 +24,7 @@ learning Rust, but you might accidentally along the way.
 
 You can find all of this stuff [on GitHub](https://github.com/intermezzOS/).
 This book is in the `book` repository, the kernel is in `kernel`, and the
-website is there, too. Feel free to open issues on the [RFCs
+website is there too. Feel free to open issues on the [RFCs
 repo](https://github.com/intermezzOS/rfcs) if you want to discuss things
 in a general sense, and send bug reports and PRs to the appropriate repos
 if you’d like to help with a particular component.
@@ -44,8 +44,8 @@ are a lot of people who do hobby operating system work, but... I don’t like
 their attitudes.
 
 You see, a lot of people see low-level programming as some kind of superior,
-only-for-the-smartest kind of thing. They have a puritanical world-view: I
-suffered to learn this, so you too must suffer, to build character. I think
+only-for-the-smartest kind of thing. They have a puritanical world-view: “I
+suffered to learn this, so you too must suffer to build character.” I think
 that’s short sighted. Low level programming _is_ difficult to get into, but
 that says more about the teachers’ faults than the students’.
 
@@ -73,7 +73,7 @@ myself. A lot of the initial code here is going to be similar to Phil’s.
 But I’m going to write about it anyway. There’s a good reason for that:
 
 > Writing is nature’s way of showing us how sloppy our thinking is.
-> 
+>
 > - Leslie Lamport
 
 By re-explaining things in my own words, I hope to understand it even better.
@@ -98,8 +98,8 @@ going to be in my spare time, and I’m learning a lot of this as I go, too.
 > to be left behind; every point is a relay and exists only as a relay. A path
 > is always between two points, but the in-between has taken on all the
 > consistency and enjoys both an autonomy and a direction of its own. The life
-> of the nomad is the intermezzo. 
-> 
+> of the nomad is the intermezzo.
+>
 > Deleuze and Guattari, “A Thousand Plateaus”, p380
 
 If you’re not into particular kinds of philosophy, this quote won’t mean a lot.
@@ -107,12 +107,12 @@ Let’s look at the dictionary definition:
 
 > An intermezzo, in the most general sense, is a composition which fits between
 > other musical or dramatic entities, such as acts of a play or movements of a
-> larger musical work. 
+> larger musical work.
 >
 > [https://en.wikipedia.org/wiki/Intermezzo](https://en.wikipedia.org/wiki/Intermezzo)
 
 I want this project to be about learning. Learning is often referred to as a
-journey. You start off in ignorance, and end in knowledge. In other words,
+journey. You start off in ignorance and end in knowledge. In other words,
 ‘learning’ is that part in the middle, the in-between state.
 
 The tricky thing about learning is, you never stop learning. Once you learn
