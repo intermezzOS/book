@@ -145,8 +145,8 @@ something has gone wrong, and we can throw an error.
 
 I have no idea why it’s `0xe85250d6`, and I don’t need to care. It just is.
 
-Finally, the `dd`. It’s short for ‘define DATA I THINK CRAP LOOK THIS UP’. It
-declares that we’re going to stick some data at this location. Very
+Finally, the `dd`. It’s short for ‘define double word’. It
+declares that we’re going to stick some 32-bit data at this location. Very
 straightforward.
 
 ### The mode code
@@ -243,7 +243,7 @@ header_start:
 header_end:
 ```
 
-Here we use `dw` to define a ‘word’ instead of just data. A word is SOME VALUE
+Here we use `dw` to define a ‘word’ instead of just data. A word is 2
 bytes on the x86\_64 architecture. The multiboot specification demands that this
 be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
