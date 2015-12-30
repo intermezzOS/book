@@ -812,7 +812,113 @@ specification. We wrote a Multiboot-compliant header file in assembly code, and
 used <code>nasm</code> to create an object file from it.</p>
 <p>Next, we’ll write the actual code that prints “Hello world” to the screen.</p>
 <h1>Hello, world!</h1>
-<p>COMING SOON</p>
+<p>Now that we’ve got the headers out of the way, let’s do the traditional first
+program: Hello, world!</p>
+<h2>The smallest kernel</h2>
+<p>Our hello world will be just <em>20</em> lines of assembly code. Let’s begin.
+Open a file called <code>boot.asm</code> and put this in it:</p>
+<pre><code class="language-x86asm">start:
+    hlt
+</code></pre>
+<p>You’ve seen the <code>name:</code> form before: it’s a <em>label</em>. This lets us name a line
+of code. We’ll call this label <code>start</code>, which is the traditional name.
+GRUB will use this convention to know where to begin.</p>
+<p>The <code>hlt</code> statement is our first bit of ‘real’ assembly. So far, we had just
+been declaring data. This is actual, executable code. It’s short for ‘halt’.
+In other words, it ends the program.</p>
+<p>By giving this line a label, we can call it, like a function. That’s what
+GRUB does: “Call the function named <code>start</code>.” This function has just one
+line: stop.</p>
+<p>Unlike many other languages, you’ll notice that there’s no way to say if
+this ‘function’ takes any arguments or not. We’ll talk more about that later.</p>
+<p>This code won’t quite work on its own though. We need to do a little bit more
+bookkeeping first. Here’s the next few lines:</p>
+<pre><code class="language-x86asm">global start
+
+section .text
+bits 32
+start:
+    hlt
+</code></pre>
+<p>Three new bits of information. The first:</p>
+<pre><code class="language-x86asm">global start
+</code></pre>
+<p>This says “I’m going to define a label <code>start</code>, and I want it to be available
+outside of this file.” If we don’t say this, GRUB won’t know where to find its
+definition. You can kind of think of it like a ‘public’ annotation in other
+languages.</p>
+<pre><code class="language-x86asm">section .text
+</code></pre>
+<p>We saw <code>section</code> breifly, but I told you we’d get to it later. The place where
+we get to it is at the end of this chapter. For the moment, all you need to
+know is this: code goes into a section named <code>.text</code>. Everything that comes
+after the <code>section</code> line is in that section, until another <code>section</code> line.</p>
+<pre><code class="language-x86asm">bits 32
+</code></pre>
+<p>GRUB will boot us into protected mode, aka 32-bit mode. So we have to specify
+that directly. Our Hello World will only be in 32 bits. We’ll transition from
+32-bit mode to 64-bit mode in the next chapter, but it’s a bit involved.
+So let’s just stay in protected mode for now.</p>
+<p>That’s it! We could theoretically stop here, but instead, let’s actually
+print the “Hello world” text to the screen. We’ll start off with an ‘H’:</p>
+<pre><code class="language-x86asm">global start
+
+section .text
+bits 32
+start:
+    mov word [0xb8000], 0x0248 ; H
+    hlt
+</code></pre>
+<p>This new line is the most complicated bit of assembly we’ve seen yet.
+There’s a lot packed into this little line.</p>
+<p>EXPLANATION GOES HERE</p>
+<pre><code class="language-x86asm">global start
+
+section .text
+bits 32
+start:
+    mov word [0xb8000], 0x0248 ; H
+    mov word [0xb8002], 0x0265 ; e
+    mov word [0xb8004], 0x026c ; l
+    mov word [0xb8006], 0x026c ; l
+    mov word [0xb8008], 0x026f ; o
+    mov word [0xb800a], 0x022c ; ,
+    mov word [0xb800c], 0x0220 ; 
+    mov word [0xb800e], 0x0277 ; w
+    mov word [0xb8010], 0x026f ; o
+    mov word [0xb8012], 0x0272 ; r
+    mov word [0xb8014], 0x026c ; l
+    mov word [0xb8016], 0x0264 ; d
+    mov word [0xb8018], 0x0221 ; !
+    hlt
+</code></pre>
+<p>Finally, now that we’ve got all of the code working, we can assemble our
+<code>boot.asm</code> file with <code>nasm</code>, just like we did with the <code>multiboot_header.asm</code>
+file:</p>
+<pre><code class="language-bash">$ nasm -f elf64 boot.asm
+</code></pre>
+<p>This will produce a <code>boot.o</code> file. We’re almost ready to go!</p>
+<h2>Linking it together</h2>
+<p>EXPLAIN ALL THIS</p>
+<pre><code class="language-text">ENTRY(start)
+
+SECTIONS {
+    . = 1M;
+
+    .boot :
+    {
+        /* ensure that the multiboot header is at the beginning */
+        *(.multiboot_header)
+    }
+
+    .text :
+    {
+        *(.text)
+    }
+}
+</code></pre>
+<pre><code class="language-bash">$ ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+</code></pre>
 <h1>Making an ISO</h1>
 <h1>Running in QEMU</h1>
 <h1>Automation with Make</h1>
