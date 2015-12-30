@@ -10,14 +10,16 @@ competitive advantage, but it’s also meant that the boot process is largely a
 pile of hacks. Each time a new iteration comes out, a new step gets added to
 the process. That’s right, when your fancy new computer starts up, it thinks
 it’s an 8086 from 197?. And then, through a succession of steps, we transition
-through each step.
+through more and more modern architectures until we end at the latest and
+greatest.
 
 The first mode is called ‘real mode’. This is a 16 bit mode that the original
 x86 chips used. The second is ‘protected mode’. This 32 bit mode adds new
 things on top of real mode. It’s called ‘protected’ because real mode sort of
 let you do whatever you wanted, even if it was a bad idea. Protected mode was
-the first time that the hardware enabled certain kinds of protections. We’ll
-talk more about those details later.
+the first time that the hardware enabled certain kinds of protections that allow
+us to exercise more control around such things as RAM. We’ll talk more about
+those details later.
 
 The final mode is called ‘long mode’, and it’s 64 bits. Well, that’s actually a
 lie: there’s two. Initially, you’re not in long mode, you’re in ‘compatibility
@@ -43,22 +45,68 @@ long mode. We can do it! Let’s talk more details.
 
 ## Firmware and the BIOS
 
-COME BACK TO THIS LATER. I don’t know this well enough without internet,
-and I’d rather be accurate than write it out wrong.
+So let's begin by turning the power to our computer on.
+
+When we press the power button, electricity starts running, and a special piece of
+software, known as the BIOS in Intel land, automatically runs.
+
+With the BIOS we're already in the land of software, but unlike software that
+you may be used to writing, the BIOS comes bundled with its computer and is located in
+*r*ead-*o*nly *m*emory (ROM). While changing or updating stuff in ROM
+is possible, it's not something you can do by invoking your favorite
+package manager or by downloading something from some website. In fact some ROM
+is literally hardwired into the computer and cannot be changed without
+physically swapping it out. This makes sense here. The BIOS and the
+computer are lifetime partners. Their existence doesn't make much sense without
+each other.
+
+One of the first things the BIOS does is run a ‘POST’ or *p*ower-*o*n *s*elf-*t*est
+which checks for the availability and integrity of all the pieces of hardware that
+the computer needs including the BIOS itself, CPU registers, RAM, etc. If you've
+ever heard a computer beeping at you as it boots up, that's the POST reporting
+its findings.
+
+Assuming no problems are found, the BIOS starts the real booting process.
+
+For a while now most comercial computer manufacturers have hidden their BIOS
+booting process behind some sort of splash screen. It's usually possible to see the
+BIOS' logs by pressing some collection of keys when your computer is starting up.
+
+The BIOS also has a menu where you can see information about the computer
+like CPU and memory specs and all the hardware the BIOS detected like hard drives
+and CD and DVD drives. Typically this menu is accessed by pressing some other
+weird collection of keyboard keys while the computer is attempting to boot.
+
+Next, the BIOS automatically finds a ‘bootable drive’ by looking in certain
+pre-determined places like the computer's hard drive and CD and DVD drives.
+A drive is ‘bootable’ if it contains software that can finish the booting
+process. In the BIOS menu you can usually change in what order the BIOS looks
+for bootable drives or tell it to boot from a specific drive.
+
+The BIOS knows it's found a bootable drive by looking at the first few kilobytes
+of the drive and looking for some magical numbers set in that drive's
+memory. This won't be the last time some magical numbers or hacky sounding things
+are used on our way to building an OS. Such is life at such a low level...
+
+When the BIOS has found its bootable drive, it loads part of the drive into
+memory and transfers execution to it. With this process, we move away from what
+comes dictated by the computer manufacturer and move ever closer to getting our
+OS running.
 
 ## Bootloaders
 
-The program that loads up our kernel is called a ‘bootloader’, since it loads
-things at boot time. The bootloader’s job is to take our kernel, put it into
-memory, and then transition control to it.
+The part of our bootable drive that gets executed is called a ‘bootloader’,
+since it loads things at boot time. The bootloader’s job is to take our kernel,
+put it into memory, and then transition control to it.
 
 Some people start their operating systems journey by writing a bootloader. We
 will not be doing that. Frankly, this whole startup process is more of an
 exercise in reading manuals and understanding the history of esoteric hardware
 than it is anything else. That stuff may interest you, and maybe someday we’ll
-come back and write a bootloader of our own. But in the interest of actually
-getting around to implementing a kernel, instead, we’ll use an existing
-bootloader: GRUB.
+come back and write a bootloader of our own.
+
+In the interest of actually getting around to implementing a kernel, instead, we’ll
+use an existing bootloader: GRUB.
 
 ## GRUB and Multiboot
 
@@ -255,7 +303,7 @@ HAVE INTERNET STEVE.
 ### The Section
 
 We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
-sections later, so for now, just put what I tell you at the top of the file. 
+sections later, so for now, just put what I tell you at the top of the file.
 
 Here’s the final file:
 
