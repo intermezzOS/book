@@ -501,6 +501,7 @@ difference here is still useful.</p>
 <pre><code class="language-bash">$ multirust update PUT NIGHTLY HERE
 $ multirust default PUT NIGHTLY HERE
 </code></pre>
+<p>TODO: https://github.com/intermezzOS/book/issues/26</p>
 <p>To install the other tools, on Debian:</p>
 <pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu
 </code></pre>
@@ -665,7 +666,8 @@ going to write some assembly code here. Don’t worry! It’s not super hard.</p
 <h3>An aside about assembly</h3>
 <p>Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
 In it, he draws a distinction between these two words, which are commonly used as
-synonyms. MORE STUFF GOES HERE BUT I WANT TO REWATCH THE TALK.</p>
+synonyms.</p>
+<p>TODO https://github.com/intermezzOS/book/issues/27</p>
 <p>Assembly coding is simple, but that doesn’t mean that it’s easy. We’ll be doing
 a little bit of assembly programming to build our operating system, but we
 don’t need to know <em>that much</em>. It is completely learnable, even for someone
@@ -744,7 +746,7 @@ header_end:
 <p>Again, we’ll use math to let the computer calculate the sum for us. We add up
 the magic number, the mode code, and the header length, and then subtract it
 from a big number. <code>dd</code> then puts that value into this spot in our file.</p>
-<p>DESRIBE WHY IT”S SUBTRACTED LATER BECAUSE THAT”S SPECIAL.</p>
+<p>TODO: https://github.com/intermezzOS/book/issues/28</p>
 <h3>Ending tag</h3>
 <p>Finally, we have one more required bit: the end tag. it looks like this:</p>
 <pre><code class="language-x86asm">header_start:
@@ -766,8 +768,7 @@ bytes on the x86_64 architecture. The multiboot specification demands that this
 be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.</p>
-<p>Anyway, we end up defining two zeroes and an eight. LOOK UP WHY THIS IS WHEN YOU
-HAVE INTERNET STEVE.</p>
+<p>TODO: https://github.com/intermezzOS/book/issues/29</p>
 <h3>The Section</h3>
 <p>We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
 sections later, so for now, just put what I tell you at the top of the file.</p>
@@ -1045,7 +1046,7 @@ together:</p>
 <p>By running this command, we do a few things:</p>
 <pre><code class="language-text">--nmagic
 </code></pre>
-<p>EXPLAIN MAGIC HERE</p>
+<p>TODO: https://github.com/intermezzOS/book/issues/30</p>
 <pre><code class="language-text">--output=kernel.bin
 </code></pre>
 <p>This sets the name of our output file. In our case, that’s <code>kernel.bin</code>. We’ll be using
