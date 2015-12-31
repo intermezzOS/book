@@ -891,7 +891,7 @@ Those brackets are special. They mean “the address in memory located by this
 number.” In other words, we’re copying the number <code>0x0248</code> into the specific
 memory location <code>0xb8000</code>. That’s what this line does.</p>
 <p>Why? Well, we’re using the screen as a “memory mapped” device. Specific
-positions in memory correspond to certian positions on the screen. And
+positions in memory correspond to certain positions on the screen. And
 the position <code>0xb8000</code> is one of those positions: the upper-left corner of the
 screen.</p>
 <p>Now, we are copying <code>0x0248</code>. Why this number? Well, it’s in three parts:</p>
