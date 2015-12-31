@@ -113,7 +113,7 @@ number.” In other words, we’re copying the number `0x0248` into the specific
 memory location `0xb8000`. That’s what this line does.
 
 Why? Well, we’re using the screen as a “memory mapped” device. Specific
-positions in memory correspond to certian positions on the screen. And
+positions in memory correspond to certain positions on the screen. And
 the position `0xb8000` is one of those positions: the upper-left corner of the
 screen.
 
