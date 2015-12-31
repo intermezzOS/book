@@ -175,10 +175,10 @@ Lower case `e` is `65` in ASCII, at least, in hexidecimal. And `02` is our same
 color code. But you’ll notice that the memory location is different.
 
 Okay, so we copied four hexidecimal digits into memory, right? For our `H`.
-`0248`. A hexidecimal digit has sixteen values, so two of them are 32. We are
-in 32-bit mode, so two digits is one byte in memory. Since we need one byte for
-the colors, and one byte for the `H`, that’s two bytes. Hence, if our first memory
-position is at `0`, the second letter will start at `2`.
+`0248`. A hexidecimal digit has sixteen values, so two of them are 32. Since we
+need one word for the colors, and one word for the `H`, that’s two words.
+Hence, if our first memory position is at `0`, the second letter will start at
+`2`.
 
 This math gets easier the more often you do it. And we won’t be doing _that_ much
 more of it. There is a lot of working with hex numbers in operating systems work,
