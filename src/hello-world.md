@@ -55,7 +55,7 @@ languages.
 section .text
 ```
 
-We saw `section` breifly, but I told you we’d get to it later. The place where
+We saw `section` briefly, but I told you we’d get to it later. The place where
 we get to it is at the end of this chapter. For the moment, all you need to
 know is this: code goes into a section named `.text`. Everything that comes
 after the `section` line is in that section, until another `section` line.
