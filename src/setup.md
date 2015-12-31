@@ -35,7 +35,7 @@ x86_64-debian-linux-gnu
 Since it’s four parts, it’s called a ‘target’ rather than a ‘target triple’,
 but you’ll still hear some people call it a triple anyway.
 
-Kernels themselves don’t need to be for a specific kernel, and so you’ll
+Kernels themselves don’t need to be for a specific userland, and so you’ll
 see ‘none’ get used:
 
 ```text
