@@ -977,7 +977,14 @@ file:</p>
 </code></pre>
 <p>This will produce a <code>boot.o</code> file. We’re almost ready to go!</p>
 <h2>Linking it together</h2>
-<p>EXPLAIN ALL THIS</p>
+<p>Okay! So we have two different <code>.o</code> files: <code>multiboot_header.o</code> and <code>boot.o</code>.
+But what we need is <em>one</em> file with both of them. Our OS doesn’t have the
+ability to do anything yet, let alone load itself in two parts somehow. We just
+want one big binary file.</p>
+<p>Enter ‘linking’. If you haven’t worked in a compiled language before, you
+probably haven’t had to deal with linking before. Linking is how we’ll turn
+these two files into a single output: by linking them together.</p>
+<p>Open up a file called <code>linker.ld</code>and put this in it:</p>
 <pre><code class="language-text">ENTRY(start)
 
 SECTIONS {
@@ -995,8 +1002,62 @@ SECTIONS {
     }
 }
 </code></pre>
-<pre><code class="language-bash">$ ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+<p>This is a ‘linker script’. It controls how our linker will combine these
+files into the final output. Let’s take it bit-by-bit:</p>
+<pre><code class="language-text">ENTRY(start)
 </code></pre>
+<p>This sets the ‘entry point’ for this executable. In our case, we called our
+entry point by the name people use: <code>start</code>. Remember? In <code>boot.s</code>? Same
+name here.</p>
+<pre><code class="language-text">SECTIONS {
+</code></pre>
+<p>Okay! I’ve been promising you that we’d talk about sections. Everything inside
+of these curly braces is a section. We annotated parts of our code with
+sections earlier, and here, in this part of the linker script, we will describe
+each section by name and where it goes in the resulting output.</p>
+<pre><code class="language-text">    . = 1M;
+</code></pre>
+<p>This line means that we will start putting sections at the one megabyte mark.
+This is the conventional place to put a kernel, at least to start. Below one
+megabyte is all kinds of memory-mapped stuff. Remember the VGA stuff? It
+wouldn’t work if we mapped our kernel’s code to that part of memory... garbage
+on the screen!</p>
+<pre><code class="language-text">    .boot :
+</code></pre>
+<p>This will create a section named <code>boot</code>. And inside of it...</p>
+<pre><code class="language-text">        *(.multiboot_header)
+</code></pre>
+<p>... goes every section named <code>multiboot_header</code>. Remember how we defined that
+section in <code>multiboot_header.asm</code>? It’ll be here, at the start of the <code>boot</code>
+section. That’s what we need for GRUB to see it.</p>
+<pre><code class="language-text">    .text :
+</code></pre>
+<p>Next, we define a <code>text</code> section. The <code>text</code> section is where you put code.
+And inside of it...</p>
+<pre><code class="language-text">        *(.text)
+</code></pre>
+<p>... goes every section named <code>.text</code>. See how this is working? The syntax is a
+bit weird, but it’s not too bad.</p>
+<p>That’s it for our script! We can then use <code>ld</code> to link all of this stuff
+together:</p>
+<pre><code class="language-bash">$ ld --nmagic --output=kernel.bin --script=linker.ld multiboot_header.o boot.o
+</code></pre>
+<p>By running this command, we do a few things:</p>
+<pre><code class="language-text">--nmagic
+</code></pre>
+<p>EXPLAIN MAGIC HERE</p>
+<pre><code class="language-text">--output=kernel.bin
+</code></pre>
+<p>This sets the name of our output file. In our case, that’s <code>kernel.bin</code>. We’ll be using
+this file in the next step. It’s our whole kernel!</p>
+<pre><code class="language-text">--script=linker.ld
+</code></pre>
+<p>This is the linker script we just made.</p>
+<pre><code class="language-text">multiboot_header.o boot.o
+</code></pre>
+<p>Finally, we pass all the <code>.o</code> files we want to link together.</p>
+<p>That’s it! We’ve now got our kernel in the <code>kernel.bin</code> file. Next, we’re going to
+make an ISO out of it, so that we can load it up in QEMU.</p>
 <h1>Making an ISO</h1>
 <h1>Running in QEMU</h1>
 <h1>Automation with Make</h1>
