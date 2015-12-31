@@ -17,6 +17,8 @@ $ multirust update PUT NIGHTLY HERE
 $ multirust default PUT NIGHTLY HERE
 ```
 
+TODO: https://github.com/intermezzOS/book/issues/26
+
 To install the other tools, on Debian:
 
 ```bash

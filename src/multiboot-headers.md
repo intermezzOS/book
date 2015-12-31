@@ -162,7 +162,9 @@ going to write some assembly code here. Don’t worry! It’s not super hard.
 
 Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
 In it, he draws a distinction between these two words, which are commonly used as
-synonyms. MORE STUFF GOES HERE BUT I WANT TO REWATCH THE TALK.
+synonyms.
+
+TODO https://github.com/intermezzOS/book/issues/27
 
 Assembly coding is simple, but that doesn’t mean that it’s easy. We’ll be doing
 a little bit of assembly programming to build our operating system, but we
@@ -269,7 +271,7 @@ Again, we’ll use math to let the computer calculate the sum for us. We add up
 the magic number, the mode code, and the header length, and then subtract it
 from a big number. `dd` then puts that value into this spot in our file.
 
-DESRIBE WHY IT”S SUBTRACTED LATER BECAUSE THAT”S SPECIAL.
+TODO: https://github.com/intermezzOS/book/issues/28
 
 ### Ending tag
 
@@ -297,8 +299,7 @@ be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.
 
-Anyway, we end up defining two zeroes and an eight. LOOK UP WHY THIS IS WHEN YOU
-HAVE INTERNET STEVE.
+TODO: https://github.com/intermezzOS/book/issues/29
 
 ### The Section
 

@@ -325,7 +325,7 @@ By running this command, we do a few things:
 --nmagic
 ```
 
-EXPLAIN MAGIC HERE
+TODO: https://github.com/intermezzOS/book/issues/30
 
 ```text
 --output=kernel.bin
