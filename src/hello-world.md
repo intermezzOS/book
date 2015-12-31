@@ -224,7 +224,16 @@ This will produce a `boot.o` file. We’re almost ready to go!
 
 ## Linking it together
 
-EXPLAIN ALL THIS
+Okay! So we have two different `.o` files: `multiboot_header.o` and `boot.o`.
+But what we need is _one_ file with both of them. Our OS doesn’t have the
+ability to do anything yet, let alone load itself in two parts somehow. We just
+want one big binary file.
+
+Enter ‘linking’. If you haven’t worked in a compiled language before, you
+probably haven’t had to deal with linking before. Linking is how we’ll turn
+these two files into a single output: by linking them together.
+
+Open up a file called `linker.ld`and put this in it:
 
 ```text
 ENTRY(start)
@@ -245,6 +254,97 @@ SECTIONS {
 }
 ```
 
-```bash
-$ ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+This is a ‘linker script’. It controls how our linker will combine these
+files into the final output. Let’s take it bit-by-bit:
+
+```text
+ENTRY(start)
 ```
+
+This sets the ‘entry point’ for this executable. In our case, we called our
+entry point by the name people use: `start`. Remember? In `boot.s`? Same
+name here.
+
+```text
+SECTIONS {
+```
+
+Okay! I’ve been promising you that we’d talk about sections. Everything inside
+of these curly braces is a section. We annotated parts of our code with
+sections earlier, and here, in this part of the linker script, we will describe
+each section by name and where it goes in the resulting output.
+
+```text
+    . = 1M;
+```
+
+This line means that we will start putting sections at the one megabyte mark.
+This is the conventional place to put a kernel, at least to start. Below one
+megabyte is all kinds of memory-mapped stuff. Remember the VGA stuff? It
+wouldn’t work if we mapped our kernel’s code to that part of memory... garbage
+on the screen!
+
+```text
+    .boot :
+```
+
+This will create a section named `boot`. And inside of it...
+
+```text
+        *(.multiboot_header)
+```
+
+... goes every section named `multiboot_header`. Remember how we defined that
+section in `multiboot_header.asm`? It’ll be here, at the start of the `boot`
+section. That’s what we need for GRUB to see it.
+
+```text
+    .text :
+```
+
+Next, we define a `text` section. The `text` section is where you put code.
+And inside of it...
+
+```text
+        *(.text)
+```
+
+... goes every section named `.text`. See how this is working? The syntax is a
+bit weird, but it’s not too bad.
+
+That’s it for our script! We can then use `ld` to link all of this stuff
+together:
+
+```bash
+$ ld --nmagic --output=kernel.bin --script=linker.ld multiboot_header.o boot.o
+```
+
+By running this command, we do a few things:
+
+```text
+--nmagic
+```
+
+EXPLAIN MAGIC HERE
+
+```text
+--output=kernel.bin
+```
+
+This sets the name of our output file. In our case, that’s `kernel.bin`. We’ll be using
+this file in the next step. It’s our whole kernel!
+
+```text
+--script=linker.ld
+```
+
+This is the linker script we just made.
+
+```text
+multiboot_header.o boot.o
+```
+
+Finally, we pass all the `.o` files we want to link together.
+
+That’s it! We’ve now got our kernel in the `kernel.bin` file. Next, we’re going to
+make an ISO out of it, so that we can load it up in QEMU.
