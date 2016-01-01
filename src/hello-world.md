@@ -105,7 +105,7 @@ of stuff it copies is determined by `size`.
 mov word [0xb8000], 0x0248 ; H
 ```
 
-“Copy one word: the numer `0x248` to ... some place.
+“Copy one word: the number `0x248` to ... some place.
 
 The place is a hexidecimal number, but has square brackets `[]` around it.
 Those brackets are special. They mean “the address in memory located by this
@@ -132,7 +132,7 @@ We’ll start at the right. First, two numbers are the letter, in ASCII. `H` is
 write `H`.
 
 The other two numbers are colors. There are 16 colors available, each with a
-numer. Here’s the table:
+number. Here’s the table:
 
 ```
 | Value | Color          |
