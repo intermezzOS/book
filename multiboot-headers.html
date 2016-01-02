@@ -274,7 +274,11 @@ the magic number, the mode code, and the header length, and then subtract it
 from a big number. <code>dd</code> then puts that value into this spot in our file.</p>
 <p>TODO: https://github.com/intermezzOS/book/issues/28</p>
 <h3>Ending tag</h3>
-<p>Finally, we have one more required bit: the end tag. it looks like this:</p>
+<p>After the checksum you can list a series of “tags”, which is a way for the OS to
+tell the bootloader to do some extra things before handing control over to the
+OS, or to give the OS some extra information once started. We donʼt need any of
+that yet, though, so we just need to include the required “end tag”, which looks
+like this:</p>
 <pre><code class="language-x86asm">header_start:
     dd 0xe85250d6                ; magic number
     dd 0                         ; protected mode code
@@ -294,7 +298,6 @@ bytes on the x86_64 architecture. The multiboot specification demands that this
 be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.</p>
-<p>TODO: https://github.com/intermezzOS/book/issues/29</p>
 <h3>The Section</h3>
 <p>We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
 sections later, so for now, just put what I tell you at the top of the file.</p>
