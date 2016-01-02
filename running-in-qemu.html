@@ -66,6 +66,34 @@
 
                 <div id="content" class="content">
                     <h1>Running in QEMU</h1>
+<p>Let’s actually run our kernel! To do this, we’ll use QEMU, an emulator. Using
+QEMU is fairly straightfoward:</p>
+<pre><code class="language-bash">$ qemu-system-x86_64 -drive format=raw,file=os.iso
+</code></pre>
+<p>Type it in, hit enter, and you should see Hello World!</p>
+<p><img alt="hello world" class="center" src="assets/hello_world.png" /></p>
+<p>If it shows up for you too, congrats! If not, something may have gone
+wrong. Double check that you followed the examples <em>exactly</em>. Maybe
+you missed something, or made a mistake while copying things down.</p>
+<p>Let’s talk about this command before we move on:</p>
+<pre><code class="language-text">qemu-system-x86_64
+</code></pre>
+<p>We’re running the <code>x86_64</code> varient of QEMU. While we have a 32-bit kernel for
+now, soon we’ll have a 64-bit one. And since things are backwards compatible,
+this works just fine.</p>
+<pre><code class="language-text">-drive
+</code></pre>
+<p>This flag defines a ‘drive’, like a hard drive, or floppy drive. In other
+words, this is going to be the hard drive our emulator will use.</p>
+<pre><code class="language-text">format=raw,file=os.iso
+</code></pre>
+<p>These options explain what kind of drive we have. In this case, since we have
+an ISO, we want it to be the <code>raw</code> format, and we’re passing in our <code>os.iso</code>
+file as the source of the drive.</p>
+<p>That’s it! Here’s the thing, though: while that wasn’t <em>too</em> complicated, it
+was a lot of steps. Each time we make a change, we have to go through all these
+steps over again. In the next section, we’ll use Make to do all these steps for
+us.</p>
 
                 </div>
 
