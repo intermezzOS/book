@@ -1060,6 +1060,67 @@ this file in the next step. It’s our whole kernel!</p>
 <p>That’s it! We’ve now got our kernel in the <code>kernel.bin</code> file. Next, we’re going to
 make an ISO out of it, so that we can load it up in QEMU.</p>
 <h1>Making an ISO</h1>
+<p>Now that we have our <code>kernel.bin</code>, the next step is to make an ISO. Remember
+compact discs? Well, by making an ISO file, we can both test our Hello World
+kernel in QEMU, as well as running it on actual hardware!</p>
+<p>To do this, we’re going to use a GRUB tool called <code>grub-mkrescue</code>. We have to
+create a certain structure of files on disk, run the tool, and we’ll get an
+<code>os.iso</code> file at the end.</p>
+<p>Doing so is not very much work, but we need to make the files in the right
+places. First, we need to make three directories:</p>
+<pre><code class="language-bash">$ mkdir -p isofiles/boot/grub
+</code></pre>
+<p>The <code>-p</code> flag to <code>mkdir</code> will make the directory we specify, as well as any
+‘parent’ directories, hence the <code>p</code>. In other words, this will make an
+<code>isofiles</code> directory, with a <code>boot</code> directory inside, and a <code>grub</code> directory
+inside of that.</p>
+<p>Next, create a <code>grub.cfg</code> file inside of that <code>isofiles/boot/grub</code> directory,
+and put this in it:</p>
+<pre><code class="language-text">set timeout=0
+set default=0
+
+menuentry &quot;intermezzOS&quot; {
+    multiboot2 /boot/kernel.bin
+    boot
+}
+</code></pre>
+<p>This file configures GRUB. Let’s talk about the <code>menuentry</code> block first.
+GRUB lets us load up multiple different operating systems, if we desire. Each
+<code>menuentry</code> section corresponds to one of these. We give it a name, in this
+case, <code>intermezzOS</code>, and then a little script to tell it what to do. First,
+we use the <code>multiboot2</code> command to point at our kernel file. In this case,
+that location is <code>/boot/kernel.bin</code>. Remember how we made a <code>boot</code> directory
+inside of <code>isofiles</code>? Since we’re making the ISO out of the <code>isofiles</code> directory,
+everything inside of it is at the root of our ISO. Hence <code>/boot</code>.</p>
+<p>Let’s copy our <code>kernel.bin</code> file there now:</p>
+<pre><code class="language-bash">$ cp kernel.bin isofiles/boot/
+</code></pre>
+<p>Finally, the <code>boot</code> command says “that’s all the configuration we need to do,
+boot it up.</p>
+<p>But what about those <code>timeout</code> and <code>default</code> settings? Well, the <code>default</code> setting
+controls which <code>menuentry</code> we want to be the default. The numbers start at zero,
+and since we only have that one, we set it as the default. When GRUB starts, it
+will wait for <code>timeout</code> seconds, and then choose the <code>default</code> option if the user
+didn’t pick a different one. Since we only have one option here, we just set it to
+zero, so it will start up right away.</p>
+<p>The final layout should look like this:</p>
+<pre><code class="language-text">isofiles/
+└── boot
+    ├── grub
+    │   └── grub.cfg
+    └── kernel.bin
+</code></pre>
+<p>Using <code>grub-mkrescue</code> is easy. We run this command:</p>
+<pre><code class="language-bash">$ grub-mkrescue -o os.iso isofiles
+</code></pre>
+<p>The <code>-o</code> flag controls the <em>o</em>utput filename, which we choose to be <code>os.iso</code>.
+And then we pass it the directory to make the ISO out of, which is the
+<code>isofiles</code> directory we just set up.</p>
+<p>After this, you have an <code>os.iso</code> file with our teeny kernel on it. You could
+burn this to a USB stick or CD and run it on an actual computer if you wanted
+to! But doing so would be really annoying during development. So in the next
+setction, we’ll use an emulator, QEMU, to run the ISO file on our development
+machine.</p>
 <h1>Running in QEMU</h1>
 <h1>Automation with Make</h1>
 <h1>Source Control with Git</h1>
