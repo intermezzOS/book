@@ -188,7 +188,7 @@ are a lot of different kinds of operating systems, and they all do different
 kinds of things.</p>
 <p>Some things are commonly bundled with operating systems, but are arguably not
 part of the essence of what makes an OS an OS. For example, many operating
-systems are often marketed as coming equipped with an web browser or email
+systems are often marketed as coming equipped with a web browser or email
 client. Are web browsers and email clients essential to operating systems?
 Many would argue the answer is no.</p>
 <p>There are some shared goals we can find among all operating systems, however.
@@ -235,7 +235,7 @@ machine.</p>
 <p><img alt="program on vm " class="center" src="assets/program_vm_os_hardware.png" /></p>
 <p>Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!</p>
-<p>This, of course, leads to the collary to the previous maxim:</p>
+<p>This, of course, leads to the corollary to the previous maxim:</p>
 <blockquote>
 <p>...except for the problem of too many layers of indirection.</p>
 <ul>
@@ -276,7 +276,7 @@ system does abstraction? Is the only thing everything does abstraction?</p>
 <h1>What kinds of OS are there?</h1>
 <p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
 The core component is called a ‘kernel’. The non-kernel bits of an operating system
-are collevtively called a ‘userland’. Typically a kernel has more direct access to the
+are collectively called a ‘userland’. Typically a kernel has more direct access to the
 machine than a userland and thus acts somewhat like a super user (with powers that even
 ‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
 So, as OS developers, when we categorize operating systems, we tend to categorize them
@@ -507,16 +507,16 @@ $ multirust default PUT NIGHTLY HERE
 </code></pre>
 <h1>Mac OS X</h1>
 <p>For now, the easiest way to get going is to install Linux on a virtual
-machine, and follow the Linux instructions.</p>
+machine, and follow the <a href="./linux.html">Linux instructions</a>.</p>
 <p>I hope to have better instructions for OS X soon; since I don’t have a
 computer that runs it, I need to figure it out first. If you know how,
-this would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a></p>
+this would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a>.</p>
 <h1>Windows</h1>
 <p>For now, the easiest way to get going is to install Linux on a virtual
-machine, and follow the Linux instructions.</p>
+machine, and follow the <a href="./linux.html">Linux instructions</a>.</p>
 <p>I hope to have better instructions for Windows soon; since I don’t have a
 computer that runs it, I need to figure it out first. If you know how, this
-would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a></p>
+would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a>.</p>
 <h1>Booting up</h1>
 <p>We’ve got some of the theory down, and we’ve got a development environment
 going. Let’s get down to actually writing some code, shall we?</p>
@@ -596,7 +596,7 @@ the computer needs including the BIOS itself, CPU registers, RAM, etc. If you've
 ever heard a computer beeping at you as it boots up, that's the POST reporting
 its findings.</p>
 <p>Assuming no problems are found, the BIOS starts the real booting process.</p>
-<p>For a while now most comercial computer manufacturers have hidden their BIOS
+<p>For a while now most commercial computer manufacturers have hidden their BIOS
 booting process behind some sort of splash screen. It's usually possible to see the
 BIOS' logs by pressing some collection of keys when your computer is starting up.</p>
 <p>The BIOS also has a menu where you can see information about the computer
