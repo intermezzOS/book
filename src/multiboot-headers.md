@@ -275,7 +275,11 @@ TODO: https://github.com/intermezzOS/book/issues/28
 
 ### Ending tag
 
-Finally, we have one more required bit: the end tag. it looks like this:
+After the checksum you can list a series of “tags”, which is a way for the OS to
+tell the bootloader to do some extra things before handing control over to the
+OS, or to give the OS some extra information once started. We donʼt need any of
+that yet, though, so we just need to include the required “end tag”, which looks
+like this:
 
 ```x86asm
 header_start:
@@ -298,8 +302,6 @@ bytes on the x86\_64 architecture. The multiboot specification demands that this
 be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.
-
-TODO: https://github.com/intermezzOS/book/issues/29
 
 ### The Section
 
