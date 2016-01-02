@@ -2,7 +2,7 @@
 
 Okay, so here’s the thing: operating systems are made up of a _lot_ of components.
 The core component is called a ‘kernel’. The non-kernel bits of an operating system
-are collevtively called a ‘userland’. Typically a kernel has more direct access to the
+are collectively called a ‘userland’. Typically a kernel has more direct access to the
 machine than a userland and thus acts somewhat like a super user (with powers that even
 ‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
 So, as OS developers, when we categorize operating systems, we tend to categorize them

@@ -68,7 +68,7 @@ its findings.
 
 Assuming no problems are found, the BIOS starts the real booting process.
 
-For a while now most comercial computer manufacturers have hidden their BIOS
+For a while now most commercial computer manufacturers have hidden their BIOS
 booting process behind some sort of splash screen. It's usually possible to see the
 BIOS' logs by pressing some collection of keys when your computer is starting up.
 
@@ -359,10 +359,3 @@ specification. We wrote a Multiboot-compliant header file in assembly code, and
 used `nasm` to create an object file from it.
 
 Next, we’ll write the actual code that prints “Hello world” to the screen.
-
-
-
-
-
-
-
