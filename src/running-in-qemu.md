@@ -4,7 +4,7 @@ Let’s actually run our kernel! To do this, we’ll use QEMU, an emulator. Usin
 QEMU is fairly straightfoward:
 
 ```bash
-$ qemu-system-x86_64 -drive format=raw,file=os.iso
+$ qemu-system-x86_64 -cdrom os.iso
 ```
 
 Type it in, hit enter, and you should see Hello World!
@@ -26,19 +26,11 @@ now, soon we’ll have a 64-bit one. And since things are backwards compatible,
 this works just fine.
 
 ```text
--drive
+-cdrom os.iso
 ```
 
-This flag defines a ‘drive’, like a hard drive, or floppy drive. In other
-words, this is going to be the hard drive our emulator will use.
-
-```text
-format=raw,file=os.iso
-```
-
-These options explain what kind of drive we have. In this case, since we have
-an ISO, we want it to be the `raw` format, and we’re passing in our `os.iso`
-file as the source of the drive.
+We’re going to start QEMU with a CD-ROM drive, and its contents are the
+`os.iso` file we made.
 
 That’s it! Here’s the thing, though: while that wasn’t _too_ complicated, it
 was a lot of steps. Each time we make a change, we have to go through all these
