@@ -6,7 +6,7 @@ kinds of things.
 
 Some things are commonly bundled with operating systems, but are arguably not
 part of the essence of what makes an OS an OS. For example, many operating
-systems are often marketed as coming equipped with an web browser or email
+systems are often marketed as coming equipped with a web browser or email
 client. Are web browsers and email clients essential to operating systems?
 Many would argue the answer is no.
 
@@ -65,7 +65,7 @@ machine.
 Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!
 
-This, of course, leads to the collary to the previous maxim:
+This, of course, leads to the corollary to the previous maxim:
 
 > ...except for the problem of too many layers of indirection.
 >
