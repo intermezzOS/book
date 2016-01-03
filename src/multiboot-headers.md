@@ -359,10 +359,3 @@ specification. We wrote a Multiboot-compliant header file in assembly code, and
 used `nasm` to create an object file from it.
 
 Next, we’ll write the actual code that prints “Hello world” to the screen.
-
-
-
-
-
-
-
