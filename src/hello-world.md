@@ -21,7 +21,7 @@ The `hlt` statement is our first bit of ‘real’ assembly. So far, we had just
 been declaring data. This is actual, executable code. It’s short for ‘halt’.
 In other words, it ends the program.
 
-By giving this line a label, we can call it, like a function. That’s what
+By giving this line a label, we can call it, sort of like a function. That’s what
 GRUB does: “Call the function named `start`.” This function has just one
 line: stop.
 
@@ -123,7 +123,7 @@ Now, we are copying `0x0248`. Why this number? Well, it’s in three parts:
  __ background color
 /  __foreground color
 | /
-V V  
+V V
 0 2 48 <- letter, in ASCII
 ```
 
@@ -202,7 +202,7 @@ start:
     mov word [0xb8006], 0x026c ; l
     mov word [0xb8008], 0x026f ; o
     mov word [0xb800a], 0x022c ; ,
-    mov word [0xb800c], 0x0220 ; 
+    mov word [0xb800c], 0x0220 ;
     mov word [0xb800e], 0x0277 ; w
     mov word [0xb8010], 0x026f ; o
     mov word [0xb8012], 0x0272 ; r
@@ -262,7 +262,7 @@ ENTRY(start)
 ```
 
 This sets the ‘entry point’ for this executable. In our case, we called our
-entry point by the name people use: `start`. Remember? In `boot.s`? Same
+entry point by the name people use: `start`. Remember? In `boot.asm`? Same
 name here.
 
 ```text
