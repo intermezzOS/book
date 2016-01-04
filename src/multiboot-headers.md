@@ -21,24 +21,23 @@ the first time that the hardware enabled certain kinds of protections that allow
 us to exercise more control around such things as RAM. We’ll talk more about
 those details later.
 
-The final mode is called ‘long mode’, and it’s 64 bits. Well, that’s actually a
-lie: there’s two. Initially, you’re not in long mode, you’re in ‘compatibility
-mode’. You see, when the industry was undergoing the transition from 32 to 64
-bits, there were two options: the first was Intel’s Itanium 64-bit
-architecture. It did away with all of the stuff I just told you about. But that
-meant that programs had to be completely recompiled from scratch for the new
-chips. Intel’s big competitor, AMD, saw an opportunity here, and released a new
-set of chips called amd64. These chips were backwards compatible, and so you
-could run both 32 and 64 bit programs on them. Itanium wasn’t compelling enough
-to make the pain worth it, and so Intel released new chips that were compatible
-with amd64. The resulting architecture was then called x86\_64, the one we’re
-using today. The moral of the story? Intel tried to save you from all of the
-stuff we’re about to do, but they failed. So we have to do it.
+The final mode is called ‘long mode’, and it’s 64 bits.
 
-Where was I... oh yes. Compatibility mode. So when you initially transition
-to long mode, you’re not in _true_ long mode; you’re in compatibility mode.
-This is the ‘it all both works’ mode. From there, we can transition to
-actual, honest-to-goodness long mode.
+> **By the way...**
+>
+> Well, that’s actually a lie: there’s two. Initially, you’re not in long mode,
+> you’re in ‘compatibility mode’. You see, when the industry was undergoing the
+> transition from 32 to 64 bits, there were two options: the first was Intel’s
+> Itanium 64-bit architecture. It did away with all of the stuff I just told
+> you about. But that meant that programs had to be completely recompiled from
+> scratch for the new chips. Intel’s big competitor, AMD, saw an opportunity
+> here, and released a new set of chips called amd64. These chips were backwards
+> compatible, and so you could run both 32 and 64 bit programs on them.
+> Itanium wasn’t compelling enough to make the pain worth it, and so Intel released
+> new chips that were compatible with amd64. The resulting architecture was then
+> called x86\_64, the one we’re using today. The moral of the story? Intel tried
+> to save you from all of the stuff we’re about to do, but they failed. So
+> we have to do it.
 
 So that’s the task ahead of us: make the jump up the ladder and get to
 long mode. We can do it! Let’s talk more details.
@@ -68,16 +67,18 @@ its findings.
 
 Assuming no problems are found, the BIOS starts the real booting process.
 
-For a while now most commercial computer manufacturers have hidden their BIOS
-booting process behind some sort of splash screen. It's usually possible to see the
-BIOS' logs by pressing some collection of keys when your computer is starting up.
+> **By the way...**
+>
+>For a while now most commercial computer manufacturers have hidden their BIOS
+>booting process behind some sort of splash screen. It's usually possible to see the
+>BIOS' logs by pressing some collection of keys when your computer is starting up.
+>
+>The BIOS also has a menu where you can see information about the computer
+>like CPU and memory specs and all the hardware the BIOS detected like hard drives
+>and CD and DVD drives. Typically this menu is accessed by pressing some other
+>weird collection of keyboard keys while the computer is attempting to boot.
 
-The BIOS also has a menu where you can see information about the computer
-like CPU and memory specs and all the hardware the BIOS detected like hard drives
-and CD and DVD drives. Typically this menu is accessed by pressing some other
-weird collection of keyboard keys while the computer is attempting to boot.
-
-Next, the BIOS automatically finds a ‘bootable drive’ by looking in certain
+The BIOS automatically finds a ‘bootable drive’ by looking in certain
 pre-determined places like the computer's hard drive and CD and DVD drives.
 A drive is ‘bootable’ if it contains software that can finish the booting
 process. In the BIOS menu you can usually change in what order the BIOS looks

@@ -8,16 +8,14 @@ machine than a userland and thus acts somewhat like a super user (with powers th
 So, as OS developers, when we categorize operating systems, we tend to categorize them
 by what kinds of kernel they have.
 
-Although you may be used to hearing the term ‘Linux’ used as a name for an
-operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
-That’s because virtually all Linux distributions today use a Linux kernel + a
-GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
-the credit. By the same token, a lot of people say ‘the kernel’ when they mean
-‘the Linux kernel.’ This gets an entirely different set of people mad.
-
-Sometimes, it just seems like everything makes everyone mad.
-
-Anyway...
+> **By the way...**
+>
+> Although you may be used to hearing the term ‘Linux’ used as a name for an
+> operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
+> That’s because virtually all Linux distributions today use a Linux kernel + a
+> GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
+> the credit. By the same token, a lot of people say ‘the kernel’ when they mean
+> ‘the Linux kernel.’ This gets an entirely different set of people mad.
 
 At the start, our ‘operating system’ will be just the kernel, and so we’ll tend
 to focus on kernels for the first part of our journey.
