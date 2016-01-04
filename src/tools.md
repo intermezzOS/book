@@ -54,11 +54,13 @@ When you write asssembly language you are actually directly manipulating the
 individual registers of the CPU and memory inside of RAM and other hardware
 devices like CD drives or display screens.
 
-CPUs are composed of registers each of which can only hold small amounts of data.
-The amount of data a register can hold dictates what type of CPU the register
-belongs to. If you didn't know why your machine is classified as either 32 bit
-or 64 bit it's because the machine's registers can either hold 32 bits of data at a
-time or 64 bits at a time.
+> **By the way...**
+>
+> CPUs are composed of registers each of which can only hold small amounts of data.
+> The amount of data a register can hold dictates what type of CPU the register
+> belongs to. If you didn't know why your machine is classified as either 32 bit
+> or 64 bit it's because the machine's registers can either hold 32 bits of data at a
+> time or 64 bits at a time.
 
 In assembly we can only do very simple things: move data between registers or
 to/from RAM; perform simple arithmetic like addition, substraction, multiplication
