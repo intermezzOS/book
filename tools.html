@@ -74,6 +74,18 @@ use. The first question, of course, is what programming language?</p>
 <p>Assembly language gives us direct access to a specific machine. If the basis of
 computer science is abstraction, the very bottom of the software abstraction layer
 is assembly. Below it lies only hardware and physics.</p>
+<p>There are many kinds of assembly languages each targeted at different
+‘instruction set’ architectures (also known as ISA or simply as instruction sets).
+These instruction sets are the list of commands that a given CPU can understand. For
+example, if your computer has an Intel Pentium processor of some kind than it
+understands the x86 instruction set. So if you were to write assembly for another
+instruction set (say MIPS or ARM), you would not be able to run it on your computer.</p>
+<p>This is one of the reasons we'll want to get away from the assembly world as
+fast as possible. If we want our kernel to work for a bunch of different
+architectures, any code we end up writing in assembly will need to be duplicated.
+However, if we use a more high-level language like C, C++ or the language we'll
+really be using, Rust, we can write the code once and cross-compile
+to different architectures.</p>
 <p>Assembly language looks like this:</p>
 <pre><code class="language-x86asm">; foo.asm
 
@@ -92,8 +104,35 @@ loop:
     int 80h
 </code></pre>
 <p>This is a little program in assembly language. If it looks totally alien to you,
-don't worry. We'll be taking assembly language step by step.</p>
-<p>We can run it like this:</p>
+don't worry. While we could write our entire kernel in assembly, we'll only be
+learning as much assembly as we need to not have to use it any more.</p>
+<p>When you write asssembly language you are actually directly manipulating the
+individual registers of the CPU and memory inside of RAM and other hardware
+devices like CD drives or display screens.</p>
+<p>CPUs are composed of registers each of which can only hold small amounts of data.
+The amount of data a register can hold dictates what type of CPU the register
+belongs to. If you didn't know why your machine is classified as either 32 bit
+or 64 bit it's because the machine's registers can either hold 32 bits of data at a
+time or 64 bits at a time.</p>
+<p>In assembly we can only do very simple things: move data between registers or
+to/from RAM; perform simple arithmetic like addition, substraction, multiplication
+and division; compare values in different registers, and based on these comparisons
+jump to different points in our code (á la GOTO). Fancy high level concepts
+like while loops and if statements, let alone garabage collection are nowhere to be
+found. Even functions as you know them aren't really supported in assembly.
+Each assembly program is just a bunch of data in registers or in memory and a
+list of instructions, carried out one after the other.</p>
+<p>For instance, in our code above we used the <code>mov</code> instruction several times to
+move values into specific registers with weird names like <code>rax</code> and <code>rbx</code>. We
+used the <code>cmp</code> instruction to to compare the value inside of the <code>rax</code> register
+with the number <code>10</code>. We used the <code>jne</code> instruction to jump to another part of
+our code if the numbers we just compared were not equal. Finally we used the <code>int</code>
+instruction to trigger a hardware <em>int</em>errupt.</p>
+<p>Again, you don't need to fully understand this program at this point. Right now
+you should just have an impression for how assembly is composed of simple
+instructions that do very simple things.</p>
+<p>When it comes time to write some actual assembly code we'll touch on all this again.</p>
+<p>Let's run this little program:</p>
 <pre><code class="language-bash">$ nasm -f elf64 foo.asm # assemble into foo.o
 $ ld foo.o              # link into a.out
 $ ./a.out               # run it
@@ -101,9 +140,10 @@ $ echo $?               # print out the exit code
 10
 $
 </code></pre>
-<p>You can write entire kernels in assembly if you want to. It’s not as bad as it
-may sound. At the very beginning, we will <em>have</em> to use assembly. But not very
-much. It takes about 100 lines total, to start. Completely manageable.</p>
+<p>Don't worry too much about what programs we're using to actually compile (or
+‘assemble’ as it's known in the assembly world) our program. We'll be going
+over each one of these commands and explaining what they are and how to use
+them.</p>
 <h2>Rust</h2>
 <p>We will augment our assembly with code written in
 <a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to

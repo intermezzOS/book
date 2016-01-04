@@ -352,6 +352,18 @@ use. The first question, of course, is what programming language?</p>
 <p>Assembly language gives us direct access to a specific machine. If the basis of
 computer science is abstraction, the very bottom of the software abstraction layer
 is assembly. Below it lies only hardware and physics.</p>
+<p>There are many kinds of assembly languages each targeted at different
+‘instruction set’ architectures (also known as ISA or simply as instruction sets).
+These instruction sets are the list of commands that a given CPU can understand. For
+example, if your computer has an Intel Pentium processor of some kind than it
+understands the x86 instruction set. So if you were to write assembly for another
+instruction set (say MIPS or ARM), you would not be able to run it on your computer.</p>
+<p>This is one of the reasons we'll want to get away from the assembly world as
+fast as possible. If we want our kernel to work for a bunch of different
+architectures, any code we end up writing in assembly will need to be duplicated.
+However, if we use a more high-level language like C, C++ or the language we'll
+really be using, Rust, we can write the code once and cross-compile
+to different architectures.</p>
 <p>Assembly language looks like this:</p>
 <pre><code class="language-x86asm">; foo.asm
 
@@ -370,8 +382,35 @@ loop:
     int 80h
 </code></pre>
 <p>This is a little program in assembly language. If it looks totally alien to you,
-don't worry. We'll be taking assembly language step by step.</p>
-<p>We can run it like this:</p>
+don't worry. While we could write our entire kernel in assembly, we'll only be
+learning as much assembly as we need to not have to use it any more.</p>
+<p>When you write asssembly language you are actually directly manipulating the
+individual registers of the CPU and memory inside of RAM and other hardware
+devices like CD drives or display screens.</p>
+<p>CPUs are composed of registers each of which can only hold small amounts of data.
+The amount of data a register can hold dictates what type of CPU the register
+belongs to. If you didn't know why your machine is classified as either 32 bit
+or 64 bit it's because the machine's registers can either hold 32 bits of data at a
+time or 64 bits at a time.</p>
+<p>In assembly we can only do very simple things: move data between registers or
+to/from RAM; perform simple arithmetic like addition, substraction, multiplication
+and division; compare values in different registers, and based on these comparisons
+jump to different points in our code (á la GOTO). Fancy high level concepts
+like while loops and if statements, let alone garabage collection are nowhere to be
+found. Even functions as you know them aren't really supported in assembly.
+Each assembly program is just a bunch of data in registers or in memory and a
+list of instructions, carried out one after the other.</p>
+<p>For instance, in our code above we used the <code>mov</code> instruction several times to
+move values into specific registers with weird names like <code>rax</code> and <code>rbx</code>. We
+used the <code>cmp</code> instruction to to compare the value inside of the <code>rax</code> register
+with the number <code>10</code>. We used the <code>jne</code> instruction to jump to another part of
+our code if the numbers we just compared were not equal. Finally we used the <code>int</code>
+instruction to trigger a hardware <em>int</em>errupt.</p>
+<p>Again, you don't need to fully understand this program at this point. Right now
+you should just have an impression for how assembly is composed of simple
+instructions that do very simple things.</p>
+<p>When it comes time to write some actual assembly code we'll touch on all this again.</p>
+<p>Let's run this little program:</p>
 <pre><code class="language-bash">$ nasm -f elf64 foo.asm # assemble into foo.o
 $ ld foo.o              # link into a.out
 $ ./a.out               # run it
@@ -379,9 +418,10 @@ $ echo $?               # print out the exit code
 10
 $
 </code></pre>
-<p>You can write entire kernels in assembly if you want to. It’s not as bad as it
-may sound. At the very beginning, we will <em>have</em> to use assembly. But not very
-much. It takes about 100 lines total, to start. Completely manageable.</p>
+<p>Don't worry too much about what programs we're using to actually compile (or
+‘assemble’ as it's known in the assembly world) our program. We'll be going
+over each one of these commands and explaining what they are and how to use
+them.</p>
 <h2>Rust</h2>
 <p>We will augment our assembly with code written in
 <a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to
@@ -681,18 +721,22 @@ first line:</p>
 </code></pre>
 <p>Ugh! Gibberish! Let’s start with the semicolon (<code>;</code>). It’s a comment, that
 lasts until the end of the line. This particular comment says ‘magic number’.
-You’ll be seeing a lot of magic numbers in your operating system work. The idea
-of a magic number is that it’s completely and utterly arbitrary. It doesn’t mean
-anything. It’s just magic. The very first thing that the multiboot specification
-requires is that we have the magic number <code>0xe85250d6</code> right at the start.</p>
+As we said, you’ll be seeing a lot of magic numbers in your operating system work.
+The idea of a magic number is that it’s completely and utterly arbitrary. It
+doesn’t mean anything. It’s just magic. The very first thing that the multiboot
+specification requires is that we have the magic number <code>0xe85250d6</code> right
+at the start.</p>
 <p>What’s the value in having an arbitrary number there? Well, it’s a kind of safeguard
 against bad things happening. This is one of the ways in which we can check that
 we actually have a real multiboot header. If it doesn’t have the magic number,
 something has gone wrong, and we can throw an error.</p>
 <p>I have no idea why it’s <code>0xe85250d6</code>, and I don’t need to care. It just is.</p>
-<p>Finally, the <code>dd</code>. It’s short for ‘define double word’. It
-declares that we’re going to stick some 32-bit data at this location. Very
-straightforward.</p>
+<p>Finally, the <code>dd</code>. It’s short for ‘define double word’. It declares that we’re
+going to stick some 32-bit data at this location. Remember, when x86 first started,
+it was a 16-bit architecture set. That meant that the amount of data that could be
+held in a CPU register (or one ‘word’ as it's commonly known) was 16 bits.
+To transition to a 32-bit architecture without losing backwards compatibility,
+x86 got the concept of a ‘double word’ or double 16 bits.</p>
 <h3>The mode code</h3>
 <p>Okay, time to add a second line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
@@ -721,9 +765,14 @@ header_end:
 it looks nice and after we’re done with this file, we’re not going to mess with
 it again, so we won’t be constantly re-aligning them in the future.</p>
 <p>The <code>header_start:</code> and <code>header_end:</code> things are called ‘labels’. Labels let
-us use a name to refer to particular part of our code. Our third <code>dd</code> line
-uses those two labels to do some math: the header length is the value of
-<code>header_end</code> minus the value of <code>header_start</code>. When we compile this assembly
+us use a name to refer to a particular part of our code. Labels also refer to the
+memory occupied by the data and code which directly follows it. So in our code above
+the label <code>header_start</code> points directly to the memory at the very beginning of our
+magic number and thus to the very beginning of our header.</p>
+<p>Our third <code>dd</code> line uses those two labels to do some math: the header length is
+the value of <code>header_end</code> minus the value of <code>header_start</code>. Because <code>header_start</code>
+and <code>header_end</code> are just the addresses of places in memory, we can simply subtract
+to get the distance between those two addresses. When we compile this assembly
 code, the assembler will do this calculation for us. No need to figure out
 how many bytes there are by hand. Awesome.</p>
 <p>You’ll also notice that I indented the <code>dd</code> statements. Usually, labels go in
@@ -768,9 +817,9 @@ like this:</p>
     dd 8    ; size
 header_end:
 </code></pre>
-<p>Here we use <code>dw</code> to define a ‘word’ instead of just data. A word is 2
-bytes on the x86_64 architecture. The multiboot specification demands that this
-be exactly a word. You’ll find that this is super common in operating systems:
+<p>Here we use <code>dw</code> to define a ‘word’ instead of just data. Remember a ‘word’ is 16
+bits or 2 bytes on the x86_64 architecture. The multiboot specification demands
+that this be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.</p>
 <h3>The Section</h3>
@@ -805,11 +854,16 @@ binary. But when it’s assembly, people often use the more specific name.</p>
 </code></pre>
 <p>The <code>-f elf64</code> says that we want to output a <em>f</em>ile with the type <code>elf64</code>.
 ELF is a particular executable format that’s used by various UNIX systems,
-and we’ll be using it too. There are other formats, but ELF is pretty good.</p>
+and we’ll be using it too. The executable format just specifies how exactly the
+bits will be laid out in the file. For example, will there be a magic number
+at the beginning of the file for easier error checking? Or where in the file do
+we specify whether our code and data is in a 32-bit or 64-bit format? There are
+other formats, but ELF is pretty good.</p>
 <p>After you run this command, you should see a <code>multiboot_header.o</code> file in
-the same directory. This is our ‘object file’, hence the <code>.o</code>. This is
-the binary code, in ELF format. Later, we’ll take this file and use it
-to build our OS.</p>
+the same directory. This is our ‘object file’, hence the <code>.o</code>. Don't let the
+word ‘object’ confuse you. It has nothing to do with anything object oriented.
+‘Object files’ are just binary code with some metadata in a particular format -
+in our case ELF. Later, we’ll take this file and use it to build our OS.</p>
 <h2>Summary</h2>
 <p>Congratulations! This is the first step towards building an operating system.
 We learned about the boot process, the GRUB bootloader, and the Multiboot
@@ -831,7 +885,7 @@ GRUB will use this convention to know where to begin.</p>
 <p>The <code>hlt</code> statement is our first bit of ‘real’ assembly. So far, we had just
 been declaring data. This is actual, executable code. It’s short for ‘halt’.
 In other words, it ends the program.</p>
-<p>By giving this line a label, we can call it, like a function. That’s what
+<p>By giving this line a label, we can call it, sort of like a function. That’s what
 GRUB does: “Call the function named <code>start</code>.” This function has just one
 line: stop.</p>
 <p>Unlike many other languages, you’ll notice that there’s no way to say if
@@ -902,7 +956,7 @@ screen.</p>
 <pre><code class="language-text"> __ background color
 /  __foreground color
 | /
-V V  
+V V
 0 2 48 &lt;- letter, in ASCII
 </code></pre>
 <p>We’ll start at the right. First, two numbers are the letter, in ASCII. <code>H</code> is
@@ -966,7 +1020,7 @@ start:
     mov word [0xb8006], 0x026c ; l
     mov word [0xb8008], 0x026f ; o
     mov word [0xb800a], 0x022c ; ,
-    mov word [0xb800c], 0x0220 ; 
+    mov word [0xb800c], 0x0220 ;
     mov word [0xb800e], 0x0277 ; w
     mov word [0xb8010], 0x026f ; o
     mov word [0xb8012], 0x0272 ; r
