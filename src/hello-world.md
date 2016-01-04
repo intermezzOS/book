@@ -262,7 +262,7 @@ ENTRY(start)
 ```
 
 This sets the ‘entry point’ for this executable. In our case, we called our
-entry point by the name people use: `start`. Remember? In `boot.s`? Same
+entry point by the name people use: `start`. Remember? In `boot.asm`? Same
 name here.
 
 ```text
