@@ -67,7 +67,7 @@ its findings.
 
 Assuming no problems are found, the BIOS starts the real booting process.
 
-> **By the way...*
+> **By the way...**
 >
 >For a while now most commercial computer manufacturers have hidden their BIOS
 >booting process behind some sort of splash screen. It's usually possible to see the
