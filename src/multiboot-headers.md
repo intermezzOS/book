@@ -183,10 +183,11 @@ dd 0xe85250d6 ; magic number
 
 Ugh! Gibberish! Let’s start with the semicolon (`;`). It’s a comment, that
 lasts until the end of the line. This particular comment says ‘magic number’.
-You’ll be seeing a lot of magic numbers in your operating system work. The idea
-of a magic number is that it’s completely and utterly arbitrary. It doesn’t mean
-anything. It’s just magic. The very first thing that the multiboot specification
-requires is that we have the magic number `0xe85250d6` right at the start.
+As we said, you’ll be seeing a lot of magic numbers in your operating system work.
+The idea of a magic number is that it’s completely and utterly arbitrary. It
+doesn’t mean anything. It’s just magic. The very first thing that the multiboot
+specification requires is that we have the magic number `0xe85250d6` right
+at the start.
 
 What’s the value in having an arbitrary number there? Well, it’s a kind of safeguard
 against bad things happening. This is one of the ways in which we can check that
@@ -195,9 +196,12 @@ something has gone wrong, and we can throw an error.
 
 I have no idea why it’s `0xe85250d6`, and I don’t need to care. It just is.
 
-Finally, the `dd`. It’s short for ‘define double word’. It
-declares that we’re going to stick some 32-bit data at this location. Very
-straightforward.
+Finally, the `dd`. It’s short for ‘define double word’. It declares that we’re
+going to stick some 32-bit data at this location. Remember, when x86 first started,
+it was a 16-bit architecture set. That meant that the amount of data that could be
+held in a CPU register (or one ‘word’ as it's commonly known) was 16 bits.
+To transition to a 32-bit architecture without losing backwards compatibility,
+x86 got the concept of a ‘double word’ or double 16 bits.
 
 ### The mode code
 
@@ -237,9 +241,15 @@ it looks nice and after we’re done with this file, we’re not going to mess w
 it again, so we won’t be constantly re-aligning them in the future.
 
 The `header_start:` and `header_end:` things are called ‘labels’. Labels let
-us use a name to refer to particular part of our code. Our third `dd` line
-uses those two labels to do some math: the header length is the value of
-`header_end` minus the value of `header_start`. When we compile this assembly
+us use a name to refer to a particular part of our code. Labels also refer to the
+memory occupied by the data and code which directly follows it. So in our code above
+the label `header_start` points directly to the memory at the very beginning of our
+magic number and thus to the very beginning of our header.
+
+Our third `dd` line uses those two labels to do some math: the header length is
+the value of `header_end` minus the value of `header_start`. Because `header_start`
+and `header_end` are just the addresses of places in memory, we can simply subtract
+to get the distance between those two addresses. When we compile this assembly
 code, the assembler will do this calculation for us. No need to figure out
 how many bytes there are by hand. Awesome.
 
@@ -297,9 +307,9 @@ header_start:
 header_end:
 ```
 
-Here we use `dw` to define a ‘word’ instead of just data. A word is 2
-bytes on the x86\_64 architecture. The multiboot specification demands that this
-be exactly a word. You’ll find that this is super common in operating systems:
+Here we use `dw` to define a ‘word’ instead of just data. Remember a ‘word’ is 16
+bits or 2 bytes on the x86\_64 architecture. The multiboot specification demands
+that this be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.
 
@@ -346,12 +356,17 @@ $ nasm -f elf64 multiboot_header.asm
 
 The `-f elf64` says that we want to output a *f*ile with the type `elf64`.
 ELF is a particular executable format that’s used by various UNIX systems,
-and we’ll be using it too. There are other formats, but ELF is pretty good.
+and we’ll be using it too. The executable format just specifies how exactly the
+bits will be laid out in the file. For example, will there be a magic number
+at the beginning of the file for easier error checking? Or where in the file do
+we specify whether our code and data is in a 32-bit or 64-bit format? There are
+other formats, but ELF is pretty good.
 
 After you run this command, you should see a `multiboot_header.o` file in
-the same directory. This is our ‘object file’, hence the `.o`. This is
-the binary code, in ELF format. Later, we’ll take this file and use it
-to build our OS.
+the same directory. This is our ‘object file’, hence the `.o`. Don't let the
+word ‘object’ confuse you. It has nothing to do with anything object oriented.
+‘Object files’ are just binary code with some metadata in a particular format -
+in our case ELF. Later, we’ll take this file and use it to build our OS.
 
 ## Summary
 
