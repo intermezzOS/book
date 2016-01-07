@@ -22,3 +22,5 @@
 - [A Rust kmain()](a-rust-kmain.md)
 - [A simple VGA driver](simple-vga.md)
 - [Keyboard input](keyboard-input.md)
+-----------
+[Appendix A: Numeral Systems](appendix/numeral-systems.md)
