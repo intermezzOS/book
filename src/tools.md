@@ -15,7 +15,7 @@ is assembly. Below it lies only hardware and physics.
 There are many kinds of assembly languages each targeted at different
 ‘instruction set’ architectures (also known as ISA or simply as instruction sets).
 These instruction sets are the list of commands that a given CPU can understand. For
-example, if your computer has an Intel Pentium processor of some kind than it
+example, if your computer has an Intel Pentium processor of some kind then it
 understands the x86 instruction set. So if you were to write assembly for another
 instruction set (say MIPS or ARM), you would not be able to run it on your computer.
 
