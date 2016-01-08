@@ -86,11 +86,11 @@ with a base of sixteen.
 ## Binary system
 
 Unlike decimal's base of ten, binary has a base of two. Meaning we only have two
-symbols to work with to represent all the numbers: \\( \\{0, 1\\} \\). Say
+symbols to work with to represent all the numbers: `0`, `1`. Say
 goodbye to `3`, `4`, `5`, `6`, `7`, `8`, and `9`. We can't use them.
 
 So when we have the binary number `10` we don't have the number ten. What we've really
-done is counted *once trough all the digits of the system* \\( \\{0, 1\\} \\) and
+done is counted *once trough all the digits of the system* `0`, `1` and
 started again. So we have the number two.
 
 ### Let's Count
