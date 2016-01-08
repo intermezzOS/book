@@ -1348,26 +1348,54 @@ build tool, Cargo, that we’ll integrate with Make. It’s a lot easier to use.
 <h1>Keyboard input</h1>
 <p>COMING SOON</p>
 <h1>Numeral Systems</h1>
-<p>In mathematics there exists different <strong>numeral systems</strong> with different bases, we commonly use the numeral system with base 10, also known as the <strong>decimal system</strong>. It uses the digits \( \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\} \). Other common numeral systems include <strong>binary</strong> \( \{0, 1\} \), <strong>octal</strong> \( \{0, 1, 2, 3, 4, 5, 6, 7\} \) and <strong>hexadecimal</strong> \( \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f\} \).</p>
-<p>As you can see, the base indicates how many digits the system contains.</p>
-<h2>Decimal system</h2>
-<p>Before we explain the binary and hexadecimal system, let's start with a numeral system we are more familiar with, the decimal system.</p>
-<p>To express values between <code>0</code> and <code>9</code> in the decimal system, it's very easy, we can just use the corresponding digits.
-But when we want to express values higher than <code>9</code> we have to use a combination of the base digits.</p>
-<p>The value <code>10</code>, for example is represented by a combination of the digits &quot;1&quot; and &quot;0&quot;. In this case the &quot;1&quot; indicates you have already counted one time through all the digits of the numeral system, which is equal to the base.</p>
-<p>\[ 1 \cdot 10^1 + 0 \cdot 10^0 = 10 \]</p>
-<p>If we count once again trough all the digits of the system we would have counted a number of elements equal to <em>two times the base</em>
-(\( 2 \cdot 10^1 = 20\))</p>
-<h3>Example with value <code>120</code></h3>
+<p>In math we use a particular <strong>numeral system</strong> to denote a particular number. A
+numeral system is defined by the particular symbols it uses to convey numbers.</p>
+<p>Below we'll examine three numeral systems: decimal, binary and hexadecimal.</p>
+<h2>Decimal System</h2>
+<p>The numeral system you're probably most familiar with is the <strong>decimal system</strong>.
+The symbols (or &quot;digits&quot;) used in decimal are: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>,
+<code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>.</p>
+<p>Decimal gets its name from the amount of unique symbols it uses to convey
+numbers: ten. It makes sense that we would gravitate to a system with ten
+unique symbols. After all, we typically have ten fingers (and ten toes).</p>
+<p>The amount of unique symbols a numeral system uses is known as the &quot;base&quot; of that system
+(and is less often called a &quot;radix&quot;).</p>
+<p>Decimal is also a &quot;positional&quot; numeral system. Once we run out of symbols, we
+begin a new &quot;order of magnitude&quot; over with the same symbols. For example, after
+<code>9</code> comes <code>10</code>. We recycle the <code>1</code> and <code>0</code> symbols to express that we've cycled
+through the number <code>1</code> times. When we reach <code>20</code>, we want to say we've cycled
+though <code>2</code> times. We start new cycles at a regular interval - every time we've
+cycled through all the symbols of the digit furthest to the left.</p>
+<p>If you're familiar with Roman numerals, you know that that system did not work
+that way. &quot;Orders of magnitude&quot; don't start and stop at regular intervals.</p>
+<h3>Let's Count</h3>
+<p>At the risk of taking things too slow, let's count in decimal the number of <code>|</code>s here:</p>
+<p><code>||||||||||||</code></p>
+<p>Let's begin with zero and go higher:</p>
+<p><code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, <code>9</code> ...</p>
+<p>Ok we're at nine, and we've run out of symbols. No worries. We add a <code>1</code> to the
+beginning to say we've already gone through one cycle of numbers, and we start
+over.</p>
+<p>... <code>10</code>, <code>11</code>, <code>12</code></p>
+<p>Sorry if that was a bit too easy. You're probably pretty good with the decimal
+system already so this wasn't too big of a challenge. But we'll do the same
+exercise with other numeral systems to get a better feel for them.</p>
+<h3>Let's Use Math</h3>
+<p>We can sumarize what we just said with a math formula:</p>
+<p>\[ 1 \cdot 10^1 + 2 \cdot 10^0 = 12 \]</p>
+<p>Here we've written out that we've cycled completely through the numbers once
+and then gotten through two symbols of the next cycle.</p>
 <p>The value <code>120</code> has a <code>0</code> at position zero, a <code>2</code> at position one and a <code>1</code> at position two.</p>
 <ul>
 <li>
-<p>The <code>1</code> at position two means you have counted <em>one time ten (base) times all the digits (base)</em> or
+<p>The <code>1</code> at position two means you have counted &quot;one&quot; times &quot;ten&quot; (a.k.a the base)
+times all the digits (a.k.a the base) or
 \[ 1\cdot base \cdot base = 1 \cdot base^2 = 1 \cdot 10^2 = 100 \]
-When writing it as a power of the base, we can see the relation between the position of the digit and the power of the base.</p>
+When writing it as a power of the base, we can see the relation between the
+position of the digit and the power of the base.</p>
 </li>
 <li>
-<p>The <code>2</code> at position one means you have counted <em>two times all the digits (base)</em> or
+<p>The <code>2</code> at position one means you have counted <em>two times all the digits (a.k.a the base)</em> or
 \[ 2 \cdot base = 2 \cdot base^1 =  2 * 10^1 = 20 \]</p>
 </li>
 <li>
@@ -1377,25 +1405,73 @@ When writing it as a power of the base, we can see the relation between the posi
 </ul>
 <p>When we add all that up we obtain</p>
 <p>\[ 1 \cdot base^2 + 2 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 10^2 +  2 \cdot 10^1 + 0 \cdot 10^0 = 100 + 20 + 0 = 120 \]</p>
-<p>As you can see, it does not make a lot of sense to do this calculation for the decimal system as a decimal value converted to a decimal value will remain the same obviously. It will however make more sense for other numeral systems.</p>
+<p>Congrats! You've successfully converted a decimal value back into decimal - a
+feat that probably seems utterly useless but will come in very handy when we
+want to convert from some other numeral system to decimal.</p>
+<p>Now we'll examine two new numeral systems. The are positional just like decimal, but
+have different bases. We'll examine <strong>binary</strong> with a base of two, and <strong>hexadecimal</strong>
+with a base of sixteen.</p>
 <h2>Binary system</h2>
-<p>Binary has a base of two and works exactly the same.
-When we have the binary number <code>10</code> we have counted <em>once trough all the digits of the system</em> \( \{0, 1\} \) so we have a value equivalent to <code>2</code> in the decimal system:</p>
-<p>\[ 1 \cdot base^1 + 0 \cdot base^0 = 1 * 2^1 + 0 * 2^0 = 2 \]</p>
-<p>The binary value <code>100</code> means we have counted <em>one time two (base) times through all the digits (base)</em>, which would equal to <code>4</code> in decimal.</p>
+<p>Unlike decimal's base of ten, binary has a base of two. Meaning we only have two
+symbols to work with to represent all the numbers: <code>0</code>, <code>1</code>. Say
+goodbye to <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>. We can't use them.</p>
+<p>So when we have the binary number <code>10</code> we don't have the number ten. What we've really
+done is counted <em>once trough all the digits of the system</em> <code>0</code>, <code>1</code> and
+started again. So we have the number two.</p>
+<h3>Let's Count</h3>
+<p>Let's count <code>|</code> again, but this time in binary:</p>
+<p><code>|||||||</code></p>
+<p>If we were counting in decimal we would use the symbol <code>7</code> to refer to this
+number. Let's start at zero:</p>
+<p><code>0</code>, <code>1</code> ...</p>
+<p>Hopefully you weren't tempted to go to <code>2</code> next! That's right, we've already
+made a full round trip, so let's start over.</p>
+<p>... <code>10</code>, <code>11</code>, <code>100</code>, <code>101</code>, <code>110</code>, <code>111</code></p>
+<p>We've successfully counted to the number seven using binary!</p>
+<h3>Let's Use Math</h3>
+<p>The binary value <code>100</code> means we have counted <em>one times two (a.k.a the base) times
+through all the digits (a.k.a. the base)</em>, which would equal to <code>4</code> in decimal.</p>
 <p>\[1 \cdot base^2 + 0 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^2 + 0 \cdot 2^1 + 0 \cdot 2^0 = 4 \]</p>
-<p>Let's do one more, the binary value <code>1010</code> means we have counted <em>one time two (base) times two (base) times two (base) digits</em> and <em>one time two (base) times two (base) digits</em>.</p>
+<p>Let's do one more, the binary value <code>1010</code> means we have counted <em>one times two
+(a.k.a the base) times two (a.k.a the base) times two (a.k.a the base) digits</em>
+and <em>one times two (a.k.a the base) times two (a.k.a the base) digits</em>.</p>
 <p>\[ 1 \cdot base^3 + 0 \cdot base ^2 + 1 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 = 8 + 2 = 10\]</p>
+<p>Hurray! We've successfully converted binary to decimal!</p>
 <h2>Hexadecimal System</h2>
-<p>Hexadecimal is the same thing again with base sixteen with the exception that our language only has 10 symbols to represent digits, therefore we use the letters <code>a</code> through <code>f</code> to represent the missing digits. We could have chosen any other symbol really.</p>
+<p>And now we meet hexadecimal with a base of sixteen. Before we begin we have to answer the
+question of how we represent sixteen unique digits when we're used to representing only ten.</p>
+<p>To represent the digits after <code>9</code> until a new cycle begins we'll use the letters
+<code>a</code> through <code>f</code>. This is arbitrary and we could have chosen any other symbol really.
+But then again it's all arbitrary. We could, for example, use the symbol <code>}</code> to represent
+one, but we chose <code>1</code> instead.</p>
 <p>So <code>a</code> in hexadecimal is equivalent to <code>10</code> in decimal, <code>b</code> equal to <code>11</code>, etc.</p>
-<p>The hexadecimal value <code>10</code> does again mean we have counted <em>through all the digits of the system once</em>, this would be equivalent to <code>16</code> in decimal.</p>
-<p>Let's do this one more time with a more exotic hexadecimal value: <code>3e8</code>. This value means we have counted <em>three times sixteen (base) times  all the digits of the system (base)</em> and <em><code>e</code> times, which is equal to decimal 14, all digits (base)</em> and <em>8 remaining elements</em>.</p>
+<p>The value <code>10</code> does exist in hexadecimal. It means, once again, we have counted
+<em>through all the digits of the system once</em> and are starting the cycle again.
+However, instead of it being ten, it's sixteen. Another way of thinking about
+this is <code>10</code> in hexadecimal is equal to <code>16</code> in decimal.</p>
+<h3>Let's Count</h3>
+<p>Once again, let's count <code>|</code>s but this time using hexadecimal notation:</p>
+<p><code>||||||||||||||||||||</code></p>
+<p>If we were using decimal we would use the symbol <code>20</code> to refer to this number.
+Let's start again at zero:</p>
+<p><code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, <code>9</code> ...</p>
+<p>Don't be tempted to do the decimal thing and use <code>10</code>!</p>
+<p>... <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>, <code>10</code>, <code>11</code>, <code>12</code>, <code>13</code>, <code>14</code></p>
+<p>Congrats! You've counted to twenty in hexadecimal!</p>
+<h3>Let's Use Math</h3>
+<p>Let's do the math thing one more time with an exotic hexadecimal value: <code>3e8</code>.
+This value means we have counted <em>three times sixteen (a.k.a the base) times all the
+digits of the system (a.k.a the base)</em> and <em><code>e</code> times, which is equal to 14 in decimal,
+all digits (a.k.a the base)</em> and <em>8 remaining elements</em>.</p>
 <p>\[ 3 \cdot base^2 + e \cdot base^1 + 8 \cdot base^0 = 3 \cdot 16^2 + 14 \cdot 16^1 + 8 \cdot 16^0 = 768 + 224 + 8 = 1000 \]</p>
-<h2>Converting from decimal to another base</h2>
-<p>Until now, we have only converted values from a numeral system with a specific base to the decimal system. But what if we want to do the opposite?</p>
+<h2>Converting From Decimal to Another Base</h2>
+<p>Until now, we have only converted values from a numeral system with a specific base
+to the decimal system. But what if we want to do the opposite?</p>
 <p>For this we are going to use the <strong>divison</strong> and <strong>remainders</strong></p>
-<p>Let's say we have the value <code>2344</code> and want to convert it into hexadecimal. We are going to divide the value by the base we want to convert to. The remainder of this operation will be our first digit (at position zero) and we are going to repeat this operation with the result of the (integer) division.</p>
+<p>Let's say we have the value <code>2344</code> and want to convert it into hexadecimal.
+We are going to divide the value by the base we want to convert to. The remainder
+of this operation will be our first digit (at position zero) and we are going to
+repeat this operation with the result of the (integer) division.</p>
 <p>\[ \begin{array}
 {lcr} 16 &amp; | &amp; 2344
 \\ &amp;&amp; 146 &amp; rem &amp; 8
@@ -1403,9 +1479,12 @@ When we have the binary number <code>10</code> we have counted <em>once trough a
 \\ &amp;&amp; 0 &amp; rem &amp; 9
 \end{array}
 \]</p>
-<p>Remember the first remainder is the digit at the first position, position zero! So the converted number reads from bottom up: <code>928</code>. We can double check that this is correct by converting the hexadecimal result back into decimal using the power rule.</p>
+<p>Remember the first remainder is the digit at the first position, position zero!
+So the converted number reads from bottom up: <code>928</code>. We can double check that this
+is correct by converting the hexadecimal result back into decimal using the power rule.</p>
 <p>\[ 9 \cdot 16^2 + 2 \cdot 16^1 + 8 \cdot 16^0 = 2344 \]</p>
-<p>Let's do one more hexadecimal number before we try some binary numbers. The value we are going to convert from decimal to hexadecimal is <code>43981</code>.</p>
+<p>Let's do one more hexadecimal number before we try some binary numbers.
+The value we are going to convert from decimal to hexadecimal is <code>43981</code>.</p>
 <p>\[ \begin{array}
 {lcr} 16 &amp; | &amp; 43981
 \\ &amp;&amp; 2748 &amp; rem &amp; 13 = d
@@ -1415,7 +1494,8 @@ When we have the binary number <code>10</code> we have counted <em>once trough a
 \end{array}
 \]</p>
 <p>The decimal value <code>43981</code> corresponds thus to the hexadecimal value <code>abcd</code></p>
-<p>Let's try the same for binary numbers now, if we want to convert the decimal value <code>41</code> to binary:</p>
+<p>Let's try the same for binary numbers now, if we want to convert the decimal value
+<code>41</code> to binary:</p>
 <p>\[ \begin{array}
 {lcr} 2 &amp; | &amp; 41
 \\ &amp;&amp; 20 &amp; rem &amp; 1
@@ -1430,8 +1510,10 @@ When we have the binary number <code>10</code> we have counted <em>once trough a
 <p>\[ 1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 41 \]</p>
 <p>Fantastic, it worked once again!</p>
 <h2>Conclusion</h2>
-<p>In this chapter we have learned there were an infinite amount of numeral systems beside the decimal system we use in our every day life.
-We have seen why the hexadecimal system uses the letters <code>a</code> through <code>f</code> and finally we have learned how to convert back and forth between any numeral system and the decimal system.</p>
+<p>In this chapter we have learned there were many numeral systems beside the decimal
+system we use in our every day life. We've seen why the hexadecimal system uses the
+letters <code>a</code> through <code>f</code> and finally we have learned how to convert back and forth
+between any numeral system and the decimal system.</p>
 
                 </div>
 
