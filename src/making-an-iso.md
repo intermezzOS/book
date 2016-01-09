@@ -49,8 +49,8 @@ Let’s copy our `kernel.bin` file there now:
 $ cp kernel.bin isofiles/boot/
 ```
 
-Finally, the `boot` command says "that’s all the configuration we need to do,
-boot it up."
+Finally, the `boot` command says “that’s all the configuration we need to do,
+boot it up.“
 
 But what about those `timeout` and `default` settings? Well, the `default` setting
 controls which `menuentry` we want to be the default. The numbers start at zero,
