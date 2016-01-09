@@ -34,7 +34,8 @@ menuentry "intermezzOS" {
 ```
 
 This file configures GRUB. Let’s talk about the `menuentry` block first.
-GRUB lets us load up multiple different operating systems, if we desire. Each
+GRUB lets us load up multiple different operating systems, and it usually does
+this by displaying a menu of OS choices to the user when the machine boots. Each
 `menuentry` section corresponds to one of these. We give it a name, in this
 case, `intermezzOS`, and then a little script to tell it what to do. First,
 we use the `multiboot2` command to point at our kernel file. In this case,
