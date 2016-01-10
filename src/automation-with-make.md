@@ -47,7 +47,7 @@ our target after that.
 
 After the colon comes the ‘prerequisites’. This is a list of other targets that must
 be built for this target to be built. In this case, building `multiboot_header.o`
-requires that we have a `multiboot_header.s`. Because we have no rule describing how
+requires that we have a `multiboot_header.asm`. Because we have no rule describing how
 to build this file, it existing is enough to satisfy the dependency.
 
 Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
@@ -235,7 +235,7 @@ statements:
 
 ```make
 .PHONY: clean
-clean: 
+clean:
         rm -f multiboot_header.o
         rm -f boot.o
         rm -f kernel.bin
@@ -277,7 +277,7 @@ build: os.iso
 run: os.iso
         qemu-system-x86_64 -cdrom os.iso
 
-clean: 
+clean:
         rm -f multiboot_header.o
         rm -f boot.o
         rm -f kernel.bin
@@ -362,7 +362,7 @@ run: build/os.iso
 ... and here as well.
 
 ```make
-clean: 
+clean:
         rm -rf build
 ```
 
@@ -398,7 +398,7 @@ build/os.iso: build/isofiles
 run: build/os.iso
         qemu-system-x86_64 -cdrom build/os.iso
 
-clean: 
+clean:
         rm -rf build
 ```
 
