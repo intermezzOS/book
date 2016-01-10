@@ -17,7 +17,6 @@
     - [Making an ISO](making-an-iso.md)
     - [Running in QEMU](running-in-qemu.md)
     - [Automation with Make](automation-with-make.md)
-    - [Source Control with Git]()
 - [Transitioning to Long Mode]()
 - [A Rust kmain()]()
 - [A simple VGA driver]()
