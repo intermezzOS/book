@@ -125,7 +125,7 @@ build it, we can pass <code>make</code> the target name:</p>
 nasm -f elf64 boot.asm
 </code></pre>
 <p>Okay, so that worked. But what about this ‘is up to date’ bit?</p>
-<p>By defualt, <code>make</code> will keep track of the last time you built a particular
+<p>By default, <code>make</code> will keep track of the last time you built a particular
 target, and check its last-modified-time against that time. If it hasn’t been
 updated since it was built, then it won’t re-execute the build command. This is
 a really powerful feature, especially as we grow. You don’t want to force the
@@ -168,7 +168,7 @@ the <code>kernel.bin</code> target, which means that we’ll build it, and as we
 discussed, <code>kernel.bin</code> will build our two <code>.o</code>s.</p>
 <p>Let’s try it out:</p>
 <pre><code class="language-bash">$ make
-make: Nothing to be done for ‘defualt’.
+make: Nothing to be done for ‘default’.
 </code></pre>
 <p>We haven’t edited our files, so everything is built. Let’s modify one. Open up
 <code>multiboot_header.asm</code> in your editor, save it, and then run <code>make</code>:</p>
@@ -199,7 +199,7 @@ cp grub.cfg isofiles/boot/grub
 cp kernel.bin isofiles/boot/
 </code></pre>
 <p>We’ve prepared ourselves to create the ISO. Let’s add a new rule to build <code>os.iso</code>:</p>
-<pre><code class="language-make">defualt: os.iso
+<pre><code class="language-make">default: os.iso
 
 os.iso: isofiles
         grub-mkrescue -o os.iso isofiles
@@ -208,13 +208,13 @@ os.iso: isofiles
 up-to-date.</p>
 <p>Sometimes, it’s nice to add targets which describe a semantic. In this case, building
 the <code>os.iso</code> target is the same as building the project. So let’s say so:</p>
-<pre><code class="language-make">defualt: build
+<pre><code class="language-make">default: build
 
 build: os.iso
 </code></pre>
-<p>The defualt action is to build the project, and to build the project, we need to build
+<p>The default action is to build the project, and to build the project, we need to build
 <code>os.iso</code>. But what about running it? Let’s add a rule for that:</p>
-<pre><code class="language-make">defualt: run
+<pre><code class="language-make">default: run
 
 run: os.iso
         qemu-system-x86_64 -cdrom os.iso
