@@ -66,11 +66,185 @@
 
                 <div id="content" class="content">
                     <h1>Automation with Make</h1>
-<p>(Author’s note: I wrote this post sort of backwards-first, but I’m done
-writing for the night, so I’m pushing this up as an extra-rough draft.</p>
-<p>I will explain all of this soon, but until I write it down, you can put
-all of this in a file called <code>Makefile</code>. Be sure your text editor is
-indenting with tabs instead of spaces. <code>make</code> requires tabs.)</p>
+<p>Typing all of these commands out every time we want to build the project is
+tiring and error-prone. It’s nice to be able to have a single command that
+builds our entire project. To do this, we’ll use <code>make</code>. Make is a classic
+bit of software that’s used for this purpose. At its core, <code>make</code> is fairly
+simple:</p>
+<ul>
+<li>You create a file called <code>Makefile</code>.</li>
+<li>In this file, you define <strong>rules</strong>. Rules are composed of three things:
+<strong>targets</strong>, <strong>prerequisites</strong>, and <strong>commands</strong>.</li>
+<li>Targets describe what you are trying to build.</li>
+<li>Targets can depend on other targets being built before they can be built.
+These are called ‘prerequisites’.</li>
+<li>Commands describe what it takes to actually build the target.</li>
+</ul>
+<p>Let’s start off with a very straightforward rule. Specifically, the first step
+that we did was to build the Multiboot header by running <code>nasm</code>. Let’s build a
+<code>Makefile</code> that does this. Open a file called <code>Makefile</code> and put this in it:</p>
+<pre><code class="language-make">multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+</code></pre>
+<p>It’s <em>very</em> important that that <code>nasm</code> line uses a tab to indent. It can’t be
+spaces. It has to be a tab. Yay legacy software!</p>
+<p>Let’s try to run it before we talk about the details:</p>
+<pre><code class="language-bash">$ make
+nasm -f elf64 multiboot_header.asm
+$
+</code></pre>
+<p>If you see this output, success! Let’s talk about this syntax:</p>
+<pre><code class="language-text">target: prerequisites
+        command
+</code></pre>
+<p>The bit before the colon is called a ‘target’. That’s the thing we’re trying to
+build. In this case, we want to create the <code>multiboot_header.o</code> file, so we name
+our target after that.</p>
+<p>After the colon comes the ‘prerequisites’. This is a list of other targets that must
+be built for this target to be built. In this case, building <code>multiboot_header.o</code>
+requires that we have a <code>multiboot_header.s</code>. Because we have no rule describing how
+to build this file, it existing is enough to satisfy the dependency.</p>
+<p>Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
+shell command that you need to build the target.</p>
+<p>Building <code>boot.o</code> is similar:</p>
+<pre><code class="language-make">multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+
+boot.o: boot.asm
+        nasm -f elf64 boot.asm
+</code></pre>
+<p>Let’s try to build it:</p>
+<pre><code class="language-bash">$ make
+make: ‘multiboot_header.o’ is up to date.
+$
+</code></pre>
+<p>Wait a minute, what? There’s two things going on here. The first is that <code>make</code> will build
+the first target that you list by default. So a simple <code>make</code> will not build <code>boot.o</code>. To
+build it, we can pass <code>make</code> the target name:</p>
+<pre><code class="language-bash">$ make boot.o
+nasm -f elf64 boot.asm
+</code></pre>
+<p>Okay, so that worked. But what about this ‘is up to date’ bit?</p>
+<p>By defualt, <code>make</code> will keep track of the last time you built a particular
+target, and check its last-modified-time against that time. If it hasn’t been
+updated since it was built, then it won’t re-execute the build command. This is
+a really powerful feature, especially as we grow. You don’t want to force the
+entire project to re-build just because you edited one file; it’s nicer to only
+re-build the bits that interact with it directly. A lot of the skill of <code>make</code>
+is defining the right targets to make this work out nicely.</p>
+<p>It would be nice if we could build both things with one command, but as it
+turns out, our next target, <code>kernel.bin</code>, relies on both of these <code>.o</code> files,
+so let’s write it first:</p>
+<pre><code class="language-make">multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+
+boot.o: boot.asm
+        nasm -f elf64 boot.asm
+
+kernel.bin: multiboot_header.o boot.o linker.ld
+        ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+</code></pre>
+<p>Let’s try building it:</p>
+<pre><code class="language-bash">$ $ make kernel.bin
+ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+</code></pre>
+<p>Great! The <code>kernel.bin</code> target depends on <code>multiboot_header.o</code>, <code>boot.o</code>, and <code>linker.ld</code>. The
+first two are the previous targets we defined, and <code>linker.ld</code> is a file on its own.</p>
+<p>Let’s make <code>make</code> build the whole thing by default:</p>
+<pre><code class="language-make">default: kernel.bin
+
+multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+
+boot.o: boot.asm
+        nasm -f elf64 boot.asm
+
+kernel.bin: multiboot_header.o boot.o linker.ld
+        ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+</code></pre>
+<p>We can name targets whatever we want. In this case, <code>default</code> is a good
+convention for the first rule, as it’s the default target. It relies on
+the <code>kernel.bin</code> target, which means that we’ll build it, and as we previously
+discussed, <code>kernel.bin</code> will build our two <code>.o</code>s.</p>
+<p>Let’s try it out:</p>
+<pre><code class="language-bash">$ make
+make: Nothing to be done for ‘defualt’.
+</code></pre>
+<p>We haven’t edited our files, so everything is built. Let’s modify one. Open up
+<code>multiboot_header.asm</code> in your editor, save it, and then run <code>make</code>:</p>
+<pre><code class="language-bash">$ make
+nasm -f elf64 multiboot_header.asm
+ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+</code></pre>
+<p>It re-built <code>multiboot_header.o</code>, and then <code>kernel.bin</code>. But it didn’t rebuild
+<code>boot.o</code>, as we didn’t modify it at all.</p>
+<p>Let’s add a new rule to build our iso. Rather than show the entire <code>Makefile</code>, I’m
+going to start showing you what’s changed. First, we have to update our <code>default</code>
+target, and then we have to write the new one:</p>
+<pre><code class="language-make">default: isofiles
+
+isofiles: kernel.bin grub.cfg
+        mkdir -p isofiles/boot/grub
+        cp grub.cfg isofiles/boot/grub
+        cp kernel.bin isofiles/boot/
+</code></pre>
+<p>This is our first multi-command rule. <code>make</code> will execute all of the commands
+that you list. In this case, to build the ISO, we need to create our <code>isofiles</code>
+directory, and then copy <code>grub.cfg</code> and <code>kernel.bin</code> into the right place
+inside of it.</p>
+<p>Let’s try:</p>
+<pre><code class="language-bash">$ make
+mkdir -p isofiles/boot/grub
+cp grub.cfg isofiles/boot/grub
+cp kernel.bin isofiles/boot/
+</code></pre>
+<p>We’ve prepared ourselves to create the ISO. Let’s add a new rule to build <code>os.iso</code>:</p>
+<pre><code class="language-make">defualt: os.iso
+
+os.iso: isofiles
+        grub-mkrescue -o os.iso isofiles
+</code></pre>
+<p>Building the ISO requires that the <code>isofiles</code> directory is created and
+up-to-date.</p>
+<p>Sometimes, it’s nice to add targets which describe a semantic. In this case, building
+the <code>os.iso</code> target is the same as building the project. So let’s say so:</p>
+<pre><code class="language-make">defualt: build
+
+build: os.iso
+</code></pre>
+<p>The defualt action is to build the project, and to build the project, we need to build
+<code>os.iso</code>. But what about running it? Let’s add a rule for that:</p>
+<pre><code class="language-make">defualt: run
+
+run: os.iso
+        qemu-system-x86_64 -cdrom os.iso
+</code></pre>
+<p>You can choose the default here: do you want the defualt to be build, or run? Here’s what
+each looks like:</p>
+<pre><code class="language-bash">$ make     # build is the default
+$ make run
+</code></pre>
+<p>or</p>
+<pre><code class="language-bash">$ make       # run is the default
+$ make build
+</code></pre>
+<p>I prefer to make <code>run</code> the default.</p>
+<p>Finally, there’s another useful common rule: <code>clean</code>. The <code>clean</code> rule should remove all
+of the generated files, and allow us to do a full re-build. As such it’s a bunch of <code>rm</code>
+statements:</p>
+<pre><code class="language-make">.PHONY: clean
+clean: 
+        rm -f multiboot_header.o
+        rm -f boot.o
+        rm -f kernel.bin
+        rm -rf isofiles
+        rm -f os.iso
+</code></pre>
+<p>What about that <code>.PHONY</code>? It’s a special, built-in target. Any dependencies of a <code>.PHONY</code>
+target will always be considered fresh; in other words, running <code>make clean</code> will skip
+checking if it’s been done already and just execute. In this case, this is what we want;
+we want to nuke all the files, we don’t care when they were modified.</p>
+<p>Here’s our final <code>Makefile</code>:</p>
 <pre><code class="language-make">default: run
 
 .PHONY: clean
