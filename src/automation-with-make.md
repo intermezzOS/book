@@ -1,11 +1,254 @@
 # Automation with Make
 
-(Author’s note: I wrote this post sort of backwards-first, but I’m done
-writing for the night, so I’m pushing this up as an extra-rough draft.
+Typing all of these commands out every time we want to build the project is
+tiring and error-prone. It’s nice to be able to have a single command that
+builds our entire project. To do this, we’ll use `make`. Make is a classic
+bit of software that’s used for this purpose. At its core, `make` is fairly
+simple:
 
-I will explain all of this soon, but until I write it down, you can put
-all of this in a file called `Makefile`. Be sure your text editor is
-indenting with tabs instead of spaces. `make` requires tabs.)
+* You create a file called `Makefile`.
+* In this file, you define **rules**. Rules are composed of three things:
+  **targets**, **prerequisites**, and **commands**.
+* Targets describe what you are trying to build.
+* Targets can depend on other targets being built before they can be built.
+  These are called ‘prerequisites’.
+* Commands describe what it takes to actually build the target.
+
+Let’s start off with a very straightforward rule. Specifically, the first step
+that we did was to build the Multiboot header by running `nasm`. Let’s build a
+`Makefile` that does this. Open a file called `Makefile` and put this in it:
+
+```make
+multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+```
+
+It’s _very_ important that that `nasm` line uses a tab to indent. It can’t be
+spaces. It has to be a tab. Yay legacy software!
+
+Let’s try to run it before we talk about the details:
+
+```bash
+$ make
+nasm -f elf64 multiboot_header.asm
+$
+```
+
+If you see this output, success! Let’s talk about this syntax:
+
+```text
+target: prerequisites
+        command
+```
+
+The bit before the colon is called a ‘target’. That’s the thing we’re trying to
+build. In this case, we want to create the `multiboot_header.o` file, so we name
+our target after that.
+
+After the colon comes the ‘prerequisites’. This is a list of other targets that must
+be built for this target to be built. In this case, building `multiboot_header.o`
+requires that we have a `multiboot_header.s`. Because we have no rule describing how
+to build this file, it existing is enough to satisfy the dependency.
+
+Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
+shell command that you need to build the target.
+
+Building `boot.o` is similar:
+
+```make
+multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+
+boot.o: boot.asm
+        nasm -f elf64 boot.asm
+```
+
+Let’s try to build it:
+
+```bash
+$ make
+make: ‘multiboot_header.o’ is up to date.
+$
+```
+
+Wait a minute, what? There’s two things going on here. The first is that `make` will build
+the first target that you list by default. So a simple `make` will not build `boot.o`. To
+build it, we can pass `make` the target name:
+
+```bash
+$ make boot.o
+nasm -f elf64 boot.asm
+```
+
+Okay, so that worked. But what about this ‘is up to date’ bit?
+
+By defualt, `make` will keep track of the last time you built a particular
+target, and check its last-modified-time against that time. If it hasn’t been
+updated since it was built, then it won’t re-execute the build command. This is
+a really powerful feature, especially as we grow. You don’t want to force the
+entire project to re-build just because you edited one file; it’s nicer to only
+re-build the bits that interact with it directly. A lot of the skill of `make`
+is defining the right targets to make this work out nicely.
+
+It would be nice if we could build both things with one command, but as it
+turns out, our next target, `kernel.bin`, relies on both of these `.o` files,
+so let’s write it first:
+
+```make
+multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+
+boot.o: boot.asm
+        nasm -f elf64 boot.asm
+
+kernel.bin: multiboot_header.o boot.o linker.ld
+        ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+```
+
+Let’s try building it:
+
+```bash
+$ $ make kernel.bin
+ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+```
+
+Great! The `kernel.bin` target depends on `multiboot_header.o`, `boot.o`, and `linker.ld`. The
+first two are the previous targets we defined, and `linker.ld` is a file on its own.
+
+Let’s make `make` build the whole thing by default:
+
+```make
+default: kernel.bin
+
+multiboot_header.o: multiboot_header.asm
+        nasm -f elf64 multiboot_header.asm
+
+boot.o: boot.asm
+        nasm -f elf64 boot.asm
+
+kernel.bin: multiboot_header.o boot.o linker.ld
+        ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+```
+
+We can name targets whatever we want. In this case, `default` is a good
+convention for the first rule, as it’s the default target. It relies on
+the `kernel.bin` target, which means that we’ll build it, and as we previously
+discussed, `kernel.bin` will build our two `.o`s.
+
+Let’s try it out:
+
+```bash
+$ make
+make: Nothing to be done for ‘defualt’.
+```
+
+We haven’t edited our files, so everything is built. Let’s modify one. Open up
+`multiboot_header.asm` in your editor, save it, and then run `make`:
+
+```bash
+$ make
+nasm -f elf64 multiboot_header.asm
+ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
+```
+
+It re-built `multiboot_header.o`, and then `kernel.bin`. But it didn’t rebuild
+`boot.o`, as we didn’t modify it at all.
+
+Let’s add a new rule to build our iso. Rather than show the entire `Makefile`, I’m
+going to start showing you what’s changed. First, we have to update our `default`
+target, and then we have to write the new one:
+
+```make
+default: isofiles
+
+isofiles: kernel.bin grub.cfg
+        mkdir -p isofiles/boot/grub
+        cp grub.cfg isofiles/boot/grub
+        cp kernel.bin isofiles/boot/
+```
+
+This is our first multi-command rule. `make` will execute all of the commands
+that you list. In this case, to build the ISO, we need to create our `isofiles`
+directory, and then copy `grub.cfg` and `kernel.bin` into the right place
+inside of it.
+
+Let’s try:
+
+```bash
+$ make
+mkdir -p isofiles/boot/grub
+cp grub.cfg isofiles/boot/grub
+cp kernel.bin isofiles/boot/
+```
+
+We’ve prepared ourselves to create the ISO. Let’s add a new rule to build `os.iso`:
+
+```make
+defualt: os.iso
+
+os.iso: isofiles
+        grub-mkrescue -o os.iso isofiles
+```
+
+Building the ISO requires that the `isofiles` directory is created and
+up-to-date.
+
+Sometimes, it’s nice to add targets which describe a semantic. In this case, building
+the `os.iso` target is the same as building the project. So let’s say so:
+
+```make
+defualt: build
+
+build: os.iso
+```
+
+The defualt action is to build the project, and to build the project, we need to build
+`os.iso`. But what about running it? Let’s add a rule for that:
+
+```make
+defualt: run
+
+run: os.iso
+        qemu-system-x86_64 -cdrom os.iso
+```
+
+You can choose the default here: do you want the defualt to be build, or run? Here’s what
+each looks like:
+
+```bash
+$ make     # build is the default
+$ make run
+```
+
+or
+
+```bash
+$ make       # run is the default
+$ make build
+```
+
+I prefer to make `run` the default.
+
+Finally, there’s another useful common rule: `clean`. The `clean` rule should remove all
+of the generated files, and allow us to do a full re-build. As such it’s a bunch of `rm`
+statements:
+
+```make
+.PHONY: clean
+clean: 
+        rm -f multiboot_header.o
+        rm -f boot.o
+        rm -f kernel.bin
+        rm -rf isofiles
+        rm -f os.iso
+```
+
+What about that `.PHONY`? It’s a special, built-in target. Any dependencies of a `.PHONY`
+target will always be considered fresh; in other words, running `make clean` will skip
+checking if it’s been done already and just execute. In this case, this is what we want;
+we want to nuke all the files, we don’t care when they were modified.
+
+Here’s our final `Makefile`:
 
 ```make
 default: run
