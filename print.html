@@ -1251,7 +1251,7 @@ build. In this case, we want to create the <code>multiboot_header.o</code> file,
 our target after that.</p>
 <p>After the colon comes the ‘prerequisites’. This is a list of other targets that must
 be built for this target to be built. In this case, building <code>multiboot_header.o</code>
-requires that we have a <code>multiboot_header.s</code>. Because we have no rule describing how
+requires that we have a <code>multiboot_header.asm</code>. Because we have no rule describing how
 to build this file, it existing is enough to satisfy the dependency.</p>
 <p>Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
 shell command that you need to build the target.</p>
@@ -1382,7 +1382,7 @@ $ make build
 of the generated files, and allow us to do a full re-build. As such it’s a bunch of <code>rm</code>
 statements:</p>
 <pre><code class="language-make">.PHONY: clean
-clean: 
+clean:
         rm -f multiboot_header.o
         rm -f boot.o
         rm -f kernel.bin
@@ -1420,7 +1420,7 @@ build: os.iso
 run: os.iso
         qemu-system-x86_64 -cdrom os.iso
 
-clean: 
+clean:
         rm -f multiboot_header.o
         rm -f boot.o
         rm -f kernel.bin
@@ -1477,7 +1477,7 @@ straightforward.</p>
         qemu-system-x86_64 -cdrom build/os.iso
 </code></pre>
 <p>... and here as well.</p>
-<pre><code class="language-make">clean: 
+<pre><code class="language-make">clean:
         rm -rf build
 </code></pre>
 <p>Now some payoff! To get rid of our generated files, all we have to do is <code>rm</code>
@@ -1509,7 +1509,7 @@ build/os.iso: build/isofiles
 run: build/os.iso
         qemu-system-x86_64 -cdrom build/os.iso
 
-clean: 
+clean:
         rm -rf build
 </code></pre>
 <p>We can go farther, and eventually, we will. But this is good enough for now.
