@@ -4,7 +4,8 @@
 writing for the night, so I’m pushing this up as an extra-rough draft.
 
 I will explain all of this soon, but until I write it down, you can put
-all of this in a file called `Makefile`.)
+all of this in a file called `Makefile`. Be sure your text editor is
+indenting with tabs instead of spaces. `make` requires tabs.)
 
 ```make
 default: run
