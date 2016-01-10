@@ -192,7 +192,11 @@ isofiles: kernel.bin grub.cfg
 that you list. In this case, to build the ISO, we need to create our <code>isofiles</code>
 directory, and then copy <code>grub.cfg</code> and <code>kernel.bin</code> into the right place
 inside of it.</p>
-<p>Let’s try:</p>
+<p>This rule assumes that <code>grub.cfg</code> is at our top-level directory, but it’s
+currently in <code>isofiles/boot/grub</code> already. So let’s copy it out:</p>
+<pre><code class="language-bash">$ cp isofiles/boot/grub/grub.cfg .
+</code></pre>
+<p>And now we can build:</p>
 <pre><code class="language-bash">$ make
 mkdir -p isofiles/boot/grub
 cp grub.cfg isofiles/boot/grub
