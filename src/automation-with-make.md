@@ -82,7 +82,7 @@ nasm -f elf64 boot.asm
 
 Okay, so that worked. But what about this ‘is up to date’ bit?
 
-By defualt, `make` will keep track of the last time you built a particular
+By default, `make` will keep track of the last time you built a particular
 target, and check its last-modified-time against that time. If it hasn’t been
 updated since it was built, then it won’t re-execute the build command. This is
 a really powerful feature, especially as we grow. You don’t want to force the
@@ -139,7 +139,7 @@ Let’s try it out:
 
 ```bash
 $ make
-make: Nothing to be done for ‘defualt’.
+make: Nothing to be done for ‘default’.
 ```
 
 We haven’t edited our files, so everything is built. Let’s modify one. Open up
@@ -184,7 +184,7 @@ cp kernel.bin isofiles/boot/
 We’ve prepared ourselves to create the ISO. Let’s add a new rule to build `os.iso`:
 
 ```make
-defualt: os.iso
+default: os.iso
 
 os.iso: isofiles
         grub-mkrescue -o os.iso isofiles
@@ -197,16 +197,16 @@ Sometimes, it’s nice to add targets which describe a semantic. In this case, b
 the `os.iso` target is the same as building the project. So let’s say so:
 
 ```make
-defualt: build
+default: build
 
 build: os.iso
 ```
 
-The defualt action is to build the project, and to build the project, we need to build
+The default action is to build the project, and to build the project, we need to build
 `os.iso`. But what about running it? Let’s add a rule for that:
 
 ```make
-defualt: run
+default: run
 
 run: os.iso
         qemu-system-x86_64 -cdrom os.iso
