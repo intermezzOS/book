@@ -91,7 +91,8 @@ menuentry &quot;intermezzOS&quot; {
 }
 </code></pre>
 <p>This file configures GRUB. Let’s talk about the <code>menuentry</code> block first.
-GRUB lets us load up multiple different operating systems, if we desire. Each
+GRUB lets us load up multiple different operating systems, and it usually does
+this by displaying a menu of OS choices to the user when the machine boots. Each
 <code>menuentry</code> section corresponds to one of these. We give it a name, in this
 case, <code>intermezzOS</code>, and then a little script to tell it what to do. First,
 we use the <code>multiboot2</code> command to point at our kernel file. In this case,
@@ -102,7 +103,7 @@ everything inside of it is at the root of our ISO. Hence <code>/boot</code>.</p>
 <pre><code class="language-bash">$ cp kernel.bin isofiles/boot/
 </code></pre>
 <p>Finally, the <code>boot</code> command says “that’s all the configuration we need to do,
-boot it up.</p>
+boot it up.“</p>
 <p>But what about those <code>timeout</code> and <code>default</code> settings? Well, the <code>default</code> setting
 controls which <code>menuentry</code> we want to be the default. The numbers start at zero,
 and since we only have that one, we set it as the default. When GRUB starts, it
