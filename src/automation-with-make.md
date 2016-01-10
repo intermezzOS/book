@@ -172,7 +172,14 @@ that you list. In this case, to build the ISO, we need to create our `isofiles`
 directory, and then copy `grub.cfg` and `kernel.bin` into the right place
 inside of it.
 
-Let’s try:
+This rule assumes that `grub.cfg` is at our top-level directory, but it’s
+currently in `isofiles/boot/grub` already. So let’s copy it out:
+
+```bash
+$ cp isofiles/boot/grub/grub.cfg .
+```
+
+And now we can build:
 
 ```bash
 $ make
