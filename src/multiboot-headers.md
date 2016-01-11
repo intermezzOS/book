@@ -123,7 +123,7 @@ read this information, and follow it to do the right thing.
 One other advantage of using GRUB: it will handle the transition from real mode
 to protected mode for us, skipping the first step. We don’t even need to know
 anything about all of that old stuff. If you’re curious about the kinds of
-things you would have needed to know, put “A20 pin” into your favorite search
+things you would have needed to know, put “A20 line” into your favorite search
 engine, and get ready to cry yourself to sleep.
 
 ## Writing our own Multiboot header
