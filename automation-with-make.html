@@ -364,6 +364,8 @@ build/os.iso: build/isofiles
 run: build/os.iso
         qemu-system-x86_64 -cdrom build/os.iso
 
+build: os.iso
+
 clean:
         rm -rf build
 </code></pre>
