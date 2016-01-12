@@ -284,7 +284,7 @@ from a big number. `dd` then puts that value into this spot in our file.
 
 > **By the way...**
 >
-> You might wonder why we're subtracting these values from a big number. To answer this we can look at what [the multiboot spec](http://nongnu.askapache.com/grub/phcoder/multiboot.pdf) says about the checksum value in the header:
+> You might wonder why we're subtracting these values from 0x100000000. To answer this we can look at what [the multiboot spec](http://nongnu.askapache.com/grub/phcoder/multiboot.pdf) says about the checksum value in the header:
 >
 > > The field `checksum` is a 32-bit [unsigned value](http://intermezzos.github.io/book/appendix/signed-and-unsigned.html) which, when added to the other magic fields (i.e. `magic`, `architecture` and `header_length`), must have a 32-bit unsigned sum of zero.
 >
