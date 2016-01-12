@@ -735,6 +735,20 @@ The idea of a magic number is that it’s completely and utterly arbitrary. It
 doesn’t mean anything. It’s just magic. The very first thing that the multiboot
 specification requires is that we have the magic number <code>0xe85250d6</code> right
 at the start.</p>
+<blockquote>
+<p><strong>By the way...</strong></p>
+<p>Wondering how a number can have letters inside of it? <code>0xe85250d6</code> is written in
+hexadecimal notation. Hexadecimal is an example of a &quot;numeral system&quot; which is a
+fancy term for a system for conveying numbers. The numeral system you're probably most
+familiar with is the decimal system which conveys numbers using a combination of the
+symbols <code>0</code> - <code>9</code>. Hexadecimal on the other hand uses a combination of 16 symbols:
+<code>0</code> - <code>9</code> and <code>a</code> - <code>f</code>. Along with its fellow numeral system, binary, hexadecimal
+is used <em>a lot</em> in low level programming. In order to tell if a number is written
+in hexadecimal, you may be tempted to look for the use of letters in the number,
+but a more surefire way is to look for a leading <code>0x</code>. While <code>100</code> isn't a hexadecimal
+number, <code>0x100</code> is. To learn more about hexadecimal and binary <a href="appendix/numeral-systems.html">check this
+out</a>.</p>
+</blockquote>
 <p>What’s the value in having an arbitrary number there? Well, it’s a kind of safeguard
 against bad things happening. This is one of the ways in which we can check that
 we actually have a real multiboot header. If it doesn’t have the magic number,
