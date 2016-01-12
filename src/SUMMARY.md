@@ -22,5 +22,10 @@
 - [A Rust kmain()]()
 - [A simple VGA driver]()
 - [Keyboard input]()
+- [Serial Ports]()
+- [Paging]()
+- [Running a user-mode program]()
+- [Filesystems]()
+- [Multitasking]()
 -----------
 [Appendix A: Numeral Systems](appendix/numeral-systems.md)
