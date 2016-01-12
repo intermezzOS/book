@@ -190,6 +190,20 @@ doesn’t mean anything. It’s just magic. The very first thing that the multib
 specification requires is that we have the magic number `0xe85250d6` right
 at the start.
 
+> **By the way...**
+>
+> Wondering how a number can have letters inside of it? `0xe85250d6` is written in
+hexadecimal notation. Hexadecimal is an example of a "numeral system" which is a
+fancy term for a system for conveying numbers. The numeral system you're probably most
+familiar with is the decimal system which conveys numbers using a combination of the
+symbols `0` - `9`. Hexadecimal on the other hand uses a combination of 16 symbols:
+`0` - `9` and `a` - `f`. Along with its fellow numeral system, binary, hexadecimal
+is used *a lot* in low level programming. In order to tell if a number is written
+in hexadecimal, you may be tempted to look for the use of letters in the number,
+but a more surefire way is to look for a leading `0x`. While `100` isn't a hexadecimal
+number, `0x100` is. To learn more about hexadecimal and binary [check this
+out](appendix/numeral-systems.html).
+
 What’s the value in having an arbitrary number there? Well, it’s a kind of safeguard
 against bad things happening. This is one of the ways in which we can check that
 we actually have a real multiboot header. If it doesn’t have the magic number,
