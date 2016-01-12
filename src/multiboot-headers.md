@@ -282,21 +282,26 @@ Again, we’ll use math to let the computer calculate the sum for us. We add up
 the magic number, the mode code, and the header length, and then subtract it
 from a big number. `dd` then puts that value into this spot in our file.
 
-> By the way...
+> **By the way...**
 >
-> 0xe85250d6 is 3,897,708,758 in decimal, and the smallest number you can store as a 32-bit signed integer is -2,147,483,648, so we get an integer underflow. This doesn't matter for the checksum, but since underflows are usually a bug the assembler gives us a warning.
+> You might wonder why we're subtracting these values from a big number. To answer this we can look at what [the multiboot spec](http://nongnu.askapache.com/grub/phcoder/multiboot.pdf) says about the checksum value in the header:
 >
-> Remember that the modulo operation finds the remainder after division of one number by another. One consequence of this is that if you have the series `n % k` and you keep increasing n by 1, it'll repeat its values every k steps. For example, if `k` is 3:
-> ```
-3 % 3 = 0
-4 % 3 = 1
-5 % 3 = 2
-6 % 3 = 0
-7 % 3 = 1
-8 % 3 = 2
-etc... 
-```
-> We can generalize this by saying `n % k = (k + n) % k`. In this case, our `k` is 2^32 or 0x10000000, so adding 0x10000000 to our checksum will give us an equivalent modulo test, but with the advantage of reassuring the assembler that it's not an underflow since the number is now in the range of values that a 32-bit signed integer can represent.
+> > The field `checksum` is a 32-bit unsigned value which, when added to the other magic fields (i.e. `magic`, `architecture` and `header_length`), must have a 32-bit unsigned sum of zero.
+>
+> In other words:
+>
+> `checksum` + `magic_number` + `architecture` + `header_length` = 0
+> 
+> We could try and "solve for" `checksum` like so:
+> 
+> `checksum` =  -(`magic_number` + `architecture` + `header_length`)
+> 
+> But here's where it gets weird. Computers don't have an innate concept of negative numbers. Normally we get around this by using "signed integers", which is something we will touch on later. The point is we have an unsigned integer here, which means we're limited to representing only positive numbers. This means we can't literally represent -(`magic_number` + `architecture` + `header_length`) in our field.
+>
+> If you look closely at the spec you'll notice it's strangely worded: it's asking for a value that when added other values has a sum of zero. It's worded this way because integers have a limit to the size of numbers they can represent, and when you go over that size, the values wrap back around to zero. So 0xFFFFFFFF + 1 is.... 0x00000000. This is a hardware limitation: technically it's doing the addition correctly, giving us the 33-bit value 0x100000000, but we only have 32 bits to store things in so it can't actually tell us about that `1` in the most significant digit position! We're left with the rest of the digits, which spell out zero.
+>
+> So what we can do here is "trick" the computer into giving us zero when we do the addition. Imagine for the sake of argument that `magic_number` + `architecture` + `header_length` somehow works out to be 0xFFFFFFFE. The number we'd add to that in order to make 0 would be 0x00000002. This is 0x100000000-0xFFFFFFFE, because 0x100000000 technically maps to 0 when we wrap around. So we replace 0xFFFFFFFE in our contrived example here with `magic_number` + `architecture` + `header_length`. This gives us:
+> `dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))`
 
 ### Ending tag
 
