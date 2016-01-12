@@ -22,4 +22,5 @@
 - [A simple VGA driver]()
 - [Keyboard input]()
 -----------
-[Appendix A: Numeral Systems](appendix/numeral-systems.md)
+[Appendix A: Troubleshooting](appendix/troubleshooting.md)
+[Appendix B: Numeral Systems](appendix/numeral-systems.md)

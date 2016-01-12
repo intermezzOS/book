@@ -31,3 +31,6 @@ $ ruby hello_world.rb
 It’s going to initially take us six commands to build and run our hello world
 kernel. Don’t worry, the next thing we’ll do is write a script to turn it back
 into a single command.
+
+By the way, [Appendix A](appendix/troubleshooting.html) has a list of solution
+to common problems, if you end up getting stuck.
