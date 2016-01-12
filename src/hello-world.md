@@ -152,7 +152,7 @@ and video card have their own memory locations too. But instead of writing a byt
 to a hard drive for storage, the CPU might write a byte representing some color
 and symbol to the monitor for display. There's an industry standard somewhere
 that says video memory must live in the address range beginning `0xb8000`. In
-order for computers to be able to work out of the box, this means that the CPU
+order for computers to be able to work out of the box, this means that the BIOS
 needs to be manufactured to assume video lives at that location, and the
 motherboard (which is where the bus is all wired up) has to be manufactured to
 route `0xb8000` request to video card.  It's kind of amazing this stuff works
