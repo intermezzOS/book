@@ -282,7 +282,21 @@ Again, we’ll use math to let the computer calculate the sum for us. We add up
 the magic number, the mode code, and the header length, and then subtract it
 from a big number. `dd` then puts that value into this spot in our file.
 
-TODO: https://github.com/intermezzOS/book/issues/28
+> By the way...
+>
+> 0xe85250d6 is 3,897,708,758 in decimal, and the smallest number you can store as a 32-bit signed integer is -2,147,483,648, so we get an integer underflow. This doesn't matter for the checksum, but since underflows are usually a bug the assembler gives us a warning.
+>
+> Remember that the modulo operation finds the remainder after division of one number by another. One consequence of this is that if you have the series `n % k` and you keep increasing n by 1, it'll repeat its values every k steps. For example, if `k` is 3:
+> ```
+3 % 3 = 0
+4 % 3 = 1
+5 % 3 = 2
+6 % 3 = 0
+7 % 3 = 1
+8 % 3 = 2
+etc... 
+```
+> We can generalize this by saying `n % k = (k + n) % k`. In this case, our `k` is 2^32 or 0x10000000, so adding 0x10000000 to our checksum will give us an equivalent modulo test, but with the advantage of reassuring the assembler that it's not an underflow since the number is now in the range of values that a 32-bit signed integer can represent.
 
 ### Ending tag
 
