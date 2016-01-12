@@ -282,7 +282,26 @@ Again, we’ll use math to let the computer calculate the sum for us. We add up
 the magic number, the mode code, and the header length, and then subtract it
 from a big number. `dd` then puts that value into this spot in our file.
 
-TODO: https://github.com/intermezzOS/book/issues/28
+> **By the way...**
+>
+> You might wonder why we're subtracting these values from 0x100000000. To answer this we can look at what [the multiboot spec](http://nongnu.askapache.com/grub/phcoder/multiboot.pdf) says about the checksum value in the header:
+>
+> > The field `checksum` is a 32-bit [unsigned value](http://intermezzos.github.io/book/appendix/signed-and-unsigned.html) which, when added to the other magic fields (i.e. `magic`, `architecture` and `header_length`), must have a 32-bit unsigned sum of zero.
+>
+> In other words:
+>
+> `checksum` + `magic_number` + `architecture` + `header_length` = 0
+> 
+> We could try and "solve for" `checksum` like so:
+> 
+> `checksum` =  -(`magic_number` + `architecture` + `header_length`)
+> 
+> But here's where it gets weird. Computers don't have an innate concept of negative numbers. Normally we get around this by using "signed integers", which is something we [cover in an appendix](http://intermezzos.github.io/book/appendix/signed-and-unsigned.html). The point is we have an unsigned integer here, which means we're limited to representing only positive numbers. This means we can't literally represent -(`magic_number` + `architecture` + `header_length`) in our field.
+>
+> If you look closely at the spec you'll notice it's strangely worded: it's asking for a value that when added other values has a sum of zero. It's worded this way because integers have a limit to the size of numbers they can represent, and when you go over that size, the values wrap back around to zero. So 0xFFFFFFFF + 1 is.... 0x00000000. This is a hardware limitation: technically it's doing the addition correctly, giving us the 33-bit value 0x100000000, but we only have 32 bits to store things in so it can't actually tell us about that `1` in the most significant digit position! We're left with the rest of the digits, which spell out zero.
+>
+> So what we can do here is "trick" the computer into giving us zero when we do the addition. Imagine for the sake of argument that `magic_number` + `architecture` + `header_length` somehow works out to be 0xFFFFFFFE. The number we'd add to that in order to make 0 would be 0x00000002. This is 0x100000000-0xFFFFFFFE, because 0x100000000 technically maps to 0 when we wrap around. So we replace 0xFFFFFFFE in our contrived example here with `magic_number` + `architecture` + `header_length`. This gives us:
+> `dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))`
 
 ### Ending tag
 
