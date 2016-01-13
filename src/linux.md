@@ -22,5 +22,5 @@ TODO: https://github.com/intermezzOS/book/issues/26
 To install the other tools, on Debian:
 
 ```bash
-$ sudo apt-get install nasm xorriso qemu build-essentials
+$ sudo apt-get install nasm xorriso qemu build-essential
 ```
