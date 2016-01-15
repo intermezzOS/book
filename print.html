@@ -1324,7 +1324,7 @@ kernel.bin: multiboot_header.o boot.o linker.ld
         ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 </code></pre>
 <p>Let’s try building it:</p>
-<pre><code class="language-bash">$ $ make kernel.bin
+<pre><code class="language-bash">$ make kernel.bin
 ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 </code></pre>
 <p>Great! The <code>kernel.bin</code> target depends on <code>multiboot_header.o</code>, <code>boot.o</code>, and <code>linker.ld</code>. The
@@ -1548,8 +1548,8 @@ build: os.iso
 clean:
         rm -rf build
 </code></pre>
-<p>We can go farther, and eventually, we will. But this is good enough for now.
-Like I said, there’s a fine balance between keeping it DRY and making it
+<p>We can go further, and eventually, we will. But this is good enough for now.
+Like I said, there’s a fine balance between keeping it <a href="https://en.wikipedia.org/wiki/Dont_repeat_yourself">DRY</a> and making it
 non-understandable.</p>
 <p>Luckily, we’ll only be using Make for these assembly files. Rust has its own
 build tool, Cargo, that we’ll integrate with Make. It’s a lot easier to use.</p>
