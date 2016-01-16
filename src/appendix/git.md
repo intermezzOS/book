@@ -1,7 +1,7 @@
 # Appendix C: Version control
 
 Some early computer games had no means of saving your progress. So when you
-painstakingly dodged spear, evaded boulders, jumped crevasses and made a
+painstakingly dodged spears, evaded boulders, jumped crevasses and made a
 mistake, you had to start all over again. Saving your progress makes playing
 games easier. Version control is like saving your progress for projects.
 
@@ -11,7 +11,7 @@ in your project.
 ## Installing `git`
 
 We use the version control system [`git`][git]. In this section you can find
-details how to setup git for your system.
+details on how to set up git for your system.
 
 ### Linux
 
@@ -162,7 +162,7 @@ build
 The `git status` command now does not list `build/` anymore. Instead is lists
 the newly created `.gitignore` file.
 
-## Rince and Repeat
+## Rinse and Repeat
 
 Using git revolves around the staging and commiting cycle. Once you have created
 an interesting change, stage it with the `git add` command. If you are content
