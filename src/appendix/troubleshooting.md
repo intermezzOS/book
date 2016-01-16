@@ -36,6 +36,14 @@ The solution may be to install the `grub-pc-bin` package:
 $ sudo apt-get install grub-pc-bin
 ```
 
+After the install is complete, you will need to recreate the ISO file
+before trying QEMU again:
+
+```bash
+$ grub-mkrescue -o os.iso isofiles
+$ qemu-system-x86_64 -cdrom os.iso
+```
+
 ### xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image
 
 When building the ISO, you may see a message like this:
