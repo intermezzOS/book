@@ -82,5 +82,5 @@ And then we pass it the directory to make the ISO out of, which is the
 After this, you have an `os.iso` file with our teeny kernel on it. You could
 burn this to a USB stick or CD and run it on an actual computer if you wanted
 to! But doing so would be really annoying during development. So in the next
-setction, we’ll use an emulator, QEMU, to run the ISO file on our development
+section, we’ll use an emulator, QEMU, to run the ISO file on our development
 machine.
