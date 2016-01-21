@@ -989,6 +989,46 @@ memory location <code>0xb8000</code>. That’s what this line does.</p>
 positions in memory correspond to certain positions on the screen. And
 the position <code>0xb8000</code> is one of those positions: the upper-left corner of the
 screen.</p>
+<blockquote>
+<p><strong>By the way...</strong></p>
+<p>&quot;Memory mapping&quot; is one of the fundamental techniques used in computer
+engineering to help the CPU know how to talk to all the different physical
+components of a computer. The CPU itself is just a weird little machine that
+moves numbers around. It's not of any use to humans on its own: it needs to be
+connected to devices like RAM, hard drives, a monitor, and a keyboard. The way
+the CPU does this is through a <em>bus</em>, which is a huge pipeline of wires
+connecting the CPU to every single device that might have data the CPU needs.
+There's one wire per bit (since a wire can store a 1 or a 0 at any given time).
+A 32-bit bus is literally 32 wires in parallel that run from the CPU to a bunch
+of devices like Christmas lights around a house.</p>
+<p>There are two buses that we really care about in a computer: the address bus
+and the data bus. There's also a third signal that lets all the devices know
+whether the CPU is requesting data from an input (reading, like from the
+keyboard) or sending data to an output (writing, like to the monitor via the
+video card). The address bus is for the CPU to send location information, and
+the data bus is for the CPU to either write data to or read data from that
+location.  Every device on the computer has a unique hard coded numerical
+location, or &quot;address&quot;, literally determined by how the thing is wired up at
+the factory. In the case of an input/read operation, when it sends <code>0x1001A003</code>
+out on the address bus and the control signal notifies every device that it's a
+read operation, it's asking, &quot;What is the data currently stored at location
+<code>0x1001A003</code>?&quot; If the keyboard happens to be identified by that particular
+address, and the user is pressing SPACE at this time, the keyboard says, &quot;Oh,
+you're talking to me!&quot; and sends back the ASCII code <code>0x00000020</code> (for &quot;SPACE&quot;)
+on the data bus.</p>
+<p>What this means is that memory on a computer isn't just representing things like
+RAM and your hard drive. Actual human-scale devices like the keyboard and mouse
+and video card have their own memory locations too. But instead of writing a byte
+to a hard drive for storage, the CPU might write a byte representing some color
+and symbol to the monitor for display. There's an industry standard somewhere
+that says video memory must live in the address range beginning <code>0xb8000</code>. In
+order for computers to be able to work out of the box, this means that the BIOS
+needs to be manufactured to assume video lives at that location, and the
+motherboard (which is where the bus is all wired up) has to be manufactured to
+route <code>0xb8000</code> request to video card.  It's kind of amazing this stuff works
+at all! Anyway, &quot;memory mapped hardware&quot;, or &quot;memory mapping&quot; for short, is the
+name of this technique.</p>
+</blockquote>
 <p>Now, we are copying <code>0x0248</code>. Why this number? Well, it’s in three parts:</p>
 <pre><code class="language-text"> __ background color
 /  __foreground color
