@@ -77,6 +77,28 @@ One important section is the `untracked files` section. Here git lists the files
 that are not tracked yet. You can recognize the files that you created for
 intermezzOS.
 
+## Ignoring
+
+Some files do not need to be tracked by git. For example, the build directory
+can be recreated by running the `make` command. We can instruct git to ignore
+certain files.
+
+You can do this by creating a file `.gitignore` and adding the `build/`
+directory.
+
+```sh
+$ touch .gitignore
+```
+
+With the content
+
+```text
+build
+```
+
+The `git status` command now does not list `build/` anymore. Instead is lists
+the newly created `.gitignore` file.
+
 ## Adding
 
 If you want git to keep track of changes to your project you need to tell which
@@ -102,8 +124,8 @@ Changes to be committed:
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 
-	boot.asm
-	build/
+	.gitignore
+    boot.asm
 	grub.cfg
 	linker.ld
 	multiboot_header.asm
@@ -114,10 +136,8 @@ We will use the `git add` command again to add the other files that we want git
 to track.
 
 ```sh
-$ git add boot.asm grub.cfg linker.ld multiboot_header.asm
+$ git add .gitignore boot.asm grub.cfg linker.ld multiboot_header.asm
 ```
-
-Note that we left out `build/` directory. We will get back to that in a moment.
 
 ## Commiting
 
@@ -139,29 +159,6 @@ commit that will help in identifying what changed. For example,
 A minimal OS that outputs "Hello, World!"
 ```
 
-## Ignoring
-
-The `git status` command still lists one untracked file. The directory `build`.
-The build directory is generated when we execute the `make` command. It gets
-recreated every time you run the command. So instead of keeping track to the
-changes, we want to tell git to ignore the build directory.
-
-You can do this by creating a file `.gitignore` and adding the `build/`
-directory.
-
-```sh
-$ touch .gitignore
-```
-
-With the content
-
-```text
-build
-```
-
-The `git status` command now does not list `build/` anymore. Instead is lists
-the newly created `.gitignore` file.
-
 ## Rinse and Repeat
 
 Using git revolves around the staging and commiting cycle. Once you have created
@@ -169,17 +166,17 @@ an interesting change, stage it with the `git add` command. If you are content
 with the staged changes commit it with `git commit` and the cycle starts over
 again.
 
-For example, now we have created a `.gitignore` file. We add it with the
-following command
+For example, if you would create a `README.md` file that describes your project,
+you could add
 
 ```sh
-$ git add .ignore
+$ git add README.md
 ```
 
-Because it is the only thing we changed we can continue to commit it.
+Because it is the only thing we changed in our we can continue to commit it.
 
 ```sh
-$ git commit -m "Ignored the build directory"
+$ git commit -m "Described project in a README"
 ```
 
 The `-m` options allows you to write the commit message inline instead of going
