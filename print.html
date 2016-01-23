@@ -1400,17 +1400,18 @@ ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 <p>Let’s add a new rule to build our iso. Rather than show the entire <code>Makefile</code>, I’m
 going to start showing you what’s changed. First, we have to update our <code>default</code>
 target, and then we have to write the new one:</p>
-<pre><code class="language-make">default: isofiles
+<pre><code class="language-make">default: os.iso
 
-isofiles: kernel.bin grub.cfg
+os.iso: kernel.bin grub.cfg
         mkdir -p isofiles/boot/grub
         cp grub.cfg isofiles/boot/grub
         cp kernel.bin isofiles/boot/
+        grub-mkrescue -o os.iso isofiles
 </code></pre>
 <p>This is our first multi-command rule. <code>make</code> will execute all of the commands
 that you list. In this case, to build the ISO, we need to create our <code>isofiles</code>
 directory, and then copy <code>grub.cfg</code> and <code>kernel.bin</code> into the right place
-inside of it.</p>
+inside of it. Finally, <code>grub-mkrescue</code> builds the ISO from that directory.</p>
 <p>This rule assumes that <code>grub.cfg</code> is at our top-level directory, but it’s
 currently in <code>isofiles/boot/grub</code> already. So let’s copy it out:</p>
 <pre><code class="language-bash">$ cp isofiles/boot/grub/grub.cfg .
@@ -1420,15 +1421,8 @@ currently in <code>isofiles/boot/grub</code> already. So let’s copy it out:</p
 mkdir -p isofiles/boot/grub
 cp grub.cfg isofiles/boot/grub
 cp kernel.bin isofiles/boot/
+grub-mkrescue -o os.iso isofiles
 </code></pre>
-<p>We’ve prepared ourselves to create the ISO. Let’s add a new rule to build <code>os.iso</code>:</p>
-<pre><code class="language-make">default: os.iso
-
-os.iso: isofiles
-        grub-mkrescue -o os.iso isofiles
-</code></pre>
-<p>Building the ISO requires that the <code>isofiles</code> directory is created and
-up-to-date.</p>
 <p>Sometimes, it’s nice to add targets which describe a semantic. In this case, building
 the <code>os.iso</code> target is the same as building the project. So let’s say so:</p>
 <pre><code class="language-make">default: build
@@ -1481,12 +1475,10 @@ boot.o: boot.asm
 kernel.bin: multiboot_header.o boot.o linker.ld
         ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 
-isofiles: kernel.bin grub.cfg
+os.iso: kernel.bin grub.cfg
         mkdir -p isofiles/boot/grub
         cp grub.cfg isofiles/boot/grub
         cp kernel.bin isofiles/boot/
-
-os.iso: isofiles
         grub-mkrescue -o os.iso isofiles
 
 build: os.iso
@@ -1537,13 +1529,10 @@ that <code>build</code> directory, rather than in the current one.</p>
 </code></pre>
 <p>We append <code>build</code> in no fewer than <em>six</em> places. Whew! At least it’s
 straightforward.</p>
-<pre><code class="language-make">build/isofiles: build/kernel.bin grub.cfg
+<pre><code class="language-make">build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
         cp grub.cfg build/isofiles/boot/grub
         cp build/kernel.bin build/isofiles/boot/
-</code></pre>
-<p>In a similar fashion, we prefix all the things with <code>build</code>.</p>
-<pre><code class="language-make">build/os.iso: build/isofiles
         grub-mkrescue -o build/os.iso build/isofiles
 </code></pre>
 <p>Seeing a pattern yet? More prefixing.</p>
@@ -1572,12 +1561,10 @@ build/boot.o: boot.asm
 build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
         ld -n -o build/kernel.bin -T linker.ld build/multiboot_header.o build/boot.o
 
-build/isofiles: build/kernel.bin grub.cfg
+build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
         cp grub.cfg build/isofiles/boot/grub
         cp build/kernel.bin build/isofiles/boot/
-
-build/os.iso: build/isofiles
         grub-mkrescue -o build/os.iso build/isofiles
 
 run: build/os.iso
