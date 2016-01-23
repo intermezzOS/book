@@ -159,18 +159,19 @@ going to start showing you what’s changed. First, we have to update our `defau
 target, and then we have to write the new one:
 
 ```make
-default: isofiles
+default: os.iso
 
-isofiles: kernel.bin grub.cfg
+os.iso: kernel.bin grub.cfg
         mkdir -p isofiles/boot/grub
         cp grub.cfg isofiles/boot/grub
         cp kernel.bin isofiles/boot/
+        grub-mkrescue -o os.iso isofiles
 ```
 
 This is our first multi-command rule. `make` will execute all of the commands
 that you list. In this case, to build the ISO, we need to create our `isofiles`
 directory, and then copy `grub.cfg` and `kernel.bin` into the right place
-inside of it.
+inside of it. Finally, `grub-mkrescue` builds the ISO from that directory.
 
 This rule assumes that `grub.cfg` is at our top-level directory, but it’s
 currently in `isofiles/boot/grub` already. So let’s copy it out:
@@ -186,19 +187,8 @@ $ make
 mkdir -p isofiles/boot/grub
 cp grub.cfg isofiles/boot/grub
 cp kernel.bin isofiles/boot/
+grub-mkrescue -o os.iso isofiles
 ```
-
-We’ve prepared ourselves to create the ISO. Let’s add a new rule to build `os.iso`:
-
-```make
-default: os.iso
-
-os.iso: isofiles
-        grub-mkrescue -o os.iso isofiles
-```
-
-Building the ISO requires that the `isofiles` directory is created and
-up-to-date.
 
 Sometimes, it’s nice to add targets which describe a semantic. In this case, building
 the `os.iso` target is the same as building the project. So let’s say so:
@@ -271,12 +261,10 @@ boot.o: boot.asm
 kernel.bin: multiboot_header.o boot.o linker.ld
         ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 
-isofiles: kernel.bin grub.cfg
+os.iso: kernel.bin grub.cfg
         mkdir -p isofiles/boot/grub
         cp grub.cfg isofiles/boot/grub
         cp kernel.bin isofiles/boot/
-
-os.iso: isofiles
         grub-mkrescue -o os.iso isofiles
 
 build: os.iso
@@ -346,16 +334,10 @@ We append `build` in no fewer than _six_ places. Whew! At least it’s
 straightforward.
 
 ```make
-build/isofiles: build/kernel.bin grub.cfg
+build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
         cp grub.cfg build/isofiles/boot/grub
         cp build/kernel.bin build/isofiles/boot/
-```
-
-In a similar fashion, we prefix all the things with `build`.
-
-```make
-build/os.iso: build/isofiles
         grub-mkrescue -o build/os.iso build/isofiles
 ```
 
@@ -394,12 +376,10 @@ build/boot.o: boot.asm
 build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
         ld -n -o build/kernel.bin -T linker.ld build/multiboot_header.o build/boot.o
 
-build/isofiles: build/kernel.bin grub.cfg
+build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
         cp grub.cfg build/isofiles/boot/grub
         cp build/kernel.bin build/isofiles/boot/
-
-build/os.iso: build/isofiles
         grub-mkrescue -o build/os.iso build/isofiles
 
 run: build/os.iso
