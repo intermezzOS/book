@@ -78,7 +78,10 @@
 <li>Download and compile <code>grub</code> using the cross compiler</li>
 </ol>
 <p>This might take some time to run.</p>
-<p>After it is done you should have all the tools you need located in <code>~/opt</code>. The tools <em>should</em> be named the same as the tools used in other chapters, but they might be prefixed with a <code>x86_64-pc-elf-</code>. The exception to this is <code>grub</code>.</p>
+<p>After it is done you should have all the tools you need located in <code>~/opt</code>. The tools <em>should</em> be named the same as the tools used in other chapters, but they might be prefixed with a <code>x86_64-pc-elf-</code>. The exception to this is <code>grub</code>. The default path for the binaries installed using the above script is <code>$HOME/opt/bin</code> so adjust the PATH variable appropriately.</p>
+<p>Finally install other tools:</p>
+<pre><code class="language-bash">$ brew install nasm xorriso qemu
+</code></pre>
 
                 </div>
 
