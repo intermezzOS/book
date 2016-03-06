@@ -14,4 +14,9 @@ Here is what the script does:
 
 This might take some time to run.
 
-After it is done you should have all the tools you need located in `~/opt`. The tools _should_ be named the same as the tools used in other chapters, but they might be prefixed with a `x86_64-pc-elf-`. The exception to this is `grub`.
+After it is done you should have all the tools you need located in `~/opt`. The tools _should_ be named the same as the tools used in other chapters, but they might be prefixed with a `x86_64-pc-elf-`. The exception to this is `grub`. The default path for the binaries installed using the above script is `$HOME/opt/bin` so adjust the PATH variable appropriately.
+
+Finally install other tools:
+```bash
+$ brew install nasm xorriso qemu
+```

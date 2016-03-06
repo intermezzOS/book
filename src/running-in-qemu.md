@@ -15,9 +15,7 @@ If it shows up for you too, congrats! If not, something may have gone
 wrong. Double check that you followed the examples _exactly_. Maybe
 you missed something, or made a mistake while copying things down.
 
-Note all of this other stuff behind the Hello World message: We didn’t
-clear the screen, so everything from GRUB just stays as it is. We’ll
-write a function to do that eventually...
+Note all of this other stuff behind the Hello World message: This part may look different, based on your version of grub, and also since we didn’t clear the screen, everything from GRUB just stays as it is. We’ll write a function to do that eventually...
 
 Let’s talk about this command before we move on:
 
