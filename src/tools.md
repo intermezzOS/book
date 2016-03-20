@@ -63,7 +63,7 @@ devices like CD drives or display screens.
 > time or 64 bits at a time.
 
 In assembly we can only do very simple things: move data between registers or
-to/from RAM; perform simple arithmetic like addition, substraction, multiplication
+to/from RAM; perform simple arithmetic like addition, subtraction, multiplication
 and division; compare values in different registers, and based on these comparisons
 jump to different points in our code (á la GOTO). Fancy high level concepts
 like while loops and if statements, let alone garbage collection are nowhere to be
