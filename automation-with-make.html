@@ -353,7 +353,7 @@ build/os.iso: build/kernel.bin grub.cfg
 run: build/os.iso
         qemu-system-x86_64 -cdrom build/os.iso
 
-build: os.iso
+build: build/os.iso
 
 clean:
         rm -rf build
