@@ -548,8 +548,12 @@ difference here is still useful.</p>
 $ multirust default PUT NIGHTLY HERE
 </code></pre>
 <p>TODO: https://github.com/intermezzOS/book/issues/26</p>
-<p>To install the other tools, on Debian:</p>
+<p>How to install the other tools, depends on your distribution.</p>
+<p>On Debian you can install them with</p>
 <pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu build-essential
+</code></pre>
+<p>On Arch Linux you can install them with</p>
+<pre><code class="language-bash">$ sudo pacman -S binutils grub libisoburn nasm qemu
 </code></pre>
 <h1>Mac OS X</h1>
 <p>The tools you need are similar to the tools listed in the <a href="./linux.html">Linux instructions</a>, but we will need to build a cross compiler in order to get things working. This is sort of complicated and boring, but we've done some of that boring work for you so you can get up and running quickly.</p>
