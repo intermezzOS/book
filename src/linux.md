@@ -19,8 +19,16 @@ $ multirust default PUT NIGHTLY HERE
 
 TODO: https://github.com/intermezzOS/book/issues/26
 
-To install the other tools, on Debian:
+How to install the other tools, depends on your distribution.
+
+On Debian you can install them with
 
 ```bash
 $ sudo apt-get install nasm xorriso qemu build-essential
+```
+
+On Arch Linux you can install them with
+
+```bash
+$ sudo pacman -S binutils grub libisoburn nasm qemu
 ```
