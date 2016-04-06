@@ -73,7 +73,7 @@ list of instructions, carried out one after the other.
 
 For instance, in our code above we used the `mov` instruction several times to
 move values into specific registers with weird names like `rax` and `rbx`. We
-used the `cmp` instruction to to compare the value inside of the `rax` register
+used the `cmp` instruction to compare the value inside of the `rax` register
 with the number `10`. We used the `jne` instruction to jump to another part of
 our code if the numbers we just compared were not equal. Finally we used the `int`
 instruction to trigger a hardware *int*errupt.
