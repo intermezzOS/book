@@ -28,7 +28,7 @@ actually true. Or at least, it’s not clear that it’s true.
 
 ## Monolithic kernels
 
-First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ‘ol kernel.
+First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
 Most real-world kernels are monolithic kernels, or at least, pretend to be.
 Don’t worry about it. Linux, for example, is a monolithic kernel.
 
@@ -36,7 +36,7 @@ This means that monolithic kernels are kind of ‘the default’. Other kernels
 usually define themselves by solving some kind of problem that monolithic
 kernels have.
 
-If a monolithic kernel were a web application, it would be a big ‘ol Rails
+If a monolithic kernel were a web application, it would be a big ol’ Rails
 application. One repository. A million subdirectories. It may be a big ball
 of mud, but it pays the bills.
 
