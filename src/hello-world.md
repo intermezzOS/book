@@ -105,12 +105,12 @@ of stuff it copies is determined by `size`.
 mov word [0xb8000], 0x0248 ; H
 ```
 
-“Copy one word: the number `0x248` to ... some place.
+“Copy one word: the number `0x0248` to ... some place.
 
-The place is a hexidecimal number, but has square brackets `[]` around it.
-Those brackets are special. They mean “the address in memory located by this
-number.” In other words, we’re copying the number `0x0248` into the specific
-memory location `0xb8000`. That’s what this line does.
+The `place` looks like a number just like `0x0248`, but it has square 
+brackets `[]` around it. Those brackets are special. They mean “the address 
+in memory located by this number.” In other words, we’re copying the number 
+`0x0248` into the specific memory location `0xb8000`. That’s what this line does.
 
 Why? Well, we’re using the screen as a “memory mapped” device. Specific
 positions in memory correspond to certain positions on the screen. And
