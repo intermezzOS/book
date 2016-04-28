@@ -10,12 +10,12 @@
         <base href="">
 
         <link rel="stylesheet" href="book.css">
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
         <link rel="shortcut icon" href="favicon.png">
 
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
@@ -24,7 +24,7 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Fetch JQuery from CDN but have a local fallback -->
-        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script>
             if (typeof jQuery == 'undefined') {
                 document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
@@ -994,11 +994,11 @@ of stuff it copies is determined by <code>size</code>.</p>
 ;   V    V          V
 mov word [0xb8000], 0x0248 ; H
 </code></pre>
-<p>“Copy one word: the number <code>0x248</code> to ... some place.</p>
-<p>The place is a hexidecimal number, but has square brackets <code>[]</code> around it.
-Those brackets are special. They mean “the address in memory located by this
-number.” In other words, we’re copying the number <code>0x0248</code> into the specific
-memory location <code>0xb8000</code>. That’s what this line does.</p>
+<p>“Copy one word: the number <code>0x0248</code> to ... some place.</p>
+<p>The <code>place</code> looks like a number just like <code>0x0248</code>, but it has square
+brackets <code>[]</code> around it. Those brackets are special. They mean “the address
+in memory located by this number.” In other words, we’re copying the number
+<code>0x0248</code> into the specific memory location <code>0xb8000</code>. That’s what this line does.</p>
 <p>Why? Well, we’re using the screen as a “memory mapped” device. Specific
 positions in memory correspond to certain positions on the screen. And
 the position <code>0xb8000</code> is one of those positions: the upper-left corner of the
@@ -1831,6 +1831,9 @@ between any numeral system and the decimal system.</p>
                 $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
             }
         </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
 
         <script src="highlight.js"></script>
         <script src="book.js"></script>
