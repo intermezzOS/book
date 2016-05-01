@@ -3,7 +3,7 @@
 ## Prerequisites
 
 This project is built using [Rust], so you'll need to
-install Rust in order to build the book. 
+install Rust in order to build the book.
 
 [`multi-rust`] is the recommended way to install Rust.
 
@@ -12,9 +12,11 @@ You also can download Rust [here][1].
 ## Up and Running
 
 ```
+$ git clone git@github.com:intermezzOS/book.git intermezzOS/book
+$ cd intermezzOS/book
 $ cargo install mdbook
 $ mdbook build
-``` 
+```
 
 The [`mdbook`] crate builds from `markdown` files in `/src`,
 creating `html` files in a `/book` directory.
