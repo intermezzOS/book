@@ -33,13 +33,8 @@ Afterwards, we’ll be ready to stop writing assembly and start writing Rust!
 ## Paging
 
 So, step one: set up ‘paging’. What is paging? Paging is a way of managing
-memory. There are two major strategies to manage memory: segmentation and
-paging. Segmentation is an older strategy, so we won’t talk about it much. It’s
-also where the term ‘segmentation fault’ comes from, which is still used today,
-even though segementation isn’t used. Old habits die hard.
-
-So let’s talk more about paging. Our computer has memory, and we can think of
-memory as being a big long list of cells:
+memory. Our computer has memory, and we can think of memory as being a big long
+list of cells:
 
 | address | value |
 +---------+-------+
@@ -71,22 +66,154 @@ physical address. So we might say something like “virtual address 0x044a maps 
 the physical address 0x0011.” Software uses the virtual addresses, and the
 hardware uses physical addresses.
 
-But how should we do this mapping? Mapping each individual address would be
-extremely inefficient; we would need to keep track of literally every memory
-address and where it points to. Instead, we split up memory into chunks, also
-called ‘pages’, and then map each page to an equal sized chunk of physical
-memory.
+Mapping each individual address would be extremely inefficient; we would need
+to keep track of literally every memory address and where it points to.
+Instead, we split up memory into chunks, also called ‘pages’, and then map each
+page to an equal sized chunk of physical memory.
 
-There’s one more advantage to this strategy: because we’ve introduced an
-abstraction, we have some flexibility. We can map virtual pages completely out
-of order onto physical pages.
+Paging is actually implemented by the a part of the CPU called an ‘MMU’, for
+‘memory management unit’. The MMU will automatically translate virtual
+addresses into their respective physical addresses automatically; we can write
+all of our software with virtual addresses only. The MMU does this with a data
+structure called a ‘page table’. As an operating system, we load up the page
+table with a certain data structure, and then tell the CPU to enable paging.
+This is the task ahead of us; it’s required to set up paging before we
+transition to long mode.
+
+How should we do our mapping of physical to virtual addresses? You can make
+this easy, or complex, and it depends on exactly what you want your OS to
+be good at. Some strategies are better than others, depending on the kinds of
+programs you expect to be running. We’re going to keep it simple, and use a
+strategy called ‘identity mapping’. This means that every virtual address will
+map to a physical address of the same number. Nothing fancy.
+
+Let’s talk more about the page table. In long mode, the page table is four
+levels deep, and each page is 4096 bytes in size. What do I mean by levels?
+Here are the official names:
+
+*  the Page-Map Level-4 Table (PML4),
+*  the Page-Directory Pointer Table (PDP),
+*  the Page-Directory Table (PD),
+*  and the Page Table (PT).
+
+I’ve most commonly heard them referred to as a “level x page table”, where `x`
+goes from four to one. So the PML4 is a “level four page table,” and the PT is
+a “level one page table.” They’re called ‘levels’ because they decend in order:
+each entry in a level 4 page table points to a level 3 page table entry. Each
+level 3 page table entry points at a level 2 page table entry, and each level 2
+page table entry points at a level 1 page table entry. That entry then contains
+the address. Whew! To get started, we only need one entry of each table.
+
+## Creating the page table
+
+So here’s the strategy: create a single entry of each of these tables, then
+point them at each other in the correct way, then tell the CPU that paging
+should be enabled.
+
+### Creating page table entries
+
+To create space for these page table entries, open up `boot.asm` and add these
+lines at the bottom:
+
+```x86asm
+section .bss
+
+align 4096
+
+p4_table:
+    resb 4096
+p3_table:
+    resb 4096
+p2_table:
+    resb 4096
+```
+
+We introduce a new section, ‘bss’. It stands for ‘block started by symbol’, and
+was introduced in the 1950s. The name doesn’t make much sense anymore, but the
+reason we use it is because of its behavior: entries in the bss section are
+automatically set to zero by the linker. This is useful, as we only want certain
+bits set to 1, and most of them set to zero.
+
+The `resb` directive reserves bytes; we want to reserve space for each entry.
+
+The `align` directive makes sure that we’ve aligned our tables properly. We
+haven’t talked much about alignment yet: the idea is that the addresses here
+will be set to a multiple of 4096, hence ‘aligned’ to 4096 byte chunks. We’ll
+eventually talk more about alignment and why it’s important, but it doesn’t
+matter a ton right now.
+
+After this has been added, we have a single valid entry for each level.
+However, because our page four entry is all zeroes, we have no valid pages.
+That’s not super useful. Let’s set things up properly.
+
+### Pointing the entries at each other
+
+```x86asm
+set_up_page_tables:
+    ; P4, P3 and P2
+    ; P4 --> point first entry to (first entry in) P3
+    mov eax, p3_table
+    or eax, 0b11
+    mov dword [p4_table + 0], eax
+
+    ; P3 --> point first entry to (first entry in) P2
+    mov eax, p2_table
+    or eax, 0b11
+    mov dword [p3_table + 0], eax
+
+    ; P2 --> point each entry to a 2MiB page
+    mov ecx, 0         ; counter variable
+.map_p2_table:
+    ; map ecx-th P2 entry to a huge page that starts at address 2MiB*ecx
+    mov eax, 0x200000  ; 2MiB
+    mul ecx            ; start address of ecx-th page
+    or eax, 0b10000011 ; present + writable + huge
+    mov [p2_table + ecx * 8], eax ; map ecx-th entry
+
+    inc ecx            ; increase counter
+    cmp ecx, 512       ; if counter == 512, the whole P2 table is mapped
+    jne .map_p2_table  ; else map the next entry
+
+    ret
+```
+
+Now that we’ve done this, we have a valid initial page table. Time to enable paging!
+
+### Enable paging
 
 
+```x86asm
+enable_paging:
+    ; load P4 to cr3 register (cpu uses this to access the P4 table)
+    mov eax, p4_table
+    mov cr3, eax
 
+    ; enable PAE-flag in cr4 (Physical Address Extension)
+    mov eax, cr4
+    or eax, 1 << 5
+    mov cr4, eax
 
+    ; set the long mode bit in the EFER MSR (model specific register)
+    mov ecx, 0xC0000080
+    rdmsr
+    or eax, 1 << 8
+    wrmsr
 
+    ; enable paging in the cr0 register
+    mov eax, cr0
+    or eax, 1 << 31
+    or eax, 1 << 16
+    mov cr0, eax
 
+    ret
+```
 
+## ... are we in long mode yet?
+
+So, _technically_ after paging is enabled, we are in long mode. But we’re not
+in _real_ long mode; we’re in a special compatibility mode. To get to real long
+mode, we need a data structure called a ‘global descriptor table’. Read the next
+section to find out how to make one of these.
 
 
 
