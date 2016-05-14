@@ -148,33 +148,268 @@ That’s not super useful. Let’s set things up properly.
 
 ### Pointing the entries at each other
 
+In order to do this setup, we need to write some more assembly code! Open up
+`boot.asm`. You can either leave in printing code, or remove it. If you do leave
+it in, add this code before it: that way, if you see your message print out, you
+know it ran successfully.
+
 ```x86asm
-set_up_page_tables:
-    ; P4, P3 and P2
-    ; P4 --> point first entry to (first entry in) P3
+global start
+
+section .text
+bits 32
+start:
+    ; Point the first entry of the level 4 page table to the first entry in the
+    ; p3 table
     mov eax, p3_table
     or eax, 0b11
     mov dword [p4_table + 0], eax
+```
 
-    ; P3 --> point first entry to (first entry in) P2
+If you recall, `;` are comments. Leaving yourself excessive comments in assembly
+files is a good idea. Let’s go over each of these lines:
+
+```x86asm
+    mov eax, p3_table
+```
+
+This copies the contents of the first third-level page table entry into the
+`eax` register. We need to do this because of the next line:
+
+```x86asm
+    or eax, 0b11
+```
+
+We take the contents of `eax` and `or` it with `0b11`. First, let’s talk about
+_what_ this does, and then we’ll talk about _why_ we want to do it.
+
+When dealing with binary, `or` is an operation that returns `1` if either value
+is `1`, and `0` if both are `0`. In other words, if `a` and `b` are a single
+binary digit:
+
+|--------|---|---|---|---|
+| a      | 0 | 1 | 0 | 1 |
+| b      | 0 | 0 | 1 | 1 |
+| or a b | 0 | 1 | 1 | 1 |
+
+You’ll see charts like this a lot when talking about binary stuff. You can read
+this chart from top to bottom, each column is a case. So the first column says
+“if `a` is zero and `b` is zero, `or a b` will be zero.” The second column says
+“if `a` is one and `b` is zero, `or a b` will be one.” And so on.
+
+Now, we defined `p3_table` in the BSS section, which means that it will start as
+all zeroes. So when we `or` with `0b11`, it means that the first two bits will
+be set to zero, keeping the rest as zeroes.
+
+Okay, so now we know _what_ we are doing, but _why_? Each entry in a page table
+contains an address, but it also contains metadata about that page. The first
+two bits are the ‘present bit’ and the ‘writable bit’. By setting the first bit,
+we say “this page is currently in memory,” and by setting the second, we say
+“this page is allowed to be written to.” There are a number of other settings we
+can change this way, but they’re not important for now.
+
+Now that we have an entry set up properly, the next line is of interest:
+
+```x86asm
+    mov dword [p4_table + 0], eax
+```
+
+Another `mov` instruction, but this time, copying `eax`, where we’ve been
+setting things up, into... something in brackets. `[]` means, “I will be giving
+you an address between the brackets. Please do something at the place this
+address points.” In other words, `[]` is like a dereference operator.
+
+Now, the address we’ve put is kind of funny looking: `p4_table + 0`. What’s up
+with that `+ 0`? It’s not strictly needed: adding zero to something keeps it the
+same. However, it’s intended to convey to the reader that we’re accessing the
+zeroth entry in the page table. We’re about to see some more code later where we
+will do something other than add zero, and so putting it here makes our code
+look more symmetric overall. If you don’t like this style, you don’t have to put
+the zero.
+
+These few lines form the core of how we’re setting up these page tables. We’re
+going to do the same thing over again, with slight variations.
+
+Here’s the full thing again:
+
+```x86asm
+    ; Point the first entry of the level 4 page table to the first entry in the
+    ; p3 table
+    mov eax, p3_table
+    or eax, 0b11 ; 
+    mov dword [p4_table + 0], eax
+```
+
+Once you feel like you’ve got a handle on that, let’s move on to pointing the
+page three table to the page two table!
+
+```x86asm
+    ; Point the first entry of the level 3 page table to the first entry in the
+    ; p2 table
+    mov eax, p2_table
+    or eax, 0b11
+    mov dword [p3_table + 0], eax
+```
+
+The code is the same as above, but with `p2_table` and `p3_table` instead of
+`p4_table` and `p3_table`. Nothing more than that.
+
+We have one last thing to do: set up the level two page table to have valid
+references to pages. We’re going to do something we haven’t done yet in
+assembly: write a loop!
+
+Here’s the basic outline of loop in assembly:
+
+* Create a counter variable to track how many times we’ve looped
+* make a label to define where the loop starts
+* do the body of the loop
+* add one to our counter
+* check to see if our counter is equal to the number of times we want to loop
+* if it’s not, jump back to the top of the loop
+* if it is, we’re done
+
+It’s a little more detail-oriented than loops in other languages. Usually, you
+have curly braces or indentation to indicate that the body of the loop is
+separate, but we don’t have any of those things here. We also have to write the
+code to increment the counter, and check if we’re done. Lots of little fiddly
+bits. But that’s the nature of what we’re doing!
+
+Let’s get to it!
+
+```x86asm
+    ; point each page table level two entry to a page
+    mov ecx, 0         ; counter variable
+```
+
+In order to write a loop, we need a counter. `ecx` is the usual loop counter
+register, that’s what the `c` stands for: counter. We also have a comment
+indicating what we’re doing in this part of the code.
+
+Next, we need to make a new label:
+
+```x86asm
+.map_p2_table:
+```
+
+As we mentioned above, this is where we will loop back to when the loop
+continues.
+
+```x86asm
+    mov eax, 0x200000  ; 2MiB
+```
+
+We’re going to store 200,000 in `eax`. Here’s the reason: each page is two
+megabytes in size. So in order to get the right memory location, we will
+mutliply 200,000 by the number of the loop counter:
+
+
+|------------|---------|---------|---------|---------|---------|
+| counter    | 0       | 1       | 2       | 3       | 4       |
+| 200,000    | 200,000 | 200,000 | 200,000 | 200,000 | 200,000 |
+| multiplied | 0       | 200,000 | 400,000 | 600,000 | 800,000 |
+
+And so on. So our pages will be all next to each other, and 200,000 bytes in
+size.
+
+```x86asm
+    mul ecx
+```
+
+Here’s that multiplication! `mul` takes the value in `eax`, multiplies it by the
+register you’ve given it, and stores the result in `eax`. This will be the
+location of the next page.
+
+```x86asm
+    or eax, 0b10000011
+```
+
+Next up, our friend `or`. Here, we don’t just or `0b11`: we’re also setting
+another bit. This extra `1` is a ‘huge page’ bit, meaning that the pages are
+200,000 bytes. Without this bit, we’d have 4k pages instead of 2mb pages.
+
+```x86asm
+    mov [p2_table + ecx * 8], eax
+```
+
+Just like before, we are now writing the value in `eax` to a location. But
+instead of it being just `p2_table + 0`, we’re adding `ecx * 8` Remember, `ecx`
+is our loop counter. Each entry is eight bytes in size: `0b10000011`. So we need
+to multiply the counter by eight, and then add it to `p2_table`. Let’s take a
+closer look: let’s assume `p2_table` is zero, to make the math easier:
+
+|---------------------|---------|---------|---------|---------|---------|
+| p2\_table           | 0       | 0       | 0       | 0       | 0       |
+| ecx                 | 0       | 1       | 2       | 3       | 4       |
+| ecx * 8             | 0       | 8       | 16      | 24      | 32      |
+| p2\_table + ecx * 8 | 0       | 8       | 16      | 24      | 32      |
+
+We skip eight spaces each time, so we have room for all eight bits of the page
+table.
+
+That’s the body of the loop! Now we need to see if we need to keep looping or
+not:
+
+```x86asm
+    inc ecx
+    cmp ecx, 512
+    jne .map_p2_table
+```
+
+The `inc` statement increments the register it’s given by one. `ecx` is our loop
+counter, so we’re adding to it. Then, we ‘compare’ with `cmp`. We’re comparing
+`ecx` with 512: we want to map 512 page entries overall. This will give us 512 *
+2 megabytes: one gigabyte of memory. It’s also why we wrote the loop: writing
+out 512 entries by hand is possible, theoretically, but is not fun. Let’s make
+the computer do the math for us.
+
+The `jne` instruction is short for ‘jump if not equal’. It checks the result of
+the `cmp`, and if the comparison says ‘not equal’, it will jump to the label
+we’ve defined. `map_p2_table` points to the top of the loop.
+
+That’s it! We’ve written our loop and mapped our second-level page table. Here’s
+the full code of the loop:
+
+```x86asm
+    ; point each page table level two entry to a page
+    mov ecx, 0         ; counter variable
+.map_p2_table:
+    mov eax, 0x200000  ; 2MiB
+    mul ecx
+    or eax, 0b10000011
+    mov [p2_table + ecx * 8], eax
+
+    inc ecx
+    cmp ecx, 512
+    jne .map_p2_table
+```
+
+And, with this, we’ve now fully mapped our page table! We’re one step closer to
+being in long mode. Here’s the full code, all in one place:
+
+```x86asm
+    ; Point the first entry of the level 4 page table to the first entry in the
+    ; p3 table
+    mov eax, p3_table
+    or eax, 0b11 ; 
+    mov dword [p4_table + 0], eax
+
+    ; Point the first entry of the level 3 page table to the first entry in the
+    ; p2 table
     mov eax, p2_table
     or eax, 0b11
     mov dword [p3_table + 0], eax
 
-    ; P2 --> point each entry to a 2MiB page
+    ; point each page table level two entry to a page
     mov ecx, 0         ; counter variable
 .map_p2_table:
-    ; map ecx-th P2 entry to a huge page that starts at address 2MiB*ecx
     mov eax, 0x200000  ; 2MiB
-    mul ecx            ; start address of ecx-th page
-    or eax, 0b10000011 ; present + writable + huge
-    mov [p2_table + ecx * 8], eax ; map ecx-th entry
+    mul ecx
+    or eax, 0b10000011
+    mov [p2_table + ecx * 8], eax
 
-    inc ecx            ; increase counter
-    cmp ecx, 512       ; if counter == 512, the whole P2 table is mapped
-    jne .map_p2_table  ; else map the next entry
-
-    ret
+    inc ecx
+    cmp ecx, 512
+    jne .map_p2_table
 ```
 
 Now that we’ve done this, we have a valid initial page table. Time to enable paging!
@@ -214,22 +449,3 @@ So, _technically_ after paging is enabled, we are in long mode. But we’re not
 in _real_ long mode; we’re in a special compatibility mode. To get to real long
 mode, we need a data structure called a ‘global descriptor table’. Read the next
 section to find out how to make one of these.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
