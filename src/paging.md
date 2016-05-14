@@ -416,31 +416,114 @@ Now that we’ve done this, we have a valid initial page table. Time to enable p
 
 ### Enable paging
 
+Now that we have a valid page table, we need to inform the hardware about it.
+Here’s the steps we need to take:
+
+* We have to put the address of the level four page table in a special register
+* enable ‘physical address extension’
+* set the ‘long mode bit’
+* enable paging
+
+These four steps are not particularly interesting, but we have to do them.
+First, let’s do the first step:
 
 ```x86asm
-enable_paging:
-    ; load P4 to cr3 register (cpu uses this to access the P4 table)
+    mov eax, p4_table
+    mov cr3, eax
+```
+
+So, this might seem a bit redundant: if we put `p4_table` into `eax`, and then
+put `eax` into `cr3`, why not just put `p4_table` into `cr3`? As it turns out,
+`cr3` is a special register, called a ‘control register’, hence the `cr`. The
+`cr` registers are special: they control how the CPU actually works. In our
+case, the `cr3` register needs to hold the location of the page table.
+
+Because it’s a special register, it has some restrictions, and one of those is
+that when you `mov` to `cr3`, it has to be from another register. So we need the
+first `mov` to set `p4_table` in a register before we can set `cr3`.
+
+Step one: done!
+
+Next, enabling ‘physical address extension’:
+
+```x86asm
+    ; enable PAE
+    mov eax, cr4
+    or eax, 1 << 5
+    mov cr4, eax
+```
+
+In order to set PAE, we need to take the value in the `cr4` register and
+modify it. So first, we `mov` it into `eax`, then we use `or` to change the
+value. What about `1 << 5`? The `<<` is a ‘left shift’. It might be easier to
+show you with a table:
+
+|-------|-------|
+| value | 00000 |
+| << 1  | 00001 |
+| << 2  | 00010 |
+| << 3  | 00100 |
+| << 4  | 01000 |
+| << 5  | 10000 |
+
+See how the 1 moves left? So `1 << 5` is `10000`. If you only need to set one
+bit, this can be easier than writing out `10000` itself, as you don’t need to
+count the zeroes.
+
+After we modify `eax` to have this bit set, we `mov` the value back into `cr4`.
+PAE has been set! Why is this what you need to do? It just is. The details are
+not really in the scope of this tutorial.
+
+Okay, so we have step two done. Time for step three: setting the long mode bit:
+
+```x86asm
+    ; set the long mode bit
+    mov ecx, 0xC0000080
+    rdmsr
+    or eax, 1 << 8
+    wrmsr
+```
+
+The `rdmsr` and `wrmsr` instructions read and write to a ‘model specific
+register’, hence `msr`. This is just what you have to do to set this up. Again,
+we won’t get into too much detail, as it’s not very interesting. Boilerplate.
+
+Finally we are all ready to enable paging!
+
+```x86asm
+    ; enable paging
+    mov eax, cr0
+    or eax, 1 << 31
+    or eax, 1 << 16
+    mov cr0, eax
+```
+
+`cr0` is the register we need to modify. We do the usual “move to `eax`, set
+some bits, move back to the register” pattern. In this case, we set bit 31 and
+bit 16.
+
+Once we’ve set these bits, we’re done! Here’s the full code listing:
+
+```x86asm
     mov eax, p4_table
     mov cr3, eax
 
-    ; enable PAE-flag in cr4 (Physical Address Extension)
+    ; enable PAE
     mov eax, cr4
     or eax, 1 << 5
     mov cr4, eax
 
-    ; set the long mode bit in the EFER MSR (model specific register)
+    ; set the long mode bit
     mov ecx, 0xC0000080
     rdmsr
     or eax, 1 << 8
     wrmsr
 
-    ; enable paging in the cr0 register
+    ; enable paging
     mov eax, cr0
     or eax, 1 << 31
     or eax, 1 << 16
     mov cr0, eax
-
-    ret
 ```
 
 ## ... are we in long mode yet?
