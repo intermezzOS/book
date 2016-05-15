@@ -325,7 +325,7 @@ location of the next page.
 
 Next up, our friend `or`. Here, we don’t just or `0b11`: we’re also setting
 another bit. This extra `1` is a ‘huge page’ bit, meaning that the pages are
-200,000 bytes. Without this bit, we’d have 4k pages instead of 2mb pages.
+200,000 bytes. Without this bit, we’d have 4KiB pages instead of 2MiB pages.
 
 ```x86asm
     mov [p2_table + ecx * 8], eax
@@ -355,10 +355,10 @@ not:
     jne .map_p2_table
 ```
 
-The `inc` statement increments the register it’s given by one. `ecx` is our loop
+The `inc` instruction increments the register it’s given by one. `ecx` is our loop
 counter, so we’re adding to it. Then, we ‘compare’ with `cmp`. We’re comparing
 `ecx` with 512: we want to map 512 page entries overall. This will give us 512 *
-2 megabytes: one gigabyte of memory. It’s also why we wrote the loop: writing
+2 mebibytes: one gibibyte of memory. It’s also why we wrote the loop: writing
 out 512 entries by hand is possible, theoretically, but is not fun. Let’s make
 the computer do the math for us.
 
