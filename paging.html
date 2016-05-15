@@ -100,14 +100,14 @@ on your own, for extra credit.</p>
 <p>So, step one: set up ‘paging’. What is paging? Paging is a way of managing
 memory. Our computer has memory, and we can think of memory as being a big long
 list of cells:</p>
-<p>| address | value |
-+---------+-------+
-| 0x00    | 0     |
-| 0x01    | 0     |
-| 0x02    | 0     |
-| 0x03    | 0     |
-| 0x04    | 0     |
-| ...     |       |</p>
+<table><thead><tr><td> address </td><td> value </td></tr></thead>
+<tr><td> 0x00    </td><td> 0     </td></tr>
+<tr><td> 0x01    </td><td> 0     </td></tr>
+<tr><td> 0x02    </td><td> 0     </td></tr>
+<tr><td> 0x03    </td><td> 0     </td></tr>
+<tr><td> 0x04    </td><td> 0     </td></tr>
+<tr><td> ...     </td><td>       </td></tr>
+</table>
 <p>Each location in memory has an address, and we can use the address to
 distinguish between the cells: the value at cell zero, the value at cell ten.
 But how many cells are there? This question has two answers: the first answer
@@ -222,10 +222,11 @@ files is a good idea. Let’s go over each of these lines:</p>
 <p>When dealing with binary, <code>or</code> is an operation that returns <code>1</code> if either value
 is <code>1</code>, and <code>0</code> if both are <code>0</code>. In other words, if <code>a</code> and <code>b</code> are a single
 binary digit:</p>
-<p>|--------|---|---|---|---|
-| a      | 0 | 1 | 0 | 1 |
-| b      | 0 | 0 | 1 | 1 |
-| or a b | 0 | 1 | 1 | 1 |</p>
+<table><thead><tr><td>        </td><td>   </td><td>   </td><td>   </td><td>   </td></tr></thead>
+<tr><td> a      </td><td> 0 </td><td> 1 </td><td> 0 </td><td> 1 </td></tr>
+<tr><td> b      </td><td> 0 </td><td> 0 </td><td> 1 </td><td> 1 </td></tr>
+<tr><td> or a b </td><td> 0 </td><td> 1 </td><td> 1 </td><td> 1 </td></tr>
+</table>
 <p>You’ll see charts like this a lot when talking about binary stuff. You can read
 this chart from top to bottom, each column is a case. So the first column says
 “if <code>a</code> is zero and <code>b</code> is zero, <code>or a b</code> will be zero.” The second column says
@@ -307,10 +308,11 @@ continues.</p>
 <p>We’re going to store 200,000 in <code>eax</code>. Here’s the reason: each page is two
 megabytes in size. So in order to get the right memory location, we will
 mutliply 200,000 by the number of the loop counter:</p>
-<p>|------------|---------|---------|---------|---------|---------|
-| counter    | 0       | 1       | 2       | 3       | 4       |
-| 200,000    | 200,000 | 200,000 | 200,000 | 200,000 | 200,000 |
-| multiplied | 0       | 200,000 | 400,000 | 600,000 | 800,000 |</p>
+<table><thead><tr><td>            </td><td>         </td><td>         </td><td>         </td><td>         </td><td>         </td></tr></thead>
+<tr><td> counter    </td><td> 0       </td><td> 1       </td><td> 2       </td><td> 3       </td><td> 4       </td></tr>
+<tr><td> 200,000    </td><td> 200,000 </td><td> 200,000 </td><td> 200,000 </td><td> 200,000 </td><td> 200,000 </td></tr>
+<tr><td> multiplied </td><td> 0       </td><td> 200,000 </td><td> 400,000 </td><td> 600,000 </td><td> 800,000 </td></tr>
+</table>
 <p>And so on. So our pages will be all next to each other, and 200,000 bytes in
 size.</p>
 <pre><code class="language-x86asm">    mul ecx
@@ -330,11 +332,12 @@ instead of it being just <code>p2_table + 0</code>, we’re adding <code>ecx * 8
 is our loop counter. Each entry is eight bytes in size: <code>0b10000011</code>. So we need
 to multiply the counter by eight, and then add it to <code>p2_table</code>. Let’s take a
 closer look: let’s assume <code>p2_table</code> is zero, to make the math easier:</p>
-<p>|---------------------|---------|---------|---------|---------|---------|
-| p2_table           | 0       | 0       | 0       | 0       | 0       |
-| ecx                 | 0       | 1       | 2       | 3       | 4       |
-| ecx * 8             | 0       | 8       | 16      | 24      | 32      |
-| p2_table + ecx * 8 | 0       | 8       | 16      | 24      | 32      |</p>
+<table><thead><tr><td>                     </td><td>         </td><td>         </td><td>         </td><td>         </td><td>         </td></tr></thead>
+<tr><td> p2_table           </td><td> 0       </td><td> 0       </td><td> 0       </td><td> 0       </td><td> 0       </td></tr>
+<tr><td> ecx                 </td><td> 0       </td><td> 1       </td><td> 2       </td><td> 3       </td><td> 4       </td></tr>
+<tr><td> ecx * 8             </td><td> 0       </td><td> 8       </td><td> 16      </td><td> 24      </td><td> 32      </td></tr>
+<tr><td> p2_table + ecx * 8 </td><td> 0       </td><td> 8       </td><td> 16      </td><td> 24      </td><td> 32      </td></tr>
+</table>
 <p>We skip eight spaces each time, so we have room for all eight bits of the page
 table.</p>
 <p>That’s the body of the loop! Now we need to see if we need to keep looping or
@@ -404,7 +407,8 @@ Here’s the steps we need to take:</p>
 </ul>
 <p>These four steps are not particularly interesting, but we have to do them.
 First, let’s do the first step:</p>
-<pre><code class="language-x86asm">    mov eax, p4_table
+<pre><code class="language-x86asm">    ; move page table address to cr3
+    mov eax, p4_table
     mov cr3, eax
 </code></pre>
 <p>So, this might seem a bit redundant: if we put <code>p4_table</code> into <code>eax</code>, and then
@@ -426,13 +430,14 @@ first <code>mov</code> to set <code>p4_table</code> in a register before we can 
 modify it. So first, we <code>mov</code> it into <code>eax</code>, then we use <code>or</code> to change the
 value. What about <code>1 &lt;&lt; 5</code>? The <code>&lt;&lt;</code> is a ‘left shift’. It might be easier to
 show you with a table:</p>
-<p>|-------|-------|
-| value | 00000 |
-| &lt;&lt; 1  | 00001 |
-| &lt;&lt; 2  | 00010 |
-| &lt;&lt; 3  | 00100 |
-| &lt;&lt; 4  | 01000 |
-| &lt;&lt; 5  | 10000 |</p>
+<table><thead><tr><td>       </td><td>       </td></tr></thead>
+<tr><td> value </td><td> 00000 </td></tr>
+<tr><td> &lt;&lt; 1  </td><td> 00001 </td></tr>
+<tr><td> &lt;&lt; 2  </td><td> 00010 </td></tr>
+<tr><td> &lt;&lt; 3  </td><td> 00100 </td></tr>
+<tr><td> &lt;&lt; 4  </td><td> 01000 </td></tr>
+<tr><td> &lt;&lt; 5  </td><td> 10000 </td></tr>
+</table>
 <p>See how the 1 moves left? So <code>1 &lt;&lt; 5</code> is <code>10000</code>. If you only need to set one
 bit, this can be easier than writing out <code>10000</code> itself, as you don’t need to
 count the zeroes.</p>
@@ -460,7 +465,8 @@ we won’t get into too much detail, as it’s not very interesting. Boilerplate
 some bits, move back to the register” pattern. In this case, we set bit 31 and
 bit 16.</p>
 <p>Once we’ve set these bits, we’re done! Here’s the full code listing:</p>
-<pre><code class="language-x86asm">    mov eax, p4_table
+<pre><code class="language-x86asm">    ; move page table address to cr3
+    mov eax, p4_table
     mov cr3, eax
 
     ; enable PAE
