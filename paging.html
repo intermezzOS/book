@@ -1,0 +1,534 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>intermezzOS</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="linux.html"><strong>2.1.</strong> Linux</a></li><li><a href="osx.html"><strong>2.2.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.3.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html" class="active"><strong>4.1.</strong> Paging</a></li><li><strong>4.2.</strong> Setting up a GDT</li><li><strong>4.3.</strong> Jumping headlong into long mode</li></ul></li><li><strong>5.</strong> A Rust kmain()</li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">intermezzOS</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1>Paging</h1>
+<p>At the end of the last chapter, we did a lot of work that wasn’t actually
+writing kernel code. So let’s review what we’re up to:</p>
+<ol>
+<li>GRUB loaded our kernel, and started running it.</li>
+<li>We’re currently running in ‘protected mode’, a 32-bit environment.</li>
+<li>We want to transition to ‘long mode’, the 64-bit environment.</li>
+<li>In order to do that, we have to do some work.</li>
+</ol>
+<p>We’re on step four. More specifically, here’s what we have to do:</p>
+<ol>
+<li>Set up ‘paging’.</li>
+<li>Set up a ‘GDT’.</li>
+<li>Jump to long mode.</li>
+</ol>
+<p>This section covers step one. The next two will cover the other two steps.
+Afterwards, we’ll be ready to stop writing assembly and start writing Rust!</p>
+<blockquote>
+<p><strong>By the way...</strong></p>
+<p>There’s something we’re going to skip here, which we’d want to do in a more
+serious kernel: check to make sure that our hardware can actually do this!
+We’re going to just assume that our ‘hardware’ can run in 64-bit mode, because
+we’re running our OS in QEMU, which supports all of these operations. But if
+we were to run our OS on a real 32-bit computer, it would end up crashing.
+We could check that it’s possible, and then print a nice error message
+instead. But, we won’t cover that here. It’s not particularly interesting, and
+we know that it will never fail. But it might be something you want to explore
+on your own, for extra credit.</p>
+</blockquote>
+<h2>Paging</h2>
+<p>So, step one: set up ‘paging’. What is paging? Paging is a way of managing
+memory. Our computer has memory, and we can think of memory as being a big long
+list of cells:</p>
+<p>| address | value |
++---------+-------+
+| 0x00    | 0     |
+| 0x01    | 0     |
+| 0x02    | 0     |
+| 0x03    | 0     |
+| 0x04    | 0     |
+| ...     |       |</p>
+<p>Each location in memory has an address, and we can use the address to
+distinguish between the cells: the value at cell zero, the value at cell ten.
+But how many cells are there? This question has two answers: the first answer
+is, how many addresses do we have to hand out? In 64-bit mode, we can create
+addresses from zero to (2^64) - 1. That’s 18,446,744,073,709,551,616 addresses!
+We sometimes refer to a sequence of addresses as an ‘address space’, so we might
+say “The full 64-bit address space has 2^64 addresses.” The other answer is, how
+much physical RAM do we have in our machine? That will vary per machine. My
+machine has 8 gigabytes of memory, 8,589,934,592 bytes. But maybe your machine
+has 4 gigabytes of memory, or sixteen gigabytes of memory. How can we make this
+work?</p>
+<p>Here’s the strategy: we introduce two kinds of addresses: <em>physical</em> addresses
+and <em>virtual</em> addresses. A physical address is the actual, real value of a
+location in the physical RAM in the machine. A virtual address is an address
+anywhere inside of our 64-bit address space: the full range. To bridge between
+the two address spaces, we can map a given virtual address to a particular
+physical address. So we might say something like “virtual address 0x044a maps to
+the physical address 0x0011.” Software uses the virtual addresses, and the
+hardware uses physical addresses.</p>
+<p>Mapping each individual address would be extremely inefficient; we would need
+to keep track of literally every memory address and where it points to.
+Instead, we split up memory into chunks, also called ‘pages’, and then map each
+page to an equal sized chunk of physical memory.</p>
+<p>Paging is actually implemented by the a part of the CPU called an ‘MMU’, for
+‘memory management unit’. The MMU will automatically translate virtual
+addresses into their respective physical addresses automatically; we can write
+all of our software with virtual addresses only. The MMU does this with a data
+structure called a ‘page table’. As an operating system, we load up the page
+table with a certain data structure, and then tell the CPU to enable paging.
+This is the task ahead of us; it’s required to set up paging before we
+transition to long mode.</p>
+<p>How should we do our mapping of physical to virtual addresses? You can make
+this easy, or complex, and it depends on exactly what you want your OS to
+be good at. Some strategies are better than others, depending on the kinds of
+programs you expect to be running. We’re going to keep it simple, and use a
+strategy called ‘identity mapping’. This means that every virtual address will
+map to a physical address of the same number. Nothing fancy.</p>
+<p>Let’s talk more about the page table. In long mode, the page table is four
+levels deep, and each page is 4096 bytes in size. What do I mean by levels?
+Here are the official names:</p>
+<ul>
+<li>the Page-Map Level-4 Table (PML4),</li>
+<li>the Page-Directory Pointer Table (PDP),</li>
+<li>the Page-Directory Table (PD),</li>
+<li>and the Page Table (PT).</li>
+</ul>
+<p>I’ve most commonly heard them referred to as a “level x page table”, where <code>x</code>
+goes from four to one. So the PML4 is a “level four page table,” and the PT is
+a “level one page table.” They’re called ‘levels’ because they decend in order:
+each entry in a level 4 page table points to a level 3 page table entry. Each
+level 3 page table entry points at a level 2 page table entry, and each level 2
+page table entry points at a level 1 page table entry. That entry then contains
+the address. Whew! To get started, we only need one entry of each table.</p>
+<h2>Creating the page table</h2>
+<p>So here’s the strategy: create a single entry of each of these tables, then
+point them at each other in the correct way, then tell the CPU that paging
+should be enabled.</p>
+<h3>Creating page table entries</h3>
+<p>To create space for these page table entries, open up <code>boot.asm</code> and add these
+lines at the bottom:</p>
+<pre><code class="language-x86asm">section .bss
+
+align 4096
+
+p4_table:
+    resb 4096
+p3_table:
+    resb 4096
+p2_table:
+    resb 4096
+</code></pre>
+<p>We introduce a new section, ‘bss’. It stands for ‘block started by symbol’, and
+was introduced in the 1950s. The name doesn’t make much sense anymore, but the
+reason we use it is because of its behavior: entries in the bss section are
+automatically set to zero by the linker. This is useful, as we only want certain
+bits set to 1, and most of them set to zero.</p>
+<p>The <code>resb</code> directive reserves bytes; we want to reserve space for each entry.</p>
+<p>The <code>align</code> directive makes sure that we’ve aligned our tables properly. We
+haven’t talked much about alignment yet: the idea is that the addresses here
+will be set to a multiple of 4096, hence ‘aligned’ to 4096 byte chunks. We’ll
+eventually talk more about alignment and why it’s important, but it doesn’t
+matter a ton right now.</p>
+<p>After this has been added, we have a single valid entry for each level.
+However, because our page four entry is all zeroes, we have no valid pages.
+That’s not super useful. Let’s set things up properly.</p>
+<h3>Pointing the entries at each other</h3>
+<p>In order to do this setup, we need to write some more assembly code! Open up
+<code>boot.asm</code>. You can either leave in printing code, or remove it. If you do leave
+it in, add this code before it: that way, if you see your message print out, you
+know it ran successfully.</p>
+<pre><code class="language-x86asm">global start
+
+section .text
+bits 32
+start:
+    ; Point the first entry of the level 4 page table to the first entry in the
+    ; p3 table
+    mov eax, p3_table
+    or eax, 0b11
+    mov dword [p4_table + 0], eax
+</code></pre>
+<p>If you recall, <code>;</code> are comments. Leaving yourself excessive comments in assembly
+files is a good idea. Let’s go over each of these lines:</p>
+<pre><code class="language-x86asm">    mov eax, p3_table
+</code></pre>
+<p>This copies the contents of the first third-level page table entry into the
+<code>eax</code> register. We need to do this because of the next line:</p>
+<pre><code class="language-x86asm">    or eax, 0b11
+</code></pre>
+<p>We take the contents of <code>eax</code> and <code>or</code> it with <code>0b11</code>. First, let’s talk about
+<em>what</em> this does, and then we’ll talk about <em>why</em> we want to do it.</p>
+<p>When dealing with binary, <code>or</code> is an operation that returns <code>1</code> if either value
+is <code>1</code>, and <code>0</code> if both are <code>0</code>. In other words, if <code>a</code> and <code>b</code> are a single
+binary digit:</p>
+<p>|--------|---|---|---|---|
+| a      | 0 | 1 | 0 | 1 |
+| b      | 0 | 0 | 1 | 1 |
+| or a b | 0 | 1 | 1 | 1 |</p>
+<p>You’ll see charts like this a lot when talking about binary stuff. You can read
+this chart from top to bottom, each column is a case. So the first column says
+“if <code>a</code> is zero and <code>b</code> is zero, <code>or a b</code> will be zero.” The second column says
+“if <code>a</code> is one and <code>b</code> is zero, <code>or a b</code> will be one.” And so on.</p>
+<p>Now, we defined <code>p3_table</code> in the BSS section, which means that it will start as
+all zeroes. So when we <code>or</code> with <code>0b11</code>, it means that the first two bits will
+be set to zero, keeping the rest as zeroes.</p>
+<p>Okay, so now we know <em>what</em> we are doing, but <em>why</em>? Each entry in a page table
+contains an address, but it also contains metadata about that page. The first
+two bits are the ‘present bit’ and the ‘writable bit’. By setting the first bit,
+we say “this page is currently in memory,” and by setting the second, we say
+“this page is allowed to be written to.” There are a number of other settings we
+can change this way, but they’re not important for now.</p>
+<p>Now that we have an entry set up properly, the next line is of interest:</p>
+<pre><code class="language-x86asm">    mov dword [p4_table + 0], eax
+</code></pre>
+<p>Another <code>mov</code> instruction, but this time, copying <code>eax</code>, where we’ve been
+setting things up, into... something in brackets. <code>[]</code> means, “I will be giving
+you an address between the brackets. Please do something at the place this
+address points.” In other words, <code>[]</code> is like a dereference operator.</p>
+<p>Now, the address we’ve put is kind of funny looking: <code>p4_table + 0</code>. What’s up
+with that <code>+ 0</code>? It’s not strictly needed: adding zero to something keeps it the
+same. However, it’s intended to convey to the reader that we’re accessing the
+zeroth entry in the page table. We’re about to see some more code later where we
+will do something other than add zero, and so putting it here makes our code
+look more symmetric overall. If you don’t like this style, you don’t have to put
+the zero.</p>
+<p>These few lines form the core of how we’re setting up these page tables. We’re
+going to do the same thing over again, with slight variations.</p>
+<p>Here’s the full thing again:</p>
+<pre><code class="language-x86asm">    ; Point the first entry of the level 4 page table to the first entry in the
+    ; p3 table
+    mov eax, p3_table
+    or eax, 0b11 ; 
+    mov dword [p4_table + 0], eax
+</code></pre>
+<p>Once you feel like you’ve got a handle on that, let’s move on to pointing the
+page three table to the page two table!</p>
+<pre><code class="language-x86asm">    ; Point the first entry of the level 3 page table to the first entry in the
+    ; p2 table
+    mov eax, p2_table
+    or eax, 0b11
+    mov dword [p3_table + 0], eax
+</code></pre>
+<p>The code is the same as above, but with <code>p2_table</code> and <code>p3_table</code> instead of
+<code>p4_table</code> and <code>p3_table</code>. Nothing more than that.</p>
+<p>We have one last thing to do: set up the level two page table to have valid
+references to pages. We’re going to do something we haven’t done yet in
+assembly: write a loop!</p>
+<p>Here’s the basic outline of loop in assembly:</p>
+<ul>
+<li>Create a counter variable to track how many times we’ve looped</li>
+<li>make a label to define where the loop starts</li>
+<li>do the body of the loop</li>
+<li>add one to our counter</li>
+<li>check to see if our counter is equal to the number of times we want to loop</li>
+<li>if it’s not, jump back to the top of the loop</li>
+<li>if it is, we’re done</li>
+</ul>
+<p>It’s a little more detail-oriented than loops in other languages. Usually, you
+have curly braces or indentation to indicate that the body of the loop is
+separate, but we don’t have any of those things here. We also have to write the
+code to increment the counter, and check if we’re done. Lots of little fiddly
+bits. But that’s the nature of what we’re doing!</p>
+<p>Let’s get to it!</p>
+<pre><code class="language-x86asm">    ; point each page table level two entry to a page
+    mov ecx, 0         ; counter variable
+</code></pre>
+<p>In order to write a loop, we need a counter. <code>ecx</code> is the usual loop counter
+register, that’s what the <code>c</code> stands for: counter. We also have a comment
+indicating what we’re doing in this part of the code.</p>
+<p>Next, we need to make a new label:</p>
+<pre><code class="language-x86asm">.map_p2_table:
+</code></pre>
+<p>As we mentioned above, this is where we will loop back to when the loop
+continues.</p>
+<pre><code class="language-x86asm">    mov eax, 0x200000  ; 2MiB
+</code></pre>
+<p>We’re going to store 200,000 in <code>eax</code>. Here’s the reason: each page is two
+megabytes in size. So in order to get the right memory location, we will
+mutliply 200,000 by the number of the loop counter:</p>
+<p>|------------|---------|---------|---------|---------|---------|
+| counter    | 0       | 1       | 2       | 3       | 4       |
+| 200,000    | 200,000 | 200,000 | 200,000 | 200,000 | 200,000 |
+| multiplied | 0       | 200,000 | 400,000 | 600,000 | 800,000 |</p>
+<p>And so on. So our pages will be all next to each other, and 200,000 bytes in
+size.</p>
+<pre><code class="language-x86asm">    mul ecx
+</code></pre>
+<p>Here’s that multiplication! <code>mul</code> takes the value in <code>eax</code>, multiplies it by the
+register you’ve given it, and stores the result in <code>eax</code>. This will be the
+location of the next page.</p>
+<pre><code class="language-x86asm">    or eax, 0b10000011
+</code></pre>
+<p>Next up, our friend <code>or</code>. Here, we don’t just or <code>0b11</code>: we’re also setting
+another bit. This extra <code>1</code> is a ‘huge page’ bit, meaning that the pages are
+200,000 bytes. Without this bit, we’d have 4KiB pages instead of 2MiB pages.</p>
+<pre><code class="language-x86asm">    mov [p2_table + ecx * 8], eax
+</code></pre>
+<p>Just like before, we are now writing the value in <code>eax</code> to a location. But
+instead of it being just <code>p2_table + 0</code>, we’re adding <code>ecx * 8</code> Remember, <code>ecx</code>
+is our loop counter. Each entry is eight bytes in size: <code>0b10000011</code>. So we need
+to multiply the counter by eight, and then add it to <code>p2_table</code>. Let’s take a
+closer look: let’s assume <code>p2_table</code> is zero, to make the math easier:</p>
+<p>|---------------------|---------|---------|---------|---------|---------|
+| p2_table           | 0       | 0       | 0       | 0       | 0       |
+| ecx                 | 0       | 1       | 2       | 3       | 4       |
+| ecx * 8             | 0       | 8       | 16      | 24      | 32      |
+| p2_table + ecx * 8 | 0       | 8       | 16      | 24      | 32      |</p>
+<p>We skip eight spaces each time, so we have room for all eight bits of the page
+table.</p>
+<p>That’s the body of the loop! Now we need to see if we need to keep looping or
+not:</p>
+<pre><code class="language-x86asm">    inc ecx
+    cmp ecx, 512
+    jne .map_p2_table
+</code></pre>
+<p>The <code>inc</code> instruction increments the register it’s given by one. <code>ecx</code> is our loop
+counter, so we’re adding to it. Then, we ‘compare’ with <code>cmp</code>. We’re comparing
+<code>ecx</code> with 512: we want to map 512 page entries overall. This will give us 512 *
+2 mebibytes: one gibibyte of memory. It’s also why we wrote the loop: writing
+out 512 entries by hand is possible, theoretically, but is not fun. Let’s make
+the computer do the math for us.</p>
+<p>The <code>jne</code> instruction is short for ‘jump if not equal’. It checks the result of
+the <code>cmp</code>, and if the comparison says ‘not equal’, it will jump to the label
+we’ve defined. <code>map_p2_table</code> points to the top of the loop.</p>
+<p>That’s it! We’ve written our loop and mapped our second-level page table. Here’s
+the full code of the loop:</p>
+<pre><code class="language-x86asm">    ; point each page table level two entry to a page
+    mov ecx, 0         ; counter variable
+.map_p2_table:
+    mov eax, 0x200000  ; 2MiB
+    mul ecx
+    or eax, 0b10000011
+    mov [p2_table + ecx * 8], eax
+
+    inc ecx
+    cmp ecx, 512
+    jne .map_p2_table
+</code></pre>
+<p>And, with this, we’ve now fully mapped our page table! We’re one step closer to
+being in long mode. Here’s the full code, all in one place:</p>
+<pre><code class="language-x86asm">    ; Point the first entry of the level 4 page table to the first entry in the
+    ; p3 table
+    mov eax, p3_table
+    or eax, 0b11 ; 
+    mov dword [p4_table + 0], eax
+
+    ; Point the first entry of the level 3 page table to the first entry in the
+    ; p2 table
+    mov eax, p2_table
+    or eax, 0b11
+    mov dword [p3_table + 0], eax
+
+    ; point each page table level two entry to a page
+    mov ecx, 0         ; counter variable
+.map_p2_table:
+    mov eax, 0x200000  ; 2MiB
+    mul ecx
+    or eax, 0b10000011
+    mov [p2_table + ecx * 8], eax
+
+    inc ecx
+    cmp ecx, 512
+    jne .map_p2_table
+</code></pre>
+<p>Now that we’ve done this, we have a valid initial page table. Time to enable paging!</p>
+<h3>Enable paging</h3>
+<p>Now that we have a valid page table, we need to inform the hardware about it.
+Here’s the steps we need to take:</p>
+<ul>
+<li>We have to put the address of the level four page table in a special register</li>
+<li>enable ‘physical address extension’</li>
+<li>set the ‘long mode bit’</li>
+<li>enable paging</li>
+</ul>
+<p>These four steps are not particularly interesting, but we have to do them.
+First, let’s do the first step:</p>
+<pre><code class="language-x86asm">    mov eax, p4_table
+    mov cr3, eax
+</code></pre>
+<p>So, this might seem a bit redundant: if we put <code>p4_table</code> into <code>eax</code>, and then
+put <code>eax</code> into <code>cr3</code>, why not just put <code>p4_table</code> into <code>cr3</code>? As it turns out,
+<code>cr3</code> is a special register, called a ‘control register’, hence the <code>cr</code>. The
+<code>cr</code> registers are special: they control how the CPU actually works. In our
+case, the <code>cr3</code> register needs to hold the location of the page table.</p>
+<p>Because it’s a special register, it has some restrictions, and one of those is
+that when you <code>mov</code> to <code>cr3</code>, it has to be from another register. So we need the
+first <code>mov</code> to set <code>p4_table</code> in a register before we can set <code>cr3</code>.</p>
+<p>Step one: done!</p>
+<p>Next, enabling ‘physical address extension’:</p>
+<pre><code class="language-x86asm">    ; enable PAE
+    mov eax, cr4
+    or eax, 1 &lt;&lt; 5
+    mov cr4, eax
+</code></pre>
+<p>In order to set PAE, we need to take the value in the <code>cr4</code> register and
+modify it. So first, we <code>mov</code> it into <code>eax</code>, then we use <code>or</code> to change the
+value. What about <code>1 &lt;&lt; 5</code>? The <code>&lt;&lt;</code> is a ‘left shift’. It might be easier to
+show you with a table:</p>
+<p>|-------|-------|
+| value | 00000 |
+| &lt;&lt; 1  | 00001 |
+| &lt;&lt; 2  | 00010 |
+| &lt;&lt; 3  | 00100 |
+| &lt;&lt; 4  | 01000 |
+| &lt;&lt; 5  | 10000 |</p>
+<p>See how the 1 moves left? So <code>1 &lt;&lt; 5</code> is <code>10000</code>. If you only need to set one
+bit, this can be easier than writing out <code>10000</code> itself, as you don’t need to
+count the zeroes.</p>
+<p>After we modify <code>eax</code> to have this bit set, we <code>mov</code> the value back into <code>cr4</code>.
+PAE has been set! Why is this what you need to do? It just is. The details are
+not really in the scope of this tutorial.</p>
+<p>Okay, so we have step two done. Time for step three: setting the long mode bit:</p>
+<pre><code class="language-x86asm">    ; set the long mode bit
+    mov ecx, 0xC0000080
+    rdmsr
+    or eax, 1 &lt;&lt; 8
+    wrmsr
+</code></pre>
+<p>The <code>rdmsr</code> and <code>wrmsr</code> instructions read and write to a ‘model specific
+register’, hence <code>msr</code>. This is just what you have to do to set this up. Again,
+we won’t get into too much detail, as it’s not very interesting. Boilerplate.</p>
+<p>Finally we are all ready to enable paging!</p>
+<pre><code class="language-x86asm">    ; enable paging
+    mov eax, cr0
+    or eax, 1 &lt;&lt; 31
+    or eax, 1 &lt;&lt; 16
+    mov cr0, eax
+</code></pre>
+<p><code>cr0</code> is the register we need to modify. We do the usual “move to <code>eax</code>, set
+some bits, move back to the register” pattern. In this case, we set bit 31 and
+bit 16.</p>
+<p>Once we’ve set these bits, we’re done! Here’s the full code listing:</p>
+<pre><code class="language-x86asm">    mov eax, p4_table
+    mov cr3, eax
+
+    ; enable PAE
+    mov eax, cr4
+    or eax, 1 &lt;&lt; 5
+    mov cr4, eax
+
+    ; set the long mode bit
+    mov ecx, 0xC0000080
+    rdmsr
+    or eax, 1 &lt;&lt; 8
+    wrmsr
+
+    ; enable paging
+    mov eax, cr0
+    or eax, 1 &lt;&lt; 31
+    or eax, 1 &lt;&lt; 16
+    mov cr0, eax
+</code></pre>
+<h2>... are we in long mode yet?</h2>
+<p>So, <em>technically</em> after paging is enabled, we are in long mode. But we’re not
+in <em>real</em> long mode; we’re in a special compatibility mode. To get to real long
+mode, we need a data structure called a ‘global descriptor table’. Read the next
+section to find out how to make one of these.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="transitioning-to-long-mode.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="appendix/troubleshooting.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="transitioning-to-long-mode.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="appendix/troubleshooting.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
