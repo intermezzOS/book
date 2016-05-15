@@ -37,7 +37,7 @@ memory. Our computer has memory, and we can think of memory as being a big long
 list of cells:
 
 | address | value |
-+---------+-------+
+|---------|-------|
 | 0x00    | 0     |
 | 0x01    | 0     |
 | 0x02    | 0     |
@@ -187,6 +187,7 @@ When dealing with binary, `or` is an operation that returns `1` if either value
 is `1`, and `0` if both are `0`. In other words, if `a` and `b` are a single
 binary digit:
 
+|        |   |   |   |   |
 |--------|---|---|---|---|
 | a      | 0 | 1 | 0 | 1 |
 | b      | 0 | 0 | 1 | 1 |
@@ -303,6 +304,7 @@ megabytes in size. So in order to get the right memory location, we will
 mutliply 200,000 by the number of the loop counter:
 
 
+|            |         |         |         |         |         |
 |------------|---------|---------|---------|---------|---------|
 | counter    | 0       | 1       | 2       | 3       | 4       |
 | 200,000    | 200,000 | 200,000 | 200,000 | 200,000 | 200,000 |
@@ -337,6 +339,7 @@ is our loop counter. Each entry is eight bytes in size: `0b10000011`. So we need
 to multiply the counter by eight, and then add it to `p2_table`. Let’s take a
 closer look: let’s assume `p2_table` is zero, to make the math easier:
 
+|                     |         |         |         |         |         |
 |---------------------|---------|---------|---------|---------|---------|
 | p2\_table           | 0       | 0       | 0       | 0       | 0       |
 | ecx                 | 0       | 1       | 2       | 3       | 4       |
@@ -428,6 +431,7 @@ These four steps are not particularly interesting, but we have to do them.
 First, let’s do the first step:
 
 ```x86asm
+    ; move page table address to cr3
     mov eax, p4_table
     mov cr3, eax
 ```
@@ -458,6 +462,7 @@ modify it. So first, we `mov` it into `eax`, then we use `or` to change the
 value. What about `1 << 5`? The `<<` is a ‘left shift’. It might be easier to
 show you with a table:
 
+|       |       |
 |-------|-------|
 | value | 00000 |
 | << 1  | 00001 |
@@ -505,6 +510,7 @@ bit 16.
 Once we’ve set these bits, we’re done! Here’s the full code listing:
 
 ```x86asm
+    ; move page table address to cr3
     mov eax, p4_table
     mov cr3, eax
 
