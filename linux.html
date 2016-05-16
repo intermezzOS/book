@@ -76,13 +76,12 @@
 <li><code>grub-mkrescue</code> + <code>xorriso</code></li>
 <li><code>qemu</code></li>
 </ul>
-<p>To install Rust, check out <a href="https://github.com/brson/multirust">multirust</a>.</p>
-<p>Once you have it installed, grab a nightly build:</p>
-<pre><code class="language-bash">$ multirust update PUT NIGHTLY HERE
-$ multirust default PUT NIGHTLY HERE
+<p>To install Rust, check out <a href="https://www.rustup.rs/">rustup</a>.</p>
+<p>Once you have installed Rust via <code>rustup</code>, you can switch to the nightly version we will
+be using for intermezzOS by typing</p>
+<pre><code class="language-bash">rustup default nightly-2016-04-12
 </code></pre>
-<p>TODO: https://github.com/intermezzOS/book/issues/26</p>
-<p>How to install the other tools, depends on your distribution.</p>
+<p>How to install the other tools depends on your distribution.</p>
 <p>On Debian you can install them with</p>
 <pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu build-essential
 </code></pre>
