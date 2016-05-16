@@ -10,11 +10,12 @@ Here are the tools we’re going to need:
 
 To install Rust, check out [rustup](https://www.rustup.rs/).
 
-During the installation, you can select "Customize installation" to change
-the default toolchain to "nightly" and optionally allow the script to modify
-your PATH on your behalf. Then proceed with the installation.
+Once you have installed Rust via `rustup`, you can switch to the nightly version we will
+be using for intermezzOS by typing
 
-If you already installed `rust` with the stable toolchain, you can switch to the nightly by typing `rustup default nightly` in a shell.
+```bash
+rustup default nightly-2016-04-12
+```
 
 How to install the other tools depends on your distribution.
 
