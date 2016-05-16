@@ -8,18 +8,16 @@ Here are the tools we’re going to need:
 * `grub-mkrescue` + `xorriso`
 * `qemu`
 
-To install Rust, check out [multirust](https://github.com/brson/multirust).
+To install Rust, check out [rustup](https://www.rustup.rs/).
 
-Once you have it installed, grab a nightly build:
+Once you have installed Rust via `rustup`, you can switch to the nightly version we will
+be using for intermezzOS by typing
 
 ```bash
-$ multirust update PUT NIGHTLY HERE
-$ multirust default PUT NIGHTLY HERE
+rustup default nightly-2016-04-12
 ```
 
-TODO: https://github.com/intermezzOS/book/issues/26
-
-How to install the other tools, depends on your distribution.
+How to install the other tools depends on your distribution.
 
 On Debian you can install them with
 
