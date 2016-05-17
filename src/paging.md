@@ -200,7 +200,7 @@ this chart from top to bottom, each column is a case. So the first column says
 
 Now, we defined `p3_table` in the BSS section, which means that it will start as
 all zeroes. So when we `or` with `0b11`, it means that the first two bits will
-be set to zero, keeping the rest as zeroes.
+be set to one, keeping the rest as zeroes.
 
 Okay, so now we know _what_ we are doing, but _why_? Each entry in a page table
 contains an address, but it also contains metadata about that page. The first
