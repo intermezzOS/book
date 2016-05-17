@@ -233,7 +233,7 @@ this chart from top to bottom, each column is a case. So the first column says
 “if <code>a</code> is one and <code>b</code> is zero, <code>or a b</code> will be one.” And so on.</p>
 <p>Now, we defined <code>p3_table</code> in the BSS section, which means that it will start as
 all zeroes. So when we <code>or</code> with <code>0b11</code>, it means that the first two bits will
-be set to zero, keeping the rest as zeroes.</p>
+be set to one, keeping the rest as zeroes.</p>
 <p>Okay, so now we know <em>what</em> we are doing, but <em>why</em>? Each entry in a page table
 contains an address, but it also contains metadata about that page. The first
 two bits are the ‘present bit’ and the ‘writable bit’. By setting the first bit,
