@@ -462,17 +462,17 @@ modify it. So first, we `mov` it into `eax`, then we use `or` to change the
 value. What about `1 << 5`? The `<<` is a ‘left shift’. It might be easier to
 show you with a table:
 
-|       |       |
-|-------|-------|
-| value | 00000 |
-| << 1  | 00001 |
-| << 2  | 00010 |
-| << 3  | 00100 |
-| << 4  | 01000 |
-| << 5  | 10000 |
+|       |  value |
+|-------|--------|
+| 1     | 000001 |
+|  << 1 | 000010 |
+|  << 2 | 000100 |
+|  << 3 | 001000 |
+|  << 4 | 010000 |
+|  << 5 | 100000 |
 
-See how the 1 moves left? So `1 << 5` is `10000`. If you only need to set one
-bit, this can be easier than writing out `10000` itself, as you don’t need to
+See how the 1 moves left? So `1 << 5` is `100000` (or 2^5 if you like maths; incidentally 1<<n = 2^n). If you only need to set one
+bit, this can be easier than writing out `100000` itself, as you don’t need to
 count the zeroes.
 
 After we modify `eax` to have this bit set, we `mov` the value back into `cr4`.
