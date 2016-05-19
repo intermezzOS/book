@@ -430,16 +430,16 @@ first <code>mov</code> to set <code>p4_table</code> in a register before we can 
 modify it. So first, we <code>mov</code> it into <code>eax</code>, then we use <code>or</code> to change the
 value. What about <code>1 &lt;&lt; 5</code>? The <code>&lt;&lt;</code> is a ‘left shift’. It might be easier to
 show you with a table:</p>
-<table><thead><tr><td>       </td><td>       </td></tr></thead>
-<tr><td> value </td><td> 00000 </td></tr>
-<tr><td> &lt;&lt; 1  </td><td> 00001 </td></tr>
-<tr><td> &lt;&lt; 2  </td><td> 00010 </td></tr>
-<tr><td> &lt;&lt; 3  </td><td> 00100 </td></tr>
-<tr><td> &lt;&lt; 4  </td><td> 01000 </td></tr>
-<tr><td> &lt;&lt; 5  </td><td> 10000 </td></tr>
+<table><thead><tr><td>       </td><td>  value </td></tr></thead>
+<tr><td> 1     </td><td> 000001 </td></tr>
+<tr><td>  &lt;&lt; 1 </td><td> 000010 </td></tr>
+<tr><td>  &lt;&lt; 2 </td><td> 000100 </td></tr>
+<tr><td>  &lt;&lt; 3 </td><td> 001000 </td></tr>
+<tr><td>  &lt;&lt; 4 </td><td> 010000 </td></tr>
+<tr><td>  &lt;&lt; 5 </td><td> 100000 </td></tr>
 </table>
-<p>See how the 1 moves left? So <code>1 &lt;&lt; 5</code> is <code>10000</code>. If you only need to set one
-bit, this can be easier than writing out <code>10000</code> itself, as you don’t need to
+<p>See how the 1 moves left? So <code>1 &lt;&lt; 5</code> is <code>100000</code> (or 2^5 if you like maths; incidentally 1&lt;&lt;n = 2^n). If you only need to set one
+bit, this can be easier than writing out <code>100000</code> itself, as you don’t need to
 count the zeroes.</p>
 <p>After we modify <code>eax</code> to have this bit set, we <code>mov</code> the value back into <code>cr4</code>.
 PAE has been set! Why is this what you need to do? It just is. The details are
