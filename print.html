@@ -47,7 +47,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="linux.html"><strong>2.1.</strong> Linux</a></li><li><a href="osx.html"><strong>2.2.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.3.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><strong>4.2.</strong> Setting up a GDT</li><li><strong>4.3.</strong> Jumping headlong into long mode</li></ul></li><li><strong>5.</strong> A Rust kmain()</li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="linux.html"><strong>2.1.</strong> Linux</a></li><li><a href="osx.html"><strong>2.2.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.3.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong>4.2.</strong> Setting up a GDT</a></li><li><strong>4.3.</strong> Jumping headlong into long mode</li></ul></li><li><strong>5.</strong> A Rust kmain()</li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -2030,6 +2030,97 @@ bit 16.</p>
 in <em>real</em> long mode; we’re in a special compatibility mode. To get to real long
 mode, we need a data structure called a ‘global descriptor table’. Read the next
 section to find out how to make one of these.</p>
+<h1>Setting up a GDT</h1>
+<p>We’re so close! We’re currently in long mode, but not ‘real’ long mode. We need
+to go from this ‘compatibility mode’ to honest-to-goodness long mode. To do
+this, we need to set up a ‘global descriptor table’.</p>
+<p>This table, also known as a GDT, is kind of vestigial. The GDT is used for a
+style of memory handling called ‘segmentation’, which is in contrast to the
+paging model that we just set up. Even though we’re not using segmentation,
+however, we’re still required to have a valid GDT. Such is life.</p>
+<p>So let’s set up a minimal GDT. Our GDT will have three entries:</p>
+<ul>
+<li>a ‘zero entry’</li>
+<li>a ‘code segment’</li>
+<li>a ‘data segment’</li>
+</ul>
+<p>If we were going to be using the GDT for real stuff, it could have a number
+of code and data segment entries. But we need at least one of each to have a
+minimum viable table, so let’s get to it!</p>
+<h2>The Zero entry</h2>
+<p>The first entry in the GDT is special: it needs to be a zero value. Add this
+to the bottom of <code>boot.asm</code>:</p>
+<pre><code class="language-x86asm">section .rodata
+gdt64:
+    dq 0
+</code></pre>
+<p>We have a new section: <code>rodata</code>. This stands for ‘read only data’, and since
+we’re not going to modify our GDT, having it be read-only is a good idea.</p>
+<p>Next, we have a label: <code>gdt64</code>. We’ll use this label later, to tell the hardware
+where our GDT is located.</p>
+<p>Finally, <code>dq 0</code>. This is ‘define quad-word’, in other words, a 64-bit value.
+Given that it’s a zero entry, it shouldn’t be too surprising that the value of
+this entry is zero!</p>
+<p>That’s all there is to it.</p>
+<h2>Setting up a code segment</h2>
+<p>Next, we need a code segment. Add this below the <code>dq 0</code>:</p>
+<pre><code class="language-x86asm">    dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41) | (1&lt;&lt;43) | (1&lt;&lt;53)
+</code></pre>
+<p>If you recall from the last section, <code>1&lt;&lt;44</code> means ‘left shift one 44 places’,
+which sets the 44th bit. But what about <code>|</code>? This means <code>or</code>. So, if we <code>or</code>
+a bunch of these values together, we’ll end up with a value that has the 44th,
+47th, 41st, 43rd, and 53rd bit set.</p>
+<p>Why <code>|</code> and not <code>or</code>, like before? Well, here, we’re not running assembly
+instructions: we’re defining some data. So there’s no instruction to execute, so
+the language used is a bit different.</p>
+<p>Finally, why these bits? Well, as we’ve seen with other table entries, each bit
+has a meaning. Here’s a summary:</p>
+<ul>
+<li>44: ‘descriptor type’: This has to be <code>1</code> for code and data segments</li>
+<li>47: ‘present’: This is set to <code>1</code> if the entry is valid</li>
+<li>41: ‘read/write’: If this is a code segment, <code>1</code> means that it’s readable</li>
+<li>43: ‘executable’: Set to `1 for code segments</li>
+<li>53: ‘64-bit’: if this is a 64-bit GDT, this should be set</li>
+</ul>
+<p>That’s all we need for a valid code segment!</p>
+<h2>Setting up a data segment</h2>
+<p>Below the code segment, add this for a data segment:</p>
+<pre><code class="language-x86asm">    dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
+</code></pre>
+<p>We need less bits set for a data segment. But they’re ones we covered before.
+The only difference is bit 41; for data segments, a <code>1</code> means that it’s
+writable.</p>
+<h2>Putting it all together</h2>
+<p>Here’s our whole GDT:</p>
+<pre><code class="language-x86asm">section .rodata
+gdt64:
+    dq 0
+    dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41) | (1&lt;&lt;43) | (1&lt;&lt;53)
+    dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
+</code></pre>
+<p>We’re so close! Now, to tell the hardware about our GDT. There’s a special
+assembly instruction for this: <code>lgdt</code>. But it doesn’t take the GDT itself; it
+takes a special structure: two bytes for the length, and eight bytes for the
+address. So we have to set <em>that</em> up.</p>
+<p>Below these <code>dq</code>s, add this:</p>
+<pre><code class="language-x86asm">.pointer:
+    dw .pointer - gdt64 - 1
+    dq gdt64
+</code></pre>
+<p>To calculate the length, we take the value of this new label, <code>pointer</code>, and
+subtract the value of <code>gdt64</code>, and then subtract one more. We could calculate
+this length manually, but if we do it this way, if we add another GDT entry for
+some reason, it will automatically correct itself, which is nice.</p>
+<p>The <code>dq</code> here has the address of our table. Straightforward.</p>
+<h2>Load the GDT</h2>
+<p>So! We’re finally ready to tell the hardware about our GDT. Add this line after
+all of the paging stuff we did in the last chapter:</p>
+<pre><code class="language-x86asm">    lgdt [gdt64.pointer]
+</code></pre>
+<p>We pass <code>lgdt</code> the value of our <code>pointer</code> label. <code>lgdt</code> stands for ‘load global
+descriptor table. That’s it!</p>
+<p>We have all of the prerequisites done! In the next section, we will complete our
+transition by jumping to long mode.</p>
 <h1>Appendix A: Troubleshooting</h1>
 <p>In this appendix, we will cover common errors and their solutions for
 various chapters of the book.</p>
