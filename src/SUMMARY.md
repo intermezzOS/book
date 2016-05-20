@@ -19,7 +19,7 @@
     - [Automation with Make](automation-with-make.md)
 - [Transitioning to Long Mode](transitioning-to-long-mode.md)
     - [Paging](paging.md)
-    - [Setting up a GDT]()
+    - [Setting up a GDT](setting-up-a-gdt.md)
     - [Jumping headlong into long mode]()
 - [A Rust kmain()]()
 - [A simple VGA driver]()
