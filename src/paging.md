@@ -71,14 +71,13 @@ to keep track of literally every memory address and where it points to.
 Instead, we split up memory into chunks, also called ‘pages’, and then map each
 page to an equal sized chunk of physical memory.
 
-Paging is actually implemented by the a part of the CPU called an ‘MMU’, for
-‘memory management unit’. The MMU will automatically translate virtual
-addresses into their respective physical addresses automatically; we can write
-all of our software with virtual addresses only. The MMU does this with a data
-structure called a ‘page table’. As an operating system, we load up the page
-table with a certain data structure, and then tell the CPU to enable paging.
-This is the task ahead of us; it’s required to set up paging before we
-transition to long mode.
+Paging is actually implemented by a part of the CPU called an ‘MMU’, for ‘memory
+management unit’. The MMU will automatically translate virtual addresses into
+their respective physical addresses automatically; we can write all of our
+software with virtual addresses only. The MMU does this with a data structure
+called a ‘page table’. As an operating system, we load up the page table with a
+certain data structure, and then tell the CPU to enable paging. This is the task
+ahead of us; it’s required to set up paging before we transition to long mode.
 
 How should we do our mapping of physical to virtual addresses? You can make
 this easy, or complex, and it depends on exactly what you want your OS to
@@ -237,7 +236,7 @@ Here’s the full thing again:
     ; Point the first entry of the level 4 page table to the first entry in the
     ; p3 table
     mov eax, p3_table
-    or eax, 0b11 ; 
+    or eax, 0b11 ;
     mov dword [p4_table + 0], eax
 ```
 
@@ -393,7 +392,7 @@ being in long mode. Here’s the full code, all in one place:
     ; Point the first entry of the level 4 page table to the first entry in the
     ; p3 table
     mov eax, p3_table
-    or eax, 0b11 ; 
+    or eax, 0b11 ;
     mov dword [p4_table + 0], eax
 
     ; Point the first entry of the level 3 page table to the first entry in the
