@@ -10,13 +10,12 @@ writing kernel code. So let’s review what we’re up to:
 
 We’re on step four. More specifically, here’s what we have to do:
 
-1. Set up ‘paging’.
-2. Set up a ‘GDT’.
+1. Set up something called ‘paging’.
+2. Set up something called a ‘GDT’.
 3. Jump to long mode.
 
 This section covers step one. The next two will cover the other two steps.
 Afterwards, we’ll be ready to stop writing assembly and start writing Rust!
-
 
 > **By the way...**
 >
@@ -47,15 +46,25 @@ list of cells:
 
 Each location in memory has an address, and we can use the address to
 distinguish between the cells: the value at cell zero, the value at cell ten.
-But how many cells are there? This question has two answers: the first answer
-is, how many addresses do we have to hand out? In 64-bit mode, we can create
-addresses from zero to (2^64) - 1. That’s 18,446,744,073,709,551,616 addresses!
-We sometimes refer to a sequence of addresses as an ‘address space’, so we might
-say “The full 64-bit address space has 2^64 addresses.” The other answer is, how
-much physical RAM do we have in our machine? That will vary per machine. My
-machine has 8 gigabytes of memory, 8,589,934,592 bytes. But maybe your machine
-has 4 gigabytes of memory, or sixteen gigabytes of memory. How can we make this
-work?
+
+But how many cells are there? This question has two answers: The first answer is
+how much physical memory (RAM) do we have in our machine? This will vary per machine.
+My machine has 8 gigabytes of memory or 8,589,934,592 bytes. But maybe your machine
+has 4 gigabytes of memory, or sixteen gigabytes of memory.
+
+The second answer to how many cells there are is how many addresses can be used
+to refer to cells of memory? To answer that we need to figure out how many different
+unique numbers we can make. In 64-bit mode, we can create as many addresses as can be
+expressed by a 64-bit number. So that means we can make addresses from zero to
+(2^64) - 1. That’s 18,446,744,073,709,551,616 addresses! We sometimes refer to a
+sequence of addresses as an ‘address space’, so we might say “The full 64-bit address
+space has 2^64 addresses.”
+
+So now we have an imbalance. We have only roughly 8.5 billion actual physical memory
+slots in an 8GB machine but quintillions of possible addresses we can make.
+
+How can we resolve this imbalance? We don't want to be able to address memory
+that doesn't exist!
 
 Here’s the strategy: we introduce two kinds of addresses: *physical* addresses
 and *virtual* addresses. A physical address is the actual, real value of a
@@ -70,6 +79,16 @@ Mapping each individual address would be extremely inefficient; we would need
 to keep track of literally every memory address and where it points to.
 Instead, we split up memory into chunks, also called ‘pages’, and then map each
 page to an equal sized chunk of physical memory.
+
+> **By the way...**
+> In the future we'll be using paging to help us implement something called
+> "virtual memory". Besides helping us always be able to map a 64-bit number to
+> a real place in physical memory, "virtual memory" is useful for other reasons.
+> These reasons don't really come into play at this point, so we'll hold off on
+> discussing them. For now, it's just important to know that we need paging to
+> enter 64-bit long mode and that it's a good idea for many reasons including
+> helping us resolve the fact the we have way less actual memory than possible
+> addresses to refer to that memory.
 
 Paging is actually implemented by a part of the CPU called an ‘MMU’, for ‘memory
 management unit’. The MMU will automatically translate virtual addresses into
