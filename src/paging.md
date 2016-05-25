@@ -81,14 +81,14 @@ Instead, we split up memory into chunks, also called ‘pages’, and then map e
 page to an equal sized chunk of physical memory.
 
 > **By the way...**
-> We're using paging to implement something called "virtual memory". Besides
-> helping us always be able to map a 64-bit number to a real place in physical
-> memory, "virtual memory" is useful for other reasons. These reasons don't
-> really come into play at this point, so we'll hold off on discussing them. For
-> now, it's just important to know that we need paging to enter 64-bit long
-> mode and that it's a good idea for many reasons including helping us resolve
-> the fact the we have way less actual memory than possible addresses to refer
-> to that memory.
+> In the future we'll be using paging to help us implement something called
+> "virtual memory". Besides helping us always be able to map a 64-bit number to
+> a real place in physical memory, "virtual memory" is useful for other reasons.
+> These reasons don't really come into play at this point, so we'll hold off on
+> discussing them. For now, it's just important to know that we need paging to
+> enter 64-bit long mode and that it's a good idea for many reasons including
+> helping us resolve the fact the we have way less actual memory than possible
+> addresses to refer to that memory.
 
 Paging is actually implemented by a part of the CPU called an ‘MMU’, for ‘memory
 management unit’. The MMU will automatically translate virtual addresses into
