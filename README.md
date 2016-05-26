@@ -5,7 +5,7 @@
 This project is built using [Rust], so you'll need to
 install Rust in order to build the book.
 
-[`multi-rust`] is the recommended way to install Rust.
+[`rustup`] is the recommended way to install Rust.
 
 You also can download Rust [here][1].
 
@@ -25,5 +25,5 @@ Open `index.html` in your browser to view the built book.
 
 [`mdbook`]: https://github.com/azerupi/mdBook
 [1]: https://www.rust-lang.org/downloads.html
-[`multi-rust`]: https://github.com/brson/multirust
+[`rustup`]: https://www.rustup.rs
 [Rust]: http://www.rust-lang.org
