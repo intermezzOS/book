@@ -317,18 +317,18 @@ continues.
     mov eax, 0x200000  ; 2MiB
 ```
 
-We’re going to store 200,000 in `eax`. Here’s the reason: each page is two
-megabytes in size. So in order to get the right memory location, we will
-mutliply 200,000 by the number of the loop counter:
+We’re going to store 2,097,152 in `eax`, or 2MiB. Here’s the reason: each 
+page is two megabytes in size. So in order to get the right memory location, 
+we will multiply the number of the loop counter by 2MiB:
 
 
 |            |         |         |         |         |         |
 |------------|---------|---------|---------|---------|---------|
 | counter    | 0       | 1       | 2       | 3       | 4       |
-| 200,000    | 200,000 | 200,000 | 200,000 | 200,000 | 200,000 |
-| multiplied | 0       | 200,000 | 400,000 | 600,000 | 800,000 |
+| 0x200000   | 0x200000| 0x200000| 0x200000| 0x200000| 0x020000|
+| multiplied | 0       | 0x200000| 0x400000| 0x600000| 0x800000|
 
-And so on. So our pages will be all next to each other, and 200,000 bytes in
+And so on. So our pages will be all next to each other, and 2,097,152 bytes in
 size.
 
 ```x86asm
@@ -345,7 +345,7 @@ location of the next page.
 
 Next up, our friend `or`. Here, we don’t just or `0b11`: we’re also setting
 another bit. This extra `1` is a ‘huge page’ bit, meaning that the pages are
-200,000 bytes. Without this bit, we’d have 4KiB pages instead of 2MiB pages.
+2,097,152 bytes. Without this bit, we’d have 4KiB pages instead of 2MiB pages.
 
 ```x86asm
     mov [p2_table + ecx * 8], eax
