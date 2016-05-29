@@ -23,7 +23,7 @@ Let’s talk about this command before we move on:
 qemu-system-x86_64
 ```
 
-We’re running the `x86_64` varient of QEMU. While we have a 32-bit kernel for
+We’re running the `x86_64` variant of QEMU. While we have a 32-bit kernel for
 now, soon we’ll have a 64-bit one. And since things are backwards compatible,
 this works just fine.
 
