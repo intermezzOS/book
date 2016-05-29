@@ -333,9 +333,9 @@ mutliply 200,000 by the number of the loop counter:</p>
 size.</p>
 <pre><code class="language-x86asm">    mul ecx
 </code></pre>
-<p>Here’s that multiplication! <code>mul</code> takes the value in <code>eax</code>, multiplies it by the
-register you’ve given it, and stores the result in <code>eax</code>. This will be the
-location of the next page.</p>
+<p>Here’s that multiplication! <code>mul</code> takes just one argument, which in this case
+is our <code>ecx</code> counter, and multiplies that by <code>eax</code>, storing the result in
+<code>eax</code>. This will be the location of the next page.</p>
 <pre><code class="language-x86asm">    or eax, 0b10000011
 </code></pre>
 <p>Next up, our friend <code>or</code>. Here, we don’t just or <code>0b11</code>: we’re also setting
