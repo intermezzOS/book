@@ -335,9 +335,9 @@ size.
     mul ecx
 ```
 
-Here’s that multiplication! `mul` takes the value in `eax`, multiplies it by the
-register you’ve given it, and stores the result in `eax`. This will be the
-location of the next page.
+Here’s that multiplication! `mul` takes just one argument, which in this case
+is our `ecx` counter, and multiplies that by `eax`, storing the result in 
+`eax`. This will be the location of the next page. 
 
 ```x86asm
     or eax, 0b10000011
