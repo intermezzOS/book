@@ -197,7 +197,7 @@ V V
 0 2 48 &lt;- letter, in ASCII
 </code></pre>
 <p>We’ll start at the right. First, two numbers are the letter, in ASCII. <code>H</code> is
-72 in ASCII, and 48 is 72 in hexidecimal: <code>(4 * 16) + 8 = 72</code>. So this will
+72 in ASCII, and 48 is 72 in hexadecimal: <code>(4 * 16) + 8 = 72</code>. So this will
 write <code>H</code>.</p>
 <p>The other two numbers are colors. There are 16 colors available, each with a
 number. Here’s the table:</p>
@@ -232,10 +232,10 @@ start:
     mov word [0xb8002], 0x0265 ; e
     hlt
 </code></pre>
-<p>Lower case <code>e</code> is <code>65</code> in ASCII, at least, in hexidecimal. And <code>02</code> is our same
+<p>Lower case <code>e</code> is <code>65</code> in ASCII, at least, in hexadecimal. And <code>02</code> is our same
 color code. But you’ll notice that the memory location is different.</p>
-<p>Okay, so we copied four hexidecimal digits into memory, right? For our <code>H</code>.
-<code>0248</code>. A hexidecimal digit has sixteen values, so two of them are 32. Since we
+<p>Okay, so we copied four hexadecimal digits into memory, right? For our <code>H</code>.
+<code>0248</code>. A hexadecimal digit has sixteen values, so two of them are 32. Since we
 need one word for the colors, and one word for the <code>H</code>, that’s two words.
 Hence, if our first memory position is at <code>0</code>, the second letter will start at
 <code>2</code>.</p>
