@@ -170,7 +170,7 @@ V V
 ```
 
 We’ll start at the right. First, two numbers are the letter, in ASCII. `H` is
-72 in ASCII, and 48 is 72 in hexidecimal: `(4 * 16) + 8 = 72`. So this will
+72 in ASCII, and 48 is 72 in hexadecimal: `(4 * 16) + 8 = 72`. So this will
 write `H`.
 
 The other two numbers are colors. There are 16 colors available, each with a
@@ -213,11 +213,11 @@ start:
     hlt
 ```
 
-Lower case `e` is `65` in ASCII, at least, in hexidecimal. And `02` is our same
+Lower case `e` is `65` in ASCII, at least, in hexadecimal. And `02` is our same
 color code. But you’ll notice that the memory location is different.
 
-Okay, so we copied four hexidecimal digits into memory, right? For our `H`.
-`0248`. A hexidecimal digit has sixteen values, so two of them are 32. Since we
+Okay, so we copied four hexadecimal digits into memory, right? For our `H`.
+`0248`. A hexadecimal digit has sixteen values, so two of them are 32. Since we
 need one word for the colors, and one word for the `H`, that’s two words.
 Hence, if our first memory position is at `0`, the second letter will start at
 `2`.
