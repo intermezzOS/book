@@ -1860,15 +1860,15 @@ indicating what we’re doing in this part of the code.</p>
 continues.</p>
 <pre><code class="language-x86asm">    mov eax, 0x200000  ; 2MiB
 </code></pre>
-<p>We’re going to store 200,000 in <code>eax</code>. Here’s the reason: each page is two
-megabytes in size. So in order to get the right memory location, we will
-mutliply 200,000 by the number of the loop counter:</p>
+<p>We’re going to store 0x200000 in <code>eax</code>, or 2,097,152 which is equivalent to 2 MiB.
+Here’s the reason: each page is two megabytes in size. So in order to get the
+right memory location, we will multiply the number of the loop counter by 0x200000:</p>
 <table><thead><tr><td>            </td><td>         </td><td>         </td><td>         </td><td>         </td><td>         </td></tr></thead>
 <tr><td> counter    </td><td> 0       </td><td> 1       </td><td> 2       </td><td> 3       </td><td> 4       </td></tr>
-<tr><td> 200,000    </td><td> 200,000 </td><td> 200,000 </td><td> 200,000 </td><td> 200,000 </td><td> 200,000 </td></tr>
-<tr><td> multiplied </td><td> 0       </td><td> 200,000 </td><td> 400,000 </td><td> 600,000 </td><td> 800,000 </td></tr>
+<tr><td> 0x200000   </td><td> 0x200000</td><td> 0x200000</td><td> 0x200000</td><td> 0x200000</td><td> 0x020000</td></tr>
+<tr><td> multiplied </td><td> 0       </td><td> 0x200000</td><td> 0x400000</td><td> 0x600000</td><td> 0x800000</td></tr>
 </table>
-<p>And so on. So our pages will be all next to each other, and 200,000 bytes in
+<p>And so on. So our pages will be all next to each other, and 2,097,152 bytes in
 size.</p>
 <pre><code class="language-x86asm">    mul ecx
 </code></pre>
@@ -1879,7 +1879,7 @@ is our <code>ecx</code> counter, and multiplies that by <code>eax</code>, storin
 </code></pre>
 <p>Next up, our friend <code>or</code>. Here, we don’t just or <code>0b11</code>: we’re also setting
 another bit. This extra <code>1</code> is a ‘huge page’ bit, meaning that the pages are
-200,000 bytes. Without this bit, we’d have 4KiB pages instead of 2MiB pages.</p>
+2,097,152 bytes. Without this bit, we’d have 4KiB pages instead of 2MiB pages.</p>
 <pre><code class="language-x86asm">    mov [p2_table + ecx * 8], eax
 </code></pre>
 <p>Just like before, we are now writing the value in <code>eax</code> to a location. But
