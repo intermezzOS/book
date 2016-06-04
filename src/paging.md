@@ -317,9 +317,9 @@ continues.
     mov eax, 0x200000  ; 2MiB
 ```
 
-We’re going to store 2,097,152 in `eax`, or 2MiB. Here’s the reason: each 
-page is two megabytes in size. So in order to get the right memory location, 
-we will multiply the number of the loop counter by 2MiB:
+We’re going to store 0x200000 in `eax`, or 2,097,152 which is equivalent to 2 MiB. 
+Here’s the reason: each page is two megabytes in size. So in order to get the 
+right memory location, we will multiply the number of the loop counter by 0x200000:
 
 
 |            |         |         |         |         |         |
