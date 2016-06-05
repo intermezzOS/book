@@ -91,7 +91,7 @@ page to an equal sized chunk of physical memory.
 > addresses to refer to that memory.
 
 Paging is actually implemented by a part of the CPU called an ‘MMU’, for ‘memory
-management unit’. The MMU will automatically translate virtual addresses into
+management unit’. The MMU will translate virtual addresses into
 their respective physical addresses automatically; we can write all of our
 software with virtual addresses only. The MMU does this with a data structure
 called a ‘page table’. As an operating system, we load up the page table with a
@@ -336,8 +336,8 @@ size.
 ```
 
 Here’s that multiplication! `mul` takes just one argument, which in this case
-is our `ecx` counter, and multiplies that by `eax`, storing the result in 
-`eax`. This will be the location of the next page. 
+is our `ecx` counter, and multiplies that by `eax`, storing the result in
+`eax`. This will be the location of the next page.
 
 ```x86asm
     or eax, 0b10000011
