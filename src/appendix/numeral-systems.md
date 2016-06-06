@@ -50,7 +50,7 @@ exercise with other numeral systems to get a better feel for them.
 
 ### Let's Use Math
 
-We can sumarize what we just said with a math formula:
+We can summarize what we just said with a math formula:
 
 \\[ 1 \cdot 10^1 + 2 \cdot 10^0 = 12 \\]
 
@@ -90,7 +90,7 @@ symbols to work with to represent all the numbers: `0`, `1`. Say
 goodbye to `3`, `4`, `5`, `6`, `7`, `8`, and `9`. We can't use them.
 
 So when we have the binary number `10` we don't have the number ten. What we've really
-done is counted *once trough all the digits of the system* `0`, `1` and
+done is counted *once through all the digits of the system* `0`, `1` and
 started again. So we have the number two.
 
 ### Let's Count
