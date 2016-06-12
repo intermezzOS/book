@@ -20,7 +20,7 @@
 - [Transitioning to Long Mode](transitioning-to-long-mode.md)
     - [Paging](paging.md)
     - [Setting up a GDT](setting-up-a-gdt.md)
-    - [Jumping headlong into long mode]()
+    - [Jumping headlong into long mode](jumping-headlong-into-long-mode.md)
 - [A Rust kmain()]()
 - [A simple VGA driver]()
 - [Keyboard input]()

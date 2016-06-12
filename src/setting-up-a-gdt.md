@@ -47,13 +47,15 @@ That’s all there is to it.
 Next, we need a code segment. Add this below the `dq 0`:
 
 ```x86asm
+.code: equ $ - gdt64
     dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
 ```
 
-If you recall from the last section, `1<<44` means ‘left shift one 44 places’,
-which sets the 44th bit. But what about `|`? This means `or`. So, if we `or`
-a bunch of these values together, we’ll end up with a value that has the 44th,
-47th, 41st, 43rd, and 53rd bit set.
+Let's talk about the `dq` line first. If you recall from the last section,
+`1<<44` means ‘left shift one 44 places’, which sets the 44th bit. But what
+about `|`? This means `or`. So, if we `or` a bunch of these values together,
+we’ll end up with a value that has the 44th, 47th, 41st, 43rd, and 53rd bit
+set.
 
 Why `|` and not `or`, like before? Well, here, we’re not running assembly
 instructions: we’re defining some data. So there’s no instruction to execute, so
@@ -70,17 +72,41 @@ has a meaning. Here’s a summary:
 
 That’s all we need for a valid code segment!
 
+Oh, but let's not forget about the other line:
+
+```x86asm
+.code: equ $ - gdt64
+```
+
+What's up with this? So, in a bit, we'll need to reference this entry somehow.
+But we don't reference the entry by its address, we reference it by an offset.
+If we needed just an address, we could use `code:`. But we can't, so we need
+more. Also, note that period at the start, it's `.code:`. This tells the
+assembler to scope this label under the last label that appeared, so we'll
+say `gdt64.code` rather than just `code`. Some nice enapsulation.
+
+So that's what's up with the label, but we still have this `equ $ - gdt64` bit.
+`$` is the current position. So we're subtracting the current position from the
+address of `gdt64`. Conveniently, that's the offset number we need for later:
+how far is this segment past the start of the GDT. The `equ` sets the address
+for the label; in other words, this line is saying "set the `.code` label's
+value to the current address minus the address of `gdt64`. Got it?
+
 ## Setting up a data segment
 
 Below the code segment, add this for a data segment:
 
 ```x86asm
+.data: equ $ - gdt64
     dq (1<<44) | (1<<47) | (1<<41)
 ```
 
 We need less bits set for a data segment. But they’re ones we covered before.
 The only difference is bit 41; for data segments, a `1` means that it’s
 writable.
+
+We also use the same trick again with the labels, calculating the offset with
+`equ`.
 
 ## Putting it all together
 
@@ -90,6 +116,10 @@ Here’s our whole GDT:
 section .rodata
 gdt64:
     dq 0
+.code: equ $ - gdt64
+    dq (1<<44) | (1<<47) | (1<<41)
+.data: equ $ - gdt64
+    dq (1<<44) | (1<<47) | (1<<41)
     dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
     dq (1<<44) | (1<<47) | (1<<41)
 ```
