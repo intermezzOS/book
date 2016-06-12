@@ -13,7 +13,7 @@ target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib: target/libcor
         cp x86_64-unknown-intermezzos-gnu.json target/libcore
         cd target/libcore && cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
 
-target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a: target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib
+cargo: target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib
         RUSTFLAGS="-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --release --target x86_64-unknown-intermezzos-gnu.json
 ```
 
@@ -36,7 +36,7 @@ into these three rules is.
 Try it out:
 
 ```bash
-$ make target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
+$ make cargo
 git clone http://github.com/intermezzos/libcore target/libcore
 Cloning into 'target/libcore'...
 remote: Counting objects: 140, done.
@@ -60,7 +60,7 @@ about this makefile: in a strict sense, it will try and rebuild too much. But
 watch what happens if we try to build a second time:
 
 ```bash
-$ make target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
+$ make cargo
 cp x86_64-unknown-intermezzos-gnu.json target/libcore
 cd target/libcore && cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
 RUSTFLAGS="-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --target x86_64-unknown-intermezzos-gnu.json
@@ -76,7 +76,7 @@ Now that we have it building, we need to modify the rule that builds the kernel
 to include `libintermezzos.a`:
 
 ```make
-target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
+target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
         ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
 ```
 
