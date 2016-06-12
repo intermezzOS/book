@@ -83,7 +83,7 @@ But we don't reference the entry by its address, we reference it by an offset.
 If we needed just an address, we could use `code:`. But we can't, so we need
 more. Also, note that period at the start, it's `.code:`. This tells the
 assembler to scope this label under the last label that appeared, so we'll
-say `gdt64.code` rather than just `code`. Some nice enapsulation.
+say `gdt64.code` rather than just `code`. Some nice encapsulation.
 
 So that's what's up with the label, but we still have this `equ $ - gdt64` bit.
 `$` is the current position. So we're subtracting the current position from the
