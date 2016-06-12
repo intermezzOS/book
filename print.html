@@ -2109,7 +2109,7 @@ But we don't reference the entry by its address, we reference it by an offset.
 If we needed just an address, we could use <code>code:</code>. But we can't, so we need
 more. Also, note that period at the start, it's <code>.code:</code>. This tells the
 assembler to scope this label under the last label that appeared, so we'll
-say <code>gdt64.code</code> rather than just <code>code</code>. Some nice enapsulation.</p>
+say <code>gdt64.code</code> rather than just <code>code</code>. Some nice encapsulation.</p>
 <p>So that's what's up with the label, but we still have this <code>equ $ - gdt64</code> bit.
 <code>$</code> is the current position. So we're subtracting the current position from the
 address of <code>gdt64</code>. Conveniently, that's the offset number we need for later:
