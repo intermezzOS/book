@@ -62,7 +62,7 @@ your OS makes a long leap of faith, and comes out the other side realizing that
 it has more abilities than it thought! A classic tale of bravery.
 
 But where is this `long_mode_start` that we're jumping to? Why, defined at
-the bottom of our file, of course! Put this at the end:
+the bottom of our file, of course! Put this at the end of `boot.asm`:
 
 ```x86asm
 section .text
