@@ -21,7 +21,7 @@
     - [Paging](paging.md)
     - [Setting up a GDT](setting-up-a-gdt.md)
     - [Jumping headlong into long mode](jumping-headlong-into-long-mode.md)
-- [A Rust kmain()]()
+- [A Rust kmain()](a-rust-kmain.md)
 - [A simple VGA driver]()
 - [Keyboard input]()
 - [Serial Ports]()
