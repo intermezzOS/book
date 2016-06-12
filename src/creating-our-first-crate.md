@@ -338,7 +338,7 @@ $ mv grub.cfg src/asm/
 Now, we've got everything tucked away nicely. But this has broken our build terribly:
 
 ```bash
-$ $ make
+$ make
 make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multiboot_header.o'.  Stop.
 ```
 
@@ -371,7 +371,6 @@ Here, we've added `src/asm/` to the start of all of the files that we moved.
 This will build:
 
 ```bash
-$ make
 $ make
 mkdir -p build
 nasm -f elf64 src/asm/multiboot_header.asm -o build/multiboot_header.o

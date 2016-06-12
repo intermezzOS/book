@@ -100,8 +100,8 @@ pub extern fn kmain() -> ! {
 ```
 
 This is our main function, which is traditionally called `kmain()`, for 'kernel
-main.' We need to use the `#[no_mangle] and `pub extern` annotations to indicate
-that we're going to call this function like we would call a C function. The `->`
+main.' We need to use the `#[no_mangle]` and `pub extern` annotations to indicate
+that we're going to call this function like we would call a C function. The `-> !`
 indicates that this function never returns. And in fact, it does not: the body
 is an infinite `loop`.
 
