@@ -18,12 +18,20 @@ target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a: target/libcore/t
 ```
 
 Whew! That's a bit of a mouthful. This is where it _might_ make some sense to
-use some variables, at least. But let's not worry about this for now. We first
-write a rule to download our `libcore`. Next, we write a rule to compile our
-`libcore.rlib`. Finally, we write a rule to build `libintermezzos.a`. All of
-these commands are ones we used earlier to build this stuff, so the details
-shouldn't be completely new, though organizing them into these three rules
-is.
+use some variables, at least. But let's not worry about this for now.
+
+> But if you'd like to... [here's what it looks
+> like](https://github.com/intermezzOS/kernel/blob/master/chapter_05/AlternateMakefile).
+> You can assign variables with `=`, and then use them by putting their name in
+> `$()`. Pretty slick! There's a balance here, and we could, in theory, go even
+> further. This is a nice mix, I think, between being understandable and being
+> maximally DRY.
+
+We first write a rule to download our `libcore`. Next, we write a rule to
+compile our `libcore.rlib`. Finally, we write a rule to build
+`libintermezzos.a`. All of these commands are ones we used earlier to build
+this stuff, so the details shouldn't be completely new, though organizing them
+into these three rules is.
 
 Try it out:
 
