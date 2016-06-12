@@ -155,7 +155,7 @@ off.
 
 The rest of these options aren't particularly interesting. I would tell you to go
 look them up in Rust's documentation, but it's sorely lacking at the moment. Maybe
-I should stop writing this and go work on that... anway. I digress.
+I should stop writing this and go work on that... anyway. I digress.
 
 To use this target specification, we pass `--target` to Cargo:
 
@@ -226,7 +226,7 @@ $ cargo build --release --features disable_float --target=x86_64-unknown-interme
 $ cd ../..
 ```
 
-Whew! That'sa  lot of work. Don't worry, we'll be modifying our `Makefile` to do this
+Whew! That's a lot of work. Don't worry, we'll be modifying our `Makefile` to do this
 automatically soon.
 
 Let's modify `src/lib.rs` to get rid of that useless test, and to say we don't want to
@@ -262,7 +262,7 @@ lets you implement bits of itself through these language items. `libcore`
 defines most of them, but the last two, `panic_fmt` and `eh_personality`,
 need to be defined by us.
 
-Both of these language items invovle a feature of Rust called 'panics.'
+Both of these language items involve a feature of Rust called 'panics.'
 Here's a Rust program that panics:
 
 ```rust

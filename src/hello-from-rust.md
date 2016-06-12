@@ -102,8 +102,8 @@ pub extern fn kmain() -> ! {
 This is our main function, which is traditionally called `kmain()`, for 'kernel
 main.' We need to use the `#[no_mangle]` and `pub extern` annotations to indicate
 that we're going to call this function like we would call a C function. The `-> !`
-indicates that this function never returns. And in fact, it does not: the body
-is an infinite `loop`.
+indicates that this function never returns. And in fact, it does not return:
+the body is an infinite `loop`.
 
 I'm going to pause here to mention that while I won't totally assume you're a
 Rust expert, this is more of an OS tutorial than a Rust tutorial. If anything
@@ -158,7 +158,7 @@ exact same amount, with a lot more safe code on top.
 In this case, the reason we need `unsafe` is the next two lines: we create a
 pointer to `0xb8000`, and then write some numbers to it. Rust cannot know that
 this is safe; if it did, it would have to understand that we are a kernel,
-and understand the VGA specification. Having a programming langauge understand
+and understand the VGA specification. Having a programming language understand
 VGA at that level would be a bit too much. So instead, we have to use unsafe.
 Such is life.
 
