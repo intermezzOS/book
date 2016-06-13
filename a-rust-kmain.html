@@ -47,7 +47,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="installing-rust.html"><strong>2.1.</strong> Installing Rust</a></li><li><a href="linux.html" class="active"><strong>2.2.</strong> Linux</a></li><li><a href="osx.html"><strong>2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.4.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong>4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong>4.3.</strong> Jumping headlong into long mode</a></li></ul></li><li><a href="a-rust-kmain.html"><strong>5.</strong> A Rust kmain()</a></li><li><ul class="section"><li><a href="creating-our-first-crate.html"><strong>5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong>5.2.</strong> Hello from Rust!</a></li></ul></li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="installing-rust.html"><strong>2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong>2.2.</strong> Linux</a></li><li><a href="osx.html"><strong>2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.4.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong>4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong>4.3.</strong> Jumping headlong into long mode</a></li></ul></li><li><a href="a-rust-kmain.html" class="active"><strong>5.</strong> A Rust kmain()</a></li><li><ul class="section"><li><a href="creating-our-first-crate.html"><strong>5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong>5.2.</strong> Hello from Rust!</a></li></ul></li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -67,33 +67,23 @@
                 </div>
 
                 <div id="content" class="content">
-                    <h1>Linux</h1>
-<p>Here are the tools we’re going to need:</p>
-<ul>
-<li><code>nasm</code></li>
-<li><code>ld</code></li>
-<li><code>grub-mkrescue</code> + <code>xorriso</code></li>
-<li><code>qemu</code></li>
-</ul>
-<p>How to install the tools depends on your distribution.</p>
-<p>On Debian you can install them with</p>
-<pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu build-essential
-</code></pre>
-<p>On Arch Linux you can install them with</p>
-<pre><code class="language-bash">$ sudo pacman -S binutils grub libisoburn nasm qemu
-</code></pre>
+                    <h1>A Rust kmain()</h1>
+<p>At long last, we're ready to move on to some Rust code! This is ostensibly a
+&quot;write a kernel in Rust&quot; tutorial, but we haven't gotten to any Rust code yet.
+We're out of the woods with assembly; at least for a while. We'll be writing a
+bit more in the future, but for now, let's forget about all of that.</p>
 
                 </div>
 
                 <!-- Mobile navigation buttons -->
                 
-                    <a href="installing-rust.html" class="mobile-nav-chapters previous">
+                    <a href="jumping-headlong-into-long-mode.html" class="mobile-nav-chapters previous">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="osx.html" class="mobile-nav-chapters next">
+                    <a href="creating-our-first-crate.html" class="mobile-nav-chapters next">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -101,13 +91,13 @@
             </div>
 
             
-                <a href="installing-rust.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                <a href="jumping-headlong-into-long-mode.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
                     <i class="fa fa-angle-left"></i>
                 </a>
             
 
             
-                <a href="osx.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                <a href="creating-our-first-crate.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
                     <i class="fa fa-angle-right"></i>
                 </a>
             

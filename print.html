@@ -47,7 +47,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="linux.html"><strong>2.1.</strong> Linux</a></li><li><a href="osx.html"><strong>2.2.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.3.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong>4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong>4.3.</strong> Jumping headlong into long mode</a></li></ul></li><li><strong>5.</strong> A Rust kmain()</li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="installing-rust.html"><strong>2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong>2.2.</strong> Linux</a></li><li><a href="osx.html"><strong>2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.4.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong>4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong>4.3.</strong> Jumping headlong into long mode</a></li></ul></li><li><a href="a-rust-kmain.html"><strong>5.</strong> A Rust kmain()</a></li><li><ul class="section"><li><a href="creating-our-first-crate.html"><strong>5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong>5.2.</strong> Hello from Rust!</a></li></ul></li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -533,21 +533,40 @@ will still technically <em>work</em>. For now.</p>
 off with the cheat, and it will come back to haunt them later. Don’t worry;
 I will actually show you how to fix things before they go wrong. Knowing the
 difference here is still useful.</p>
+<h1>Installing Rust</h1>
+<p>First, you need to get a copy of Rust! There's one catch though: you'll need to
+get <em>exactly</em> the correct version of Rust. Unfortunately, for OS development,
+we need to take advantage of some cutting-edge features that aren't yet stable.
+So in order for this to work, you have to be using the exact correct Rust. Don't
+worry though, it's easy to do. Put this in your terminal:</p>
+<pre><code class="language-bash">$ curl https://sh.rustup.rs -sSf | sh
+</code></pre>
+<p>This will install <code>rustup</code>. At the time of this writing, <code>rustup</code> is in beta,
+but it will be the de-facto way to get Rust from the Rust team. It also makes
+it very easy to switch between different versions of Rust, and install
+multiple copies of Rust, both of which are features that are of use to us. If
+you do other Rust work, you won't want to be stuck with the version we use here!</p>
+<p>To get the Rust we need, first type this:</p>
+<pre><code class="language-bash">$ rustup update nightly-2016-05-26
+</code></pre>
+<p>This installs the version of nightly Rust for May 26th, 2016. We'll try to keep
+the book current and upgrade Rust periodically, so if you take a break and come
+back to things, check back with this chapter to see if you need to upgrade.</p>
+<p>Then, execute this:</p>
+<pre><code class="language-bash">$ rustup override add nightly-2016-05-26.
+</code></pre>
+<p>This sets up <code>rustup</code> to switch to the Rust we need whenever we're in this
+directory. Nice and easy. We can't get the version wrong; <code>rustup</code> handles it
+for us.</p>
 <h1>Linux</h1>
 <p>Here are the tools we’re going to need:</p>
 <ul>
-<li>Rust</li>
 <li><code>nasm</code></li>
 <li><code>ld</code></li>
 <li><code>grub-mkrescue</code> + <code>xorriso</code></li>
 <li><code>qemu</code></li>
 </ul>
-<p>To install Rust, check out <a href="https://www.rustup.rs/">rustup</a>.</p>
-<p>Once you have installed Rust via <code>rustup</code>, you can switch to the nightly version we will
-be using for intermezzOS by typing</p>
-<pre><code class="language-bash">rustup default nightly-2016-04-12
-</code></pre>
-<p>How to install the other tools depends on your distribution.</p>
+<p>How to install the tools depends on your distribution.</p>
 <p>On Debian you can install them with</p>
 <pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu build-essential
 </code></pre>
@@ -555,9 +574,25 @@ be using for intermezzOS by typing</p>
 <pre><code class="language-bash">$ sudo pacman -S binutils grub libisoburn nasm qemu
 </code></pre>
 <h1>Mac OS X</h1>
-<p>The tools you need are similar to the tools listed in the <a href="./linux.html">Linux instructions</a>, but we will need to build a cross compiler in order to get things working. This is sort of complicated and boring, but we've done some of that boring work for you so you can get up and running quickly.</p>
-<p>Make sure you have <a href="http://brew.sh/">homebrew</a> installed because you are going to need it to install some of the tools. You are probably also going to need <a href="https://developer.apple.com/xcode/download/">Xcode</a> if you don't already have it. You <em>may</em> have to agree to the Xcode license before you use it. You can do this by either opening Xcode and accepting the license agreement, or by running <code>sudo xcodebuild -license</code> in the terminal, scrolling down to the bottom of the license, and agreeing to it.</p>
-<p>Download <a href="https://gist.githubusercontent.com/emkay/a1214c753e8c975d95b4/raw/cc73290537898799fe1168edfbc5a41351184670/build-grub-osx.sh">this script</a> and <em>read</em> through it. There are a couple assumptions that it makes about the paths where the source is downloaded to and where the binaries are installed. You might want to change where those locations are. When possible we try and use <code>brew</code> to install things, but there are some programs we need to compile. The compiled special versions of the tools are installed in <code>~/opt</code>. This is so we don't clobber any version of them that you may have already installed. The source code for these tools are downloaded in <code>~/src</code>.</p>
+<p>The tools you need are similar to the tools listed in the <a href="linux.html">Linux
+instructions</a>, but we will need to build a cross compiler in
+order to get things working. This is sort of complicated and boring, but we've
+done some of that boring work for you so you can get up and running quickly.</p>
+<p>Make sure you have <a href="http://brew.sh/">homebrew</a> installed because you are going
+to need it to install some of the tools. You are probably also going to need
+<a href="https://developer.apple.com/xcode/download/">Xcode</a> if you don't already have
+it. You <em>may</em> have to agree to the Xcode license before you use it. You can do
+this by either opening Xcode and accepting the license agreement, or by running
+<code>sudo xcodebuild -license</code> in the terminal, scrolling down to the bottom of the
+license, and agreeing to it.</p>
+<p>Download <a href="https://gist.githubusercontent.com/emkay/a1214c753e8c975d95b4/raw/cc73290537898799fe1168edfbc5a41351184670/build-grub-osx.sh">this script</a> and <em>read</em> through it. There are a couple assumptions
+that it makes about the paths where the source is downloaded to and where the
+binaries are installed.  You might want to change where those locations are.
+When possible we try and use <code>brew</code> to install things, but there are some
+programs we need to compile.  The compiled special versions of the tools are
+installed in <code>~/opt</code>. This is so we don't clobber any version of them that you
+may have already installed. The source code for these tools are downloaded in
+<code>~/src</code>.</p>
 <p>Here is what the script does:</p>
 <ol>
 <li><code>brew install</code> tools that it can like <code>gmp</code>, <code>mpfr</code>, <code>libmpc</code>, <code>autoconf</code>, and <code>automake</code></li>
@@ -565,22 +600,27 @@ be using for intermezzOS by typing</p>
 <li>Download and compile <code>grub</code> using the cross compiler</li>
 </ol>
 <p>This might take some time to run.</p>
-<p>After it is done you should have all the tools you need located in <code>~/opt</code>. The tools <em>should</em> be named the same as the tools used in other chapters, but they might be prefixed with a <code>x86_64-pc-elf-</code>. The exception to this is <code>grub</code>. The default path for the binaries installed using the above script is <code>$HOME/opt/bin</code> so adjust the PATH variable appropriately.</p>
+<p>After it is done you should have all the tools you need located in <code>~/opt</code>. The
+tools <em>should</em> be named the same as the tools used in other chapters, but they
+might be prefixed with a <code>x86_64-pc-elf-</code>. The exception to this is <code>grub</code>. The
+default path for the binaries installed using the above script is
+<code>$HOME/opt/bin</code> so adjust the PATH variable appropriately.</p>
 <p>Finally install other tools:</p>
 <pre><code class="language-bash">$ brew install nasm xorriso qemu
 </code></pre>
 <h1>Windows</h1>
 <p>For now, the easiest way to get going is to install Linux on a virtual
-machine, and follow the <a href="./linux.html">Linux instructions</a>.</p>
+machine, and follow the <a href="linux.html">Linux instructions</a>.</p>
 <h2>Windows 10 Insider Preview</h2>
 <p>If you are running Windows 10 Anniversary Edition (still an insider preview
 build as of this writing; you must be running build number 14342 or later for
 these instructions to work), you can get going by first enabling the Windows
 Subsystem for Linux feature in the &quot;Windows Features&quot; control panel.</p>
 <p>Once the feature is enabled, open a Command Prompt window and type <code>bash</code>.
-This will install <a href="https://msdn.microsoft.com/en-us/commandline/wsl/about?f=255&amp;MSPPError=-2147217396">Bash on Ubuntu on Windows</a>, allowing you to leverage Ubuntu command line tools from within Windows
-natively.</p>
-<p>Once you have installed Bash on Ubuntu on Windows, simply follow the <a href="./linux.html">Linux instructions</a>.</p>
+This will install <a href="https://msdn.microsoft.com/en-us/commandline/wsl/about?f=255&amp;MSPPError=-2147217396">Bash on Ubuntu on Windows</a> allowing you to leverage Ubuntu
+command line tools from within Windows natively.</p>
+<p>Once you have installed Bash on Ubuntu on Windows, simply follow the <a href="linux.html">Linux
+instructions</a>.</p>
 <h2>Other Windows Versions</h2>
 <p>I hope to have better instructions for Windows soon; since I don’t have a
 computer that runs it, I need to figure it out first. If you know how, this
@@ -2244,6 +2284,519 @@ a double word is 32 bits, so a quad word is 64-bits.</p>
 <p>Our next step is going to be a big one: moving to writing Rust code! I hope
 you've enjoyed this tour of assembly and legacy computer junk. You've made it
 through the toughest bits: getting started is the hardest part.</p>
+<h1>A Rust kmain()</h1>
+<p>At long last, we're ready to move on to some Rust code! This is ostensibly a
+&quot;write a kernel in Rust&quot; tutorial, but we haven't gotten to any Rust code yet.
+We're out of the woods with assembly; at least for a while. We'll be writing a
+bit more in the future, but for now, let's forget about all of that.</p>
+<h1>Creating our first crate</h1>
+<p>Now that we've got Rust installed, time to write some Rust code! <code>rustup</code> has
+also installed Cargo for us, Rust's build tool and package manager. Generate
+a new Cargo package like this:</p>
+<pre><code class="language-bash">$ cargo init --name intermezzos
+</code></pre>
+<p>This will create a new package called '<code>intermezzos</code>' in the current directory.
+We have some new files. First, <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = &quot;intermezzos&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Your Name &lt;you@example.com&gt;&quot;]
+
+[dependencies]
+</code></pre>
+<p>This file sets overall configuration for the package. You'll see your
+information under <code>authors</code>, Cargo pulls it in from <code>git</code>, if you use it.
+Otherwise, you can add it yourself, no big deal.</p>
+<p>Next, <code>src/lib.rs</code>:</p>
+<pre><code class="language-rust">#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+    }
+}
+</code></pre>
+<p>Cargo has generated us a sample test suite. We don't need any of this though;
+we won't be doing testing just yet. Let's try building the project:</p>
+<pre><code class="language-bash">$ cargo build
+   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+</code></pre>
+<p>After this builds, we have one new file, <code>Cargo.lock</code>. What's in it isn't a big
+deal; Cargo uses the file to pin our dependency versions, so its contents are
+internal to Cargo.</p>
+<p>That said, we need to make two more tweaks. Check out what's in the <code>target</code>
+directory:</p>
+<pre><code class="language-bash">$ ls target/debug/
+build  deps  examples  libintermezzos.rlib  native
+</code></pre>
+<p>Cargo has generated an <code>.rlib</code>, which is Rust's library format. However, we want
+to generate a static library instead. Modify <code>Cargo.toml</code> to have a new section:</p>
+<pre><code class="language-toml">[package]
+name = &quot;intermezzos&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Steve Klabnik &lt;steve@steveklabnik.com&gt;&quot;]
+
+[lib]
+crate-type = [&quot;staticlib&quot;]
+
+[dependencies]
+</code></pre>
+<p>This <code>crate-type</code> annotation tells Cargo we want to build a static library,
+rather than the default <code>rlib</code>. Let's build again:</p>
+<pre><code class="language-bash">$ cargo clean
+$ cargo build
+   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+note: link against the following native artifacts when linking against this static library
+note: the order and any duplication can be significant on some platforms, and so may need to be preserved
+note: library: dl
+note: library: pthread
+note: library: gcc_s
+note: library: c
+note: library: m
+note: library: rt
+note: library: util
+</code></pre>
+<p>Whew! We get some debugging output. Don't worry about that; we'll be getting
+rid of it in a bit. For now, though, we can see that Cargo has built the static
+library:</p>
+<pre><code class="language-bash">$ ls target/debug/
+build  deps  examples  libintermezzos.a  native
+</code></pre>
+<p>We now have a <code>.a</code> file. This is exactly what we want. Also, make note of this
+path: <code>target/debug</code>. That's where Cargo puts output for debugging builds. We
+probably should use a release build instead: <code>cargo build --release</code> will
+give us that, and put the output in <code>target/release</code>.</p>
+<h2>Creating a target</h2>
+<p>Remember back in the setup chapters, where we talked about <a href="book/setup.html#Hosts%20&amp;%20Targets">hosts and targets</a>?
+We need to do the equivalent for Rust. We <em>could</em> leave things where they are,
+but that would cause us problems later. So let's just get it out of the way
+now, while we're doing all this other setup.</p>
+<p>Create a file named <code>x86_64-unknown-intermezzos-gnu.json</code>, and put this in it:</p>
+<pre><code class="language-json">{
+        &quot;llvm-target&quot;: &quot;x86_64-unknown-none-gnu&quot;,
+        &quot;target-endian&quot;: &quot;little&quot;,
+        &quot;target-pointer-width&quot;: &quot;64&quot;,
+        &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
+        &quot;os&quot;: &quot;intermezzos&quot;,
+        &quot;arch&quot;: &quot;x86_64&quot;,
+        &quot;pre-link-args&quot;: [ &quot;-m64&quot; ],
+        &quot;cpu&quot;: &quot;x86-64&quot;,
+        &quot;features&quot;: &quot;-mmx,-sse,-sse2,-sse3,-ssse3&quot;,
+        &quot;disable-redzone&quot;: true,
+        &quot;eliminate-frame-pointer&quot;: false,
+        &quot;linker-is-gnu&quot;: true,
+        &quot;no-compiler-rt&quot;: true,
+        &quot;archive-format&quot;: &quot;gnu&quot;
+}
+</code></pre>
+<p>Unlike <code>gcc</code>, where you have to build a cross-compiler by actually building a
+copy of the compiler, Rust lets you cross-compile by creating one of these
+&quot;target specifications.&quot; This specification declares all of the various options
+that need to be set up for this target to work.</p>
+<p>There are two parts of this target specification I'd like to call out in general.
+The first is <code>features</code>. We have <code>-mmx,-sse</code>, and such. This controls the assembly
+features that we can generate, in other words, we will <em>not</em> be generating MMX or
+SSE instructions. These handle floating point, but they're problematic in a kernel.
+Basically, we don't <em>need</em> to use them for anything, and they make some things a
+lot more difficult. For one thing, we have to explicitly enable SSE support through
+some more assembly code, which is annoying, and when we deal with interrupts in a
+later chapter, they'll pose some difficulty there, as well. So let's turn them off.
+This isn't just a toy kernel thing; Linux also turns off SSE.</p>
+<p>The second is <code>disable-redzone</code>. This is a feature of the x86_64 ABI which is
+similar: it's useful for application code, but causes problems in the kernel. You
+can think of the red zone as a kind of &quot;scratch space,&quot; 128 bytes that's hidden
+inside of the stack frame. We don't want any of that in our kernel, so we turn it
+off.</p>
+<p>The rest of these options aren't particularly interesting. I would tell you to go
+look them up in Rust's documentation, but it's sorely lacking at the moment. Maybe
+I should stop writing this and go work on that... anyway. I digress.</p>
+<p>To use this target specification, we pass <code>--target</code> to Cargo:</p>
+<pre><code class="language-bash">$ cargo build --release --target=x86_64-unknown-intermezzos-gnu.json
+   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+error: can't find crate for `std` [E0463]
+error: aborting due to previous error
+error: Could not compile `intermezzos`.
+
+To learn more, run the command again with --verbose.
+</code></pre>
+<p>Wait, that didn't work? If you think about it, this makes sense: we told Rust that
+we wanted to compile our code for intermezzOS, but we haven't compiled a standard
+library for it yet! In fact, we don't want a standard library: our operating system
+is far from containing the proper features to support it. Instead, we only want
+Rust's <code>libcore</code> library. This library contains just the essential stuff, without
+all of the fancy features we can't support yet.</p>
+<h2>Including libcore</h2>
+<p>Well... so, this part gets a bit messy. While <code>libcore</code> <em>is</em> mostly ready for
+kernel development, we decided to turn off floating point in our kernel. But
+<code>libcore</code> assumes that we support floating point. So that's bad.</p>
+<p>This is an area of ongoing negotiation between the OS dev community and the
+Rust team. We're working on a solution. In the meantime, I've tried to solve
+some of the pain for you to make this easier. Specifically, I've got
+<a href="http://github.com/intermezzos/libcore">a fork of libcore</a>, ready for you to use. It is patched to not use floating
+point anymore. All of us in the OS dev world share these patches around, and
+update them when Rust gets updated. This is actually the reason why we have to
+be so specific about our Rust version.</p>
+<p>In order to use this fork, we need to clone it down:</p>
+<pre><code class="language-bash">$ git clone http://github.com/intermezzos/libcore build/libcore
+Cloning into 'build/libcore'...
+remote: Counting objects: 140, done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 140 (delta 3), reused 0 (delta 0), pack-reused 132
+Receiving objects: 100% (140/140), 362.70 KiB | 166.00 KiB/s, done.
+Resolving deltas: 100% (52/52), done.
+Checking connectivity... done.
+</code></pre>
+<p>... and then build it...</p>
+<pre><code class="language-bash"># copy the target file in so we can build for our target
+$ cp x86_64-unknown-intermezzos-gnu.json build/libcore 
+
+$ cd build/libcore
+
+# This is the correct version for the Rust we have, so let's
+# set it explicitly to be safe
+$ git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
+HEAD is now at 02e41cd Reintroduce panic == abort
+
+# Finally, build with all the correct options
+$ cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
+   Compiling core v0.1.0 (file:///path/to/your/kernel/build/core)
+
+# Switch back to our source directory
+$ cd ../..
+</code></pre>
+<p>Whew! That's a lot of work. Don't worry, we'll be modifying our <code>Makefile</code> to do this
+automatically soon.</p>
+<p>Let's modify <code>src/lib.rs</code> to get rid of that useless test, and to say we don't want to
+use the standard library:</p>
+<pre><code class="language-rust">#![no_std]
+</code></pre>
+<p>That's it, just an empty library with one little annotation. Now we're ready to
+build. Well, almost, anyway:</p>
+<pre><code class="language-bash">$ RUSTFLAGS=&quot;-L build/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+error: language item required, but not found: `panic_fmt`
+error: language item required, but not found: `eh_personality`
+error: aborting due to 2 previous errors
+error: Could not compile `intermezzos`.
+</code></pre>
+<p>Whew! Our <code>cargo build</code> was so easy at first! <code>RUSTFLAGS</code> is a special
+environment variable that will modify how Cargo calls <code>rustc</code> for every crate
+in the build. We need it to set the path to where our modified <code>libcore</code> is.</p>
+<p>So why'd we get yet another error? For that, we need to understand a Rust
+feature, panics.</p>
+<h2>Panic == abort</h2>
+<p>The specific error we got said &quot;language item required, but not found&quot;. Rust
+lets you implement bits of itself through these language items. <code>libcore</code>
+defines most of them, but the last two, <code>panic_fmt</code> and <code>eh_personality</code>,
+need to be defined by us.</p>
+<p>Both of these language items involve a feature of Rust called 'panics.'
+Here's a Rust program that panics:</p>
+<pre><code class="language-rust">fn main() {
+     panic!(&quot;oh no!&quot;);
+}
+</code></pre>
+<p>When the <code>panic!</code> macro executes, it will stop the current thread from
+executing, and unwind the stack. This is something we really don't want
+in a kernel. Rust lets us turn this off, though, in our <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[profile.release]
+panic = &quot;abort&quot;
+</code></pre>
+<p>By adding this to our <code>Cargo.toml</code>, Rust will abort when it hits a panic,
+rather than unwind. That's good! However, we still need to define those
+language items. Modify <code>src/lib.rs</code> to look like this:</p>
+<pre><code class="language-rust">#![feature(lang_items)]
+#![no_std]
+
+#[lang = &quot;eh_personality&quot;]
+extern fn eh_personality() {
+}
+
+#[lang = &quot;panic_fmt&quot;]
+extern fn rust_begin_panic() -&gt; ! {
+    loop {}
+}
+</code></pre>
+<p>Defining language items is a nightly-only feature, so we add the <code>![feature]</code>
+flag to turn it on. Then, we define two functions, and annotate them with
+the <code>#[lang]</code> attribute to inform Rust that these functions are our language
+items. <code>eh_personality()</code> doesn't need to do anything, but <code>rust_begin_panic()</code>
+should never return, so we put in an inifinite <code>loop</code>.</p>
+<p>Let's try compiling again:</p>
+<pre><code class="language-bash">$ RUSTFLAGS=&quot;-L build/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+$
+</code></pre>
+<p>Success! We've built some Rust code, cross-compiled to our kernel, and we're
+ready to go.</p>
+<p>But now, we've got all of our Rust-related stuff in <code>src</code>. But the rest of our
+files are still strewn around in our top-level directory. Let's do a little bit
+of cleaning up.</p>
+<h2>Some reorganization</h2>
+<p>We have a couple of different ways that we could re-organize the assembly
+language. If we were planning on making our OS portable across architectures, a
+good solution would be to move it into <code>src/arch/arch_name</code>. That way, we could
+have <code>src/arch/x86/</code>, <code>src/arch/x86_64</code>, etc. However, we're not planning on
+doing that any time soon. So let's keep it a bit simpler for now:</p>
+<pre><code class="language-bash">$ mkdir src/asm
+$ mv boot.asm src/asm
+$ mv multiboot_header.asm src/asm/
+$ mv linker.ld src/asm/
+$ mv grub.cfg src/asm/
+</code></pre>
+<p>Now, we've got everything tucked away nicely. But this has broken our build terribly:</p>
+<pre><code class="language-bash">$ make
+make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multiboot_header.o'.  Stop.
+</code></pre>
+<p>Let's fix up our <code>Makefile</code> to work again.</p>
+<h2>Fixing our Makefile</h2>
+<p>The first thing we need to do is fix up the paths:</p>
+<pre><code class="language-make">build/multiboot_header.o: src/asm/multiboot_header.asm
+        mkdir -p build
+        nasm -f elf64 src/asm/multiboot_header.asm -o build/multiboot_header.o
+
+build/boot.o: src/asm/boot.asm
+        mkdir -p build
+        nasm -f elf64 src/asm/boot.asm -o build/boot.o
+
+build/kernel.bin: build/multiboot_header.o build/boot.o src/asm/linker.ld
+        ld -n -o build/kernel.bin -T src/asm/linker.ld build/multiboot_header.o build/boot.o
+
+build/os.iso: build/kernel.bin src/asm/grub.cfg
+        mkdir -p build/isofiles/boot/grub
+        cp src/asm/grub.cfg build/isofiles/boot/grub
+        cp build/kernel.bin build/isofiles/boot/
+        grub-mkrescue -o build/os.iso build/isofiles
+</code></pre>
+<p>Here, we've added <code>src/asm/</code> to the start of all of the files that we moved.
+This will build:</p>
+<pre><code class="language-bash">$ make
+mkdir -p build
+nasm -f elf64 src/asm/multiboot_header.asm -o build/multiboot_header.o
+mkdir -p build
+nasm -f elf64 src/asm/boot.asm -o build/boot.o
+ld -n -o build/kernel.bin -T src/asm/linker.ld build/multiboot_header.o build/boot.o
+$
+</code></pre>
+<p>Straightforward enough. However, now that we have Cargo, it uses the <code>target</code>
+directory, and we're building our assembly into the <code>build</code> directory. Having
+two places where our object files go is less than ideal. So let's change it to
+output into <code>target</code> instead. Our <code>Makefile</code> will then look like this:</p>
+<pre><code class="language-make">default: build
+        
+build: target/kernel.bin
+
+.PHONY: clean
+
+target/multiboot_header.o: src/asm/multiboot_header.asm
+        mkdir -p target
+        nasm -f elf64 src/asm/multiboot_header.asm -o target/multiboot_header.o
+
+target/boot.o: src/asm/boot.asm
+        mkdir -p target
+        nasm -f elf64 src/asm/boot.asm -o target/boot.o
+
+target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld
+        ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o
+
+target/os.iso: target/kernel.bin src/asm/grub.cfg
+        mkdir -p target/isofiles/boot/grub
+        cp src/asm/grub.cfg target/isofiles/boot/grub
+        cp target/kernel.bin target/isofiles/boot/
+        grub-mkrescue -o target/os.iso target/isofiles
+
+run: target/os.iso
+        qemu-system-x86_64 -cdrom target/os.iso
+
+clean: 
+        rm -rf target
+</code></pre>
+<p>However, that last rule is a bit suspect. It does work just fine, <code>make clean</code>
+will do its job. However, Cargo can do this for us, and it's a bit nicer.
+Modifying the last rule, we end up with this:</p>
+<pre><code class="language-make">default: build
+        
+build: target/kernel.bin
+
+.PHONY: clean
+
+target/multiboot_header.o: src/asm/multiboot_header.asm
+        mkdir -p target
+        nasm -f elf64 src/asm/multiboot_header.asm -o target/multiboot_header.o
+
+target/boot.o: src/asm/boot.asm
+        mkdir -p target
+        nasm -f elf64 src/asm/boot.asm -o target/boot.o
+
+target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld
+        ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o
+
+target/os.iso: target/kernel.bin src/asm/grub.cfg
+        mkdir -p target/isofiles/boot/grub
+        cp src/asm/grub.cfg target/isofiles/boot/grub
+        cp target/kernel.bin target/isofiles/boot/
+        grub-mkrescue -o target/os.iso target/isofiles
+
+run: target/os.iso
+        qemu-system-x86_64 -cdrom target/os.iso
+
+clean: 
+        cargo clean
+</code></pre>
+<p>Not too bad! We're back where we started. Now, you may notice a bit of
+repetition with our two <code>.o</code> file rules. We could make a lot of use of some
+more advanced features of Make, and DRY our code up a little. However, it's not
+that bad yet, and it's still easy to understand. Makefiles can get very
+complicated, so I like to keep them simple. If you're feeling ambitious, maybe
+investigating some more features of Make and tweaking this file to your liking
+might be an interesting diversion.</p>
+<h1>Hello from Rust!</h1>
+<p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
+change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
+on the steps we did earlier. Here's some new rules to add to the <code>Makefile</code>:</p>
+<pre><code class="language-make">target/libcore:
+        git clone http://github.com/intermezzos/libcore target/libcore
+        cd target/libcore &amp;&amp; git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
+
+target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib: target/libcore
+        cp x86_64-unknown-intermezzos-gnu.json target/libcore
+        cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
+
+cargo: target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib
+        RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --release --target x86_64-unknown-intermezzos-gnu.json
+</code></pre>
+<p>Whew! That's a bit of a mouthful. This is where it <em>might</em> make some sense to
+use some variables, at least. But let's not worry about this for now.</p>
+<blockquote>
+<p>But if you'd like to... <a href="https://github.com/intermezzOS/kernel/blob/master/chapter_05/AlternateMakefile">here's what it looks
+like</a>.
+You can assign variables with <code>=</code>, and then use them by putting their name in
+<code>$()</code>. Pretty slick! There's a balance here, and we could, in theory, go even
+further. This is a nice mix, I think, between being understandable and being
+maximally DRY.</p>
+</blockquote>
+<p>We first write a rule to download our <code>libcore</code>. Next, we write a rule to
+compile our <code>libcore.rlib</code>. Finally, we write a rule to build
+<code>libintermezzos.a</code>. All of these commands are ones we used earlier to build
+this stuff, so the details shouldn't be completely new, though organizing them
+into these three rules is.</p>
+<p>Try it out:</p>
+<pre><code class="language-bash">$ make cargo
+git clone http://github.com/intermezzos/libcore target/libcore
+Cloning into 'target/libcore'...
+remote: Counting objects: 140, done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 140 (delta 3), reused 0 (delta 0), pack-reused 132
+Receiving objects: 100% (140/140), 362.70 KiB | 120.00 KiB/s, done.
+Resolving deltas: 100% (52/52), done.
+Checking connectivity... done.
+cd target/libcore &amp;&amp; git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
+HEAD is now at 02e41cd Reintroduce panic == abort
+cp x86_64-unknown-intermezzos-gnu.json target/libcore
+cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
+   Compiling core v0.0.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05/target/libcore)
+RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+   Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
+$
+</code></pre>
+<p>Success! It should all build properly. There's one more thing I'd like to note
+about this makefile: in a strict sense, it will try and rebuild too much. But
+watch what happens if we try to build a second time:</p>
+<pre><code class="language-bash">$ make cargo
+cp x86_64-unknown-intermezzos-gnu.json target/libcore
+cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
+RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+$
+</code></pre>
+<p>We issued some commands, but didn't actually compile anything. With this
+layout, we're letting Cargo worry if stuff needs to be rebuilt. This makes
+our Makefile a bit easier to write, and also a bit more reliable. Cargo
+knows what it needs to do, let's just trust it to do the right thing.</p>
+<p>Now that we have it building, we need to modify the rule that builds the kernel
+to include <code>libintermezzos.a</code>:</p>
+<pre><code class="language-make">target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
+        ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
+</code></pre>
+<p>And then we can build:</p>
+<pre><code class="language-bash">$ make
+mkdir -p target
+nasm -f elf64 src/asm/multiboot_header.asm -o target/multiboot_header.o
+mkdir -p target
+nasm -f elf64 src/asm/boot.asm -o target/boot.o
+cp x86_64-unknown-intermezzos-gnu.json target/libcore
+cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
+RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --release --target x86_64-unknown-intermezzos-gnu.json
+ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
+$
+</code></pre>
+<p>Hooray! We are now successfully building our assembly code and our Rust code, and then putting them together.</p>
+<p>Now, to write our Rust. Add this function to <code>src/lib.rs</code>:</p>
+<pre><code class="language-rust">#[no_mangle]
+pub extern fn kmain() -&gt; ! {
+
+    loop { }
+}
+</code></pre>
+<p>This is our main function, which is traditionally called <code>kmain()</code>, for 'kernel
+main.' We need to use the <code>#[no_mangle]</code> and <code>pub extern</code> annotations to indicate
+that we're going to call this function like we would call a C function. The <code>-&gt; !</code>
+indicates that this function never returns. And in fact, it does not return:
+the body is an infinite <code>loop</code>.</p>
+<p>I'm going to pause here to mention that while I won't totally assume you're a
+Rust expert, this is more of an OS tutorial than a Rust tutorial. If anything
+about the Rust is confusing, I suggest you read over the <a href="http://doc.rust-lang.org/book">official book</a> to get
+an actual introduction to the language. It's tough enough explaining operating
+systems as it is without needing to fully explain a language too. But if you're
+an experienced programmer, you might be able to get away without it.</p>
+<p>Anyway, our <code>kmain()</code> doesn't do anything. But let's try calling it anyway.
+Modfiy <code>src/asm/boot.asm</code>, removing all of the <code>long\_mode\_start</code> stuff,
+and changing the <code>jmp</code> line in <code>start</code> to look like this:</p>
+<pre><code class="language-x86asm">    ; jump to long mode!
+    jmp gdt64.code:kmain
+</code></pre>
+<p>Finally, add this line to the top of the file:</p>
+<pre><code class="language-x86asm">extern kmain
+</code></pre>
+<p>This line says that we'll be defining <code>kmain</code> elsewhere: in this case, in Rust!
+And so we also change our <code>jmp</code> to jump to <code>kmain</code>.</p>
+<p>If you type <code>make run</code>, everything should compile and run, but then not display
+anything. We didn't port over the message! Open <code>src/lib.rs</code> and change <code>kmain()</code>
+to look like this:</p>
+<pre><code class="language-rust">#[no_mangle]
+pub extern fn kmain() -&gt; ! {
+    unsafe {
+        let vga = 0xb8000 as *mut u64;
+
+        *vga = 0x2f592f412f4b2f4f;
+    };
+
+    loop { }
+}
+</code></pre>
+<p>The first thing you'll notice is the <code>unsafe</code> annotation. Yes, while one of
+Rust's defining features is safety, we'll certainly be making use of <code>unsafe</code>
+in our kernel. However, we'll be using less than you think. While this is just
+printing <code>OKAY</code> to the screen, our intermediate VGA driver will be using the
+exact same amount, with a lot more safe code on top.</p>
+<p>In this case, the reason we need <code>unsafe</code> is the next two lines: we create a
+pointer to <code>0xb8000</code>, and then write some numbers to it. Rust cannot know that
+this is safe; if it did, it would have to understand that we are a kernel,
+and understand the VGA specification. Having a programming language understand
+VGA at that level would be a bit too much. So instead, we have to use unsafe.
+Such is life.</p>
+<p>However! We are now ready. We've worked really hard for this. Get pumped!!!</p>
+<pre><code class="language-bash">$ make run
+</code></pre>
+<p>If all goes well, this will print <code>OKAY</code> to your screen. But you'll have done
+it with Rust! It only took us five chapters to get here!</p>
+<p>This is just the beginning, though. At the end of the next chapter, your
+main function will look like this, instead:</p>
+<pre><code class="language-rust">#[no_mangle]
+pub extern fn kmain() -&gt; ! {
+    kprintln!(&quot;Hello, world!&quot;);
+
+    loop { }
+}
+</code></pre>
+<p>But for now, kick back and enjoy what you've done. Congratulations!</p>
 <h1>Appendix A: Troubleshooting</h1>
 <p>In this appendix, we will cover common errors and their solutions for
 various chapters of the book.</p>
