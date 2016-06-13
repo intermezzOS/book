@@ -2,22 +2,12 @@
 
 Here are the tools we’re going to need:
 
-* Rust
 * `nasm`
 * `ld`
 * `grub-mkrescue` + `xorriso`
 * `qemu`
 
-To install Rust, check out [rustup](https://www.rustup.rs/).
-
-Once you have installed Rust via `rustup`, you can switch to the nightly version we will
-be using for intermezzOS by typing
-
-```bash
-rustup default nightly-2016-04-12
-```
-
-How to install the other tools depends on your distribution.
+How to install the tools depends on your distribution.
 
 On Debian you can install them with
 

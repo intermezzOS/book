@@ -1,7 +1,9 @@
 # Windows
 
 For now, the easiest way to get going is to install Linux on a virtual
-machine, and follow the [Linux instructions](./linux.html).
+machine, and follow the [Linux instructions].
+
+[Linux instructions]: linux.html
 
 ## Windows 10 Insider Preview
 
@@ -11,11 +13,13 @@ these instructions to work), you can get going by first enabling the Windows
 Subsystem for Linux feature in the "Windows Features" control panel.
 
 Once the feature is enabled, open a Command Prompt window and type ```bash```.
-This will install [Bash on Ubuntu on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/about?f=255&MSPPError=-2147217396), allowing you to leverage Ubuntu command line tools from within Windows
-natively.
+This will install [Bash on Ubuntu on Windows] allowing you to leverage Ubuntu
+command line tools from within Windows natively.
 
-Once you have installed Bash on Ubuntu on Windows, simply follow the [Linux instructions](./linux.html).
+[Bash on Ubuntu on Windows]: https://msdn.microsoft.com/en-us/commandline/wsl/about?f=255&MSPPError=-2147217396
 
+Once you have installed Bash on Ubuntu on Windows, simply follow the [Linux
+instructions].
 
 ## Other Windows Versions
 
