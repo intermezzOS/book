@@ -2172,10 +2172,8 @@ writable.</p>
 gdt64:
     dq 0
 .code: equ $ - gdt64
-    dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
-.data: equ $ - gdt64
-    dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
     dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41) | (1&lt;&lt;43) | (1&lt;&lt;53)
+.data: equ $ - gdt64
     dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
 </code></pre>
 <p>We’re so close! Now, to tell the hardware about our GDT. There’s a special
