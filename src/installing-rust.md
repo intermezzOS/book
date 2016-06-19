@@ -29,7 +29,7 @@ back to things, check back with this chapter to see if you need to upgrade.
 Then, execute this:
 
 ```bash
-$ rustup override add nightly-2016-05-26.
+$ rustup override add nightly-2016-05-26
 ```
 
 This sets up `rustup` to switch to the Rust we need whenever we're in this
