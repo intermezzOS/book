@@ -1,3 +1,4 @@
+```
 #!/bin/sh
 set -e
 
@@ -106,3 +107,4 @@ if [ ! -d "grub" ]; then
   make
   make install
 fi
+```

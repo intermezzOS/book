@@ -35,4 +35,4 @@
 -----------
 [Appendix A: Troubleshooting](appendix/troubleshooting.md)
 [Appendix B: Numeral Systems](appendix/numeral-systems.md)
-[Appendix C: Mac OS X Install Script](appendix/osx-install.sh)
+[Appendix C: Mac OS X Install Script](appendix/osx-install.md)

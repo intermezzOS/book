@@ -22,7 +22,7 @@ installed in `~/opt`. This is so we don't clobber any version of them that you
 may have already installed. The source code for these tools are downloaded in
 `~/src`.
 
-[this script]: https://github.com/intermezzOS/book/blob/master/src/assets/osx-install.sh
+[this script]: https://intermezzos.github.io/book/appendix/osx-install.html
 
 Here is what the script does:
 
@@ -35,5 +35,4 @@ This might take some time to run.
 After it is done you should have all the tools you need located in `~/opt`. The
 tools _should_ be named the same as the tools used in other chapters, but they
 might be prefixed with a `x86_64-pc-elf-`. The exception to this is `grub`. The
-default path for the binaries installed using the above script is
-`$HOME/opt/bin` so adjust the PATH variable appropriately.
+default path for the binaries installed using the above script is `$HOME/opt/bin` so adjust the PATH variable appropriately.
