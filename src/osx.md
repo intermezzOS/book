@@ -22,7 +22,7 @@ installed in `~/opt`. This is so we don't clobber any version of them that you
 may have already installed. The source code for these tools are downloaded in
 `~/src`.
 
-[this script]: https://gist.githubusercontent.com/emkay/a1214c753e8c975d95b4/raw/cc73290537898799fe1168edfbc5a41351184670/build-grub-osx.sh
+[this script]: https://github.com/intermezzOS/book/blob/master/src/assets/osx-install.sh
 
 Here is what the script does:
 
@@ -37,9 +37,3 @@ tools _should_ be named the same as the tools used in other chapters, but they
 might be prefixed with a `x86_64-pc-elf-`. The exception to this is `grub`. The
 default path for the binaries installed using the above script is
 `$HOME/opt/bin` so adjust the PATH variable appropriately.
-
-Finally install other tools:
-
-```bash
-$ brew install nasm xorriso qemu
-```
