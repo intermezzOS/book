@@ -2796,6 +2796,14 @@ pub extern fn kmain() -&gt; ! {
 various chapters of the book.</p>
 <h2>Chapter 3</h2>
 <p>Here are various solutions to issues you may run into in Chapter 3:</p>
+<h3>The ld tool does not work</h3>
+<p>When running the linker tool ld, it may freeze and not produce output. Check the linker file for a syntax error. Make sure comments are closed. You can also run the command with --verbose for more output during linking to help in debugging.</p>
+<p>Linux:</p>
+<pre><code>ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
+</code></pre>
+<p>Mac OS X:</p>
+<pre><code>~/opt/bin/x86_64-pc-elf-ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
+</code></pre>
 <h3>Error: no multiboot header found</h3>
 <p>When booting up your kernel, QEMU may print out a message like this:</p>
 <pre><code class="language-text">error: no multiboot header found
