@@ -7,6 +7,20 @@ various chapters of the book.
 
 Here are various solutions to issues you may run into in Chapter 3:
 
+### The ld tool does not work
+
+When running the linker tool ld, it may freeze and not produce output. Check the linker file for a syntax error. Make sure comments are closed. You can also run the command with --verbose for more output during linking to help in debugging.
+
+Linux:
+```
+ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
+```
+
+Mac OS X:
+```
+~/opt/bin/x86_64-pc-elf-ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
+```
+
 ### Error: no multiboot header found
 
 When booting up your kernel, QEMU may print out a message like this:
