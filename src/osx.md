@@ -22,7 +22,7 @@ installed in `~/opt`. This is so we don't clobber any version of them that you
 may have already installed. The source code for these tools are downloaded in
 `~/src`.
 
-[this script]: https://intermezzos.github.io/book/appendix/osx-install.html
+[this script]: appendix/osx-install.html
 
 Here is what the script does:
 
