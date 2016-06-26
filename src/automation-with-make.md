@@ -209,7 +209,7 @@ run: os.iso
         qemu-system-x86_64 -cdrom os.iso
 ```
 
-You can choose the default here: do you want the defualt to be build, or run? Here’s what
+You can choose the default here: do you want the default to be build, or run? Here’s what
 each looks like:
 
 ```bash
