@@ -123,7 +123,7 @@ an experienced programmer, you might be able to get away without it.
 [official book]: http://doc.rust-lang.org/book
 
 Anyway, our `kmain()` doesn't do anything. But let's try calling it anyway.
-Modfiy `src/asm/boot.asm`, removing all of the `long_mode_start` stuff,
+Modify `src/asm/boot.asm`, removing all of the `long_mode_start` stuff,
 and changing the `jmp` line in `start` to look like this:
 
 ```x86asm
