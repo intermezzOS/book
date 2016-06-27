@@ -2741,7 +2741,7 @@ an actual introduction to the language. It's tough enough explaining operating
 systems as it is without needing to fully explain a language too. But if you're
 an experienced programmer, you might be able to get away without it.</p>
 <p>Anyway, our <code>kmain()</code> doesn't do anything. But let's try calling it anyway.
-Modfiy <code>src/asm/boot.asm</code>, removing all of the <code>long_mode_start</code> stuff,
+Modify <code>src/asm/boot.asm</code>, removing all of the <code>long_mode_start</code> stuff,
 and changing the <code>jmp</code> line in <code>start</code> to look like this:</p>
 <pre><code class="language-x86asm">    ; jump to long mode!
     jmp gdt64.code:kmain
