@@ -109,7 +109,7 @@ We need to do the equivalent for Rust. We _could_ leave things where they are,
 but that would cause us problems later. So let's just get it out of the way
 now, while we're doing all this other setup.
 
-[hosts and targets]: book/setup.html#Hosts%20&%20Targets
+[hosts and targets]: setup.html#Hosts%20&%20Targets
 
 Create a file named `x86_64-unknown-intermezzos-gnu.json`, and put this in it:
 
