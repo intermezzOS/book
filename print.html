@@ -1920,7 +1920,7 @@ another bit. This extra <code>1</code> is a ‘huge page’ bit, meaning that th
 </code></pre>
 <p>Just like before, we are now writing the value in <code>eax</code> to a location. But
 instead of it being just <code>p2_table + 0</code>, we’re adding <code>ecx * 8</code> Remember, <code>ecx</code>
-is our loop counter. Each entry is eight bytes in size: <code>0b10000011</code>. So we need
+is our loop counter. Each entry is eight bits in size: <code>0b10000011</code>. So we need
 to multiply the counter by eight, and then add it to <code>p2_table</code>. Let’s take a
 closer look: let’s assume <code>p2_table</code> is zero, to make the math easier:</p>
 <table><thead><tr><td>                     </td><td>         </td><td>         </td><td>         </td><td>         </td><td>         </td></tr></thead>
