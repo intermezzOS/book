@@ -353,7 +353,7 @@ another bit. This extra `1` is a ‘huge page’ bit, meaning that the pages are
 
 Just like before, we are now writing the value in `eax` to a location. But
 instead of it being just `p2_table + 0`, we’re adding `ecx * 8` Remember, `ecx`
-is our loop counter. Each entry is eight bytes in size: `0b10000011`. So we need
+is our loop counter. Each entry is eight bits in size: `0b10000011`. So we need
 to multiply the counter by eight, and then add it to `p2_table`. Let’s take a
 closer look: let’s assume `p2_table` is zero, to make the math easier:
 
