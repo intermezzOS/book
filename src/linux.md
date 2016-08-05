@@ -18,5 +18,5 @@ $ sudo apt-get install nasm xorriso qemu build-essential
 On Arch Linux you can install them with
 
 ```bash
-$ sudo pacman -S binutils grub libisoburn nasm qemu
+$ sudo pacman -S --needed binutils grub libisoburn nasm qemu
 ```
