@@ -31,7 +31,7 @@
             }
         </script>
     </head>
-    <body>
+    <body class="light">
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme = localStorage.getItem('theme');
@@ -571,7 +571,7 @@ for us.</p>
 <pre><code class="language-bash">$ sudo apt-get install nasm xorriso qemu build-essential
 </code></pre>
 <p>On Arch Linux you can install them with</p>
-<pre><code class="language-bash">$ sudo pacman -S binutils grub libisoburn nasm qemu
+<pre><code class="language-bash">$ sudo pacman -S --needed binutils grub libisoburn nasm qemu
 </code></pre>
 <h1>Mac OS X</h1>
 <p>The tools you need are similar to the tools listed in the <a href="linux.html">Linux
