@@ -4,7 +4,7 @@ Okay, time for the big finale: printing our `OKAY` from Rust. First, let's
 change our `Makefile` to add the Rust code into our assembly code. We can build
 on the steps we did earlier. Here's some new rules to add to the `Makefile`:
 
-```make
+```makefile
 target/libcore:
         git clone http://github.com/intermezzos/libcore target/libcore
         cd target/libcore && git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
@@ -75,7 +75,7 @@ knows what it needs to do, let's just trust it to do the right thing.
 Now that we have it building, we need to modify the rule that builds the kernel
 to include `libintermezzos.a`:
 
-```make
+```makefile
 target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
         ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
 ```
