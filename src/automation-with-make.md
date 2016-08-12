@@ -18,7 +18,7 @@ Let’s start off with a very straightforward rule. Specifically, the first step
 that we did was to build the Multiboot header by running `nasm`. Let’s build a
 `Makefile` that does this. Open a file called `Makefile` and put this in it:
 
-```make
+```makefile
 multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
 ```
@@ -55,7 +55,7 @@ shell command that you need to build the target.
 
 Building `boot.o` is similar:
 
-```make
+```makefile
 multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
 
@@ -94,7 +94,7 @@ It would be nice if we could build both things with one command, but as it
 turns out, our next target, `kernel.bin`, relies on both of these `.o` files,
 so let’s write it first:
 
-```make
+```makefile
 multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
 
@@ -117,7 +117,7 @@ first two are the previous targets we defined, and `linker.ld` is a file on its 
 
 Let’s make `make` build the whole thing by default:
 
-```make
+```makefile
 default: kernel.bin
 
 multiboot_header.o: multiboot_header.asm
@@ -158,7 +158,7 @@ Let’s add a new rule to build our iso. Rather than show the entire `Makefile`,
 going to start showing you what’s changed. First, we have to update our `default`
 target, and then we have to write the new one:
 
-```make
+```makefile
 default: os.iso
 
 os.iso: kernel.bin grub.cfg
@@ -193,7 +193,7 @@ grub-mkrescue -o os.iso isofiles
 Sometimes, it’s nice to add targets which describe a semantic. In this case, building
 the `os.iso` target is the same as building the project. So let’s say so:
 
-```make
+```makefile
 default: build
 
 build: os.iso
@@ -202,7 +202,7 @@ build: os.iso
 The default action is to build the project, and to build the project, we need to build
 `os.iso`. But what about running it? Let’s add a rule for that:
 
-```make
+```makefile
 default: run
 
 run: os.iso
@@ -230,7 +230,7 @@ Finally, there’s another useful common rule: `clean`. The `clean` rule should 
 of the generated files, and allow us to do a full re-build. As such it’s a bunch of `rm`
 statements:
 
-```make
+```makefile
 .PHONY: clean
 clean:
         rm -f multiboot_header.o
@@ -247,7 +247,7 @@ we want to nuke all the files, we don’t care when they were modified.
 
 Here’s our final `Makefile`:
 
-```make
+```makefile
 default: run
 
 .PHONY: clean
@@ -295,7 +295,7 @@ place.
 
 Let’s make some changes: More specifically, three of them:
 
-```make
+```makefile
 build/multiboot_header.o: multiboot_header.asm
         mkdir -p build
         nasm -f elf64 multiboot_header.asm -o build/multiboot_header.o
@@ -315,7 +315,7 @@ that `build` directory, rather than in the current one.
 
 With that, we’re ready to modify `boot.o` as well:
 
-```make
+```makefile
 build/boot.o: boot.asm
         mkdir -p build
         nasm -f elf64 boot.asm -o build/boot.o
@@ -325,7 +325,7 @@ These changes are the same, just with `boot` instead of `multiboot_header`.
 
 Next up: `kernel.bin`:
 
-```make
+```makefile
 build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
         ld -n -o build/kernel.bin -T linker.ld build/multiboot_header.o build/boot.o
 ```
@@ -333,7 +333,7 @@ build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
 We append `build` in no fewer than _six_ places. Whew! At least it’s
 straightforward.
 
-```make
+```makefile
 build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
         cp grub.cfg build/isofiles/boot/grub
@@ -343,14 +343,14 @@ build/os.iso: build/kernel.bin grub.cfg
 
 Seeing a pattern yet? More prefixing.
 
-```make
+```makefile
 run: build/os.iso
         qemu-system-x86_64 -cdrom build/os.iso
 ```
 
 ... and here as well.
 
-```make
+```makefile
 clean:
         rm -rf build
 ```
@@ -360,7 +360,7 @@ our `build` directory. Much easier.
 
 Here’s our final version:
 
-```make
+```makefile
 default: run
 
 .PHONY: clean

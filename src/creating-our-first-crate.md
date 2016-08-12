@@ -348,7 +348,7 @@ Let's fix up our `Makefile` to work again.
 
 The first thing we need to do is fix up the paths:
 
-```make
+```makefile
 build/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p build
         nasm -f elf64 src/asm/multiboot_header.asm -o build/multiboot_header.o
@@ -385,7 +385,7 @@ directory, and we're building our assembly into the `build` directory. Having
 two places where our object files go is less than ideal. So let's change it to
 output into `target` instead. Our `Makefile` will then look like this:
 
-```make
+```makefile
 default: build
         
 build: target/kernel.bin
@@ -420,7 +420,7 @@ However, that last rule is a bit suspect. It does work just fine, `make clean`
 will do its job. However, Cargo can do this for us, and it's a bit nicer.
 Modifying the last rule, we end up with this:
 
-```make
+```makefile
 default: build
         
 build: target/kernel.bin
