@@ -20,3 +20,11 @@ On Arch Linux you can install them with
 ```bash
 $ sudo pacman -S --needed binutils grub libisoburn nasm qemu
 ```
+
+And on Fedora with
+
+```bash
+$ sudo dnf install nasm xorriso qemu
+```
+
+Note that if your Fedora is up-to-date enough you will need to call `grub2-mkrescue` command instead of `grub-mkrescue`.
