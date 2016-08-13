@@ -71,7 +71,7 @@
 <p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
 change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
 on the steps we did earlier. Here's some new rules to add to the <code>Makefile</code>:</p>
-<pre><code class="language-make">target/libcore:
+<pre><code class="language-makefile">target/libcore:
         git clone http://github.com/intermezzos/libcore target/libcore
         cd target/libcore &amp;&amp; git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
 
@@ -131,7 +131,7 @@ our Makefile a bit easier to write, and also a bit more reliable. Cargo
 knows what it needs to do, let's just trust it to do the right thing.</p>
 <p>Now that we have it building, we need to modify the rule that builds the kernel
 to include <code>libintermezzos.a</code>:</p>
-<pre><code class="language-make">target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
+<pre><code class="language-makefile">target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
         ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
 </code></pre>
 <p>And then we can build:</p>

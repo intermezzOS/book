@@ -1359,7 +1359,7 @@ These are called ‘prerequisites’.</li>
 <p>Let’s start off with a very straightforward rule. Specifically, the first step
 that we did was to build the Multiboot header by running <code>nasm</code>. Let’s build a
 <code>Makefile</code> that does this. Open a file called <code>Makefile</code> and put this in it:</p>
-<pre><code class="language-make">multiboot_header.o: multiboot_header.asm
+<pre><code class="language-makefile">multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
 </code></pre>
 <p>It’s <em>very</em> important that that <code>nasm</code> line uses a tab to indent. It can’t be
@@ -1383,7 +1383,7 @@ to build this file, it existing is enough to satisfy the dependency.</p>
 <p>Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
 shell command that you need to build the target.</p>
 <p>Building <code>boot.o</code> is similar:</p>
-<pre><code class="language-make">multiboot_header.o: multiboot_header.asm
+<pre><code class="language-makefile">multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
 
 boot.o: boot.asm
@@ -1411,7 +1411,7 @@ is defining the right targets to make this work out nicely.</p>
 <p>It would be nice if we could build both things with one command, but as it
 turns out, our next target, <code>kernel.bin</code>, relies on both of these <code>.o</code> files,
 so let’s write it first:</p>
-<pre><code class="language-make">multiboot_header.o: multiboot_header.asm
+<pre><code class="language-makefile">multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
 
 boot.o: boot.asm
@@ -1427,7 +1427,7 @@ ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 <p>Great! The <code>kernel.bin</code> target depends on <code>multiboot_header.o</code>, <code>boot.o</code>, and <code>linker.ld</code>. The
 first two are the previous targets we defined, and <code>linker.ld</code> is a file on its own.</p>
 <p>Let’s make <code>make</code> build the whole thing by default:</p>
-<pre><code class="language-make">default: kernel.bin
+<pre><code class="language-makefile">default: kernel.bin
 
 multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
@@ -1457,7 +1457,7 @@ ld -n -o kernel.bin -T linker.ld multiboot_header.o boot.o
 <p>Let’s add a new rule to build our iso. Rather than show the entire <code>Makefile</code>, I’m
 going to start showing you what’s changed. First, we have to update our <code>default</code>
 target, and then we have to write the new one:</p>
-<pre><code class="language-make">default: os.iso
+<pre><code class="language-makefile">default: os.iso
 
 os.iso: kernel.bin grub.cfg
         mkdir -p isofiles/boot/grub
@@ -1482,13 +1482,13 @@ grub-mkrescue -o os.iso isofiles
 </code></pre>
 <p>Sometimes, it’s nice to add targets which describe a semantic. In this case, building
 the <code>os.iso</code> target is the same as building the project. So let’s say so:</p>
-<pre><code class="language-make">default: build
+<pre><code class="language-makefile">default: build
 
 build: os.iso
 </code></pre>
 <p>The default action is to build the project, and to build the project, we need to build
 <code>os.iso</code>. But what about running it? Let’s add a rule for that:</p>
-<pre><code class="language-make">default: run
+<pre><code class="language-makefile">default: run
 
 run: os.iso
         qemu-system-x86_64 -cdrom os.iso
@@ -1506,7 +1506,7 @@ $ make build
 <p>Finally, there’s another useful common rule: <code>clean</code>. The <code>clean</code> rule should remove all
 of the generated files, and allow us to do a full re-build. As such it’s a bunch of <code>rm</code>
 statements:</p>
-<pre><code class="language-make">.PHONY: clean
+<pre><code class="language-makefile">.PHONY: clean
 clean:
         rm -f multiboot_header.o
         rm -f boot.o
@@ -1519,7 +1519,7 @@ target will always be considered fresh; in other words, running <code>make clean
 checking if it’s been done already and just execute. In this case, this is what we want;
 we want to nuke all the files, we don’t care when they were modified.</p>
 <p>Here’s our final <code>Makefile</code>:</p>
-<pre><code class="language-make">default: run
+<pre><code class="language-makefile">default: run
 
 .PHONY: clean
 
@@ -1561,7 +1561,7 @@ simplest is that all of our generated files will go in a single directory,
 which means that it’s much easier to keep track of them: they’ll all be in one
 place.</p>
 <p>Let’s make some changes: More specifically, three of them:</p>
-<pre><code class="language-make">build/multiboot_header.o: multiboot_header.asm
+<pre><code class="language-makefile">build/multiboot_header.o: multiboot_header.asm
         mkdir -p build
         nasm -f elf64 multiboot_header.asm -o build/multiboot_header.o
 </code></pre>
@@ -1575,35 +1575,35 @@ when we build so that we can put our <code>.o</code> file in it!</p>
 <p>Finally, we add the <code>-o</code> flag to <code>nasm</code>. This will create our output file in
 that <code>build</code> directory, rather than in the current one.</p>
 <p>With that, we’re ready to modify <code>boot.o</code> as well:</p>
-<pre><code class="language-make">build/boot.o: boot.asm
+<pre><code class="language-makefile">build/boot.o: boot.asm
         mkdir -p build
         nasm -f elf64 boot.asm -o build/boot.o
 </code></pre>
 <p>These changes are the same, just with <code>boot</code> instead of <code>multiboot_header</code>.</p>
 <p>Next up: <code>kernel.bin</code>:</p>
-<pre><code class="language-make">build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
+<pre><code class="language-makefile">build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
         ld -n -o build/kernel.bin -T linker.ld build/multiboot_header.o build/boot.o
 </code></pre>
 <p>We append <code>build</code> in no fewer than <em>six</em> places. Whew! At least it’s
 straightforward.</p>
-<pre><code class="language-make">build/os.iso: build/kernel.bin grub.cfg
+<pre><code class="language-makefile">build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
         cp grub.cfg build/isofiles/boot/grub
         cp build/kernel.bin build/isofiles/boot/
         grub-mkrescue -o build/os.iso build/isofiles
 </code></pre>
 <p>Seeing a pattern yet? More prefixing.</p>
-<pre><code class="language-make">run: build/os.iso
+<pre><code class="language-makefile">run: build/os.iso
         qemu-system-x86_64 -cdrom build/os.iso
 </code></pre>
 <p>... and here as well.</p>
-<pre><code class="language-make">clean:
+<pre><code class="language-makefile">clean:
         rm -rf build
 </code></pre>
 <p>Now some payoff! To get rid of our generated files, all we have to do is <code>rm</code>
 our <code>build</code> directory. Much easier.</p>
 <p>Here’s our final version:</p>
-<pre><code class="language-make">default: run
+<pre><code class="language-makefile">default: run
 
 .PHONY: clean
 
@@ -2543,7 +2543,7 @@ make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multib
 <p>Let's fix up our <code>Makefile</code> to work again.</p>
 <h2>Fixing our Makefile</h2>
 <p>The first thing we need to do is fix up the paths:</p>
-<pre><code class="language-make">build/multiboot_header.o: src/asm/multiboot_header.asm
+<pre><code class="language-makefile">build/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p build
         nasm -f elf64 src/asm/multiboot_header.asm -o build/multiboot_header.o
 
@@ -2574,7 +2574,7 @@ $
 directory, and we're building our assembly into the <code>build</code> directory. Having
 two places where our object files go is less than ideal. So let's change it to
 output into <code>target</code> instead. Our <code>Makefile</code> will then look like this:</p>
-<pre><code class="language-make">default: build
+<pre><code class="language-makefile">default: build
         
 build: target/kernel.bin
 
@@ -2606,7 +2606,7 @@ clean:
 <p>However, that last rule is a bit suspect. It does work just fine, <code>make clean</code>
 will do its job. However, Cargo can do this for us, and it's a bit nicer.
 Modifying the last rule, we end up with this:</p>
-<pre><code class="language-make">default: build
+<pre><code class="language-makefile">default: build
         
 build: target/kernel.bin
 
@@ -2646,7 +2646,7 @@ might be an interesting diversion.</p>
 <p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
 change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
 on the steps we did earlier. Here's some new rules to add to the <code>Makefile</code>:</p>
-<pre><code class="language-make">target/libcore:
+<pre><code class="language-makefile">target/libcore:
         git clone http://github.com/intermezzos/libcore target/libcore
         cd target/libcore &amp;&amp; git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
 
@@ -2706,7 +2706,7 @@ our Makefile a bit easier to write, and also a bit more reliable. Cargo
 knows what it needs to do, let's just trust it to do the right thing.</p>
 <p>Now that we have it building, we need to modify the rule that builds the kernel
 to include <code>libintermezzos.a</code>:</p>
-<pre><code class="language-make">target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
+<pre><code class="language-makefile">target/kernel.bin: target/multiboot_header.o target/boot.o src/asm/linker.ld cargo
         ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
 </code></pre>
 <p>And then we can build:</p>

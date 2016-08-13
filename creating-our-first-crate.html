@@ -327,7 +327,7 @@ make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multib
 <p>Let's fix up our <code>Makefile</code> to work again.</p>
 <h2>Fixing our Makefile</h2>
 <p>The first thing we need to do is fix up the paths:</p>
-<pre><code class="language-make">build/multiboot_header.o: src/asm/multiboot_header.asm
+<pre><code class="language-makefile">build/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p build
         nasm -f elf64 src/asm/multiboot_header.asm -o build/multiboot_header.o
 
@@ -358,7 +358,7 @@ $
 directory, and we're building our assembly into the <code>build</code> directory. Having
 two places where our object files go is less than ideal. So let's change it to
 output into <code>target</code> instead. Our <code>Makefile</code> will then look like this:</p>
-<pre><code class="language-make">default: build
+<pre><code class="language-makefile">default: build
         
 build: target/kernel.bin
 
@@ -390,7 +390,7 @@ clean:
 <p>However, that last rule is a bit suspect. It does work just fine, <code>make clean</code>
 will do its job. However, Cargo can do this for us, and it's a bit nicer.
 Modifying the last rule, we end up with this:</p>
-<pre><code class="language-make">default: build
+<pre><code class="language-makefile">default: build
         
 build: target/kernel.bin
 
