@@ -361,6 +361,11 @@ together:
 $ ld --nmagic --output=kernel.bin --script=linker.ld multiboot_header.o boot.o
 ```
 
+Recall that on Mac OS X you will want to use the linker we installed to
+`~/opt` and not your system linker. For example, if you did not change any of
+the defaults in the installation script, this linker will be located at
+`$HOME/opt/binx86_64-pc-elf-ld`.
+
 By running this command, we do a few things:
 
 ```text
