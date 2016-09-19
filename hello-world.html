@@ -338,6 +338,10 @@ bit weird, but it’s not too bad.</p>
 together:</p>
 <pre><code class="language-bash">$ ld --nmagic --output=kernel.bin --script=linker.ld multiboot_header.o boot.o
 </code></pre>
+<p>Recall that on Mac OS X you will want to use the linker we installed to
+<code>~/opt</code> and not your system linker. For example, if you did not change any of
+the defaults in the installation script, this linker will be located at
+<code>$HOME/opt/bin/x86_64-pc-elf-ld</code>.</p>
 <p>By running this command, we do a few things:</p>
 <pre><code class="language-text">--nmagic
 </code></pre>
