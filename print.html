@@ -547,13 +547,14 @@ it very easy to switch between different versions of Rust, and install
 multiple copies of Rust, both of which are features that are of use to us. If
 you do other Rust work, you won't want to be stuck with the version we use here!</p>
 <p>To get the Rust we need, first type this:</p>
-<pre><code class="language-bash">$ rustup update nightly-2016-05-26
+<pre><code class="language-bash">$ rustup update nightly
 </code></pre>
-<p>This installs the version of nightly Rust for May 26th, 2016. We'll try to keep
-the book current and upgrade Rust periodically, so if you take a break and come
-back to things, check back with this chapter to see if you need to upgrade.</p>
+<p>This installs the current version of nightly Rust. We run all of the examples
+in this book under continunous integration, so we should know if something
+changes in nightly Rust and breaks. But please <a href="https://github.com/intermezzOS/book/issues/new">file bugs</a> if something doesn't
+work.</p>
 <p>Then, execute this:</p>
-<pre><code class="language-bash">$ rustup override add nightly-2016-05-26
+<pre><code class="language-bash">$ rustup override add nightly
 </code></pre>
 <p>This sets up <code>rustup</code> to switch to the Rust we need whenever we're in this
 directory. Nice and easy. We can't get the version wrong; <code>rustup</code> handles it
@@ -2374,20 +2375,17 @@ but that would cause us problems later. So let's just get it out of the way
 now, while we're doing all this other setup.</p>
 <p>Create a file named <code>x86_64-unknown-intermezzos-gnu.json</code>, and put this in it:</p>
 <pre><code class="language-json">{
-        &quot;llvm-target&quot;: &quot;x86_64-unknown-none-gnu&quot;,
-        &quot;target-endian&quot;: &quot;little&quot;,
-        &quot;target-pointer-width&quot;: &quot;64&quot;,
-        &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
-        &quot;os&quot;: &quot;intermezzos&quot;,
-        &quot;arch&quot;: &quot;x86_64&quot;,
-        &quot;pre-link-args&quot;: [ &quot;-m64&quot; ],
-        &quot;cpu&quot;: &quot;x86-64&quot;,
-        &quot;features&quot;: &quot;-mmx,-sse,-sse2,-sse3,-ssse3&quot;,
-        &quot;disable-redzone&quot;: true,
-        &quot;eliminate-frame-pointer&quot;: false,
-        &quot;linker-is-gnu&quot;: true,
-        &quot;no-compiler-rt&quot;: true,
-        &quot;archive-format&quot;: &quot;gnu&quot;
+    &quot;arch&quot;: &quot;x86_64&quot;,
+    &quot;cpu&quot;: &quot;x86-64&quot;,
+    &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
+    &quot;llvm-target&quot;: &quot;x86_64-unknown-none-gnu&quot;,
+    &quot;no-compiler-rt&quot;: true,
+    &quot;os&quot;: &quot;intermezzos&quot;,
+    &quot;target-endian&quot;: &quot;little&quot;,
+    &quot;target-pointer-width&quot;: &quot;64&quot;,
+    &quot;features&quot;: &quot;-mmx,-fxsr,-sse,-sse2,+soft-float&quot;,
+    &quot;disable-redzone&quot;: true,
+    &quot;eliminate-frame-pointer&quot;: false
 }
 </code></pre>
 <p>Unlike <code>gcc</code>, where you have to build a cross-compiler by actually building a
@@ -2426,63 +2424,33 @@ library for it yet! In fact, we don't want a standard library: our operating sys
 is far from containing the proper features to support it. Instead, we only want
 Rust's <code>libcore</code> library. This library contains just the essential stuff, without
 all of the fancy features we can't support yet.</p>
-<h2>Including libcore</h2>
-<p>Well... so, this part gets a bit messy. While <code>libcore</code> <em>is</em> mostly ready for
-kernel development, we decided to turn off floating point in our kernel. But
-<code>libcore</code> assumes that we support floating point. So that's bad.</p>
-<p>This is an area of ongoing negotiation between the OS dev community and the
-Rust team. We're working on a solution. In the meantime, I've tried to solve
-some of the pain for you to make this easier. Specifically, I've got
-<a href="http://github.com/intermezzos/libcore">a fork of libcore</a>, ready for you to use. It is patched to not use floating
-point anymore. All of us in the OS dev world share these patches around, and
-update them when Rust gets updated. This is actually the reason why we have to
-be so specific about our Rust version.</p>
-<p>In order to use this fork, we need to clone it down:</p>
-<pre><code class="language-bash">$ git clone http://github.com/intermezzos/libcore build/libcore
-Cloning into 'build/libcore'...
-remote: Counting objects: 140, done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 140 (delta 3), reused 0 (delta 0), pack-reused 132
-Receiving objects: 100% (140/140), 362.70 KiB | 166.00 KiB/s, done.
-Resolving deltas: 100% (52/52), done.
-Checking connectivity... done.
-</code></pre>
-<p>... and then build it...</p>
-<pre><code class="language-bash"># copy the target file in so we can build for our target
-$ cp x86_64-unknown-intermezzos-gnu.json build/libcore 
-
-$ cd build/libcore
-
-# This is the correct version for the Rust we have, so let's
-# set it explicitly to be safe
-$ git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
-HEAD is now at 02e41cd Reintroduce panic == abort
-
-# Finally, build with all the correct options
-$ cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-   Compiling core v0.1.0 (file:///path/to/your/kernel/build/core)
-
-# Switch back to our source directory
-$ cd ../..
-</code></pre>
-<p>Whew! That's a lot of work. Don't worry, we'll be modifying our <code>Makefile</code> to do this
-automatically soon.</p>
+<h2>Building libcore with xargo</h2>
+<p>So how do we get a copy of <code>libcore</code> for intermezzOS? The answer is <a href="https://github.com/japaric/xargo"><code>xargo</code></a>. It's
+a wrapper around Cargo that knows how to read a <code>target.json</code> file and automatically
+cross-compile <code>libcore</code>, then set up Cargo to use it.</p>
 <p>Let's modify <code>src/lib.rs</code> to get rid of that useless test, and to say we don't want to
 use the standard library:</p>
 <pre><code class="language-rust">#![no_std]
 </code></pre>
 <p>That's it, just an empty library with one little annotation. Now we're ready to
 build. Well, almost, anyway:</p>
-<pre><code class="language-bash">$ RUSTFLAGS=&quot;-L build/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
-   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+<pre><code>$ cargo install xargo
+&lt;snip, let's not include all of this output here. It should build successfully though.&gt;
+$ xargo build --release --target x86_64-unknown-intermezzos-gnu
+ Downloading https://static.rust-lang.org/dist/2016-09-25/rustc-nightly-src.tar.gz
+   Unpacking rustc-nightly-src.tar.gz
+   Compiling sysroot for x86_64-unknown-intermezzos-gnu
+   Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
+   Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
+   Compiling rustc_unicode v0.0.0 (file:///home/steve/.xargo/src/librustc_unicode)
+   Compiling rand v0.0.0 (file:///home/steve/.xargo/src/librand)
+   Compiling collections v0.0.0 (file:///home/steve/.xargo/src/libcollections)
+   Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
 error: language item required, but not found: `panic_fmt`
 error: language item required, but not found: `eh_personality`
 error: aborting due to 2 previous errors
 error: Could not compile `intermezzos`.
 </code></pre>
-<p>Whew! Our <code>cargo build</code> was so easy at first! <code>RUSTFLAGS</code> is a special
-environment variable that will modify how Cargo calls <code>rustc</code> for every crate
-in the build. We need it to set the path to where our modified <code>libcore</code> is.</p>
 <p>So why'd we get yet another error? For that, we need to understand a Rust
 feature, panics.</p>
 <h2>Panic == abort</h2>
@@ -2523,7 +2491,7 @@ the <code>#[lang]</code> attribute to inform Rust that these functions are our l
 items. <code>eh_personality()</code> doesn't need to do anything, but <code>rust_begin_panic()</code>
 should never return, so we put in an inifinite <code>loop</code>.</p>
 <p>Let's try compiling again:</p>
-<pre><code class="language-bash">$ RUSTFLAGS=&quot;-L build/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+<pre><code class="language-bash">$ xargo build --release --target x86_64-unknown-intermezzos-gnu
    Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
 $
 </code></pre>
@@ -2653,49 +2621,23 @@ might be an interesting diversion.</p>
 <h1>Hello from Rust!</h1>
 <p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
 change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
-on the steps we did earlier. Here's some new rules to add to the <code>Makefile</code>:</p>
-<pre><code class="language-makefile">target/libcore:
-        git clone http://github.com/intermezzos/libcore target/libcore
-        cd target/libcore &amp;&amp; git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
-
-target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib: target/libcore
-        cp x86_64-unknown-intermezzos-gnu.json target/libcore
-        cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-
-cargo: target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib
-        RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --release --target x86_64-unknown-intermezzos-gnu.json
+on the steps we did earlier. Here's a new rule to add to the <code>Makefile</code>:</p>
+<pre><code class="language-make">cargo:
+    xargo build --release --target x86_64-unknown-intermezzos-gnu
 </code></pre>
-<p>Whew! That's a bit of a mouthful. This is where it <em>might</em> make some sense to
-use some variables, at least. But let's not worry about this for now.</p>
-<blockquote>
-<p>But if you'd like to... <a href="https://github.com/intermezzOS/kernel/blob/master/chapter_05/AlternateMakefile">here's what it looks
-like</a>.
-You can assign variables with <code>=</code>, and then use them by putting their name in
-<code>$()</code>. Pretty slick! There's a balance here, and we could, in theory, go even
-further. This is a nice mix, I think, between being understandable and being
-maximally DRY.</p>
-</blockquote>
-<p>We first write a rule to download our <code>libcore</code>. Next, we write a rule to
-compile our <code>libcore.rlib</code>. Finally, we write a rule to build
-<code>libintermezzos.a</code>. All of these commands are ones we used earlier to build
-this stuff, so the details shouldn't be completely new, though organizing them
-into these three rules is.</p>
-<p>Try it out:</p>
+<p>This uses <code>xargo</code> to automatically cross-compile (remember, we're trying to
+compile <em>from</em> our OS <em>to</em> intermezzOS) <code>libcore</code> for us. Easy! Let's give it a
+try:</p>
 <pre><code class="language-bash">$ make cargo
-git clone http://github.com/intermezzos/libcore target/libcore
-Cloning into 'target/libcore'...
-remote: Counting objects: 140, done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 140 (delta 3), reused 0 (delta 0), pack-reused 132
-Receiving objects: 100% (140/140), 362.70 KiB | 120.00 KiB/s, done.
-Resolving deltas: 100% (52/52), done.
-Checking connectivity... done.
-cd target/libcore &amp;&amp; git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
-HEAD is now at 02e41cd Reintroduce panic == abort
-cp x86_64-unknown-intermezzos-gnu.json target/libcore
-cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-   Compiling core v0.0.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05/target/libcore)
-RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+xargo build --release --target x86_64-unknown-intermezzos-gnu
+ Downloading https://static.rust-lang.org/dist/2016-09-25/rustc-nightly-src.tar.gz
+   Unpacking rustc-nightly-src.tar.gz
+   Compiling sysroot for x86_64-unknown-intermezzos-gnu
+   Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
+   Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
+   Compiling rustc_unicode v0.0.0 (file:///home/steve/.xargo/src/librustc_unicode)
+   Compiling rand v0.0.0 (file:///home/steve/.xargo/src/librand)
+   Compiling collections v0.0.0 (file:///home/steve/.xargo/src/libcollections)
    Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
 $
 </code></pre>
@@ -2703,9 +2645,7 @@ $
 about this makefile: in a strict sense, it will try and rebuild too much. But
 watch what happens if we try to build a second time:</p>
 <pre><code class="language-bash">$ make cargo
-cp x86_64-unknown-intermezzos-gnu.json target/libcore
-cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --target x86_64-unknown-intermezzos-gnu.json
+xargo build --release --target x86_64-unknown-intermezzos-gnu
 $
 </code></pre>
 <p>We issued some commands, but didn't actually compile anything. With this
@@ -2723,9 +2663,8 @@ mkdir -p target
 nasm -f elf64 src/asm/multiboot_header.asm -o target/multiboot_header.o
 mkdir -p target
 nasm -f elf64 src/asm/boot.asm -o target/boot.o
-cp x86_64-unknown-intermezzos-gnu.json target/libcore
-cd target/libcore &amp;&amp; cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-RUSTFLAGS=&quot;-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release&quot; cargo build --release --target x86_64-unknown-intermezzos-gnu.json
+xargo build --release --target x86_64-unknown-intermezzos-gnu
+   Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
 ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
 $
 </code></pre>
