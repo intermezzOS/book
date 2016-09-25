@@ -19,17 +19,20 @@ you do other Rust work, you won't want to be stuck with the version we use here!
 To get the Rust we need, first type this:
 
 ```bash
-$ rustup update nightly-2016-05-26
+$ rustup update nightly
 ```
 
-This installs the version of nightly Rust for May 26th, 2016. We'll try to keep
-the book current and upgrade Rust periodically, so if you take a break and come
-back to things, check back with this chapter to see if you need to upgrade.
+This installs the current version of nightly Rust. We run all of the examples
+in this book under continunous integration, so we should know if something
+changes in nightly Rust and breaks. But please [file bugs] if something doesn't
+work.
+
+[file bugs]: https://github.com/intermezzOS/book/issues/new
 
 Then, execute this:
 
 ```bash
-$ rustup override add nightly-2016-05-26
+$ rustup override add nightly
 ```
 
 This sets up `rustup` to switch to the Rust we need whenever we're in this

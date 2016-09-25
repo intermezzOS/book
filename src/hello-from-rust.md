@@ -2,55 +2,28 @@
 
 Okay, time for the big finale: printing our `OKAY` from Rust. First, let's
 change our `Makefile` to add the Rust code into our assembly code. We can build
-on the steps we did earlier. Here's some new rules to add to the `Makefile`:
+on the steps we did earlier. Here's a new rule to add to the `Makefile`:
 
-```makefile
-target/libcore:
-        git clone http://github.com/intermezzos/libcore target/libcore
-        cd target/libcore && git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
-
-target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib: target/libcore
-        cp x86_64-unknown-intermezzos-gnu.json target/libcore
-        cd target/libcore && cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-
-cargo: target/libcore/target/x86_64-unknown-intermezzos-gnu/libcore.rlib
-        RUSTFLAGS="-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --release --target x86_64-unknown-intermezzos-gnu.json
+```make
+cargo:
+	xargo build --release --target x86_64-unknown-intermezzos-gnu
 ```
 
-Whew! That's a bit of a mouthful. This is where it _might_ make some sense to
-use some variables, at least. But let's not worry about this for now.
-
-> But if you'd like to... [here's what it looks
-> like](https://github.com/intermezzOS/kernel/blob/master/chapter_05/AlternateMakefile).
-> You can assign variables with `=`, and then use them by putting their name in
-> `$()`. Pretty slick! There's a balance here, and we could, in theory, go even
-> further. This is a nice mix, I think, between being understandable and being
-> maximally DRY.
-
-We first write a rule to download our `libcore`. Next, we write a rule to
-compile our `libcore.rlib`. Finally, we write a rule to build
-`libintermezzos.a`. All of these commands are ones we used earlier to build
-this stuff, so the details shouldn't be completely new, though organizing them
-into these three rules is.
-
-Try it out:
+This uses `xargo` to automatically cross-compile (remember, we're trying to
+compile _from_ our OS _to_ intermezzOS) `libcore` for us. Easy! Let's give it a
+try:
 
 ```bash
 $ make cargo
-git clone http://github.com/intermezzos/libcore target/libcore
-Cloning into 'target/libcore'...
-remote: Counting objects: 140, done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 140 (delta 3), reused 0 (delta 0), pack-reused 132
-Receiving objects: 100% (140/140), 362.70 KiB | 120.00 KiB/s, done.
-Resolving deltas: 100% (52/52), done.
-Checking connectivity... done.
-cd target/libcore && git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
-HEAD is now at 02e41cd Reintroduce panic == abort
-cp x86_64-unknown-intermezzos-gnu.json target/libcore
-cd target/libcore && cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-   Compiling core v0.0.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05/target/libcore)
-RUSTFLAGS="-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --target x86_64-unknown-intermezzos-gnu.json
+xargo build --release --target x86_64-unknown-intermezzos-gnu
+ Downloading https://static.rust-lang.org/dist/2016-09-25/rustc-nightly-src.tar.gz
+   Unpacking rustc-nightly-src.tar.gz
+   Compiling sysroot for x86_64-unknown-intermezzos-gnu
+   Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
+   Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
+   Compiling rustc_unicode v0.0.0 (file:///home/steve/.xargo/src/librustc_unicode)
+   Compiling rand v0.0.0 (file:///home/steve/.xargo/src/librand)
+   Compiling collections v0.0.0 (file:///home/steve/.xargo/src/libcollections)
    Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
 $
 ```
@@ -61,9 +34,7 @@ watch what happens if we try to build a second time:
 
 ```bash
 $ make cargo
-cp x86_64-unknown-intermezzos-gnu.json target/libcore
-cd target/libcore && cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-RUSTFLAGS="-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --target x86_64-unknown-intermezzos-gnu.json
+xargo build --release --target x86_64-unknown-intermezzos-gnu
 $
 ```
 
@@ -88,9 +59,8 @@ mkdir -p target
 nasm -f elf64 src/asm/multiboot_header.asm -o target/multiboot_header.o
 mkdir -p target
 nasm -f elf64 src/asm/boot.asm -o target/boot.o
-cp x86_64-unknown-intermezzos-gnu.json target/libcore
-cd target/libcore && cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-RUSTFLAGS="-L target/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --release --target x86_64-unknown-intermezzos-gnu.json
+xargo build --release --target x86_64-unknown-intermezzos-gnu
+   Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
 ld -n -o target/kernel.bin -T src/asm/linker.ld target/multiboot_header.o target/boot.o target/x86_64-unknown-intermezzos-gnu/release/libintermezzos.a
 $
 ```

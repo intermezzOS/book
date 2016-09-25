@@ -115,20 +115,17 @@ Create a file named `x86_64-unknown-intermezzos-gnu.json`, and put this in it:
 
 ```json
 {
-        "llvm-target": "x86_64-unknown-none-gnu",
-        "target-endian": "little",
-        "target-pointer-width": "64",
-        "data-layout": "e-m:e-i64:64-f80:128-n8:16:32:64-S128",
-        "os": "intermezzos",
-        "arch": "x86_64",
-        "pre-link-args": [ "-m64" ],
-        "cpu": "x86-64",
-        "features": "-mmx,-sse,-sse2,-sse3,-ssse3",
-        "disable-redzone": true,
-        "eliminate-frame-pointer": false,
-        "linker-is-gnu": true,
-        "no-compiler-rt": true,
-        "archive-format": "gnu"
+	"arch": "x86_64",
+	"cpu": "x86-64",
+	"data-layout": "e-m:e-i64:64-f80:128-n8:16:32:64-S128",
+	"llvm-target": "x86_64-unknown-none-gnu",
+	"no-compiler-rt": true,
+	"os": "intermezzos",
+	"target-endian": "little",
+	"target-pointer-width": "64",
+	"features": "-mmx,-fxsr,-sse,-sse2,+soft-float",
+	"disable-redzone": true,
+	"eliminate-frame-pointer": false
 }
 ```
 
@@ -176,58 +173,13 @@ is far from containing the proper features to support it. Instead, we only want
 Rust's `libcore` library. This library contains just the essential stuff, without
 all of the fancy features we can't support yet.
 
-## Including libcore
+## Building libcore with xargo
 
-Well... so, this part gets a bit messy. While `libcore` _is_ mostly ready for
-kernel development, we decided to turn off floating point in our kernel. But
-`libcore` assumes that we support floating point. So that's bad.
+So how do we get a copy of `libcore` for intermezzOS? The answer is [`xargo`]. It's
+a wrapper around Cargo that knows how to read a `target.json` file and automatically
+cross-compile `libcore`, then set up Cargo to use it.
 
-This is an area of ongoing negotiation between the OS dev community and the
-Rust team. We're working on a solution. In the meantime, I've tried to solve
-some of the pain for you to make this easier. Specifically, I've got
-[a fork of libcore], ready for you to use. It is patched to not use floating
-point anymore. All of us in the OS dev world share these patches around, and
-update them when Rust gets updated. This is actually the reason why we have to
-be so specific about our Rust version.
-
-[a fork of libcore]: http://github.com/intermezzos/libcore
-
-In order to use this fork, we need to clone it down:
-
-```bash
-$ git clone http://github.com/intermezzos/libcore build/libcore
-Cloning into 'build/libcore'...
-remote: Counting objects: 140, done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 140 (delta 3), reused 0 (delta 0), pack-reused 132
-Receiving objects: 100% (140/140), 362.70 KiB | 166.00 KiB/s, done.
-Resolving deltas: 100% (52/52), done.
-Checking connectivity... done.
-```
-
-... and then build it...
-
-```bash
-# copy the target file in so we can build for our target
-$ cp x86_64-unknown-intermezzos-gnu.json build/libcore 
-
-$ cd build/libcore
-
-# This is the correct version for the Rust we have, so let's
-# set it explicitly to be safe
-$ git reset --hard 02e41cd5b925a1c878961042ecfb00470c68296b
-HEAD is now at 02e41cd Reintroduce panic == abort
-
-# Finally, build with all the correct options
-$ cargo build --release --features disable_float --target=x86_64-unknown-intermezzos-gnu.json
-   Compiling core v0.1.0 (file:///path/to/your/kernel/build/core)
-
-# Switch back to our source directory
-$ cd ../..
-```
-
-Whew! That's a lot of work. Don't worry, we'll be modifying our `Makefile` to do this
-automatically soon.
+[`xargo`]: https://github.com/japaric/xargo
 
 Let's modify `src/lib.rs` to get rid of that useless test, and to say we don't want to
 use the standard library:
@@ -239,18 +191,24 @@ use the standard library:
 That's it, just an empty library with one little annotation. Now we're ready to
 build. Well, almost, anyway:
 
-```bash
-$ RUSTFLAGS="-L build/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --target x86_64-unknown-intermezzos-gnu.json
-   Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
+```
+$ cargo install xargo
+<snip, let's not include all of this output here. It should build successfully though.>
+$ xargo build --release --target x86_64-unknown-intermezzos-gnu
+ Downloading https://static.rust-lang.org/dist/2016-09-25/rustc-nightly-src.tar.gz
+   Unpacking rustc-nightly-src.tar.gz
+   Compiling sysroot for x86_64-unknown-intermezzos-gnu
+   Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
+   Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
+   Compiling rustc_unicode v0.0.0 (file:///home/steve/.xargo/src/librustc_unicode)
+   Compiling rand v0.0.0 (file:///home/steve/.xargo/src/librand)
+   Compiling collections v0.0.0 (file:///home/steve/.xargo/src/libcollections)
+   Compiling intermezzos v0.1.0 (file:///home/steve/src/intermezzOS/kernel/chapter_05)
 error: language item required, but not found: `panic_fmt`
 error: language item required, but not found: `eh_personality`
 error: aborting due to 2 previous errors
 error: Could not compile `intermezzos`.
 ```
-
-Whew! Our `cargo build` was so easy at first! `RUSTFLAGS` is a special
-environment variable that will modify how Cargo calls `rustc` for every crate
-in the build. We need it to set the path to where our modified `libcore` is.
 
 So why'd we get yet another error? For that, we need to understand a Rust
 feature, panics.
@@ -307,7 +265,7 @@ should never return, so we put in an inifinite `loop`.
 Let's try compiling again:
 
 ```bash
-$ RUSTFLAGS="-L build/libcore/target/x86_64-unknown-intermezzos-gnu/release" cargo build --target x86_64-unknown-intermezzos-gnu.json
+$ xargo build --release --target x86_64-unknown-intermezzos-gnu
    Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
 $
 ```
