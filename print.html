@@ -3023,7 +3023,7 @@ if [ ! -d &quot;gcc-5.3.0&quot; ]; then
   rm gcc-5.3.0.tar.bz2
   mkdir -p build-gcc
   cd build-gcc
-  ../gcc-5.3.0/configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=/usr/local/Cellar/gmp/6.1.0 --with-mpfr=/usr/local/Cellar/mpfr/3.1.3 --with-mpc=/usr/local/Cellar/libmpc/1.0.3
+  ../gcc-5.3.0/configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=$(brew --prefix gmp) --with-mpfr=$(brew --prefix mpfr) --with-mpc=$(brew --prefix libmpc)
   make all-gcc
   make all-target-libgcc
   make install-gcc
