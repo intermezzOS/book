@@ -1593,7 +1593,7 @@ that <code>build</code> directory, rather than in the current one.</p>
 <pre><code class="language-makefile">build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
         ld -n -o build/kernel.bin -T linker.ld build/multiboot_header.o build/boot.o
 </code></pre>
-<p>We append <code>build</code> in no fewer than <em>six</em> places. Whew! At least it’s
+<p>We add <code>build</code> in no fewer than <em>six</em> places. Whew! At least it’s
 straightforward.</p>
 <pre><code class="language-makefile">build/os.iso: build/kernel.bin grub.cfg
         mkdir -p build/isofiles/boot/grub
