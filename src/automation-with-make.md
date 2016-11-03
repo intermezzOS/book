@@ -330,7 +330,7 @@ build/kernel.bin: build/multiboot_header.o build/boot.o linker.ld
         ld -n -o build/kernel.bin -T linker.ld build/multiboot_header.o build/boot.o
 ```
 
-We append `build` in no fewer than _six_ places. Whew! At least it’s
+We add `build` in no fewer than _six_ places. Whew! At least it’s
 straightforward.
 
 ```makefile
