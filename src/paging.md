@@ -198,7 +198,7 @@ This copies the contents of the first third-level page table entry into the
     or eax, 0b11
 ```
 
-We take the contents of `eax` and `or` it with `0b11`. First, let’s talk about
+We take the contents of `eax` and `or` it with `0b11`, the result is written in `eax`. First, let’s talk about
 _what_ this does, and then we’ll talk about _why_ we want to do it.
 
 When dealing with binary, `or` is an operation that returns `1` if either value
