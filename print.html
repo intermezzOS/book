@@ -1817,7 +1817,7 @@ files is a good idea. Let’s go over each of these lines:</p>
 <code>eax</code> register. We need to do this because of the next line:</p>
 <pre><code class="language-x86asm">    or eax, 0b11
 </code></pre>
-<p>We take the contents of <code>eax</code> and <code>or</code> it with <code>0b11</code>. First, let’s talk about
+<p>We take the contents of <code>eax</code> and <code>or</code> it with <code>0b11</code>, the result is written in <code>eax</code>. First, let’s talk about
 <em>what</em> this does, and then we’ll talk about <em>why</em> we want to do it.</p>
 <p>When dealing with binary, <code>or</code> is an operation that returns <code>1</code> if either value
 is <code>1</code>, and <code>0</code> if both are <code>0</code>. In other words, if <code>a</code> and <code>b</code> are a single
