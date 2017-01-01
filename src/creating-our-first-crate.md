@@ -191,12 +191,22 @@ use the standard library:
 That's it, just an empty library with one little annotation. Now we're ready to
 build. Well, almost, anyway:
 
-```
+```bash
 $ cargo install xargo
 <snip, let's not include all of this output here. It should build successfully though.>
+```
+
+In order for `xargo` to work, it needs a copy of Rust's source code; that's how it
+builds a custom `libcore` for us. Add it with `rustup`:
+
+```bash
+$ rustup component add rust-src
+```
+
+And now let's build:
+
+```bash
 $ xargo build --release --target x86_64-unknown-intermezzos-gnu
- Downloading https://static.rust-lang.org/dist/2016-09-25/rustc-nightly-src.tar.gz
-   Unpacking rustc-nightly-src.tar.gz
    Compiling sysroot for x86_64-unknown-intermezzos-gnu
    Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
    Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
