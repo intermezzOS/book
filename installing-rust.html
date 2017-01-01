@@ -70,17 +70,11 @@
                     <h1>Installing Rust</h1>
 <p>First, you need to get a copy of Rust! There's one catch though: you'll need to
 get <em>exactly</em> the correct version of Rust. Unfortunately, for OS development,
-we need to take advantage of some cutting-edge features that aren't yet stable.
-So in order for this to work, you have to be using the exact correct Rust. Don't
-worry though, it's easy to do. Put this in your terminal:</p>
-<pre><code class="language-bash">$ curl https://sh.rustup.rs -sSf | sh
-</code></pre>
-<p>This will install <code>rustup</code>. At the time of this writing, <code>rustup</code> is in beta,
-but it will be the de-facto way to get Rust from the Rust team. It also makes
-it very easy to switch between different versions of Rust, and install
-multiple copies of Rust, both of which are features that are of use to us. If
-you do other Rust work, you won't want to be stuck with the version we use here!</p>
-<p>To get the Rust we need, first type this:</p>
+we need to take advantage of some cutting-edge features that aren't yet stable.</p>
+<p>Luckily, the Rust project has a tool that makes it easy to switch between Rust
+versions: <code>rustup</code>. You can get it from the <a href="http://rust-lang.org/install.html">install
+page</a> of the Rust website.</p>
+<p>By default, <code>rustup</code> uses stable Rust. So let's tell it to install nightly:</p>
 <pre><code class="language-bash">$ rustup update nightly
 </code></pre>
 <p>This installs the current version of nightly Rust. We run all of the examples
