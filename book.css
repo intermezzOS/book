@@ -25,6 +25,17 @@ h5 {
 .header + .header h5 {
   margin-top: 1em;
 }
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+table td {
+  padding: 3px 20px;
+  border: 1px solid;
+}
+table thead td {
+  font-weight: 700;
+}
 .sidebar {
   position: absolute;
   left: 0;
@@ -61,7 +72,7 @@ h5 {
 .chapter {
   list-style: none outside none;
   padding-left: 0;
-  line-height: 1.9em;
+  line-height: 2.2em;
 }
 .chapter li a {
   padding: 5px 0;
@@ -78,7 +89,7 @@ h5 {
 .section {
   list-style: none outside none;
   padding-left: 20px;
-  line-height: 2.5em;
+  line-height: 1.9em;
 }
 .section li {
   -o-text-overflow: ellipsis;
@@ -240,8 +251,9 @@ h5 {
   right: 15px;
 }
 .theme-popup {
-  position: fixed;
-  left: -40px;
+  position: relative;
+  left: 10px;
+  z-index: 1000;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   font-size: 0.7em;
@@ -251,6 +263,11 @@ h5 {
   padding: 2px 10px;
   line-height: 25px;
   white-space: nowrap;
+}
+.theme-popup .theme:hover:first-child,
+.theme-popup .theme:hover:last-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 @media only screen and (max-width: 1250px) {
   .nav-chapters {
@@ -285,29 +302,18 @@ h5 {
   }
 }
 .light {
-/* Inline code */
   color: #333;
   background-color: #fff;
+/* Inline code */
 }
-.light :not(pre) > .hljs {
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0.1em 0.3em;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+.light .content .header:link,
+.light .content .header:visited {
+  color: #333;
+  pointer: cursor;
 }
-.light pre {
-  position: relative;
-}
-.light pre > i {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  color: #364149;
-  cursor: pointer;
-}
-.light pre > i :hover {
-  color: #008cff;
+.light .content .header:link:hover,
+.light .content .header:visited:hover {
+  text-decoration: none;
 }
 .light .sidebar {
   background-color: #fafafa;
@@ -351,36 +357,78 @@ h5 {
   color: #4183c4;
 }
 .light .theme-popup {
+  color: #333;
   background: #fafafa;
   border: 1px solid #ccc;
 }
 .light .theme-popup .theme:hover {
   background-color: #e6e6e6;
 }
-.coal {
-/* Inline code */
-  color: #98a3ad;
-  background-color: #141617;
+.light .theme-popup .default {
+  color: #ccc;
 }
-.coal :not(pre) > .hljs {
+.light blockquote {
+  margin: 20px 0;
+  padding: 0 20px;
+  color: #333;
+  background-color: #f2f7f9;
+  border-top: 0.1em solid #e1edf1;
+  border-bottom: 0.1em solid #e1edf1;
+}
+.light table td {
+  border-color: #f2f2f2;
+}
+.light table tbody tr:nth-child(2n) {
+  background: #f7f7f7;
+}
+.light table thead {
+  background: #ccc;
+}
+.light table thead td {
+  border: none;
+}
+.light table thead tr {
+  border: 1px #ccc solid;
+}
+.light :not(pre) > .hljs {
   display: inline-block;
   vertical-align: middle;
   padding: 0.1em 0.3em;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-.coal pre {
+.light pre {
   position: relative;
 }
-.coal pre > i {
+.light pre > .buttons {
   position: absolute;
   right: 5px;
   top: 5px;
-  color: #a1adb8;
+  color: #364149;
   cursor: pointer;
 }
-.coal pre > i :hover {
-  color: #3473ad;
+.light pre > .buttons :hover {
+  color: #008cff;
+}
+.light pre > .buttons i {
+  margin-left: 8px;
+}
+.light pre > .result {
+  margin-top: 10px;
+}
+.coal {
+  color: #98a3ad;
+  background-color: #141617;
+/* Inline code */
+}
+.coal .content .header:link,
+.coal .content .header:visited {
+  color: #98a3ad;
+  pointer: cursor;
+}
+.coal .content .header:link:hover,
+.coal .content .header:visited:hover {
+  text-decoration: none;
 }
 .coal .sidebar {
   background-color: #292c2f;
@@ -424,36 +472,78 @@ h5 {
   color: #2b79a2;
 }
 .coal .theme-popup {
+  color: #98a3ad;
   background: #141617;
   border: 1px solid #43484d;
 }
 .coal .theme-popup .theme:hover {
   background-color: #1f2124;
 }
-.navy {
-/* Inline code */
-  color: #bcbdd0;
-  background-color: #161923;
+.coal .theme-popup .default {
+  color: #43484d;
 }
-.navy :not(pre) > .hljs {
+.coal blockquote {
+  margin: 20px 0;
+  padding: 0 20px;
+  color: #98a3ad;
+  background-color: #242637;
+  border-top: 0.1em solid #2c2f44;
+  border-bottom: 0.1em solid #2c2f44;
+}
+.coal table td {
+  border-color: #1f2223;
+}
+.coal table tbody tr:nth-child(2n) {
+  background: #1b1d1e;
+}
+.coal table thead {
+  background: #3f4649;
+}
+.coal table thead td {
+  border: none;
+}
+.coal table thead tr {
+  border: 1px #3f4649 solid;
+}
+.coal :not(pre) > .hljs {
   display: inline-block;
   vertical-align: middle;
   padding: 0.1em 0.3em;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-.navy pre {
+.coal pre {
   position: relative;
 }
-.navy pre > i {
+.coal pre > .buttons {
   position: absolute;
   right: 5px;
   top: 5px;
-  color: #c8c9db;
+  color: #a1adb8;
   cursor: pointer;
 }
-.navy pre > i :hover {
-  color: #2b79a2;
+.coal pre > .buttons :hover {
+  color: #3473ad;
+}
+.coal pre > .buttons i {
+  margin-left: 8px;
+}
+.coal pre > .result {
+  margin-top: 10px;
+}
+.navy {
+  color: #bcbdd0;
+  background-color: #161923;
+/* Inline code */
+}
+.navy .content .header:link,
+.navy .content .header:visited {
+  color: #bcbdd0;
+  pointer: cursor;
+}
+.navy .content .header:link:hover,
+.navy .content .header:visited:hover {
+  text-decoration: none;
 }
 .navy .sidebar {
   background-color: #282d3f;
@@ -497,36 +587,78 @@ h5 {
   color: #2b79a2;
 }
 .navy .theme-popup {
+  color: #bcbdd0;
   background: #161923;
   border: 1px solid #737480;
 }
 .navy .theme-popup .theme:hover {
   background-color: #282e40;
 }
-.rust {
-/* Inline code */
-  color: #262625;
-  background-color: #e1e1db;
+.navy .theme-popup .default {
+  color: #737480;
 }
-.rust :not(pre) > .hljs {
+.navy blockquote {
+  margin: 20px 0;
+  padding: 0 20px;
+  color: #bcbdd0;
+  background-color: #262933;
+  border-top: 0.1em solid #2f333f;
+  border-bottom: 0.1em solid #2f333f;
+}
+.navy table td {
+  border-color: #1f2331;
+}
+.navy table tbody tr:nth-child(2n) {
+  background: #1b1f2b;
+}
+.navy table thead {
+  background: #39415b;
+}
+.navy table thead td {
+  border: none;
+}
+.navy table thead tr {
+  border: 1px #39415b solid;
+}
+.navy :not(pre) > .hljs {
   display: inline-block;
   vertical-align: middle;
   padding: 0.1em 0.3em;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-.rust pre {
+.navy pre {
   position: relative;
 }
-.rust pre > i {
+.navy pre > .buttons {
   position: absolute;
   right: 5px;
   top: 5px;
   color: #c8c9db;
   cursor: pointer;
 }
-.rust pre > i :hover {
-  color: #e69f67;
+.navy pre > .buttons :hover {
+  color: #2b79a2;
+}
+.navy pre > .buttons i {
+  margin-left: 8px;
+}
+.navy pre > .result {
+  margin-top: 10px;
+}
+.rust {
+  color: #262625;
+  background-color: #e1e1db;
+/* Inline code */
+}
+.rust .content .header:link,
+.rust .content .header:visited {
+  color: #262625;
+  pointer: cursor;
+}
+.rust .content .header:link:hover,
+.rust .content .header:visited:hover {
+  text-decoration: none;
 }
 .rust .sidebar {
   background-color: #3b2e2a;
@@ -570,18 +702,115 @@ h5 {
   color: #2b79a2;
 }
 .rust .theme-popup {
+  color: #262625;
   background: #e1e1db;
   border: 1px solid #b38f6b;
 }
 .rust .theme-popup .theme:hover {
   background-color: #99908a;
 }
-
-/* Everything above is the default theme, below is custom */
-.center {
-  text-align: center;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.rust .theme-popup .default {
+  color: #737480;
 }
-
+.rust blockquote {
+  margin: 20px 0;
+  padding: 0 20px;
+  color: #262625;
+  background-color: #c1c1bb;
+  border-top: 0.1em solid #b8b8b1;
+  border-bottom: 0.1em solid #b8b8b1;
+}
+.rust table td {
+  border-color: #d7d7cf;
+}
+.rust table tbody tr:nth-child(2n) {
+  background: #dbdbd4;
+}
+.rust table thead {
+  background: #b3a497;
+}
+.rust table thead td {
+  border: none;
+}
+.rust table thead tr {
+  border: 1px #b3a497 solid;
+}
+.rust :not(pre) > .hljs {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0.1em 0.3em;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+.rust pre {
+  position: relative;
+}
+.rust pre > .buttons {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: #c8c9db;
+  cursor: pointer;
+}
+.rust pre > .buttons :hover {
+  color: #e69f67;
+}
+.rust pre > .buttons i {
+  margin-left: 8px;
+}
+.rust pre > .result {
+  margin-top: 10px;
+}
+@media only print {
+  #sidebar,
+  #menu-bar,
+  .nav-chapters,
+  .mobile-nav-chapters {
+    display: none;
+  }
+  #page-wrapper {
+    left: 0;
+    overflow-y: initial;
+  }
+  #content {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  .page {
+    overflow-y: initial;
+  }
+  code {
+    background-color: #666;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+/* Force background to be printed in Chrome */
+    -webkit-print-color-adjust: exact;
+  }
+  a,
+  a:visited,
+  a:active,
+  a:hover {
+    color: #4183c4;
+    text-decoration: none;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+/*break-after: avoid*/
+  }
+  pre,
+  code {
+    page-break-inside: avoid;
+    white-space: pre-wrap /* CSS 3 */;
+    white-space: -moz-pre-wrap /* Mozilla, since 1999 */;
+    white-space: -pre-wrap /* Opera 4-6 */;
+    white-space: -o-pre-wrap /* Opera 7 */;
+    word-wrap: break-word /* Internet Explorer 5.5+ */;
+  }
+}

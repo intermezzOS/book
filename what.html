@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>intermezzOS</title>
+        <title>What is an OS? - intermezzOS</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +67,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <h1>What is an OS?</h1>
+                    <a class="header" href="#what-is-an-os" name="what-is-an-os"><h1>What is an OS?</h1></a>
 <p>It’s actually kind of difficult to define what an operating system is. There
 are a lot of different kinds of operating systems, and they all do different
 kinds of things.</p>
@@ -87,7 +87,7 @@ isolation.</p>
 but not exclusion. In other words, things that fit this definition
 <em>are</em> operating systems, but things that don’t may or may not be,
 we don’t quite know.</p>
-<h2>Creating abstractions</h2>
+<a class="header" href="#creating-abstractions" name="creating-abstractions"><h2>Creating abstractions</h2></a>
 <p>There are many reasons to create a platform for other programs, but a
 common one for operating systems is to abstract over hardware.</p>
 <p>Consider a program, running on some hardware:</p>
@@ -136,7 +136,7 @@ to each operating system, which is then ported to all the hardware. Whew!</p>
 </ul>
 <p>We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
 are always in the middle.</p>
-<h2>Isolation</h2>
+<a class="header" href="#isolation" name="isolation"><h2>Isolation</h2></a>
 <p>Many of the abstractions provided are, as we discussed, abstractions over
 hardware. And hardware often has a pretty serious restriction: only one
 program can access the hardware at a time. So if our operating system is going
@@ -151,7 +151,7 @@ and code, then a program could trivially steal your password from another progra
 <p>This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
 just consider isolation as one of our important jobs, as OS authors.</p>
-<h3>Wait a minute...</h3>
+<a class="header" href="#wait-a-minute" name="wait-a-minute"><h3>Wait a minute...</h3></a>
 <p>Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
 just a poor abstraction? In other words, if we had an abstraction where we
 could interact with other things being abstracted... isn’t that just a bad job

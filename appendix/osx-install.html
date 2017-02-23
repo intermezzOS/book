@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>intermezzOS</title>
+        <title>Appendix C: Mac OS X Install Script - intermezzOS</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +67,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <pre><code>#!/bin/sh
+                    <pre><code>#!/bin/bash
 set -e
 
 # First we are going to make sure that you understand this is sort of experimental and we will be compiling stuff.
@@ -97,15 +97,15 @@ export PREFIX=&quot;$HOME/opt/&quot;
 export TARGET=x86_64-pc-elf
 export PATH=&quot;$PREFIX/bin:$PATH&quot;
 
-mkdir -p $HOME/src
-mkdir -p $PREFIX
+mkdir -p &quot;$HOME/src&quot;
+mkdir -p &quot;$PREFIX&quot;
 
 # gmp mpfr libmpc
 brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
 
 # binutils
 
-cd $HOME/src
+cd &quot;$HOME/src&quot;
 
 if [ ! -d &quot;binutils-2.25&quot; ]; then
   echo &quot;&quot;
@@ -122,7 +122,7 @@ if [ ! -d &quot;binutils-2.25&quot; ]; then
 fi
 
 # gcc
-cd $HOME/src
+cd &quot;$HOME/src&quot;
 
 if [ ! -d &quot;gcc-5.3.0&quot; ]; then
   echo &quot;&quot;
@@ -133,7 +133,7 @@ if [ ! -d &quot;gcc-5.3.0&quot; ]; then
   rm gcc-5.3.0.tar.bz2
   mkdir -p build-gcc
   cd build-gcc
-  ../gcc-5.3.0/configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=$(brew --prefix gmp) --with-mpfr=$(brew --prefix mpfr) --with-mpc=$(brew --prefix libmpc)
+  ../gcc-5.3.0/configure --target=&quot;$TARGET&quot; --prefix=&quot;$PREFIX&quot; --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=&quot;$(brew --prefix gmp)&quot; --with-mpfr=&quot;$(brew --prefix mpfr)&quot; --with-mpc=&quot;$(brew --prefix libmpc)&quot;
   make all-gcc
   make all-target-libgcc
   make install-gcc
@@ -142,7 +142,7 @@ fi
 
 # objconv
 
-cd $HOME/src
+cd &quot;$HOME/src&quot;
 
 if [ ! -d &quot;objconv&quot; ]; then
   echo &quot;&quot;
@@ -154,12 +154,12 @@ if [ ! -d &quot;objconv&quot; ]; then
   cd build-objconv
   unzip source.zip -d src
   g++ -o objconv -O2 src/*.cpp --prefix=&quot;$PREFIX&quot;
-  cp objconv $PREFIX/bin
+  cp objconv &quot;$PREFIX/bin&quot;
 fi
 
 # grub
 
-cd $HOME/src
+cd &quot;$HOME/src&quot;
 
 if [ ! -d &quot;grub&quot; ]; then
   echo &quot;&quot;
@@ -171,7 +171,7 @@ if [ ! -d &quot;grub&quot; ]; then
   mkdir -p build-grub
   cd build-grub
   ../configure --disable-werror TARGET_CC=$TARGET-gcc TARGET_OBJCOPY=$TARGET-objcopy \
-    TARGET_STRIP=$TARGET-strip TARGET_NM=$TARGET-nm TARGET_RANLIB=$TARGET-ranlib --target=$TARGET --prefix=$PREFIX
+    TARGET_STRIP=$TARGET-strip TARGET_NM=$TARGET-nm TARGET_RANLIB=$TARGET-ranlib --target=$TARGET --prefix=&quot;$PREFIX&quot;
   make
   make install
 fi

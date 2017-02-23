@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>intermezzOS</title>
+        <title>Appendix A: Troubleshooting - intermezzOS</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,12 +67,12 @@
                 </div>
 
                 <div id="content" class="content">
-                    <h1>Appendix A: Troubleshooting</h1>
+                    <a class="header" href="#appendix-a-troubleshooting" name="appendix-a-troubleshooting"><h1>Appendix A: Troubleshooting</h1></a>
 <p>In this appendix, we will cover common errors and their solutions for
 various chapters of the book.</p>
-<h2>Chapter 3</h2>
+<a class="header" href="#chapter-3" name="chapter-3"><h2>Chapter 3</h2></a>
 <p>Here are various solutions to issues you may run into in Chapter 3:</p>
-<h3>The ld tool does not work</h3>
+<a class="header" href="#the-ld-tool-does-not-work" name="the-ld-tool-does-not-work"><h3>The ld tool does not work</h3></a>
 <p>When running the linker tool ld, it may freeze and not produce output. Check the linker file for a syntax error. Make sure comments are closed. You can also run the command with --verbose for more output during linking to help in debugging.</p>
 <p>Linux:</p>
 <pre><code>ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
@@ -80,7 +80,7 @@ various chapters of the book.</p>
 <p>Mac OS X:</p>
 <pre><code>~/opt/bin/x86_64-pc-elf-ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
 </code></pre>
-<h3>Error: no multiboot header found</h3>
+<a class="header" href="#error-no-multiboot-header-found" name="error-no-multiboot-header-found"><h3>Error: no multiboot header found</h3></a>
 <p>When booting up your kernel, QEMU may print out a message like this:</p>
 <pre><code class="language-text">error: no multiboot header found
 error: you need to load the kernel first
@@ -89,7 +89,7 @@ error: you need to load the kernel first
 something. Double check your code against the examples and make sure that
 they’re <em>identical</em>, especially things like magic numbers. They’re easy to
 mis-type.</p>
-<h3>Could not read from CDROM (code 0009)</h3>
+<a class="header" href="#could-not-read-from-cdrom-code-0009" name="could-not-read-from-cdrom-code-0009"><h3>Could not read from CDROM (code 0009)</h3></a>
 <p>On a system that uses EFI to boot, you may see an error like this:</p>
 <pre><code class="language-text">$ qemu-system-x86_64 -cdrom os.iso
 Could not read from CDROM (code 0009)
@@ -102,14 +102,14 @@ before trying QEMU again:</p>
 <pre><code class="language-bash">$ grub-mkrescue -o os.iso isofiles
 $ qemu-system-x86_64 -cdrom os.iso
 </code></pre>
-<h3>xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image</h3>
+<a class="header" href="#xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image" name="xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image"><h3>xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image</h3></a>
 <p>When building the ISO, you may see a message like this:</p>
 <pre><code class="language-text">xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image
 </code></pre>
 <p>The solution may be to install the <code>mtools</code> package:</p>
 <pre><code class="language-bash">$ sudo apt-get install mtools
 </code></pre>
-<h3>Could not initialize SDL(No available video device) - exiting</h3>
+<a class="header" href="#could-not-initialize-sdlno-available-video-device---exiting" name="could-not-initialize-sdlno-available-video-device---exiting"><h3>Could not initialize SDL(No available video device) - exiting</h3></a>
 <p>When booting your kernel in QEMU, you may see an error like this:</p>
 <pre><code class="language-text">Could not initialize SDL(No available video device) - exiting
 </code></pre>

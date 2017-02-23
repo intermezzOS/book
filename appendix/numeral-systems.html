@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>intermezzOS</title>
+        <title>Appendix B: Numeral Systems - intermezzOS</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,11 +67,11 @@
                 </div>
 
                 <div id="content" class="content">
-                    <h1>Numeral Systems</h1>
+                    <a class="header" href="#numeral-systems" name="numeral-systems"><h1>Numeral Systems</h1></a>
 <p>In math we use a particular <strong>numeral system</strong> to denote a particular number. A
 numeral system is defined by the particular symbols it uses to convey numbers.</p>
 <p>Below we'll examine three numeral systems: decimal, binary and hexadecimal.</p>
-<h2>Decimal System</h2>
+<a class="header" href="#decimal-system" name="decimal-system"><h2>Decimal System</h2></a>
 <p>The numeral system you're probably most familiar with is the <strong>decimal system</strong>.
 The symbols (or &quot;digits&quot;) used in decimal are: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>,
 <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>.</p>
@@ -88,7 +88,7 @@ though <code>2</code> times. We start new cycles at a regular interval - every t
 cycled through all the symbols of the digit furthest to the left.</p>
 <p>If you're familiar with Roman numerals, you know that that system did not work
 that way. &quot;Orders of magnitude&quot; don't start and stop at regular intervals.</p>
-<h3>Let's Count</h3>
+<a class="header" href="#lets-count" name="lets-count"><h3>Let's Count</h3></a>
 <p>At the risk of taking things too slow, let's count in decimal the number of <code>|</code>s here:</p>
 <p><code>||||||||||||</code></p>
 <p>Let's begin with zero and go higher:</p>
@@ -100,7 +100,7 @@ over.</p>
 <p>Sorry if that was a bit too easy. You're probably pretty good with the decimal
 system already so this wasn't too big of a challenge. But we'll do the same
 exercise with other numeral systems to get a better feel for them.</p>
-<h3>Let's Use Math</h3>
+<a class="header" href="#lets-use-math" name="lets-use-math"><h3>Let's Use Math</h3></a>
 <p>We can summarize what we just said with a math formula:</p>
 <p>\[ 1 \cdot 10^1 + 2 \cdot 10^0 = 12 \]</p>
 <p>Here we've written out that we've cycled completely through the numbers once
@@ -131,14 +131,14 @@ want to convert from some other numeral system to decimal.</p>
 <p>Now we'll examine two new numeral systems. The are positional just like decimal, but
 have different bases. We'll examine <strong>binary</strong> with a base of two, and <strong>hexadecimal</strong>
 with a base of sixteen.</p>
-<h2>Binary system</h2>
+<a class="header" href="#binary-system" name="binary-system"><h2>Binary system</h2></a>
 <p>Unlike decimal's base of ten, binary has a base of two. Meaning we only have two
 symbols to work with to represent all the numbers: <code>0</code>, <code>1</code>. Say
 goodbye to <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>. We can't use them.</p>
 <p>So when we have the binary number <code>10</code> we don't have the number ten. What we've really
 done is counted <em>once through all the digits of the system</em> <code>0</code>, <code>1</code> and
 started again. So we have the number two.</p>
-<h3>Let's Count</h3>
+<a class="header" href="#lets-count" name="lets-count"><h3>Let's Count</h3></a>
 <p>Let's count <code>|</code> again, but this time in binary:</p>
 <p><code>|||||||</code></p>
 <p>If we were counting in decimal we would use the symbol <code>7</code> to refer to this
@@ -148,7 +148,7 @@ number. Let's start at zero:</p>
 made a full round trip, so let's start over.</p>
 <p>... <code>10</code>, <code>11</code>, <code>100</code>, <code>101</code>, <code>110</code>, <code>111</code></p>
 <p>We've successfully counted to the number seven using binary!</p>
-<h3>Let's Use Math</h3>
+<a class="header" href="#lets-use-math" name="lets-use-math"><h3>Let's Use Math</h3></a>
 <p>The binary value <code>100</code> means we have counted <em>one times two (a.k.a the base) times
 through all the digits (a.k.a. the base)</em>, which would equal to <code>4</code> in decimal.</p>
 <p>\[1 \cdot base^2 + 0 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^2 + 0 \cdot 2^1 + 0 \cdot 2^0 = 4 \]</p>
@@ -157,7 +157,7 @@ through all the digits (a.k.a. the base)</em>, which would equal to <code>4</cod
 and <em>one times two (a.k.a the base) times two (a.k.a the base) digits</em>.</p>
 <p>\[ 1 \cdot base^3 + 0 \cdot base ^2 + 1 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 = 8 + 2 = 10\]</p>
 <p>Hurray! We've successfully converted binary to decimal!</p>
-<h2>Hexadecimal System</h2>
+<a class="header" href="#hexadecimal-system" name="hexadecimal-system"><h2>Hexadecimal System</h2></a>
 <p>And now we meet hexadecimal with a base of sixteen. Before we begin we have to answer the
 question of how we represent sixteen unique digits when we're used to representing only ten.</p>
 <p>To represent the digits after <code>9</code> until a new cycle begins we'll use the letters
@@ -169,7 +169,7 @@ one, but we chose <code>1</code> instead.</p>
 <em>through all the digits of the system once</em> and are starting the cycle again.
 However, instead of it being ten, it's sixteen. Another way of thinking about
 this is <code>10</code> in hexadecimal is equal to <code>16</code> in decimal.</p>
-<h3>Let's Count</h3>
+<a class="header" href="#lets-count" name="lets-count"><h3>Let's Count</h3></a>
 <p>Once again, let's count <code>|</code>s but this time using hexadecimal notation:</p>
 <p><code>||||||||||||||||||||</code></p>
 <p>If we were using decimal we would use the symbol <code>20</code> to refer to this number.
@@ -178,13 +178,13 @@ Let's start again at zero:</p>
 <p>Don't be tempted to do the decimal thing and use <code>10</code>!</p>
 <p>... <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>, <code>10</code>, <code>11</code>, <code>12</code>, <code>13</code>, <code>14</code></p>
 <p>Congrats! You've counted to twenty in hexadecimal!</p>
-<h3>Let's Use Math</h3>
+<a class="header" href="#lets-use-math" name="lets-use-math"><h3>Let's Use Math</h3></a>
 <p>Let's do the math thing one more time with an exotic hexadecimal value: <code>3e8</code>.
 This value means we have counted <em>three times sixteen (a.k.a the base) times all the
 digits of the system (a.k.a the base)</em> and <em><code>e</code> times, which is equal to 14 in decimal,
 all digits (a.k.a the base)</em> and <em>8 remaining elements</em>.</p>
 <p>\[ 3 \cdot base^2 + e \cdot base^1 + 8 \cdot base^0 = 3 \cdot 16^2 + 14 \cdot 16^1 + 8 \cdot 16^0 = 768 + 224 + 8 = 1000 \]</p>
-<h2>Converting From Decimal to Another Base</h2>
+<a class="header" href="#converting-from-decimal-to-another-base" name="converting-from-decimal-to-another-base"><h2>Converting From Decimal to Another Base</h2></a>
 <p>Until now, we have only converted values from a numeral system with a specific base
 to the decimal system. But what if we want to do the opposite?</p>
 <p>For this we are going to use the <strong>divison</strong> and <strong>remainders</strong></p>
@@ -229,7 +229,7 @@ The value we are going to convert from decimal to hexadecimal is <code>43981</co
 <p>We get the binary number <code>101001</code>, let's check:</p>
 <p>\[ 1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 41 \]</p>
 <p>Fantastic, it worked once again!</p>
-<h2>Conclusion</h2>
+<a class="header" href="#conclusion" name="conclusion"><h2>Conclusion</h2></a>
 <p>In this chapter we have learned there were many numeral systems beside the decimal
 system we use in our every day life. We've seen why the hexadecimal system uses the
 letters <code>a</code> through <code>f</code> and finally we have learned how to convert back and forth
