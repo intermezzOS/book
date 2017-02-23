@@ -1,5 +1,5 @@
 ```
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # First we are going to make sure that you understand this is sort of experimental and we will be compiling stuff.
@@ -29,15 +29,15 @@ export PREFIX="$HOME/opt/"
 export TARGET=x86_64-pc-elf
 export PATH="$PREFIX/bin:$PATH"
 
-mkdir -p $HOME/src
-mkdir -p $PREFIX
+mkdir -p "$HOME/src"
+mkdir -p "$PREFIX"
 
 # gmp mpfr libmpc
 brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
 
 # binutils
 
-cd $HOME/src
+cd "$HOME/src"
 
 if [ ! -d "binutils-2.25" ]; then
   echo ""
@@ -54,7 +54,7 @@ if [ ! -d "binutils-2.25" ]; then
 fi
 
 # gcc
-cd $HOME/src
+cd "$HOME/src"
 
 if [ ! -d "gcc-5.3.0" ]; then
   echo ""
@@ -65,7 +65,7 @@ if [ ! -d "gcc-5.3.0" ]; then
   rm gcc-5.3.0.tar.bz2
   mkdir -p build-gcc
   cd build-gcc
-  ../gcc-5.3.0/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=$(brew --prefix gmp) --with-mpfr=$(brew --prefix mpfr) --with-mpc=$(brew --prefix libmpc)
+  ../gcc-5.3.0/configure --target="$TARGET" --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --with-gmp="$(brew --prefix gmp)" --with-mpfr="$(brew --prefix mpfr)" --with-mpc="$(brew --prefix libmpc)"
   make all-gcc
   make all-target-libgcc
   make install-gcc
@@ -74,7 +74,7 @@ fi
 
 # objconv
 
-cd $HOME/src
+cd "$HOME/src"
 
 if [ ! -d "objconv" ]; then
   echo ""
@@ -86,12 +86,12 @@ if [ ! -d "objconv" ]; then
   cd build-objconv
   unzip source.zip -d src
   g++ -o objconv -O2 src/*.cpp --prefix="$PREFIX"
-  cp objconv $PREFIX/bin
+  cp objconv "$PREFIX/bin"
 fi
 
 # grub
 
-cd $HOME/src
+cd "$HOME/src"
 
 if [ ! -d "grub" ]; then
   echo ""
@@ -103,7 +103,7 @@ if [ ! -d "grub" ]; then
   mkdir -p build-grub
   cd build-grub
   ../configure --disable-werror TARGET_CC=$TARGET-gcc TARGET_OBJCOPY=$TARGET-objcopy \
-    TARGET_STRIP=$TARGET-strip TARGET_NM=$TARGET-nm TARGET_RANLIB=$TARGET-ranlib --target=$TARGET --prefix=$PREFIX
+    TARGET_STRIP=$TARGET-strip TARGET_NM=$TARGET-nm TARGET_RANLIB=$TARGET-ranlib --target=$TARGET --prefix="$PREFIX"
   make
   make install
 fi
