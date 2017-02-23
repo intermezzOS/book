@@ -271,7 +271,7 @@ page three table to the page two table!
 ```
 
 The code is the same as above, but with `p2_table` and `p3_table` instead of
-`p4_table` and `p3_table`. Nothing more than that.
+`p3_table` and `p4_table`. Nothing more than that.
 
 We have one last thing to do: set up the level two page table to have valid
 references to pages. We’re going to do something we haven’t done yet in
