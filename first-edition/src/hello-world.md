@@ -224,7 +224,7 @@ that’s one word in total (or two bytes). Each place that the memory address po
 to can hold one byte (a.k.a. 8 bits or half a word). Hence, if our first memory
 position is at `0`, the second letter will start at `2`.
 
->You might be wondering, "If we're in 32 bit mode, isn't a word 32 bits?" Well, the ‘word’ keyword in the context of x86\_64 assembly specifically refers to 2 bytes, or 16 bits of data.  This is for reasons of backwards compatibility.
+>You might be wondering, "If we're in 32 bit mode, isn't a word 32 bits?" since sometimes ‘word’ is used to talk about native CPU register size. Well, the ‘word’ keyword in the context of x86\_64 assembly specifically refers to 2 bytes, or 16 bits of data.  This is for reasons of backwards compatibility.
 
 
 This math gets easier the more often you do it. And we won’t be doing _that_ much
