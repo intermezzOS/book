@@ -217,10 +217,15 @@ Lower case `e` is `65` in ASCII, at least, in hexadecimal. And `02` is our same
 color code. But you’ll notice that the memory location is different.
 
 Okay, so we copied four hexadecimal digits into memory, right? For our `H`.
-`0248`. A hexadecimal digit has sixteen values, which is 4 bits, so two of them
-make 8 bits, i.e. one byte. We copied one byte for the colors, `02`, and one for
-the letter, `48`, so that's two bytes. Hence, if our first memory position is at
-`0`, the second letter will start at `2`.
+`0248`. A hexadecimal digit has sixteen values, which is 4 bits (for example, `0xf`
+would be represented in bits as `1111`). Two of them make 8 bits, i.e. one byte.
+Since we need half a word for the colors (`02`), and half a word for the `H` (`48`),
+that’s one word in total (or two bytes). Each place that the memory address points
+to can hold one byte (a.k.a. 8 bits or half a word). Hence, if our first memory
+position is at `0`, the second letter will start at `2`.
+
+>You might be wondering, "If we're in 32 bit mode, isn't a word 32 bits?" Well, the ‘word’ keyword in the context of x86\_64 assembly specifically refers to 2 bytes, or 16 bits of data.  This is for reasons of backwards compatibility.
+
 
 This math gets easier the more often you do it. And we won’t be doing _that_ much
 more of it. There is a lot of working with hex numbers in operating systems work,
