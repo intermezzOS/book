@@ -67,7 +67,7 @@ has a meaning. Here’s a summary:
 * 44: ‘descriptor type’: This has to be `1` for code and data segments
 * 47: ‘present’: This is set to `1` if the entry is valid
 * 41: ‘read/write’: If this is a code segment, `1` means that it’s readable
-* 43: ‘executable’: Set to `1 for code segments
+* 43: ‘executable’: Set to `1` for code segments
 * 53: ‘64-bit’: if this is a 64-bit GDT, this should be set
 
 That’s all we need for a valid code segment!
