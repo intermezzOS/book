@@ -67,12 +67,12 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="#what-tools-will-we-use" name="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
+                    <a class="header" href="tools.html#what-tools-will-we-use" name="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
 <p>Before we can make a kernel, we need to figure out the tools we’re going to
 use. The first question, of course, is what programming language?</p>
 <p>In our case, we’re going to use two. The first one is the language that
 <em>every</em> kernel must use: assembly language.</p>
-<a class="header" href="#assembly" name="assembly"><h2>Assembly</h2></a>
+<a class="header" href="tools.html#assembly" name="assembly"><h2>Assembly</h2></a>
 <p>Assembly language gives us direct access to a specific machine. If the basis of
 computer science is abstraction, the very bottom of the software abstraction layer
 is assembly. Below it lies only hardware and physics.</p>
@@ -149,14 +149,14 @@ $
 ‘assemble’ as it's known in the assembly world) our program. We'll be going
 over each one of these commands and explaining what they are and how to use
 them.</p>
-<a class="header" href="#rust" name="rust"><h2>Rust</h2></a>
+<a class="header" href="tools.html#rust" name="rust"><h2>Rust</h2></a>
 <p>We will augment our assembly with code written in
 <a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to
 Rust-land as quickly as we possibly can. Rust is a really great programming
 language, and it’s pretty great for writing operating systems. It has some
 rough edges, but they’re not too big of a deal.</p>
 <p>Rust will allow us to write:</p>
-<pre><code class="language-rust">// foo.rs
+<pre><pre class="playpen"><code class="language-rust">// foo.rs
 
 use std::process;
 
@@ -169,7 +169,7 @@ fn main() {
 
     process::exit(a);
 }
-</code></pre>
+</code></pre></pre>
 <p>This does the same thing as our assembly code:</p>
 <pre><code class="language-bash">$ rustc foo.rs # compile our Rust code to foo
 $ ./foo        # run it
@@ -190,7 +190,7 @@ low-level language by many standards.</p>
 <p>There are a suprising number of people working on kernels in Rust. But since
 it’s a newer language, there aren’t nearly as many as for older, more
 established languages.</p>
-<a class="header" href="#do-i-need-to-be-a-wizard" name="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
+<a class="header" href="tools.html#do-i-need-to-be-a-wizard" name="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
 <p>No, you do not. A common theme of this project is “this is all we’ll need to
 know about this topic for now.” There’s no reason that you need to absolutely
 master everything before going forward. For example, in order to get Rust

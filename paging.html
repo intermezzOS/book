@@ -67,7 +67,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="#paging" name="paging"><h1>Paging</h1></a>
+                    <a class="header" href="paging.html#paging" name="paging"><h1>Paging</h1></a>
 <p>At the end of the last chapter, we did a lot of work that wasn’t actually
 writing kernel code. So let’s review what we’re up to:</p>
 <ol>
@@ -96,7 +96,7 @@ instead. But, we won’t cover that here. It’s not particularly interesting, a
 we know that it will never fail. But it might be something you want to explore
 on your own, for extra credit.</p>
 </blockquote>
-<a class="header" href="#paging" name="paging"><h2>Paging</h2></a>
+<a class="header" href="paging.html#paging" name="paging"><h2>Paging</h2></a>
 <p>So, step one: set up ‘paging’. What is paging? Paging is a way of managing
 memory. Our computer has memory, and we can think of memory as being a big long
 list of cells:</p>
@@ -177,11 +177,11 @@ each entry in a level 4 page table points to a level 3 page table entry. Each
 level 3 page table entry points at a level 2 page table entry, and each level 2
 page table entry points at a level 1 page table entry. That entry then contains
 the address. Whew! To get started, we only need one entry of each table.</p>
-<a class="header" href="#creating-the-page-table" name="creating-the-page-table"><h2>Creating the page table</h2></a>
+<a class="header" href="paging.html#creating-the-page-table" name="creating-the-page-table"><h2>Creating the page table</h2></a>
 <p>So here’s the strategy: create a single entry of each of these tables, then
 point them at each other in the correct way, then tell the CPU that paging
 should be enabled.</p>
-<a class="header" href="#creating-page-table-entries" name="creating-page-table-entries"><h3>Creating page table entries</h3></a>
+<a class="header" href="paging.html#creating-page-table-entries" name="creating-page-table-entries"><h3>Creating page table entries</h3></a>
 <p>To create space for these page table entries, open up <code>boot.asm</code> and add these
 lines at the bottom:</p>
 <pre><code class="language-x86asm">section .bss
@@ -209,7 +209,7 @@ matter a ton right now.</p>
 <p>After this has been added, we have a single valid entry for each level.
 However, because our page four entry is all zeroes, we have no valid pages.
 That’s not super useful. Let’s set things up properly.</p>
-<a class="header" href="#pointing-the-entries-at-each-other" name="pointing-the-entries-at-each-other"><h3>Pointing the entries at each other</h3></a>
+<a class="header" href="paging.html#pointing-the-entries-at-each-other" name="pointing-the-entries-at-each-other"><h3>Pointing the entries at each other</h3></a>
 <p>In order to do this setup, we need to write some more assembly code! Open up
 <code>boot.asm</code>. You can either leave in printing code, or remove it. If you do leave
 it in, add this code before it: that way, if you see your message print out, you
@@ -412,7 +412,7 @@ being in long mode. Here’s the full code, all in one place:</p>
     jne .map_p2_table
 </code></pre>
 <p>Now that we’ve done this, we have a valid initial page table. Time to enable paging!</p>
-<a class="header" href="#enable-paging" name="enable-paging"><h3>Enable paging</h3></a>
+<a class="header" href="paging.html#enable-paging" name="enable-paging"><h3>Enable paging</h3></a>
 <p>Now that we have a valid page table, we need to inform the hardware about it.
 Here’s the steps we need to take:</p>
 <ul>
@@ -502,7 +502,7 @@ bit 16.</p>
     or eax, 1 &lt;&lt; 16
     mov cr0, eax
 </code></pre>
-<a class="header" href="#-are-we-in-long-mode-yet" name="-are-we-in-long-mode-yet"><h2>... are we in long mode yet?</h2></a>
+<a class="header" href="paging.html#-are-we-in-long-mode-yet" name="-are-we-in-long-mode-yet"><h2>... are we in long mode yet?</h2></a>
 <p>So, <em>technically</em> after paging is enabled, we are in long mode. But we’re not
 in <em>real</em> long mode; we’re in a special compatibility mode. To get to real long
 mode, we need a data structure called a ‘global descriptor table’. Read the next

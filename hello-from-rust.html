@@ -67,7 +67,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="#hello-from-rust" name="hello-from-rust"><h1>Hello from Rust!</h1></a>
+                    <a class="header" href="hello-from-rust.html#hello-from-rust" name="hello-from-rust"><h1>Hello from Rust!</h1></a>
 <p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
 change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
 on the steps we did earlier. Here's a new rule to add to the <code>Makefile</code>:</p>
@@ -119,12 +119,16 @@ $
 </code></pre>
 <p>Hooray! We are now successfully building our assembly code and our Rust code, and then putting them together.</p>
 <p>Now, to write our Rust. Add this function to <code>src/lib.rs</code>:</p>
-<pre><code class="language-rust">#[no_mangle]
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+# 
+#fn main() {
+#[no_mangle]
 pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-</code></pre>
+
+#}</code></pre></pre>
 <p>This is our main function, which is traditionally called <code>kmain()</code>, for 'kernel
 main.' We need to use the <code>#[no_mangle]</code> and <code>pub extern</code> annotations to indicate
 that we're going to call this function like we would call a C function. The <code>-&gt; !</code>
@@ -150,7 +154,10 @@ And so we also change our <code>jmp</code> to jump to <code>kmain</code>.</p>
 <p>If you type <code>make run</code>, everything should compile and run, but then not display
 anything. We didn't port over the message! Open <code>src/lib.rs</code> and change <code>kmain()</code>
 to look like this:</p>
-<pre><code class="language-rust">#[no_mangle]
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+# 
+#fn main() {
+#[no_mangle]
 pub extern fn kmain() -&gt; ! {
     unsafe {
         let vga = 0xb8000 as *mut u64;
@@ -160,7 +167,8 @@ pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-</code></pre>
+
+#}</code></pre></pre>
 <p>The first thing you'll notice is the <code>unsafe</code> annotation. Yes, while one of
 Rust's defining features is safety, we'll certainly be making use of <code>unsafe</code>
 in our kernel. However, we'll be using less than you think. While this is just
@@ -179,13 +187,17 @@ Such is life.</p>
 it with Rust! It only took us five chapters to get here!</p>
 <p>This is just the beginning, though. At the end of the next chapter, your
 main function will look like this, instead:</p>
-<pre><code class="language-rust">#[no_mangle]
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+# 
+#fn main() {
+#[no_mangle]
 pub extern fn kmain() -&gt; ! {
     kprintln!(&quot;Hello, world!&quot;);
 
     loop { }
 }
-</code></pre>
+
+#}</code></pre></pre>
 <p>But for now, kick back and enjoy what you've done. Congratulations!</p>
 
                 </div>
