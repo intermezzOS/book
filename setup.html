@@ -10,7 +10,8 @@
         <base href="">
 
         <link rel="stylesheet" href="book.css">
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <link rel="shortcut icon" href="favicon.png">
 
@@ -67,7 +68,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="setup.html#setting-up-a-development-environment" name="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
+                    <a class="header" href="setup.html#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
 <p>Frankly, one of the hardest parts of starting an operating system is getting a
 development environment going. Normally, you’re doing work on the same
 operating system you’re developing for, and we don’t have that luxury. Yet!</p>
@@ -93,7 +94,7 @@ but you’ll still hear some people call it a triple anyway.</p>
 see ‘none’ get used:</p>
 <pre><code class="language-text">x86_64-unknown-none
 </code></pre>
-<a class="header" href="setup.html#hosts--targets" name="hosts--targets"><h2>Hosts &amp; Targets</h2></a>
+<a class="header" href="setup.html#hosts--targets" id="hosts--targets"><h2>Hosts &amp; Targets</h2></a>
 <p>The reason that they’re called a ‘target’ is that it’s the architecture you’re
 compiling <em>to</em>. The architecture you’re compiling <em>from</em> is called the ‘host
 architecture’.</p>
@@ -107,7 +108,7 @@ GNU/Linux machine, but the final binary was for a 32-bit x86 machine with no
 OS.</p>
 <p>So we need a slightly special environment to build our OS: we need to
 cross-compile from whatever kind of computer we are using to our new target.</p>
-<a class="header" href="setup.html#cheat-codes" name="cheat-codes"><h2>Cheat codes</h2></a>
+<a class="header" href="setup.html#cheat-codes" id="cheat-codes"><h2>Cheat codes</h2></a>
 <p>... but we can also cheat. It’s okay to cheat. Well, in this case, it’s really
 only okay at the start. We’ll eventually <em>have</em> to cross-compile, or things
 will go wrong.</p>

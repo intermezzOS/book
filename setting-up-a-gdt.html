@@ -10,7 +10,8 @@
         <base href="">
 
         <link rel="stylesheet" href="book.css">
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <link rel="shortcut icon" href="favicon.png">
 
@@ -67,7 +68,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="setting-up-a-gdt.html#setting-up-a-gdt" name="setting-up-a-gdt"><h1>Setting up a GDT</h1></a>
+                    <a class="header" href="setting-up-a-gdt.html#setting-up-a-gdt" id="setting-up-a-gdt"><h1>Setting up a GDT</h1></a>
 <p>We’re so close! We’re currently in long mode, but not ‘real’ long mode. We need
 to go from this ‘compatibility mode’ to honest-to-goodness long mode. To do
 this, we need to set up a ‘global descriptor table’.</p>
@@ -84,7 +85,7 @@ however, we’re still required to have a valid GDT. Such is life.</p>
 <p>If we were going to be using the GDT for real stuff, it could have a number
 of code and data segment entries. But we need at least one of each to have a
 minimum viable table, so let’s get to it!</p>
-<a class="header" href="setting-up-a-gdt.html#the-zero-entry" name="the-zero-entry"><h2>The Zero entry</h2></a>
+<a class="header" href="setting-up-a-gdt.html#the-zero-entry" id="the-zero-entry"><h2>The Zero entry</h2></a>
 <p>The first entry in the GDT is special: it needs to be a zero value. Add this
 to the bottom of <code>boot.asm</code>:</p>
 <pre><code class="language-x86asm">section .rodata
@@ -99,7 +100,7 @@ where our GDT is located.</p>
 Given that it’s a zero entry, it shouldn’t be too surprising that the value of
 this entry is zero!</p>
 <p>That’s all there is to it.</p>
-<a class="header" href="setting-up-a-gdt.html#setting-up-a-code-segment" name="setting-up-a-code-segment"><h2>Setting up a code segment</h2></a>
+<a class="header" href="setting-up-a-gdt.html#setting-up-a-code-segment" id="setting-up-a-code-segment"><h2>Setting up a code segment</h2></a>
 <p>Next, we need a code segment. Add this below the <code>dq 0</code>:</p>
 <pre><code class="language-x86asm">.code: equ $ - gdt64
     dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41) | (1&lt;&lt;43) | (1&lt;&lt;53)
@@ -137,7 +138,7 @@ address of <code>gdt64</code>. Conveniently, that's the offset number we need fo
 how far is this segment past the start of the GDT. The <code>equ</code> sets the address
 for the label; in other words, this line is saying &quot;set the <code>.code</code> label's
 value to the current address minus the address of <code>gdt64</code>. Got it?</p>
-<a class="header" href="setting-up-a-gdt.html#setting-up-a-data-segment" name="setting-up-a-data-segment"><h2>Setting up a data segment</h2></a>
+<a class="header" href="setting-up-a-gdt.html#setting-up-a-data-segment" id="setting-up-a-data-segment"><h2>Setting up a data segment</h2></a>
 <p>Below the code segment, add this for a data segment:</p>
 <pre><code class="language-x86asm">.data: equ $ - gdt64
     dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
@@ -147,7 +148,7 @@ The only difference is bit 41; for data segments, a <code>1</code> means that it
 writable.</p>
 <p>We also use the same trick again with the labels, calculating the offset with
 <code>equ</code>.</p>
-<a class="header" href="setting-up-a-gdt.html#putting-it-all-together" name="putting-it-all-together"><h2>Putting it all together</h2></a>
+<a class="header" href="setting-up-a-gdt.html#putting-it-all-together" id="putting-it-all-together"><h2>Putting it all together</h2></a>
 <p>Here’s our whole GDT:</p>
 <pre><code class="language-x86asm">section .rodata
 gdt64:
@@ -171,7 +172,7 @@ subtract the value of <code>gdt64</code>, and then subtract one more. We could c
 this length manually, but if we do it this way, if we add another GDT entry for
 some reason, it will automatically correct itself, which is nice.</p>
 <p>The <code>dq</code> here has the address of our table. Straightforward.</p>
-<a class="header" href="setting-up-a-gdt.html#load-the-gdt" name="load-the-gdt"><h2>Load the GDT</h2></a>
+<a class="header" href="setting-up-a-gdt.html#load-the-gdt" id="load-the-gdt"><h2>Load the GDT</h2></a>
 <p>So! We’re finally ready to tell the hardware about our GDT. Add this line after
 all of the paging stuff we did in the last chapter:</p>
 <pre><code class="language-x86asm">    lgdt [gdt64.pointer]

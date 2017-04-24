@@ -10,7 +10,8 @@
         <base href="">
 
         <link rel="stylesheet" href="book.css">
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <link rel="shortcut icon" href="favicon.png">
 
@@ -67,7 +68,7 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="what-kind-is-there.html#what-kinds-of-os-are-there" name="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
+                    <a class="header" href="what-kind-is-there.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
 <p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
 The core component is called a ‘kernel’. The non-kernel bits of an operating system
 are collectively called a ‘userland’. Typically a kernel has more direct access to the
@@ -91,7 +92,7 @@ the kernel and what is in userspace.” Upon reading this, you might then think
 the easiest kind of kernel to write is the smallest, where everything is in
 userspace. After all, smaller should be easier, right? Well... that’s not
 actually true. Or at least, it’s not clear that it’s true.</p>
-<a class="header" href="what-kind-is-there.html#monolithic-kernels" name="monolithic-kernels"><h2>Monolithic kernels</h2></a>
+<a class="header" href="what-kind-is-there.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
 <p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
 Most real-world kernels are monolithic kernels, or at least, pretend to be.
 Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
@@ -101,7 +102,7 @@ kernels have.</p>
 <p>If a monolithic kernel were a web application, it would be a big ol’ Rails
 application. One repository. A million subdirectories. It may be a big ball
 of mud, but it pays the bills.</p>
-<a class="header" href="what-kind-is-there.html#microkernels" name="microkernels"><h2>Microkernels</h2></a>
+<a class="header" href="what-kind-is-there.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
 <p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
 the kernel is in userspace instead. This is a good idea in theory, but
 historically, microkernels have had issues. All that communication has
@@ -114,7 +115,7 @@ bunch of the other stuff that’s in kernel space in a monolithic kernel are
 other microservices, but in userspace instead. It’s a bit cooler than a single
 monolithic web app by itself, and the communication is nice for flexibility’s
 sake, but has some overhead.</p>
-<a class="header" href="what-kind-is-there.html#exokernels--unikernels" name="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
+<a class="header" href="what-kind-is-there.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
 <p>These two kinds of operating systems are closely related, but it’s a bit harder
 to dig into what exactly makes them different. Unikernels have one
 easy-to-describe feature: they only run one single program at a time.

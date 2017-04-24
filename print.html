@@ -10,7 +10,8 @@
         <base href="">
 
         <link rel="stylesheet" href="book.css">
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <link rel="shortcut icon" href="favicon.png">
 
@@ -70,7 +71,7 @@
                     <h1 class="center">intermezzOS</h1>
 <p><img class="center" src="rhizome.jpg" alt="rhizome" /></p>
 <p class="center">An operating system for learning</p>
-<a class="header" href="print.html#preface" name="preface"><h2>Preface</h2></a>
+<a class="header" href="print.html#preface" id="preface"><h2>Preface</h2></a>
 <p>This book describes the intermezzOS project. intermezzOS is a hobby operating
 system, specifically targeted at showing beginners how to get into operating
 systems development. Rather than describe some sort of final OS, it instead
@@ -90,7 +91,7 @@ website is there too. Feel free to open issues on the <a href="https://github.co
 repo</a> if you want to discuss things
 in a general sense, and send bug reports and PRs to the appropriate repos
 if you’d like to help with a particular component.</p>
-<a class="header" href="print.html#the-story" name="the-story"><h2>The Story</h2></a>
+<a class="header" href="print.html#the-story" id="the-story"><h2>The Story</h2></a>
 <p>A long time ago, in college, my friends and I were working on a hobby operating
 system, <a href="http://xomb.org">XOmB</a>. It was... tough. Frankly, while I learned a
 lot, I was a pretty minor contributor. I got frustrated too easily. One day, I
@@ -137,7 +138,7 @@ Phil, and where we break off and go into our own little world. After the start,
 things will end up diverging.</p>
 <p>Furthermore, I will not commit to any kind of schedule for this project. It’s
 going to be in my spare time, and I’m learning a lot of this as I go, too.</p>
-<a class="header" href="print.html#the-name" name="the-name"><h2>The Name</h2></a>
+<a class="header" href="print.html#the-name" id="the-name"><h2>The Name</h2></a>
 <blockquote>
 <p>The nomad has a territory; he follows customary paths; he goes from one point
 to another; he is not ignorant of points (water points, dwelling points,
@@ -170,7 +171,7 @@ middle.</p>
 beginning of the book, operating systems are largely about abstractions. And
 abstractions are themselves ‘in the middle’, between what they’re abstracting
 and who they are abstracting it for.</p>
-<a class="header" href="print.html#principles" name="principles"><h2>Principles</h2></a>
+<a class="header" href="print.html#principles" id="principles"><h2>Principles</h2></a>
 <p>Here are the guiding principles of intermezzOS:</p>
 <ul>
 <li>We’re all actual people. Please treat each other as such.</li>
@@ -182,9 +183,9 @@ may have to learn.</li>
 </ul>
 <p>And of course, everything related to this project is under the <a href="http://intermezzos.github.io/code-of-conduct.html">Code of
 Conduct</a>.</p>
-<a class="header" href="print.html#background" name="background"><h1>Background</h1></a>
+<a class="header" href="print.html#background" id="background"><h1>Background</h1></a>
 <p>Before we get going, we should probably have some idea of where we’re headed.</p>
-<a class="header" href="print.html#what-is-an-os" name="what-is-an-os"><h1>What is an OS?</h1></a>
+<a class="header" href="print.html#what-is-an-os" id="what-is-an-os"><h1>What is an OS?</h1></a>
 <p>It’s actually kind of difficult to define what an operating system is. There
 are a lot of different kinds of operating systems, and they all do different
 kinds of things.</p>
@@ -204,7 +205,7 @@ isolation.</p>
 but not exclusion. In other words, things that fit this definition
 <em>are</em> operating systems, but things that don’t may or may not be,
 we don’t quite know.</p>
-<a class="header" href="print.html#creating-abstractions" name="creating-abstractions"><h2>Creating abstractions</h2></a>
+<a class="header" href="print.html#creating-abstractions" id="creating-abstractions"><h2>Creating abstractions</h2></a>
 <p>There are many reasons to create a platform for other programs, but a
 common one for operating systems is to abstract over hardware.</p>
 <p>Consider a program, running on some hardware:</p>
@@ -253,7 +254,7 @@ to each operating system, which is then ported to all the hardware. Whew!</p>
 </ul>
 <p>We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
 are always in the middle.</p>
-<a class="header" href="print.html#isolation" name="isolation"><h2>Isolation</h2></a>
+<a class="header" href="print.html#isolation" id="isolation"><h2>Isolation</h2></a>
 <p>Many of the abstractions provided are, as we discussed, abstractions over
 hardware. And hardware often has a pretty serious restriction: only one
 program can access the hardware at a time. So if our operating system is going
@@ -268,14 +269,14 @@ and code, then a program could trivially steal your password from another progra
 <p>This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
 just consider isolation as one of our important jobs, as OS authors.</p>
-<a class="header" href="print.html#wait-a-minute" name="wait-a-minute"><h3>Wait a minute...</h3></a>
+<a class="header" href="print.html#wait-a-minute" id="wait-a-minute"><h3>Wait a minute...</h3></a>
 <p>Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
 just a poor abstraction? In other words, if we had an abstraction where we
 could interact with other things being abstracted... isn’t that just a bad job
 of doing the abstraction? And in that sense, is the only thing an operating
 system does abstraction? Is the only thing everything does abstraction?</p>
 <p>I don’t have answers for you. If you figure it out, let me know...</p>
-<a class="header" href="print.html#what-kinds-of-os-are-there" name="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
+<a class="header" href="print.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
 <p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
 The core component is called a ‘kernel’. The non-kernel bits of an operating system
 are collectively called a ‘userland’. Typically a kernel has more direct access to the
@@ -299,7 +300,7 @@ the kernel and what is in userspace.” Upon reading this, you might then think
 the easiest kind of kernel to write is the smallest, where everything is in
 userspace. After all, smaller should be easier, right? Well... that’s not
 actually true. Or at least, it’s not clear that it’s true.</p>
-<a class="header" href="print.html#monolithic-kernels" name="monolithic-kernels"><h2>Monolithic kernels</h2></a>
+<a class="header" href="print.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
 <p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
 Most real-world kernels are monolithic kernels, or at least, pretend to be.
 Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
@@ -309,7 +310,7 @@ kernels have.</p>
 <p>If a monolithic kernel were a web application, it would be a big ol’ Rails
 application. One repository. A million subdirectories. It may be a big ball
 of mud, but it pays the bills.</p>
-<a class="header" href="print.html#microkernels" name="microkernels"><h2>Microkernels</h2></a>
+<a class="header" href="print.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
 <p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
 the kernel is in userspace instead. This is a good idea in theory, but
 historically, microkernels have had issues. All that communication has
@@ -322,7 +323,7 @@ bunch of the other stuff that’s in kernel space in a monolithic kernel are
 other microservices, but in userspace instead. It’s a bit cooler than a single
 monolithic web app by itself, and the communication is nice for flexibility’s
 sake, but has some overhead.</p>
-<a class="header" href="print.html#exokernels--unikernels" name="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
+<a class="header" href="print.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
 <p>These two kinds of operating systems are closely related, but it’s a bit harder
 to dig into what exactly makes them different. Unikernels have one
 easy-to-describe feature: they only run one single program at a time.
@@ -330,7 +331,7 @@ Exokernels are ‘more micro than micro’, but the details aren’t important r
 now.</p>
 <p>The important thing to know here is that there are a lot of other kinds of
 designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
-<a class="header" href="print.html#what-kind-are-we-making" name="what-kind-are-we-making"><h1>What kind are we making?</h1></a>
+<a class="header" href="print.html#what-kind-are-we-making" id="what-kind-are-we-making"><h1>What kind are we making?</h1></a>
 <p>So, given all these kinds of operating systems, what kind are we making?</p>
 <p>The answer is “it doesn’t even matter at first.” There’s some commonality in
 almost all of these styles of operating systems, and we have to get all that
@@ -346,12 +347,12 @@ direction. To tie it back into the example earlier, Phil’s tutorial starts
 going into memory-management after getting printing to the screen going. We’ll
 be going into keyboards first instead. There are, of course, some dependencies,
 but there’s also a lot of freedom.</p>
-<a class="header" href="print.html#what-tools-will-we-use" name="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
+<a class="header" href="print.html#what-tools-will-we-use" id="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
 <p>Before we can make a kernel, we need to figure out the tools we’re going to
 use. The first question, of course, is what programming language?</p>
 <p>In our case, we’re going to use two. The first one is the language that
 <em>every</em> kernel must use: assembly language.</p>
-<a class="header" href="print.html#assembly" name="assembly"><h2>Assembly</h2></a>
+<a class="header" href="print.html#assembly" id="assembly"><h2>Assembly</h2></a>
 <p>Assembly language gives us direct access to a specific machine. If the basis of
 computer science is abstraction, the very bottom of the software abstraction layer
 is assembly. Below it lies only hardware and physics.</p>
@@ -428,7 +429,7 @@ $
 ‘assemble’ as it's known in the assembly world) our program. We'll be going
 over each one of these commands and explaining what they are and how to use
 them.</p>
-<a class="header" href="print.html#rust" name="rust"><h2>Rust</h2></a>
+<a class="header" href="print.html#rust" id="rust"><h2>Rust</h2></a>
 <p>We will augment our assembly with code written in
 <a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to
 Rust-land as quickly as we possibly can. Rust is a really great programming
@@ -469,7 +470,7 @@ low-level language by many standards.</p>
 <p>There are a suprising number of people working on kernels in Rust. But since
 it’s a newer language, there aren’t nearly as many as for older, more
 established languages.</p>
-<a class="header" href="print.html#do-i-need-to-be-a-wizard" name="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
+<a class="header" href="print.html#do-i-need-to-be-a-wizard" id="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
 <p>No, you do not. A common theme of this project is “this is all we’ll need to
 know about this topic for now.” There’s no reason that you need to absolutely
 master everything before going forward. For example, in order to get Rust
@@ -481,7 +482,7 @@ move on. Do it at your own pace. Skip stuff. Come back when you don’t
 understand what’s going on. Try it, wait a week, and then try it again.</p>
 <p>There’s no wrong way to do this stuff, including by being a beginner. Everyone
 was once. Don’t let anyone discourage you.</p>
-<a class="header" href="print.html#setting-up-a-development-environment" name="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
+<a class="header" href="print.html#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
 <p>Frankly, one of the hardest parts of starting an operating system is getting a
 development environment going. Normally, you’re doing work on the same
 operating system you’re developing for, and we don’t have that luxury. Yet!</p>
@@ -507,7 +508,7 @@ but you’ll still hear some people call it a triple anyway.</p>
 see ‘none’ get used:</p>
 <pre><code class="language-text">x86_64-unknown-none
 </code></pre>
-<a class="header" href="print.html#hosts--targets" name="hosts--targets"><h2>Hosts &amp; Targets</h2></a>
+<a class="header" href="print.html#hosts--targets" id="hosts--targets"><h2>Hosts &amp; Targets</h2></a>
 <p>The reason that they’re called a ‘target’ is that it’s the architecture you’re
 compiling <em>to</em>. The architecture you’re compiling <em>from</em> is called the ‘host
 architecture’.</p>
@@ -521,7 +522,7 @@ GNU/Linux machine, but the final binary was for a 32-bit x86 machine with no
 OS.</p>
 <p>So we need a slightly special environment to build our OS: we need to
 cross-compile from whatever kind of computer we are using to our new target.</p>
-<a class="header" href="print.html#cheat-codes" name="cheat-codes"><h2>Cheat codes</h2></a>
+<a class="header" href="print.html#cheat-codes" id="cheat-codes"><h2>Cheat codes</h2></a>
 <p>... but we can also cheat. It’s okay to cheat. Well, in this case, it’s really
 only okay at the start. We’ll eventually <em>have</em> to cross-compile, or things
 will go wrong.</p>
@@ -533,7 +534,7 @@ will still technically <em>work</em>. For now.</p>
 off with the cheat, and it will come back to haunt them later. Don’t worry;
 I will actually show you how to fix things before they go wrong. Knowing the
 difference here is still useful.</p>
-<a class="header" href="print.html#installing-rust" name="installing-rust"><h1>Installing Rust</h1></a>
+<a class="header" href="print.html#installing-rust" id="installing-rust"><h1>Installing Rust</h1></a>
 <p>First, you need to get a copy of Rust! There's one catch though: you'll need to
 get <em>exactly</em> the correct version of Rust. Unfortunately, for OS development,
 we need to take advantage of some cutting-edge features that aren't yet stable.</p>
@@ -553,7 +554,7 @@ work.</p>
 <p>This sets up <code>rustup</code> to switch to the Rust we need whenever we're in this
 directory. Nice and easy. We can't get the version wrong; <code>rustup</code> handles it
 for us.</p>
-<a class="header" href="print.html#linux" name="linux"><h1>Linux</h1></a>
+<a class="header" href="print.html#linux" id="linux"><h1>Linux</h1></a>
 <p>Here are the tools we’re going to need:</p>
 <ul>
 <li><code>nasm</code></li>
@@ -572,7 +573,7 @@ for us.</p>
 <pre><code class="language-bash">$ sudo dnf install nasm xorriso qemu
 </code></pre>
 <p>Note that if your Fedora is up-to-date enough you will need to call <code>grub2-mkrescue</code> command instead of <code>grub-mkrescue</code>.</p>
-<a class="header" href="print.html#mac-os-x" name="mac-os-x"><h1>Mac OS X</h1></a>
+<a class="header" href="print.html#mac-os-x" id="mac-os-x"><h1>Mac OS X</h1></a>
 <p>The tools you need are similar to the tools listed in the <a href="linux.html">Linux
 instructions</a>, but we will need to build a cross compiler in
 order to get things working. This is sort of complicated and boring, but we've
@@ -603,8 +604,8 @@ may have already installed. The source code for these tools are downloaded in
 tools <em>should</em> be named the same as the tools used in other chapters, but they
 might be prefixed with a <code>x86_64-pc-elf-</code>. The exception to this is <code>grub</code>. The
 default path for the binaries installed using the above script is <code>$HOME/opt/bin</code> so adjust the PATH variable appropriately.</p>
-<a class="header" href="print.html#windows" name="windows"><h1>Windows</h1></a>
-<a class="header" href="print.html#windows-10" name="windows-10"><h1>Windows 10</h1></a>
+<a class="header" href="print.html#windows" id="windows"><h1>Windows</h1></a>
+<a class="header" href="print.html#windows-10" id="windows-10"><h1>Windows 10</h1></a>
 <p>If you're using Windows 10, you can use <a href="https://msdn.microsoft.com/en-us/commandline/wsl/about">Bash On Ubuntu on
 Windows</a> to get
 going in an easy way.</p>
@@ -618,11 +619,11 @@ graphical window. Any will do, but we've tried
 </code></pre>
 <p>You can put it in your <code>~/.bashrc</code> file to have it automatically work on each
 session.</p>
-<a class="header" href="print.html#other-windows-versions" name="other-windows-versions"><h2>Other Windows Versions</h2></a>
+<a class="header" href="print.html#other-windows-versions" id="other-windows-versions"><h2>Other Windows Versions</h2></a>
 <p>I hope to have better instructions for Windows soon; since I don’t have a
 computer that runs it, I need to figure it out first. If you know how, this
 would be a great way to <a href="https://github.com/intermezzOS/book">contribute</a>.</p>
-<a class="header" href="print.html#booting-up" name="booting-up"><h1>Booting up</h1></a>
+<a class="header" href="print.html#booting-up" id="booting-up"><h1>Booting up</h1></a>
 <p>We’ve got some of the theory down, and we’ve got a development environment
 going. Let’s get down to actually writing some code, shall we?</p>
 <p>Our first task is going to be the same as in any programming language: Hello
@@ -646,7 +647,7 @@ kernel. Don’t worry, the next thing we’ll do is write a script to turn it ba
 into a single command.</p>
 <p>By the way, <a href="appendix/troubleshooting.html">Appendix A</a> has a list of solutions
 to common problems, if you end up getting stuck.</p>
-<a class="header" href="print.html#multiboot-headers" name="multiboot-headers"><h1>Multiboot headers</h1></a>
+<a class="header" href="print.html#multiboot-headers" id="multiboot-headers"><h1>Multiboot headers</h1></a>
 <p>Let’s get going! The very first thing we’re going to do is create a ‘multiboot
 header’. What’s that, you ask? Well, to explain it, let’s take a small step
 back and talk about how a computer boots up.</p>
@@ -684,7 +685,7 @@ we have to do it.</p>
 </blockquote>
 <p>So that’s the task ahead of us: make the jump up the ladder and get to
 long mode. We can do it! Let’s talk more details.</p>
-<a class="header" href="print.html#firmware-and-the-bios" name="firmware-and-the-bios"><h2>Firmware and the BIOS</h2></a>
+<a class="header" href="print.html#firmware-and-the-bios" id="firmware-and-the-bios"><h2>Firmware and the BIOS</h2></a>
 <p>So let's begin by turning the power to our computer on.</p>
 <p>When we press the power button, electricity starts running, and a special piece of
 software, known as the BIOS in Intel land, automatically runs.</p>
@@ -726,7 +727,7 @@ are used on our way to building an OS. Such is life at such a low level...</p>
 memory and transfers execution to it. With this process, we move away from what
 comes dictated by the computer manufacturer and move ever closer to getting our
 OS running.</p>
-<a class="header" href="print.html#bootloaders" name="bootloaders"><h2>Bootloaders</h2></a>
+<a class="header" href="print.html#bootloaders" id="bootloaders"><h2>Bootloaders</h2></a>
 <p>The part of our bootable drive that gets executed is called a ‘bootloader’,
 since it loads things at boot time. The bootloader’s job is to take our kernel,
 put it into memory, and then transition control to it.</p>
@@ -737,7 +738,7 @@ than it is anything else. That stuff may interest you, and maybe someday we’ll
 come back and write a bootloader of our own.</p>
 <p>In the interest of actually getting around to implementing a kernel, instead, we’ll
 use an existing bootloader: GRUB.</p>
-<a class="header" href="print.html#grub-and-multiboot" name="grub-and-multiboot"><h2>GRUB and Multiboot</h2></a>
+<a class="header" href="print.html#grub-and-multiboot" id="grub-and-multiboot"><h2>GRUB and Multiboot</h2></a>
 <p>GRUB stands for ‘<em>gr</em>and <em>u</em>nified <em>b</em>ootloader’, and it’s a common one for
 GNU/Linux systems. GRUB implements a specification called Multiboot, which is a
 set of conventions for how a kernel should get loaded into memory. By following
@@ -750,7 +751,7 @@ to protected mode for us, skipping the first step. We don’t even need to know
 anything about all of that old stuff. If you’re curious about the kinds of
 things you would have needed to know, put “A20 line” into your favorite search
 engine, and get ready to cry yourself to sleep.</p>
-<a class="header" href="print.html#writing-our-own-multiboot-header" name="writing-our-own-multiboot-header"><h2>Writing our own Multiboot header</h2></a>
+<a class="header" href="print.html#writing-our-own-multiboot-header" id="writing-our-own-multiboot-header"><h2>Writing our own Multiboot header</h2></a>
 <p>I said we were gonna get to the code, and then I went on about more history.
 Sorry about that! It’s code time for real! Let’s make a directory to contain
 our project:</p>
@@ -773,7 +774,7 @@ stuff, and <em>then</em> abstract it afterwards. It’s easier to start with a m
 clean it up than it is to try to get it perfect on the first try.</p>
 <p>Second, this is a <code>.asm</code> file, which is short for ‘assembly’. That’s right, we’re
 going to write some assembly code here. Don’t worry! It’s not super hard.</p>
-<a class="header" href="print.html#an-aside-about-assembly" name="an-aside-about-assembly"><h3>An aside about assembly</h3></a>
+<a class="header" href="print.html#an-aside-about-assembly" id="an-aside-about-assembly"><h3>An aside about assembly</h3></a>
 <p>Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
 In it, he draws a distinction between these two words, which are commonly used as
 synonyms.</p>
@@ -783,7 +784,7 @@ a little bit of assembly programming to build our operating system, but we
 don’t need to know <em>that much</em>. It is completely learnable, even for someone
 coming from a high-level language. You might need to practice a bit, and take
 it slow, but I believe in you. You’ve got this.</p>
-<a class="header" href="print.html#the-magic-number" name="the-magic-number"><h3>The Magic Number</h3></a>
+<a class="header" href="print.html#the-magic-number" id="the-magic-number"><h3>The Magic Number</h3></a>
 <p>Our first assembly file will be almost entirely <em>data</em>, not code. Here’s the
 first line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
@@ -820,7 +821,7 @@ it was a 16-bit architecture set. That meant that the amount of data that could 
 held in a CPU register (or one ‘word’ as it's commonly known) was 16 bits.
 To transition to a 32-bit architecture without losing backwards compatibility,
 x86 got the concept of a ‘double word’ or double 16 bits.</p>
-<a class="header" href="print.html#the-mode-code" name="the-mode-code"><h3>The mode code</h3></a>
+<a class="header" href="print.html#the-mode-code" id="the-mode-code"><h3>The mode code</h3></a>
 <p>Okay, time to add a second line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
 dd 0          ; protected mode code
@@ -828,7 +829,7 @@ dd 0          ; protected mode code
 <p>This is another form of magic number. We want to boot into protected mode, and
 so we put a zero here, using <code>dd</code> again. If we wanted GRUB to do something
 else, we could look up another code, but this is the one that we want.</p>
-<a class="header" href="print.html#header-length" name="header-length"><h3>Header length</h3></a>
+<a class="header" href="print.html#header-length" id="header-length"><h3>Header length</h3></a>
 <p>The next thing that’s required is a header length. We could use <code>dd</code> and count
 out exactly how many bytes that our header is, but there’s two reasons why
 we’re not doing that:</p>
@@ -861,7 +862,7 @@ how many bytes there are by hand. Awesome.</p>
 <p>You’ll also notice that I indented the <code>dd</code> statements. Usually, labels go in
 the first column, and you indent actual instructions. How much you indent is up
 to you; it’s a pretty flexible format.</p>
-<a class="header" href="print.html#the-checksum" name="the-checksum"><h3>The Checksum</h3></a>
+<a class="header" href="print.html#the-checksum" id="the-checksum"><h3>The Checksum</h3></a>
 <p>The fourth field multiboot requires is a ‘checksum’. The idea is that we sum up
 some numbers, and then use that number to check that they’re all what we
 expected things to be. It’s similar to a hash, in this sense: it lets us and GRUB
@@ -894,7 +895,7 @@ from a big number. <code>dd</code> then puts that value into this spot in our fi
 <p>So what we can do here is &quot;trick&quot; the computer into giving us zero when we do the addition. Imagine for the sake of argument that <code>magic_number</code> + <code>architecture</code> + <code>header_length</code> somehow works out to be 0xFFFFFFFE. The number we'd add to that in order to make 0 would be 0x00000002. This is 0x100000000-0xFFFFFFFE, because 0x100000000 technically maps to 0 when we wrap around. So we replace 0xFFFFFFFE in our contrived example here with <code>magic_number</code> + <code>architecture</code> + <code>header_length</code>. This gives us:
 <code>dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))</code></p>
 </blockquote>
-<a class="header" href="print.html#ending-tag" name="ending-tag"><h3>Ending tag</h3></a>
+<a class="header" href="print.html#ending-tag" id="ending-tag"><h3>Ending tag</h3></a>
 <p>After the checksum you can list a series of “tags”, which is a way for the OS to
 tell the bootloader to do some extra things before handing control over to the
 OS, or to give the OS some extra information once started. We donʼt need any of
@@ -919,7 +920,7 @@ bits or 2 bytes on the x86_64 architecture. The multiboot specification demands
 that this be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.</p>
-<a class="header" href="print.html#the-section" name="the-section"><h3>The Section</h3></a>
+<a class="header" href="print.html#the-section" id="the-section"><h3>The Section</h3></a>
 <p>We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
 sections later, so for now, just put what I tell you at the top of the file.</p>
 <p>Here’s the final file:</p>
@@ -940,7 +941,7 @@ header_end:
 </code></pre>
 <p>That’s it! Congrats, you’ve written a multiboot compliant header. It’s a lot of
 esoterica, but it’s pretty straightforward once you’ve seen it a few times.</p>
-<a class="header" href="print.html#assembling-with-nasm" name="assembling-with-nasm"><h2>Assembling with <code>nasm</code></h2></a>
+<a class="header" href="print.html#assembling-with-nasm" id="assembling-with-nasm"><h2>Assembling with <code>nasm</code></h2></a>
 <p>We can’t use this file directly, we need to turn it into binary. We can use a
 program called an ‘assembler’ to ‘assemble’ our assembly code into binary code.
 It’s very similar to using a ‘compiler’ to ‘compile’ our source code into
@@ -961,16 +962,16 @@ the same directory. This is our ‘object file’, hence the <code>.o</code>. Do
 word ‘object’ confuse you. It has nothing to do with anything object oriented.
 ‘Object files’ are just binary code with some metadata in a particular format -
 in our case ELF. Later, we’ll take this file and use it to build our OS.</p>
-<a class="header" href="print.html#summary" name="summary"><h2>Summary</h2></a>
+<a class="header" href="print.html#summary" id="summary"><h2>Summary</h2></a>
 <p>Congratulations! This is the first step towards building an operating system.
 We learned about the boot process, the GRUB bootloader, and the Multiboot
 specification. We wrote a Multiboot-compliant header file in assembly code, and
 used <code>nasm</code> to create an object file from it.</p>
 <p>Next, we’ll write the actual code that prints “Hello world” to the screen.</p>
-<a class="header" href="print.html#hello-world" name="hello-world"><h1>Hello, world!</h1></a>
+<a class="header" href="print.html#hello-world" id="hello-world"><h1>Hello, world!</h1></a>
 <p>Now that we’ve got the headers out of the way, let’s do the traditional first
 program: Hello, world!</p>
-<a class="header" href="print.html#the-smallest-kernel" name="the-smallest-kernel"><h2>The smallest kernel</h2></a>
+<a class="header" href="print.html#the-smallest-kernel" id="the-smallest-kernel"><h2>The smallest kernel</h2></a>
 <p>Our hello world will be just <em>20</em> lines of assembly code. Let’s begin.
 Open a file called <code>boot.asm</code> and put this in it:</p>
 <pre><code class="language-x86asm">start:
@@ -1172,7 +1173,7 @@ file:</p>
 <pre><code class="language-bash">$ nasm -f elf64 boot.asm
 </code></pre>
 <p>This will produce a <code>boot.o</code> file. We’re almost ready to go!</p>
-<a class="header" href="print.html#linking-it-together" name="linking-it-together"><h2>Linking it together</h2></a>
+<a class="header" href="print.html#linking-it-together" id="linking-it-together"><h2>Linking it together</h2></a>
 <p>Okay! So we have two different <code>.o</code> files: <code>multiboot_header.o</code> and <code>boot.o</code>.
 But what we need is <em>one</em> file with both of them. Our OS doesn’t have the
 ability to do anything yet, let alone load itself in two parts somehow. We just
@@ -1258,7 +1259,7 @@ this file in the next step. It’s our whole kernel!</p>
 <p>Finally, we pass all the <code>.o</code> files we want to link together.</p>
 <p>That’s it! We’ve now got our kernel in the <code>kernel.bin</code> file. Next, we’re going to
 make an ISO out of it, so that we can load it up in QEMU.</p>
-<a class="header" href="print.html#making-an-iso" name="making-an-iso"><h1>Making an ISO</h1></a>
+<a class="header" href="print.html#making-an-iso" id="making-an-iso"><h1>Making an ISO</h1></a>
 <p>Now that we have our <code>kernel.bin</code>, the next step is to make an ISO. Remember
 compact discs? Well, by making an ISO file, we can both test our Hello World
 kernel in QEMU, as well as running it on actual hardware!</p>
@@ -1321,7 +1322,7 @@ burn this to a USB stick or CD and run it on an actual computer if you wanted
 to! But doing so would be really annoying during development. So in the next
 section, we’ll use an emulator, QEMU, to run the ISO file on our development
 machine.</p>
-<a class="header" href="print.html#running-in-qemu" name="running-in-qemu"><h1>Running in QEMU</h1></a>
+<a class="header" href="print.html#running-in-qemu" id="running-in-qemu"><h1>Running in QEMU</h1></a>
 <p>Let’s actually run our kernel! To do this, we’ll use QEMU, an emulator. Using
 QEMU is fairly straightfoward:</p>
 <pre><code class="language-bash">$ qemu-system-x86_64 -cdrom os.iso
@@ -1346,7 +1347,7 @@ this works just fine.</p>
 was a lot of steps. Each time we make a change, we have to go through all these
 steps over again. In the next section, we’ll use Make to do all these steps for
 us.</p>
-<a class="header" href="print.html#automation-with-make" name="automation-with-make"><h1>Automation with Make</h1></a>
+<a class="header" href="print.html#automation-with-make" id="automation-with-make"><h1>Automation with Make</h1></a>
 <p>Typing all of these commands out every time we want to build the project is
 tiring and error-prone. It’s nice to be able to have a single command that
 builds our entire project. To do this, we’ll use <code>make</code>. Make is a classic
@@ -1558,7 +1559,7 @@ clean:
 <p>You'll notice that there is a fair amount of repetition here. At first, that's
 pretty okay: make can be a bit hard to understand, and while it has features
 that let you de-duplicate things, they can also get unreadable really fast.</p>
-<a class="header" href="print.html#creating-a-build-subdirectory" name="creating-a-build-subdirectory"><h2>Creating a build subdirectory</h2></a>
+<a class="header" href="print.html#creating-a-build-subdirectory" id="creating-a-build-subdirectory"><h2>Creating a build subdirectory</h2></a>
 <p>Here's one example of a tweak we can do: <code>nasm</code> supports a <code>-o</code> flag, which
 controls the name of the output file. We can use this to build <em>everything</em> in
 a <code>build</code> subdirectory. This is nice for a number of reasons, but one of the
@@ -1642,12 +1643,12 @@ Like I said, there’s a fine balance between keeping it <a href="https://en.wik
 non-understandable.</p>
 <p>Luckily, we’ll only be using Make for these assembly files. Rust has its own
 build tool, Cargo, that we’ll integrate with Make. It’s a lot easier to use.</p>
-<a class="header" href="print.html#transitioning-to-long-mode" name="transitioning-to-long-mode"><h1>Transitioning to Long Mode</h1></a>
+<a class="header" href="print.html#transitioning-to-long-mode" id="transitioning-to-long-mode"><h1>Transitioning to Long Mode</h1></a>
 <p>We now have our little kernel in protected mode. But we’re making a 64-bit
 kernel here, so we need to transition from protected mode to ‘long mode’.
 This takes a sequence of steps. After this, the next step is calling into
 Rust code!</p>
-<a class="header" href="print.html#paging" name="paging"><h1>Paging</h1></a>
+<a class="header" href="print.html#paging" id="paging"><h1>Paging</h1></a>
 <p>At the end of the last chapter, we did a lot of work that wasn’t actually
 writing kernel code. So let’s review what we’re up to:</p>
 <ol>
@@ -1676,7 +1677,7 @@ instead. But, we won’t cover that here. It’s not particularly interesting, a
 we know that it will never fail. But it might be something you want to explore
 on your own, for extra credit.</p>
 </blockquote>
-<a class="header" href="print.html#paging" name="paging"><h2>Paging</h2></a>
+<a class="header" href="print.html#paging-1" id="paging-1"><h2>Paging</h2></a>
 <p>So, step one: set up ‘paging’. What is paging? Paging is a way of managing
 memory. Our computer has memory, and we can think of memory as being a big long
 list of cells:</p>
@@ -1757,11 +1758,11 @@ each entry in a level 4 page table points to a level 3 page table entry. Each
 level 3 page table entry points at a level 2 page table entry, and each level 2
 page table entry points at a level 1 page table entry. That entry then contains
 the address. Whew! To get started, we only need one entry of each table.</p>
-<a class="header" href="print.html#creating-the-page-table" name="creating-the-page-table"><h2>Creating the page table</h2></a>
+<a class="header" href="print.html#creating-the-page-table" id="creating-the-page-table"><h2>Creating the page table</h2></a>
 <p>So here’s the strategy: create a single entry of each of these tables, then
 point them at each other in the correct way, then tell the CPU that paging
 should be enabled.</p>
-<a class="header" href="print.html#creating-page-table-entries" name="creating-page-table-entries"><h3>Creating page table entries</h3></a>
+<a class="header" href="print.html#creating-page-table-entries" id="creating-page-table-entries"><h3>Creating page table entries</h3></a>
 <p>To create space for these page table entries, open up <code>boot.asm</code> and add these
 lines at the bottom:</p>
 <pre><code class="language-x86asm">section .bss
@@ -1789,7 +1790,7 @@ matter a ton right now.</p>
 <p>After this has been added, we have a single valid entry for each level.
 However, because our page four entry is all zeroes, we have no valid pages.
 That’s not super useful. Let’s set things up properly.</p>
-<a class="header" href="print.html#pointing-the-entries-at-each-other" name="pointing-the-entries-at-each-other"><h3>Pointing the entries at each other</h3></a>
+<a class="header" href="print.html#pointing-the-entries-at-each-other" id="pointing-the-entries-at-each-other"><h3>Pointing the entries at each other</h3></a>
 <p>In order to do this setup, we need to write some more assembly code! Open up
 <code>boot.asm</code>. You can either leave in printing code, or remove it. If you do leave
 it in, add this code before it: that way, if you see your message print out, you
@@ -1992,7 +1993,7 @@ being in long mode. Here’s the full code, all in one place:</p>
     jne .map_p2_table
 </code></pre>
 <p>Now that we’ve done this, we have a valid initial page table. Time to enable paging!</p>
-<a class="header" href="print.html#enable-paging" name="enable-paging"><h3>Enable paging</h3></a>
+<a class="header" href="print.html#enable-paging" id="enable-paging"><h3>Enable paging</h3></a>
 <p>Now that we have a valid page table, we need to inform the hardware about it.
 Here’s the steps we need to take:</p>
 <ul>
@@ -2082,12 +2083,12 @@ bit 16.</p>
     or eax, 1 &lt;&lt; 16
     mov cr0, eax
 </code></pre>
-<a class="header" href="print.html#-are-we-in-long-mode-yet" name="-are-we-in-long-mode-yet"><h2>... are we in long mode yet?</h2></a>
+<a class="header" href="print.html#-are-we-in-long-mode-yet" id="-are-we-in-long-mode-yet"><h2>... are we in long mode yet?</h2></a>
 <p>So, <em>technically</em> after paging is enabled, we are in long mode. But we’re not
 in <em>real</em> long mode; we’re in a special compatibility mode. To get to real long
 mode, we need a data structure called a ‘global descriptor table’. Read the next
 section to find out how to make one of these.</p>
-<a class="header" href="print.html#setting-up-a-gdt" name="setting-up-a-gdt"><h1>Setting up a GDT</h1></a>
+<a class="header" href="print.html#setting-up-a-gdt" id="setting-up-a-gdt"><h1>Setting up a GDT</h1></a>
 <p>We’re so close! We’re currently in long mode, but not ‘real’ long mode. We need
 to go from this ‘compatibility mode’ to honest-to-goodness long mode. To do
 this, we need to set up a ‘global descriptor table’.</p>
@@ -2104,7 +2105,7 @@ however, we’re still required to have a valid GDT. Such is life.</p>
 <p>If we were going to be using the GDT for real stuff, it could have a number
 of code and data segment entries. But we need at least one of each to have a
 minimum viable table, so let’s get to it!</p>
-<a class="header" href="print.html#the-zero-entry" name="the-zero-entry"><h2>The Zero entry</h2></a>
+<a class="header" href="print.html#the-zero-entry" id="the-zero-entry"><h2>The Zero entry</h2></a>
 <p>The first entry in the GDT is special: it needs to be a zero value. Add this
 to the bottom of <code>boot.asm</code>:</p>
 <pre><code class="language-x86asm">section .rodata
@@ -2119,7 +2120,7 @@ where our GDT is located.</p>
 Given that it’s a zero entry, it shouldn’t be too surprising that the value of
 this entry is zero!</p>
 <p>That’s all there is to it.</p>
-<a class="header" href="print.html#setting-up-a-code-segment" name="setting-up-a-code-segment"><h2>Setting up a code segment</h2></a>
+<a class="header" href="print.html#setting-up-a-code-segment" id="setting-up-a-code-segment"><h2>Setting up a code segment</h2></a>
 <p>Next, we need a code segment. Add this below the <code>dq 0</code>:</p>
 <pre><code class="language-x86asm">.code: equ $ - gdt64
     dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41) | (1&lt;&lt;43) | (1&lt;&lt;53)
@@ -2157,7 +2158,7 @@ address of <code>gdt64</code>. Conveniently, that's the offset number we need fo
 how far is this segment past the start of the GDT. The <code>equ</code> sets the address
 for the label; in other words, this line is saying &quot;set the <code>.code</code> label's
 value to the current address minus the address of <code>gdt64</code>. Got it?</p>
-<a class="header" href="print.html#setting-up-a-data-segment" name="setting-up-a-data-segment"><h2>Setting up a data segment</h2></a>
+<a class="header" href="print.html#setting-up-a-data-segment" id="setting-up-a-data-segment"><h2>Setting up a data segment</h2></a>
 <p>Below the code segment, add this for a data segment:</p>
 <pre><code class="language-x86asm">.data: equ $ - gdt64
     dq (1&lt;&lt;44) | (1&lt;&lt;47) | (1&lt;&lt;41)
@@ -2167,7 +2168,7 @@ The only difference is bit 41; for data segments, a <code>1</code> means that it
 writable.</p>
 <p>We also use the same trick again with the labels, calculating the offset with
 <code>equ</code>.</p>
-<a class="header" href="print.html#putting-it-all-together" name="putting-it-all-together"><h2>Putting it all together</h2></a>
+<a class="header" href="print.html#putting-it-all-together" id="putting-it-all-together"><h2>Putting it all together</h2></a>
 <p>Here’s our whole GDT:</p>
 <pre><code class="language-x86asm">section .rodata
 gdt64:
@@ -2191,7 +2192,7 @@ subtract the value of <code>gdt64</code>, and then subtract one more. We could c
 this length manually, but if we do it this way, if we add another GDT entry for
 some reason, it will automatically correct itself, which is nice.</p>
 <p>The <code>dq</code> here has the address of our table. Straightforward.</p>
-<a class="header" href="print.html#load-the-gdt" name="load-the-gdt"><h2>Load the GDT</h2></a>
+<a class="header" href="print.html#load-the-gdt" id="load-the-gdt"><h2>Load the GDT</h2></a>
 <p>So! We’re finally ready to tell the hardware about our GDT. Add this line after
 all of the paging stuff we did in the last chapter:</p>
 <pre><code class="language-x86asm">    lgdt [gdt64.pointer]
@@ -2200,7 +2201,7 @@ all of the paging stuff we did in the last chapter:</p>
 descriptor table. That’s it!</p>
 <p>We have all of the prerequisites done! In the next section, we will complete our
 transition by jumping to long mode.</p>
-<a class="header" href="print.html#jumping-headlong-into-long-mode" name="jumping-headlong-into-long-mode"><h1>Jumping headlong into long mode</h1></a>
+<a class="header" href="print.html#jumping-headlong-into-long-mode" id="jumping-headlong-into-long-mode"><h1>Jumping headlong into long mode</h1></a>
 <p>We are so close to Rust! Just a little bit of assembly code needed.</p>
 <p>Our last task is to update several special registers called 'segment
 registers'. Again, we're not using segmentation, but things won't work
@@ -2283,12 +2284,12 @@ a double word is 32 bits, so a quad word is 64-bits.</p>
 <p>Our next step is going to be a big one: moving to writing Rust code! I hope
 you've enjoyed this tour of assembly and legacy computer junk. You've made it
 through the toughest bits: getting started is the hardest part.</p>
-<a class="header" href="print.html#a-rust-kmain" name="a-rust-kmain"><h1>A Rust kmain()</h1></a>
+<a class="header" href="print.html#a-rust-kmain" id="a-rust-kmain"><h1>A Rust kmain()</h1></a>
 <p>At long last, we're ready to move on to some Rust code! This is ostensibly a
 &quot;write a kernel in Rust&quot; tutorial, but we haven't gotten to any Rust code yet.
 We're out of the woods with assembly; at least for a while. We'll be writing a
 bit more in the future, but for now, let's forget about all of that.</p>
-<a class="header" href="print.html#creating-our-first-crate" name="creating-our-first-crate"><h1>Creating our first crate</h1></a>
+<a class="header" href="print.html#creating-our-first-crate" id="creating-our-first-crate"><h1>Creating our first crate</h1></a>
 <p>Now that we've got Rust installed, time to write some Rust code! <code>rustup</code> has
 also installed Cargo for us, Rust's build tool and package manager. Generate
 a new Cargo package like this:</p>
@@ -2308,7 +2309,6 @@ information under <code>authors</code>, Cargo pulls it in from <code>git</code>,
 Otherwise, you can add it yourself, no big deal.</p>
 <p>Next, <code>src/lib.rs</code>:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-# 
 #fn main() {
 #[cfg(test)]
 mod tests {
@@ -2368,7 +2368,7 @@ build  deps  examples  libintermezzos.a  native
 path: <code>target/debug</code>. That's where Cargo puts output for debugging builds. We
 probably should use a release build instead: <code>cargo build --release</code> will
 give us that, and put the output in <code>target/release</code>.</p>
-<a class="header" href="print.html#creating-a-target" name="creating-a-target"><h2>Creating a target</h2></a>
+<a class="header" href="print.html#creating-a-target" id="creating-a-target"><h2>Creating a target</h2></a>
 <p>Remember back in the setup chapters, where we talked about <a href="setup.html#Hosts%20&amp;%20Targets">hosts and targets</a>?
 We need to do the equivalent for Rust. We <em>could</em> leave things where they are,
 but that would cause us problems later. So let's just get it out of the way
@@ -2379,6 +2379,7 @@ now, while we're doing all this other setup.</p>
     &quot;cpu&quot;: &quot;x86-64&quot;,
     &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
     &quot;llvm-target&quot;: &quot;x86_64-unknown-none-gnu&quot;,
+    &quot;linker-flavor&quot;: &quot;gcc&quot;,
     &quot;no-compiler-rt&quot;: true,
     &quot;os&quot;: &quot;intermezzos&quot;,
     &quot;target-endian&quot;: &quot;little&quot;,
@@ -2424,16 +2425,15 @@ library for it yet! In fact, we don't want a standard library: our operating sys
 is far from containing the proper features to support it. Instead, we only want
 Rust's <code>libcore</code> library. This library contains just the essential stuff, without
 all of the fancy features we can't support yet.</p>
-<a class="header" href="print.html#building-libcore-with-xargo" name="building-libcore-with-xargo"><h2>Building libcore with xargo</h2></a>
+<a class="header" href="print.html#building-libcore-with-xargo" id="building-libcore-with-xargo"><h2>Building libcore with xargo</h2></a>
 <p>So how do we get a copy of <code>libcore</code> for intermezzOS? The answer is <a href="https://github.com/japaric/xargo"><code>xargo</code></a>. It's
 a wrapper around Cargo that knows how to read a <code>target.json</code> file and automatically
 cross-compile <code>libcore</code>, then set up Cargo to use it.</p>
 <p>Let's modify <code>src/lib.rs</code> to get rid of that useless test, and to say we don't want to
 use the standard library:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-# 
-#fn main() {
 #![no_std]
+#fn main() {
 
 #}</code></pre></pre>
 <p>That's it, just an empty library with one little annotation. Now we're ready to
@@ -2461,7 +2461,7 @@ error: Could not compile `intermezzos`.
 </code></pre>
 <p>So why'd we get yet another error? For that, we need to understand a Rust
 feature, panics.</p>
-<a class="header" href="print.html#panic--abort" name="panic--abort"><h2>Panic == abort</h2></a>
+<a class="header" href="print.html#panic--abort" id="panic--abort"><h2>Panic == abort</h2></a>
 <p>The specific error we got said &quot;language item required, but not found&quot;. Rust
 lets you implement bits of itself through these language items. <code>libcore</code>
 defines most of them, but the last two, <code>panic_fmt</code> and <code>eh_personality</code>,
@@ -2482,11 +2482,10 @@ panic = &quot;abort&quot;
 rather than unwind. That's good! However, we still need to define those
 language items. Modify <code>src/lib.rs</code> to look like this:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-# 
-#fn main() {
 #![feature(lang_items)]
 #![no_std]
 
+#fn main() {
 #[lang = &quot;eh_personality&quot;]
 extern fn eh_personality() {
 }
@@ -2512,7 +2511,7 @@ ready to go.</p>
 <p>But now, we've got all of our Rust-related stuff in <code>src</code>. But the rest of our
 files are still strewn around in our top-level directory. Let's do a little bit
 of cleaning up.</p>
-<a class="header" href="print.html#some-reorganization" name="some-reorganization"><h2>Some reorganization</h2></a>
+<a class="header" href="print.html#some-reorganization" id="some-reorganization"><h2>Some reorganization</h2></a>
 <p>We have a couple of different ways that we could re-organize the assembly
 language. If we were planning on making our OS portable across architectures, a
 good solution would be to move it into <code>src/arch/arch_name</code>. That way, we could
@@ -2529,7 +2528,7 @@ $ mv grub.cfg src/asm/
 make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multiboot_header.o'.  Stop.
 </code></pre>
 <p>Let's fix up our <code>Makefile</code> to work again.</p>
-<a class="header" href="print.html#fixing-our-makefile" name="fixing-our-makefile"><h2>Fixing our Makefile</h2></a>
+<a class="header" href="print.html#fixing-our-makefile" id="fixing-our-makefile"><h2>Fixing our Makefile</h2></a>
 <p>The first thing we need to do is fix up the paths:</p>
 <pre><code class="language-makefile">build/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p build
@@ -2630,7 +2629,7 @@ that bad yet, and it's still easy to understand. Makefiles can get very
 complicated, so I like to keep them simple. If you're feeling ambitious, maybe
 investigating some more features of Make and tweaking this file to your liking
 might be an interesting diversion.</p>
-<a class="header" href="print.html#hello-from-rust" name="hello-from-rust"><h1>Hello from Rust!</h1></a>
+<a class="header" href="print.html#hello-from-rust" id="hello-from-rust"><h1>Hello from Rust!</h1></a>
 <p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
 change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
 on the steps we did earlier. Here's a new rule to add to the <code>Makefile</code>:</p>
@@ -2683,7 +2682,6 @@ $
 <p>Hooray! We are now successfully building our assembly code and our Rust code, and then putting them together.</p>
 <p>Now, to write our Rust. Add this function to <code>src/lib.rs</code>:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-# 
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -2718,7 +2716,6 @@ And so we also change our <code>jmp</code> to jump to <code>kmain</code>.</p>
 anything. We didn't port over the message! Open <code>src/lib.rs</code> and change <code>kmain()</code>
 to look like this:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-# 
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -2751,7 +2748,6 @@ it with Rust! It only took us five chapters to get here!</p>
 <p>This is just the beginning, though. At the end of the next chapter, your
 main function will look like this, instead:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-# 
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -2762,12 +2758,12 @@ pub extern fn kmain() -&gt; ! {
 
 #}</code></pre></pre>
 <p>But for now, kick back and enjoy what you've done. Congratulations!</p>
-<a class="header" href="print.html#appendix-a-troubleshooting" name="appendix-a-troubleshooting"><h1>Appendix A: Troubleshooting</h1></a>
+<a class="header" href="print.html#appendix-a-troubleshooting" id="appendix-a-troubleshooting"><h1>Appendix A: Troubleshooting</h1></a>
 <p>In this appendix, we will cover common errors and their solutions for
 various chapters of the book.</p>
-<a class="header" href="print.html#chapter-3" name="chapter-3"><h2>Chapter 3</h2></a>
+<a class="header" href="print.html#chapter-3" id="chapter-3"><h2>Chapter 3</h2></a>
 <p>Here are various solutions to issues you may run into in Chapter 3:</p>
-<a class="header" href="print.html#the-ld-tool-does-not-work" name="the-ld-tool-does-not-work"><h3>The ld tool does not work</h3></a>
+<a class="header" href="print.html#the-ld-tool-does-not-work" id="the-ld-tool-does-not-work"><h3>The ld tool does not work</h3></a>
 <p>When running the linker tool ld, it may freeze and not produce output. Check the linker file for a syntax error. Make sure comments are closed. You can also run the command with --verbose for more output during linking to help in debugging.</p>
 <p>Linux:</p>
 <pre><code>ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
@@ -2775,7 +2771,7 @@ various chapters of the book.</p>
 <p>Mac OS X:</p>
 <pre><code>~/opt/bin/x86_64-pc-elf-ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
 </code></pre>
-<a class="header" href="print.html#error-no-multiboot-header-found" name="error-no-multiboot-header-found"><h3>Error: no multiboot header found</h3></a>
+<a class="header" href="print.html#error-no-multiboot-header-found" id="error-no-multiboot-header-found"><h3>Error: no multiboot header found</h3></a>
 <p>When booting up your kernel, QEMU may print out a message like this:</p>
 <pre><code class="language-text">error: no multiboot header found
 error: you need to load the kernel first
@@ -2784,7 +2780,7 @@ error: you need to load the kernel first
 something. Double check your code against the examples and make sure that
 they’re <em>identical</em>, especially things like magic numbers. They’re easy to
 mis-type.</p>
-<a class="header" href="print.html#could-not-read-from-cdrom-code-0009" name="could-not-read-from-cdrom-code-0009"><h3>Could not read from CDROM (code 0009)</h3></a>
+<a class="header" href="print.html#could-not-read-from-cdrom-code-0009" id="could-not-read-from-cdrom-code-0009"><h3>Could not read from CDROM (code 0009)</h3></a>
 <p>On a system that uses EFI to boot, you may see an error like this:</p>
 <pre><code class="language-text">$ qemu-system-x86_64 -cdrom os.iso
 Could not read from CDROM (code 0009)
@@ -2797,14 +2793,14 @@ before trying QEMU again:</p>
 <pre><code class="language-bash">$ grub-mkrescue -o os.iso isofiles
 $ qemu-system-x86_64 -cdrom os.iso
 </code></pre>
-<a class="header" href="print.html#xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image" name="xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image"><h3>xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image</h3></a>
+<a class="header" href="print.html#xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image" id="xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image"><h3>xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image</h3></a>
 <p>When building the ISO, you may see a message like this:</p>
 <pre><code class="language-text">xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image
 </code></pre>
 <p>The solution may be to install the <code>mtools</code> package:</p>
 <pre><code class="language-bash">$ sudo apt-get install mtools
 </code></pre>
-<a class="header" href="print.html#could-not-initialize-sdlno-available-video-device---exiting" name="could-not-initialize-sdlno-available-video-device---exiting"><h3>Could not initialize SDL(No available video device) - exiting</h3></a>
+<a class="header" href="print.html#could-not-initialize-sdlno-available-video-device---exiting" id="could-not-initialize-sdlno-available-video-device---exiting"><h3>Could not initialize SDL(No available video device) - exiting</h3></a>
 <p>When booting your kernel in QEMU, you may see an error like this:</p>
 <pre><code class="language-text">Could not initialize SDL(No available video device) - exiting
 </code></pre>
@@ -2814,11 +2810,11 @@ $ qemu-system-x86_64 -cdrom os.iso
 <p>Or, try installing SDL and its development headers:</p>
 <pre><code class="language-bash">$ sudo apt-get install libsdl2-dev
 </code></pre>
-<a class="header" href="print.html#numeral-systems" name="numeral-systems"><h1>Numeral Systems</h1></a>
+<a class="header" href="print.html#numeral-systems" id="numeral-systems"><h1>Numeral Systems</h1></a>
 <p>In math we use a particular <strong>numeral system</strong> to denote a particular number. A
 numeral system is defined by the particular symbols it uses to convey numbers.</p>
 <p>Below we'll examine three numeral systems: decimal, binary and hexadecimal.</p>
-<a class="header" href="print.html#decimal-system" name="decimal-system"><h2>Decimal System</h2></a>
+<a class="header" href="print.html#decimal-system" id="decimal-system"><h2>Decimal System</h2></a>
 <p>The numeral system you're probably most familiar with is the <strong>decimal system</strong>.
 The symbols (or &quot;digits&quot;) used in decimal are: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>,
 <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>.</p>
@@ -2835,7 +2831,7 @@ though <code>2</code> times. We start new cycles at a regular interval - every t
 cycled through all the symbols of the digit furthest to the left.</p>
 <p>If you're familiar with Roman numerals, you know that that system did not work
 that way. &quot;Orders of magnitude&quot; don't start and stop at regular intervals.</p>
-<a class="header" href="print.html#lets-count" name="lets-count"><h3>Let's Count</h3></a>
+<a class="header" href="print.html#lets-count" id="lets-count"><h3>Let's Count</h3></a>
 <p>At the risk of taking things too slow, let's count in decimal the number of <code>|</code>s here:</p>
 <p><code>||||||||||||</code></p>
 <p>Let's begin with zero and go higher:</p>
@@ -2847,7 +2843,7 @@ over.</p>
 <p>Sorry if that was a bit too easy. You're probably pretty good with the decimal
 system already so this wasn't too big of a challenge. But we'll do the same
 exercise with other numeral systems to get a better feel for them.</p>
-<a class="header" href="print.html#lets-use-math" name="lets-use-math"><h3>Let's Use Math</h3></a>
+<a class="header" href="print.html#lets-use-math" id="lets-use-math"><h3>Let's Use Math</h3></a>
 <p>We can summarize what we just said with a math formula:</p>
 <p>\[ 1 \cdot 10^1 + 2 \cdot 10^0 = 12 \]</p>
 <p>Here we've written out that we've cycled completely through the numbers once
@@ -2878,14 +2874,14 @@ want to convert from some other numeral system to decimal.</p>
 <p>Now we'll examine two new numeral systems. The are positional just like decimal, but
 have different bases. We'll examine <strong>binary</strong> with a base of two, and <strong>hexadecimal</strong>
 with a base of sixteen.</p>
-<a class="header" href="print.html#binary-system" name="binary-system"><h2>Binary system</h2></a>
+<a class="header" href="print.html#binary-system" id="binary-system"><h2>Binary system</h2></a>
 <p>Unlike decimal's base of ten, binary has a base of two. Meaning we only have two
 symbols to work with to represent all the numbers: <code>0</code>, <code>1</code>. Say
 goodbye to <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>. We can't use them.</p>
 <p>So when we have the binary number <code>10</code> we don't have the number ten. What we've really
 done is counted <em>once through all the digits of the system</em> <code>0</code>, <code>1</code> and
 started again. So we have the number two.</p>
-<a class="header" href="print.html#lets-count" name="lets-count"><h3>Let's Count</h3></a>
+<a class="header" href="print.html#lets-count-1" id="lets-count-1"><h3>Let's Count</h3></a>
 <p>Let's count <code>|</code> again, but this time in binary:</p>
 <p><code>|||||||</code></p>
 <p>If we were counting in decimal we would use the symbol <code>7</code> to refer to this
@@ -2895,7 +2891,7 @@ number. Let's start at zero:</p>
 made a full round trip, so let's start over.</p>
 <p>... <code>10</code>, <code>11</code>, <code>100</code>, <code>101</code>, <code>110</code>, <code>111</code></p>
 <p>We've successfully counted to the number seven using binary!</p>
-<a class="header" href="print.html#lets-use-math" name="lets-use-math"><h3>Let's Use Math</h3></a>
+<a class="header" href="print.html#lets-use-math-1" id="lets-use-math-1"><h3>Let's Use Math</h3></a>
 <p>The binary value <code>100</code> means we have counted <em>one times two (a.k.a the base) times
 through all the digits (a.k.a. the base)</em>, which would equal to <code>4</code> in decimal.</p>
 <p>\[1 \cdot base^2 + 0 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^2 + 0 \cdot 2^1 + 0 \cdot 2^0 = 4 \]</p>
@@ -2904,7 +2900,7 @@ through all the digits (a.k.a. the base)</em>, which would equal to <code>4</cod
 and <em>one times two (a.k.a the base) times two (a.k.a the base) digits</em>.</p>
 <p>\[ 1 \cdot base^3 + 0 \cdot base ^2 + 1 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 = 8 + 2 = 10\]</p>
 <p>Hurray! We've successfully converted binary to decimal!</p>
-<a class="header" href="print.html#hexadecimal-system" name="hexadecimal-system"><h2>Hexadecimal System</h2></a>
+<a class="header" href="print.html#hexadecimal-system" id="hexadecimal-system"><h2>Hexadecimal System</h2></a>
 <p>And now we meet hexadecimal with a base of sixteen. Before we begin we have to answer the
 question of how we represent sixteen unique digits when we're used to representing only ten.</p>
 <p>To represent the digits after <code>9</code> until a new cycle begins we'll use the letters
@@ -2916,7 +2912,7 @@ one, but we chose <code>1</code> instead.</p>
 <em>through all the digits of the system once</em> and are starting the cycle again.
 However, instead of it being ten, it's sixteen. Another way of thinking about
 this is <code>10</code> in hexadecimal is equal to <code>16</code> in decimal.</p>
-<a class="header" href="print.html#lets-count" name="lets-count"><h3>Let's Count</h3></a>
+<a class="header" href="print.html#lets-count-2" id="lets-count-2"><h3>Let's Count</h3></a>
 <p>Once again, let's count <code>|</code>s but this time using hexadecimal notation:</p>
 <p><code>||||||||||||||||||||</code></p>
 <p>If we were using decimal we would use the symbol <code>20</code> to refer to this number.
@@ -2925,13 +2921,13 @@ Let's start again at zero:</p>
 <p>Don't be tempted to do the decimal thing and use <code>10</code>!</p>
 <p>... <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>, <code>10</code>, <code>11</code>, <code>12</code>, <code>13</code>, <code>14</code></p>
 <p>Congrats! You've counted to twenty in hexadecimal!</p>
-<a class="header" href="print.html#lets-use-math" name="lets-use-math"><h3>Let's Use Math</h3></a>
+<a class="header" href="print.html#lets-use-math-2" id="lets-use-math-2"><h3>Let's Use Math</h3></a>
 <p>Let's do the math thing one more time with an exotic hexadecimal value: <code>3e8</code>.
 This value means we have counted <em>three times sixteen (a.k.a the base) times all the
 digits of the system (a.k.a the base)</em> and <em><code>e</code> times, which is equal to 14 in decimal,
 all digits (a.k.a the base)</em> and <em>8 remaining elements</em>.</p>
 <p>\[ 3 \cdot base^2 + e \cdot base^1 + 8 \cdot base^0 = 3 \cdot 16^2 + 14 \cdot 16^1 + 8 \cdot 16^0 = 768 + 224 + 8 = 1000 \]</p>
-<a class="header" href="print.html#converting-from-decimal-to-another-base" name="converting-from-decimal-to-another-base"><h2>Converting From Decimal to Another Base</h2></a>
+<a class="header" href="print.html#converting-from-decimal-to-another-base" id="converting-from-decimal-to-another-base"><h2>Converting From Decimal to Another Base</h2></a>
 <p>Until now, we have only converted values from a numeral system with a specific base
 to the decimal system. But what if we want to do the opposite?</p>
 <p>For this we are going to use the <strong>divison</strong> and <strong>remainders</strong></p>
@@ -2976,7 +2972,7 @@ The value we are going to convert from decimal to hexadecimal is <code>43981</co
 <p>We get the binary number <code>101001</code>, let's check:</p>
 <p>\[ 1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 41 \]</p>
 <p>Fantastic, it worked once again!</p>
-<a class="header" href="print.html#conclusion" name="conclusion"><h2>Conclusion</h2></a>
+<a class="header" href="print.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
 <p>In this chapter we have learned there were many numeral systems beside the decimal
 system we use in our every day life. We've seen why the hexadecimal system uses the
 letters <code>a</code> through <code>f</code> and finally we have learned how to convert back and forth
