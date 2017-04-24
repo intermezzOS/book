@@ -337,7 +337,7 @@ header_start:
     ; required end tag
     dw 0    ; type
     dw 0    ; flags
-    dd 8    ; size
+    dw 8    ; size
 header_end:
 ```
 
@@ -367,7 +367,7 @@ header_start:
     ; required end tag
     dw 0    ; type
     dw 0    ; flags
-    dd 8    ; size
+    dw 8    ; size
 header_end:
 ```
 
