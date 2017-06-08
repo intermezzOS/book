@@ -1,13 +1,15 @@
 # Running in QEMU
 
-Let’s actually run our kernel! To do this, we’ll use QEMU, an emulator. Using
-QEMU is fairly straightfoward:
+Let’s actually run our kernel! To do this, we’ll use
+[QEMU](http://www.qemu.org/), a full-system emulator. Using QEMU is
+fairly straightfoward:
 
 ```bash
 $ qemu-system-x86_64 -cdrom os.iso
 ```
 
-Type it in, hit enter, and you should see Hello World!
+Type it in, hit Enter, and you should see `Hello, world!` (To exit, hit
+<kbd>Alt+2</kbd> and type `quit` in the console.)
 
 <img alt="hello world" class="center" src="assets/hello_world.png" />
 
@@ -15,7 +17,10 @@ If it shows up for you too, congrats! If not, something may have gone
 wrong. Double check that you followed the examples _exactly_. Maybe
 you missed something, or made a mistake while copying things down.
 
-Note all of this other stuff behind the Hello World message: This part may look different, based on your version of grub, and also since we didn’t clear the screen, everything from GRUB just stays as it is. We’ll write a function to do that eventually...
+Note all of this other stuff behind the Hello World message: this part may look
+different, based on your version of GRUB, and also since we didn’t clear the
+screen, everything from GRUB just stays as it is. We’ll write a function to do
+that eventually...
 
 Let’s talk about this command before we move on:
 
