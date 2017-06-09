@@ -129,22 +129,9 @@ engine, and get ready to cry yourself to sleep.
 ## Writing our own Multiboot header
 
 I said we were gonna get to the code, and then I went on about more history.
-Sorry about that! It’s code time for real! Let’s make a directory to contain
-our project:
-
-```bash
-$ mkdir intermezzOS
-$ cd intermezzOS
-```
-
-A fun way to follow along is to pick a different name for your kernel, and
-then change it as we go. Call your kernel whatever you want. intermezzOS was
-almost called ‘Nucleus’, until I found out that there’s already a kernel with
-that name that’s installed on billions of embedded devices. Whoops!
-
-Inside that directory, make a new file called `multiboot_header.asm`, and
-open it in your favorite editor. I use `vim`, but you should feel free to use
-anything you’d like.
+Sorry about that! It’s code time for real! Inside your project directory, make
+a new file called `multiboot_header.asm`, and open it in your favorite editor.
+I use `vim`, but you should feel free to use anything you’d like.
 
 ```bash
 $ touch multiboot_header.asm
@@ -305,11 +292,11 @@ from a big number. `dd` then puts that value into this spot in our file.
 > In other words:
 >
 > `checksum` + `magic_number` + `architecture` + `header_length` = 0
-> 
+>
 > We could try and "solve for" `checksum` like so:
-> 
+>
 > `checksum` =  -(`magic_number` + `architecture` + `header_length`)
-> 
+>
 > But here's where it gets weird. Computers don't have an innate concept of negative numbers. Normally we get around this by using "signed integers", which is something we [cover in an appendix](http://intermezzos.github.io/book/appendix/signed-and-unsigned.html). The point is we have an unsigned integer here, which means we're limited to representing only positive numbers. This means we can't literally represent -(`magic_number` + `architecture` + `header_length`) in our field.
 >
 > If you look closely at the spec you'll notice it's strangely worded: it's asking for a value that when added other values has a sum of zero. It's worded this way because integers have a limit to the size of numbers they can represent, and when you go over that size, the values wrap back around to zero. So 0xFFFFFFFF + 1 is.... 0x00000000. This is a hardware limitation: technically it's doing the addition correctly, giving us the 33-bit value 0x100000000, but we only have 32 bits to store things in so it can't actually tell us about that `1` in the most significant digit position! We're left with the rest of the digits, which spell out zero.
