@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="tomorrow-night.css">
 
         <!-- MathJax -->
-        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Fetch JQuery from CDN but have a local fallback -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -69,16 +69,21 @@
 
                 <div id="content" class="content">
                     <a class="header" href="running-in-qemu.html#running-in-qemu" id="running-in-qemu"><h1>Running in QEMU</h1></a>
-<p>Let’s actually run our kernel! To do this, we’ll use QEMU, an emulator. Using
-QEMU is fairly straightfoward:</p>
+<p>Let’s actually run our kernel! To do this, we’ll use
+<a href="http://www.qemu.org/">QEMU</a>, a full-system emulator. Using QEMU is
+fairly straightfoward:</p>
 <pre><code class="language-bash">$ qemu-system-x86_64 -cdrom os.iso
 </code></pre>
-<p>Type it in, hit enter, and you should see Hello World!</p>
+<p>Type it in, hit Enter, and you should see <code>Hello, world!</code> (To exit, hit
+<kbd>Alt+2</kbd> and type <code>quit</code> in the console.)</p>
 <p><img alt="hello world" class="center" src="assets/hello_world.png" /></p>
 <p>If it shows up for you too, congrats! If not, something may have gone
 wrong. Double check that you followed the examples <em>exactly</em>. Maybe
 you missed something, or made a mistake while copying things down.</p>
-<p>Note all of this other stuff behind the Hello World message: This part may look different, based on your version of grub, and also since we didn’t clear the screen, everything from GRUB just stays as it is. We’ll write a function to do that eventually...</p>
+<p>Note all of this other stuff behind the Hello World message: this part may look
+different, based on your version of GRUB, and also since we didn’t clear the
+screen, everything from GRUB just stays as it is. We’ll write a function to do
+that eventually...</p>
 <p>Let’s talk about this command before we move on:</p>
 <pre><code class="language-text">qemu-system-x86_64
 </code></pre>
@@ -135,6 +140,9 @@ us.</p>
 
         <!-- Livereload script (if served using the cli tool) -->
         
+
+        
+
 
         <script src="highlight.js"></script>
         <script src="book.js"></script>
