@@ -79,15 +79,24 @@ page</a> of the Rust website.</p>
 <pre><code class="language-bash">$ rustup update nightly
 </code></pre>
 <p>This installs the current version of nightly Rust. We run all of the examples
-in this book under continunous integration, so we should know if something
+in this book under continuous integration, so we should know if something
 changes in nightly Rust and breaks. But please <a href="https://github.com/intermezzOS/book/issues/new">file bugs</a> if something doesn't
 work.</p>
-<p>Then, execute this:</p>
+<p>Because nightly Rust includes unstable features, you shouldn't use it unless
+you really need to, which is why <code>rustup</code> allows you to override the default
+version only when you're in a particular directory. We don't have a directory
+for our project yet, so let's create one:</p>
+<pre><code class="language-bash">$ mkdir intermezzOS
+$ cd intermezzOS
+</code></pre>
+<p>A fun way to follow along is to pick a different name for your kernel, and
+then change it as we go. Call your kernel whatever you want. intermezzOS was
+almost called ‘Nucleus’, until I found out that there’s already a kernel with
+that name that’s installed on billions of embedded devices. Whoops!</p>
+<p>Inside your project directory, set up the override:</p>
 <pre><code class="language-bash">$ rustup override add nightly
 </code></pre>
-<p>This sets up <code>rustup</code> to switch to the Rust we need whenever we're in this
-directory. Nice and easy. We can't get the version wrong; <code>rustup</code> handles it
-for us.</p>
+<p>Nice and easy. We can't get the version wrong; <code>rustup</code> handles it for us.</p>
 
                 </div>
 

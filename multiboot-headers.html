@@ -174,18 +174,9 @@ things you would have needed to know, put “A20 line” into your favorite sear
 engine, and get ready to cry yourself to sleep.</p>
 <a class="header" href="multiboot-headers.html#writing-our-own-multiboot-header" id="writing-our-own-multiboot-header"><h2>Writing our own Multiboot header</h2></a>
 <p>I said we were gonna get to the code, and then I went on about more history.
-Sorry about that! It’s code time for real! Let’s make a directory to contain
-our project:</p>
-<pre><code class="language-bash">$ mkdir intermezzOS
-$ cd intermezzOS
-</code></pre>
-<p>A fun way to follow along is to pick a different name for your kernel, and
-then change it as we go. Call your kernel whatever you want. intermezzOS was
-almost called ‘Nucleus’, until I found out that there’s already a kernel with
-that name that’s installed on billions of embedded devices. Whoops!</p>
-<p>Inside that directory, make a new file called <code>multiboot_header.asm</code>, and
-open it in your favorite editor. I use <code>vim</code>, but you should feel free to use
-anything you’d like.</p>
+Sorry about that! It’s code time for real! Inside your project directory, make
+a new file called <code>multiboot_header.asm</code>, and open it in your favorite editor.
+I use <code>vim</code>, but you should feel free to use anything you’d like.</p>
 <pre><code class="language-bash">$ touch multiboot_header.asm
 $ vim multiboot_header.asm
 </code></pre>
