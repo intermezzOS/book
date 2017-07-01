@@ -111,7 +111,7 @@ now, while we're doing all this other setup.
 
 [hosts and targets]: setup.html#Hosts%20&%20Targets
 
-Create a file named `x86_64-unknown-intermezzos-gnu.json` inside the `target/release` directory, and put this in it:
+Create a file named `x86_64-unknown-intermezzos-gnu.json`, and put this in it:
 
 ```json
 {
