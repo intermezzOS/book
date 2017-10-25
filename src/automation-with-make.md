@@ -47,8 +47,8 @@ our target after that.
 
 After the colon comes the ‘prerequisites’. This is a list of other targets that must
 be built for this target to be built. In this case, building `multiboot_header.o`
-requires that we have a `multiboot_header.asm`. Because we have no rule describing how
-to build this file, it existing is enough to satisfy the dependency.
+requires that we have a `multiboot_header.asm`. We have no rule describing how
+to build this file but it existing is enough to satisfy the dependency.
 
 Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
 shell command that you need to build the target.
@@ -83,12 +83,13 @@ nasm -f elf64 boot.asm
 Okay, so that worked. But what about this ‘is up to date’ bit?
 
 By default, `make` will keep track of the last time you built a particular
-target, and check its last-modified-time against that time. If it hasn’t been
-updated since it was built, then it won’t re-execute the build command. This is
-a really powerful feature, especially as we grow. You don’t want to force the
-entire project to re-build just because you edited one file; it’s nicer to only
-re-build the bits that interact with it directly. A lot of the skill of `make`
-is defining the right targets to make this work out nicely.
+target, and check the prerequisites’ last-modified-time against that time. If
+the prerequisites haven’t been updated since the target was last built, then it
+won’t re-execute the build command. This is a really powerful feature,
+especially as we grow. You don’t want to force the entire project to re-build
+just because you edited one file; it’s nicer to only re-build the bits that
+interact with it directly. A lot of the skill of `make` is defining the right
+targets to make this work out nicely.
 
 It would be nice if we could build both things with one command, but as it
 turns out, our next target, `kernel.bin`, relies on both of these `.o` files,
@@ -231,7 +232,6 @@ of the generated files, and allow us to do a full re-build. As such it’s a bun
 statements:
 
 ```makefile
-.PHONY: clean
 clean:
         rm -f multiboot_header.o
         rm -f boot.o
@@ -240,17 +240,30 @@ clean:
         rm -f os.iso
 ```
 
-What about that `.PHONY`? It’s a special, built-in target. Any dependencies of a `.PHONY`
-target will always be considered fresh; in other words, running `make clean` will skip
-checking if it’s been done already and just execute. In this case, this is what we want;
-we want to nuke all the files, we don’t care when they were modified.
+Now there's just one more wrinkle. We have four targets that aren't really files
+on disk, they are just actions: `default`, `build`, `run` and `clean`. Remember
+we said earlier that `make` decides whether or not to execute a command by
+comparing the last time a target was built with the last-modified-time of its
+prerequisites? Well, it determines the last time a target was built by looking
+at the last-modified-time of the target file. If the target file doesn't exist,
+then it's definitely out-of-date so the command will be run.
+
+But what if we accidentally create a file called `clean`? It doesn't have any
+prerequisites so it will always be up-to-date and the commands will never be
+run! We need a way to tell `make` that this is a special target, it isn't really
+a file on disk, it's an action that should always be executed. We can do this
+with a magic built-in target called `.PHONY`:
+
+```makefile
+.PHONY: default build run clean
+```
 
 Here’s our final `Makefile`:
 
 ```makefile
 default: run
 
-.PHONY: clean
+.PHONY: default build run clean
 
 multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
@@ -363,7 +376,7 @@ Here’s our final version:
 ```makefile
 default: run
 
-.PHONY: clean
+.PHONY: default build run clean
 
 build/multiboot_header.o: multiboot_header.asm
         mkdir -p build
