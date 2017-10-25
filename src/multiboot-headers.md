@@ -375,13 +375,13 @@ We will be using an assembler called `nasm` to do this. You should invoke
 $ nasm -f elf64 multiboot_header.asm
 ```
 
-The `-f elf64` says that we want to output a *f*ile with the type `elf64`.
-ELF is a particular executable format that’s used by various UNIX systems,
-and we’ll be using it too. The executable format just specifies how exactly the
-bits will be laid out in the file. For example, will there be a magic number
-at the beginning of the file for easier error checking? Or where in the file do
-we specify whether our code and data is in a 32-bit or 64-bit format? There are
-other formats, but ELF is pretty good.
+The `-f elf64` says that we want to output a file using the `elf64` file
+*f*ormat. ELF is a particular executable format that’s used by various UNIX
+systems, and we’ll be using it too. The executable format just specifies how
+exactly the bits will be laid out in the file. For example, will there be a
+magic number at the beginning of the file for easier error checking? Or where in
+the file do we specify whether our code and data is in a 32-bit or 64-bit
+format? There are other formats, but ELF is pretty good.
 
 After you run this command, you should see a `multiboot_header.o` file in
 the same directory. This is our ‘object file’, hence the `.o`. Don't let the
