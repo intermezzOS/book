@@ -216,9 +216,8 @@ this chart from top to bottom, each column is a case. So the first column says
 “if `a` is zero and `b` is zero, `or a b` will be zero.” The second column says
 “if `a` is one and `b` is zero, `or a b` will be one.” And so on.
 
-Now, we defined `p3_table` in the BSS section, which means that it will start as
-all zeroes. So when we `or` with `0b11`, it means that the first two bits will
-be set to one, keeping the rest as zeroes.
+So when we `or` with `0b11`, it means that the first two bits will be set to
+one, leaving the rest as they were.
 
 Okay, so now we know _what_ we are doing, but _why_? Each entry in a page table
 contains an address, but it also contains metadata about that page. The first
@@ -226,6 +225,16 @@ two bits are the ‘present bit’ and the ‘writable bit’. By setting the fi
 we say “this page is currently in memory,” and by setting the second, we say
 “this page is allowed to be written to.” There are a number of other settings we
 can change this way, but they’re not important for now.
+
+> **By the way...**
+>
+> You might be wondering, if the entry in the page table is an address, how can
+> we use some of the bits of that address to store metadata without messing up
+> the address? Remember that we used the `align` directive to make sure that the
+> page tables all have addresses that are multiples of 4096. That means that the
+> CPU can assume that the first 12 bits of all the addresses are zero. If
+> they're always implicitly zero, we can use them to store metadata without
+> changing the address.
 
 Now that we have an entry set up properly, the next line is of interest:
 
