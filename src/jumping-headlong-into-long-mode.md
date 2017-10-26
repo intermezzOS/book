@@ -98,7 +98,7 @@ We have a new fancy register, `rax`! Like `eax` is a 32-bit version of `ax`,
 Anyway, we put a mystery sixty-four-bit value into `rax`, and then write it
 into `0xb8000`. If you recall from earlier, that's the upper-left part of the
 screen. The `qword` bit stands for 'quad-word', aka, 64-bit. A word is 16 bits,
-a double word is 32 bits, so a quad word is 64-bits.
+a double word is 32 bits, so a quad word is 64 bits.
 
 What does it say? Well, you'll have to run it and find out. 😊
 
