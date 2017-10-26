@@ -128,6 +128,14 @@ So here’s the strategy: create a single entry of each of these tables, then
 point them at each other in the correct way, then tell the CPU that paging
 should be enabled.
 
+### How many tables?
+
+The number of tables we need depends on how big we make each page. The bigger
+each page, the fewer pages fit into the virtual address space, so the fewer
+tables we need. How to choose a page size is the kind of detail we don't need to
+worry about for now. We're just going to go for 2 MiB pages, which means we only
+need three tables: we won't need a level 1 page table.
+
 ### Creating page table entries
 
 To create space for these page table entries, open up `boot.asm` and add these
