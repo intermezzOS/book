@@ -393,12 +393,13 @@ not:
     jne .map_p2_table
 ```
 
-The `inc` instruction increments the register it’s given by one. `ecx` is our loop
-counter, so we’re adding to it. Then, we ‘compare’ with `cmp`. We’re comparing
-`ecx` with 512: we want to map 512 page entries overall. This will give us 512 *
-2 mebibytes: one gibibyte of memory. It’s also why we wrote the loop: writing
-out 512 entries by hand is possible, theoretically, but is not fun. Let’s make
-the computer do the math for us.
+The `inc` instruction increments the register it’s given by one. `ecx` is our
+loop counter, so we’re adding to it. Then, we ‘compare’ with `cmp`. We’re
+comparing `ecx` with 512: we want to map 512 page entries overall. The page
+table is 4096 bytes, each entry is 8 bytes, so that means there are 512 entries.
+This will give us 512 * 2 mebibytes: one gibibyte of memory. It’s also why we
+wrote the loop: writing out 512 entries by hand is possible, theoretically, but
+is not fun. Let’s make the computer do the math for us.
 
 The `jne` instruction is short for ‘jump if not equal’. It checks the result of
 the `cmp`, and if the comparison says ‘not equal’, it will jump to the label
