@@ -2409,6 +2409,7 @@ now, while we're doing all this other setup.</p>
     &quot;os&quot;: &quot;intermezzos&quot;,
     &quot;target-endian&quot;: &quot;little&quot;,
     &quot;target-pointer-width&quot;: &quot;64&quot;,
+    &quot;target-c-int-width&quot;: &quot;32&quot;,
     &quot;features&quot;: &quot;-mmx,-fxsr,-sse,-sse2,+soft-float&quot;,
     &quot;disable-redzone&quot;: true,
     &quot;eliminate-frame-pointer&quot;: false
@@ -2436,7 +2437,7 @@ off.</p>
 look them up in Rust's documentation, but it's sorely lacking at the moment. Maybe
 I should stop writing this and go work on that... anyway. I digress.</p>
 <p>To use this target specification, we pass <code>--target</code> to Cargo:</p>
-<pre><code class="language-bash">$ cargo build --release --target=x86_64-unknown-intermezzos-gnu.json
+<pre><code class="language-bash">$ cargo build --release --target=x86_64-unknown-intermezzos-gnu
    Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
 error: can't find crate for `std` [E0463]
 error: aborting due to previous error
