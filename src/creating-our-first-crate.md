@@ -360,7 +360,7 @@ default: build
         
 build: target/kernel.bin
 
-.PHONY: clean
+.PHONY: default build run clean
 
 target/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p target
@@ -395,7 +395,7 @@ default: build
         
 build: target/kernel.bin
 
-.PHONY: clean
+.PHONY: default build run clean
 
 target/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p target
