@@ -124,6 +124,7 @@ Create a file named `x86_64-unknown-intermezzos-gnu.json`, and put this in it:
 	"os": "intermezzos",
 	"target-endian": "little",
 	"target-pointer-width": "64",
+	"target-c-int-width": "32",
 	"features": "-mmx,-fxsr,-sse,-sse2,+soft-float",
 	"disable-redzone": true,
 	"eliminate-frame-pointer": false
@@ -158,7 +159,7 @@ I should stop writing this and go work on that... anyway. I digress.
 To use this target specification, we pass `--target` to Cargo:
 
 ```bash
-$ cargo build --release --target=x86_64-unknown-intermezzos-gnu.json
+$ cargo build --release --target=x86_64-unknown-intermezzos-gnu
    Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
 error: can't find crate for `std` [E0463]
 error: aborting due to previous error
