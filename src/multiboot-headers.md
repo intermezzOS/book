@@ -299,7 +299,7 @@ from a big number. `dd` then puts that value into this spot in our file.
 >
 > But here's where it gets weird. Computers don't have an innate concept of negative numbers. Normally we get around this by using "signed integers", which is something we [cover in an appendix](http://intermezzos.github.io/book/appendix/signed-and-unsigned.html). The point is we have an unsigned integer here, which means we're limited to representing only positive numbers. This means we can't literally represent -(`magic_number` + `architecture` + `header_length`) in our field.
 >
-> If you look closely at the spec you'll notice it's strangely worded: it's asking for a value that when added other values has a sum of zero. It's worded this way because integers have a limit to the size of numbers they can represent, and when you go over that size, the values wrap back around to zero. So 0xFFFFFFFF + 1 is.... 0x00000000. This is a hardware limitation: technically it's doing the addition correctly, giving us the 33-bit value 0x100000000, but we only have 32 bits to store things in so it can't actually tell us about that `1` in the most significant digit position! We're left with the rest of the digits, which spell out zero.
+> If you look closely at the spec you'll notice it's strangely worded: it's asking for a value that when added to other values has a sum of zero. It's worded this way because integers have a limit to the size of numbers they can represent, and when you go over that size, the values wrap back around to zero. So 0xFFFFFFFF + 1 is.... 0x00000000. This is a hardware limitation: technically it's doing the addition correctly, giving us the 33-bit value 0x100000000, but we only have 32 bits to store things in so it can't actually tell us about that `1` in the most significant digit position! We're left with the rest of the digits, which spell out zero.
 >
 > So what we can do here is "trick" the computer into giving us zero when we do the addition. Imagine for the sake of argument that `magic_number` + `architecture` + `header_length` somehow works out to be 0xFFFFFFFE. The number we'd add to that in order to make 0 would be 0x00000002. This is 0x100000000-0xFFFFFFFE, because 0x100000000 technically maps to 0 when we wrap around. So we replace 0xFFFFFFFE in our contrived example here with `magic_number` + `architecture` + `header_length`. This gives us:
 > `dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))`
@@ -375,13 +375,13 @@ We will be using an assembler called `nasm` to do this. You should invoke
 $ nasm -f elf64 multiboot_header.asm
 ```
 
-The `-f elf64` says that we want to output a *f*ile with the type `elf64`.
-ELF is a particular executable format that’s used by various UNIX systems,
-and we’ll be using it too. The executable format just specifies how exactly the
-bits will be laid out in the file. For example, will there be a magic number
-at the beginning of the file for easier error checking? Or where in the file do
-we specify whether our code and data is in a 32-bit or 64-bit format? There are
-other formats, but ELF is pretty good.
+The `-f elf64` says that we want to output a file using the `elf64` file
+*f*ormat. ELF is a particular executable format that’s used by various UNIX
+systems, and we’ll be using it too. The executable format just specifies how
+exactly the bits will be laid out in the file. For example, will there be a
+magic number at the beginning of the file for easier error checking? Or where in
+the file do we specify whether our code and data is in a 32-bit or 64-bit
+format? There are other formats, but ELF is pretty good.
 
 After you run this command, you should see a `multiboot_header.o` file in
 the same directory. This is our ‘object file’, hence the `.o`. Don't let the

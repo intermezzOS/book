@@ -155,9 +155,9 @@ that says video memory must live in the address range beginning `0xb8000`. In
 order for computers to be able to work out of the box, this means that the BIOS
 needs to be manufactured to assume video lives at that location, and the
 motherboard (which is where the bus is all wired up) has to be manufactured to
-route `0xb8000` request to video card.  It's kind of amazing this stuff works
-at all! Anyway, "memory mapped hardware", or "memory mapping" for short, is the
-name of this technique.
+route a `0xb8000` request to the video card.  It's kind of amazing this stuff
+works at all! Anyway, "memory mapped hardware", or "memory mapping" for short,
+is the name of this technique.
 
 Now, we are copying `0x0248`. Why this number? Well, it’s in three parts:
 

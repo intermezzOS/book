@@ -152,7 +152,7 @@ all of the paging stuff we did in the last chapter:
 ```
 
 We pass `lgdt` the value of our `pointer` label. `lgdt` stands for ‘load global
-descriptor table. That’s it!
+descriptor table’. That’s it!
 
 We have all of the prerequisites done! In the next section, we will complete our
 transition by jumping to long mode.
