@@ -1409,8 +1409,8 @@ build. In this case, we want to create the <code>multiboot_header.o</code> file,
 our target after that.</p>
 <p>After the colon comes the ‘prerequisites’. This is a list of other targets that must
 be built for this target to be built. In this case, building <code>multiboot_header.o</code>
-requires that we have a <code>multiboot_header.asm</code>. Because we have no rule describing how
-to build this file, it existing is enough to satisfy the dependency.</p>
+requires that we have a <code>multiboot_header.asm</code>. We have no rule describing how
+to build this file but it existing is enough to satisfy the dependency.</p>
 <p>Finally, on the next line, and indented by a tab, we have a ‘command’. This is the
 shell command that you need to build the target.</p>
 <p>Building <code>boot.o</code> is similar:</p>
@@ -1433,12 +1433,13 @@ nasm -f elf64 boot.asm
 </code></pre>
 <p>Okay, so that worked. But what about this ‘is up to date’ bit?</p>
 <p>By default, <code>make</code> will keep track of the last time you built a particular
-target, and check its last-modified-time against that time. If it hasn’t been
-updated since it was built, then it won’t re-execute the build command. This is
-a really powerful feature, especially as we grow. You don’t want to force the
-entire project to re-build just because you edited one file; it’s nicer to only
-re-build the bits that interact with it directly. A lot of the skill of <code>make</code>
-is defining the right targets to make this work out nicely.</p>
+target, and check the prerequisites’ last-modified-time against that time. If
+the prerequisites haven’t been updated since the target was last built, then it
+won’t re-execute the build command. This is a really powerful feature,
+especially as we grow. You don’t want to force the entire project to re-build
+just because you edited one file; it’s nicer to only re-build the bits that
+interact with it directly. A lot of the skill of <code>make</code> is defining the right
+targets to make this work out nicely.</p>
 <p>It would be nice if we could build both things with one command, but as it
 turns out, our next target, <code>kernel.bin</code>, relies on both of these <code>.o</code> files,
 so let’s write it first:</p>
@@ -1537,22 +1538,31 @@ $ make build
 <p>Finally, there’s another useful common rule: <code>clean</code>. The <code>clean</code> rule should remove all
 of the generated files, and allow us to do a full re-build. As such it’s a bunch of <code>rm</code>
 statements:</p>
-<pre><code class="language-makefile">.PHONY: clean
-clean:
+<pre><code class="language-makefile">clean:
         rm -f multiboot_header.o
         rm -f boot.o
         rm -f kernel.bin
         rm -rf isofiles
         rm -f os.iso
 </code></pre>
-<p>What about that <code>.PHONY</code>? It’s a special, built-in target. Any dependencies of a <code>.PHONY</code>
-target will always be considered fresh; in other words, running <code>make clean</code> will skip
-checking if it’s been done already and just execute. In this case, this is what we want;
-we want to nuke all the files, we don’t care when they were modified.</p>
+<p>Now there's just one more wrinkle. We have four targets that aren't really files
+on disk, they are just actions: <code>default</code>, <code>build</code>, <code>run</code> and <code>clean</code>. Remember
+we said earlier that <code>make</code> decides whether or not to execute a command by
+comparing the last time a target was built with the last-modified-time of its
+prerequisites? Well, it determines the last time a target was built by looking
+at the last-modified-time of the target file. If the target file doesn't exist,
+then it's definitely out-of-date so the command will be run.</p>
+<p>But what if we accidentally create a file called <code>clean</code>? It doesn't have any
+prerequisites so it will always be up-to-date and the commands will never be
+run! We need a way to tell <code>make</code> that this is a special target, it isn't really
+a file on disk, it's an action that should always be executed. We can do this
+with a magic built-in target called <code>.PHONY</code>:</p>
+<pre><code class="language-makefile">.PHONY: default build run clean
+</code></pre>
 <p>Here’s our final <code>Makefile</code>:</p>
 <pre><code class="language-makefile">default: run
 
-.PHONY: clean
+.PHONY: default build run clean
 
 multiboot_header.o: multiboot_header.asm
         nasm -f elf64 multiboot_header.asm
@@ -1636,7 +1646,7 @@ our <code>build</code> directory. Much easier.</p>
 <p>Here’s our final version:</p>
 <pre><code class="language-makefile">default: run
 
-.PHONY: clean
+.PHONY: default build run clean
 
 build/multiboot_header.o: multiboot_header.asm
         mkdir -p build
@@ -2591,7 +2601,7 @@ output into <code>target</code> instead. Our <code>Makefile</code> will then loo
         
 build: target/kernel.bin
 
-.PHONY: clean
+.PHONY: default build run clean
 
 target/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p target
@@ -2623,7 +2633,7 @@ Modifying the last rule, we end up with this:</p>
         
 build: target/kernel.bin
 
-.PHONY: clean
+.PHONY: default build run clean
 
 target/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p target

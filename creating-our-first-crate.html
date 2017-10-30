@@ -365,7 +365,7 @@ output into <code>target</code> instead. Our <code>Makefile</code> will then loo
         
 build: target/kernel.bin
 
-.PHONY: clean
+.PHONY: default build run clean
 
 target/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p target
@@ -397,7 +397,7 @@ Modifying the last rule, we end up with this:</p>
         
 build: target/kernel.bin
 
-.PHONY: clean
+.PHONY: default build run clean
 
 target/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p target
