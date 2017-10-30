@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Appendix C: Mac OS X Install Script - intermezzOS</title>
+        <title>intermezzOS</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,9 +20,20 @@
 
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
-        <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <!-- Custom theme -->
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
 
         <!-- Fetch JQuery from CDN but have a local fallback -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -31,18 +42,25 @@
                 document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
             }
         </script>
+
+        <!-- Fetch store.js from local - TODO add CDN when 2.x.x is available on cdnjs -->
+        <script src="store.js"></script>
+
+        <!-- Custom JS script -->
+        
+
     </head>
     <body class="light">
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
-            var theme = localStorage.getItem('theme');
-            if (theme == null) { theme = 'light'; }
+            var theme = store.get('mdbook-theme');
+            if (theme === null || theme === undefined) { theme = 'light'; }
             $('body').removeClass().addClass(theme);
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script type="text/javascript">
-            var sidebar = localStorage.getItem('sidebar');
+            var sidebar = store.get('mdbook-sidebar');
             if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
             else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
         </script>
@@ -53,7 +71,7 @@
 
         <div id="page-wrapper" class="page-wrapper">
 
-            <div class="page">
+            <div class="page" tabindex="-1">
                 <div id="menu-bar" class="menu-bar">
                     <div class="left-buttons">
                         <i id="sidebar-toggle" class="fa fa-bars"></i>
@@ -63,7 +81,9 @@
                     <h1 class="menu-title">intermezzOS</h1>
 
                     <div class="right-buttons">
-                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        <a href="print.html">
+                            <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -1136,10 +1156,10 @@ start:
 <p>Lower case <code>e</code> is <code>65</code> in ASCII, at least, in hexadecimal. And <code>02</code> is our same
 color code. But you’ll notice that the memory location is different.</p>
 <p>Okay, so we copied four hexadecimal digits into memory, right? For our <code>H</code>.
-<code>0248</code>. A hexadecimal digit has sixteen values, so two of them are 32. Since we
-need one word for the colors, and one word for the <code>H</code>, that’s two words.
-Hence, if our first memory position is at <code>0</code>, the second letter will start at
-<code>2</code>.</p>
+<code>0248</code>. A hexadecimal digit has sixteen values, which is 4 bits, so two of them
+make 8 bits, i.e. one byte. We copied one byte for the colors, <code>02</code>, and one for
+the letter, <code>48</code>, so that's two bytes. Hence, if our first memory position is at
+<code>0</code>, the second letter will start at <code>2</code>.</p>
 <p>This math gets easier the more often you do it. And we won’t be doing <em>that</em> much
 more of it. There is a lot of working with hex numbers in operating systems work,
 so you’ll get better as we practice.</p>
@@ -2313,7 +2333,8 @@ authors = [&quot;Your Name &lt;you@example.com&gt;&quot;]
 information under <code>authors</code>, Cargo pulls it in from <code>git</code>, if you use it.
 Otherwise, you can add it yourself, no big deal.</p>
 <p>Next, <code>src/lib.rs</code>:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[cfg(test)]
 mod tests {
@@ -2321,7 +2342,6 @@ mod tests {
     fn it_works() {
     }
 }
-
 #}</code></pre></pre>
 <p>Cargo has generated us a sample test suite. We don't need any of this though;
 we won't be doing testing just yet. Let's try building the project:</p>
@@ -2436,10 +2456,10 @@ a wrapper around Cargo that knows how to read a <code>target.json</code> file an
 cross-compile <code>libcore</code>, then set up Cargo to use it.</p>
 <p>Let's modify <code>src/lib.rs</code> to get rid of that useless test, and to say we don't want to
 use the standard library:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #![no_std]
 #fn main() {
-
 #}</code></pre></pre>
 <p>That's it, just an empty library with one little annotation. Now we're ready to
 build. Well, almost, anyway:</p>
@@ -2486,7 +2506,8 @@ panic = &quot;abort&quot;
 <p>By adding this to our <code>Cargo.toml</code>, Rust will abort when it hits a panic,
 rather than unwind. That's good! However, we still need to define those
 language items. Modify <code>src/lib.rs</code> to look like this:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #![feature(lang_items)]
 #![no_std]
 
@@ -2499,7 +2520,6 @@ extern fn eh_personality() {
 extern fn rust_begin_panic() -&gt; ! {
     loop {}
 }
-
 #}</code></pre></pre>
 <p>Defining language items is a nightly-only feature, so we add the <code>![feature]</code>
 flag to turn it on. Then, we define two functions, and annotate them with
@@ -2686,14 +2706,14 @@ $
 </code></pre>
 <p>Hooray! We are now successfully building our assembly code and our Rust code, and then putting them together.</p>
 <p>Now, to write our Rust. Add this function to <code>src/lib.rs</code>:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-
 #}</code></pre></pre>
 <p>This is our main function, which is traditionally called <code>kmain()</code>, for 'kernel
 main.' We need to use the <code>#[no_mangle]</code> and <code>pub extern</code> annotations to indicate
@@ -2720,7 +2740,8 @@ And so we also change our <code>jmp</code> to jump to <code>kmain</code>.</p>
 <p>If you type <code>make run</code>, everything should compile and run, but then not display
 anything. We didn't port over the message! Open <code>src/lib.rs</code> and change <code>kmain()</code>
 to look like this:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -2732,7 +2753,6 @@ pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-
 #}</code></pre></pre>
 <p>The first thing you'll notice is the <code>unsafe</code> annotation. Yes, while one of
 Rust's defining features is safety, we'll certainly be making use of <code>unsafe</code>
@@ -2752,7 +2772,8 @@ Such is life.</p>
 it with Rust! It only took us five chapters to get here!</p>
 <p>This is just the beginning, though. At the end of the next chapter, your
 main function will look like this, instead:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -2760,7 +2781,6 @@ pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-
 #}</code></pre></pre>
 <p>But for now, kick back and enjoy what you've done. Congratulations!</p>
 <a class="header" href="print.html#appendix-a-troubleshooting" id="appendix-a-troubleshooting"><h1>Appendix A: Troubleshooting</h1></a>
@@ -3120,6 +3140,15 @@ fi
 
         
 
+        
+
+        
+        <script>
+            $(document).ready(function() {
+                window.print();
+            })
+        </script>
+        
 
         <script src="highlight.js"></script>
         <script src="book.js"></script>

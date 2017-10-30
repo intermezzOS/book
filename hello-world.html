@@ -20,9 +20,20 @@
 
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
-        <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <!-- Custom theme -->
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
 
         <!-- Fetch JQuery from CDN but have a local fallback -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -31,18 +42,25 @@
                 document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
             }
         </script>
+
+        <!-- Fetch store.js from local - TODO add CDN when 2.x.x is available on cdnjs -->
+        <script src="store.js"></script>
+
+        <!-- Custom JS script -->
+        
+
     </head>
     <body class="light">
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
-            var theme = localStorage.getItem('theme');
-            if (theme == null) { theme = 'light'; }
+            var theme = store.get('mdbook-theme');
+            if (theme === null || theme === undefined) { theme = 'light'; }
             $('body').removeClass().addClass(theme);
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script type="text/javascript">
-            var sidebar = localStorage.getItem('sidebar');
+            var sidebar = store.get('mdbook-sidebar');
             if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
             else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
         </script>
@@ -53,7 +71,7 @@
 
         <div id="page-wrapper" class="page-wrapper">
 
-            <div class="page">
+            <div class="page" tabindex="-1">
                 <div id="menu-bar" class="menu-bar">
                     <div class="left-buttons">
                         <i id="sidebar-toggle" class="fa fa-bars"></i>
@@ -63,7 +81,9 @@
                     <h1 class="menu-title">intermezzOS</h1>
 
                     <div class="right-buttons">
-                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        <a href="print.html">
+                            <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -236,10 +256,10 @@ start:
 <p>Lower case <code>e</code> is <code>65</code> in ASCII, at least, in hexadecimal. And <code>02</code> is our same
 color code. But you’ll notice that the memory location is different.</p>
 <p>Okay, so we copied four hexadecimal digits into memory, right? For our <code>H</code>.
-<code>0248</code>. A hexadecimal digit has sixteen values, so two of them are 32. Since we
-need one word for the colors, and one word for the <code>H</code>, that’s two words.
-Hence, if our first memory position is at <code>0</code>, the second letter will start at
-<code>2</code>.</p>
+<code>0248</code>. A hexadecimal digit has sixteen values, which is 4 bits, so two of them
+make 8 bits, i.e. one byte. We copied one byte for the colors, <code>02</code>, and one for
+the letter, <code>48</code>, so that's two bytes. Hence, if our first memory position is at
+<code>0</code>, the second letter will start at <code>2</code>.</p>
 <p>This math gets easier the more often you do it. And we won’t be doing <em>that</em> much
 more of it. There is a lot of working with hex numbers in operating systems work,
 so you’ll get better as we practice.</p>
@@ -364,13 +384,13 @@ make an ISO out of it, so that we can load it up in QEMU.</p>
 
                 <!-- Mobile navigation buttons -->
                 
-                    <a href="multiboot-headers.html" class="mobile-nav-chapters previous">
+                    <a rel="prev" href="multiboot-headers.html" class="mobile-nav-chapters previous">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="making-an-iso.html" class="mobile-nav-chapters next">
+                    <a rel="next" href="making-an-iso.html" class="mobile-nav-chapters next">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -404,6 +424,9 @@ make an ISO out of it, so that we can load it up in QEMU.</p>
 
         
 
+        
+
+        
 
         <script src="highlight.js"></script>
         <script src="book.js"></script>

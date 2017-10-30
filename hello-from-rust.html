@@ -20,9 +20,20 @@
 
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
-        <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <!-- Custom theme -->
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
 
         <!-- Fetch JQuery from CDN but have a local fallback -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -31,18 +42,25 @@
                 document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
             }
         </script>
+
+        <!-- Fetch store.js from local - TODO add CDN when 2.x.x is available on cdnjs -->
+        <script src="store.js"></script>
+
+        <!-- Custom JS script -->
+        
+
     </head>
     <body class="light">
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
-            var theme = localStorage.getItem('theme');
-            if (theme == null) { theme = 'light'; }
+            var theme = store.get('mdbook-theme');
+            if (theme === null || theme === undefined) { theme = 'light'; }
             $('body').removeClass().addClass(theme);
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script type="text/javascript">
-            var sidebar = localStorage.getItem('sidebar');
+            var sidebar = store.get('mdbook-sidebar');
             if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
             else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
         </script>
@@ -53,7 +71,7 @@
 
         <div id="page-wrapper" class="page-wrapper">
 
-            <div class="page">
+            <div class="page" tabindex="-1">
                 <div id="menu-bar" class="menu-bar">
                     <div class="left-buttons">
                         <i id="sidebar-toggle" class="fa fa-bars"></i>
@@ -63,7 +81,9 @@
                     <h1 class="menu-title">intermezzOS</h1>
 
                     <div class="right-buttons">
-                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        <a href="print.html">
+                            <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -120,14 +140,14 @@ $
 </code></pre>
 <p>Hooray! We are now successfully building our assembly code and our Rust code, and then putting them together.</p>
 <p>Now, to write our Rust. Add this function to <code>src/lib.rs</code>:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-
 #}</code></pre></pre>
 <p>This is our main function, which is traditionally called <code>kmain()</code>, for 'kernel
 main.' We need to use the <code>#[no_mangle]</code> and <code>pub extern</code> annotations to indicate
@@ -154,7 +174,8 @@ And so we also change our <code>jmp</code> to jump to <code>kmain</code>.</p>
 <p>If you type <code>make run</code>, everything should compile and run, but then not display
 anything. We didn't port over the message! Open <code>src/lib.rs</code> and change <code>kmain()</code>
 to look like this:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -166,7 +187,6 @@ pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-
 #}</code></pre></pre>
 <p>The first thing you'll notice is the <code>unsafe</code> annotation. Yes, while one of
 Rust's defining features is safety, we'll certainly be making use of <code>unsafe</code>
@@ -186,7 +206,8 @@ Such is life.</p>
 it with Rust! It only took us five chapters to get here!</p>
 <p>This is just the beginning, though. At the end of the next chapter, your
 main function will look like this, instead:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
 #fn main() {
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
@@ -194,7 +215,6 @@ pub extern fn kmain() -&gt; ! {
 
     loop { }
 }
-
 #}</code></pre></pre>
 <p>But for now, kick back and enjoy what you've done. Congratulations!</p>
 
@@ -202,13 +222,13 @@ pub extern fn kmain() -&gt; ! {
 
                 <!-- Mobile navigation buttons -->
                 
-                    <a href="creating-our-first-crate.html" class="mobile-nav-chapters previous">
+                    <a rel="prev" href="creating-our-first-crate.html" class="mobile-nav-chapters previous">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="appendix/troubleshooting.html" class="mobile-nav-chapters next">
+                    <a rel="next" href="appendix/troubleshooting.html" class="mobile-nav-chapters next">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -242,6 +262,9 @@ pub extern fn kmain() -&gt; ! {
 
         
 
+        
+
+        
 
         <script src="highlight.js"></script>
         <script src="book.js"></script>
