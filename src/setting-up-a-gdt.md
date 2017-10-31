@@ -86,11 +86,11 @@ assembler to scope this label under the last label that appeared, so we'll
 say `gdt64.code` rather than just `code`. Some nice encapsulation.
 
 So that's what's up with the label, but we still have this `equ $ - gdt64` bit.
-`$` is the current position. So we're subtracting the current position from the
-address of `gdt64`. Conveniently, that's the offset number we need for later:
+`$` is the current position. So we're subtracting the address of `gdt64` from
+the current position. Conveniently, that's the offset number we need for later:
 how far is this segment past the start of the GDT. The `equ` sets the address
 for the label; in other words, this line is saying "set the `.code` label's
-value to the current address minus the address of `gdt64`. Got it?
+value to the current address minus the address of `gdt64`". Got it?
 
 ## Setting up a data segment
 

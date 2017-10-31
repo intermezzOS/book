@@ -128,6 +128,14 @@ So here’s the strategy: create a single entry of each of these tables, then
 point them at each other in the correct way, then tell the CPU that paging
 should be enabled.
 
+### How many tables?
+
+The number of tables we need depends on how big we make each page. The bigger
+each page, the fewer pages fit into the virtual address space, so the fewer
+tables we need. How to choose a page size is the kind of detail we don't need to
+worry about for now. We're just going to go for 2 MiB pages, which means we only
+need three tables: we won't need a level 1 page table.
+
 ### Creating page table entries
 
 To create space for these page table entries, open up `boot.asm` and add these
@@ -216,9 +224,8 @@ this chart from top to bottom, each column is a case. So the first column says
 “if `a` is zero and `b` is zero, `or a b` will be zero.” The second column says
 “if `a` is one and `b` is zero, `or a b` will be one.” And so on.
 
-Now, we defined `p3_table` in the BSS section, which means that it will start as
-all zeroes. So when we `or` with `0b11`, it means that the first two bits will
-be set to one, keeping the rest as zeroes.
+So when we `or` with `0b11`, it means that the first two bits will be set to
+one, leaving the rest as they were.
 
 Okay, so now we know _what_ we are doing, but _why_? Each entry in a page table
 contains an address, but it also contains metadata about that page. The first
@@ -226,6 +233,16 @@ two bits are the ‘present bit’ and the ‘writable bit’. By setting the fi
 we say “this page is currently in memory,” and by setting the second, we say
 “this page is allowed to be written to.” There are a number of other settings we
 can change this way, but they’re not important for now.
+
+> **By the way...**
+>
+> You might be wondering, if the entry in the page table is an address, how can
+> we use some of the bits of that address to store metadata without messing up
+> the address? Remember that we used the `align` directive to make sure that the
+> page tables all have addresses that are multiples of 4096. That means that the
+> CPU can assume that the first 12 bits of all the addresses are zero. If
+> they're always implicitly zero, we can use them to store metadata without
+> changing the address.
 
 Now that we have an entry set up properly, the next line is of interest:
 
@@ -352,10 +369,10 @@ another bit. This extra `1` is a ‘huge page’ bit, meaning that the pages are
 ```
 
 Just like before, we are now writing the value in `eax` to a location. But
-instead of it being just `p2_table + 0`, we’re adding `ecx * 8` Remember, `ecx`
-is our loop counter. Each entry is eight bits in size: `0b10000011`. So we need
-to multiply the counter by eight, and then add it to `p2_table`. Let’s take a
-closer look: let’s assume `p2_table` is zero, to make the math easier:
+instead of it being just `p2_table + 0`, we’re adding `ecx * 8`. Remember, `ecx`
+is our loop counter. Each entry is eight bytes in size, so we need to multiply
+the counter by eight, and then add it to `p2_table`. Let’s take a closer look:
+let’s assume `p2_table` is zero, to make the math easier:
 
 |                     |         |         |         |         |         |
 |---------------------|---------|---------|---------|---------|---------|
@@ -364,8 +381,8 @@ closer look: let’s assume `p2_table` is zero, to make the math easier:
 | ecx * 8             | 0       | 8       | 16      | 24      | 32      |
 | p2\_table + ecx * 8 | 0       | 8       | 16      | 24      | 32      |
 
-We skip eight spaces each time, so we have room for all eight bits of the page
-table.
+We skip eight spaces each time, so we have room for all eight bytes of the page
+table entry.
 
 That’s the body of the loop! Now we need to see if we need to keep looping or
 not:
@@ -376,12 +393,13 @@ not:
     jne .map_p2_table
 ```
 
-The `inc` instruction increments the register it’s given by one. `ecx` is our loop
-counter, so we’re adding to it. Then, we ‘compare’ with `cmp`. We’re comparing
-`ecx` with 512: we want to map 512 page entries overall. This will give us 512 *
-2 mebibytes: one gibibyte of memory. It’s also why we wrote the loop: writing
-out 512 entries by hand is possible, theoretically, but is not fun. Let’s make
-the computer do the math for us.
+The `inc` instruction increments the register it’s given by one. `ecx` is our
+loop counter, so we’re adding to it. Then, we ‘compare’ with `cmp`. We’re
+comparing `ecx` with 512: we want to map 512 page entries overall. The page
+table is 4096 bytes, each entry is 8 bytes, so that means there are 512 entries.
+This will give us 512 * 2 mebibytes: one gibibyte of memory. It’s also why we
+wrote the loop: writing out 512 entries by hand is possible, theoretically, but
+is not fun. Let’s make the computer do the math for us.
 
 The `jne` instruction is short for ‘jump if not equal’. It checks the result of
 the `cmp`, and if the comparison says ‘not equal’, it will jump to the label
