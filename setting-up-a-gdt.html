@@ -153,11 +153,11 @@ more. Also, note that period at the start, it's <code>.code:</code>. This tells 
 assembler to scope this label under the last label that appeared, so we'll
 say <code>gdt64.code</code> rather than just <code>code</code>. Some nice encapsulation.</p>
 <p>So that's what's up with the label, but we still have this <code>equ $ - gdt64</code> bit.
-<code>$</code> is the current position. So we're subtracting the current position from the
-address of <code>gdt64</code>. Conveniently, that's the offset number we need for later:
+<code>$</code> is the current position. So we're subtracting the address of <code>gdt64</code> from
+the current position. Conveniently, that's the offset number we need for later:
 how far is this segment past the start of the GDT. The <code>equ</code> sets the address
 for the label; in other words, this line is saying &quot;set the <code>.code</code> label's
-value to the current address minus the address of <code>gdt64</code>. Got it?</p>
+value to the current address minus the address of <code>gdt64</code>&quot;. Got it?</p>
 <a class="header" href="setting-up-a-gdt.html#setting-up-a-data-segment" id="setting-up-a-data-segment"><h2>Setting up a data segment</h2></a>
 <p>Below the code segment, add this for a data segment:</p>
 <pre><code class="language-x86asm">.data: equ $ - gdt64
