@@ -39,16 +39,16 @@ brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
 
 cd "$HOME/src"
 
-if [ ! -d "binutils-2.25" ]; then
+if [ ! -d "binutils-2.27" ]; then
   echo ""
   echo "Installing \`binutils\`"
   echo ""
-  curl http://ftp.gnu.org/gnu/binutils/binutils-2.25.tar.gz > binutils-2.25.tar.gz
-  tar xfz binutils-2.25.tar.gz
-  rm binutils-2.25.tar.gz
+  curl http://ftp.gnu.org/gnu/binutils/binutils-2.27.tar.gz > binutils-2.27.tar.gz
+  tar xfz binutils-2.27.tar.gz
+  rm binutils-2.27.tar.gz
   mkdir -p build-binutils
   cd build-binutils
-  ../binutils-2.25/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+  ../binutils-2.27/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
   make
   make install
 fi
@@ -56,16 +56,16 @@ fi
 # gcc
 cd "$HOME/src"
 
-if [ ! -d "gcc-5.3.0" ]; then
+if [ ! -d "gcc-6.4.0" ]; then
   echo ""
   echo "Installing \`gcc\`"
   echo ""
-  curl -L http://ftpmirror.gnu.org/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2 > gcc-5.3.0.tar.bz2
-  tar jxf gcc-5.3.0.tar.bz2
-  rm gcc-5.3.0.tar.bz2
+  curl -L http://ftpmirror.gnu.org/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz > gcc-6.4.0.tar.gz
+  tar jxf gcc-6.4.0.tar.gz
+  rm gcc-6.4.0.tar.gz
   mkdir -p build-gcc
   cd build-gcc
-  ../gcc-5.3.0/configure --target="$TARGET" --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --with-gmp="$(brew --prefix gmp)" --with-mpfr="$(brew --prefix mpfr)" --with-mpc="$(brew --prefix libmpc)"
+  ../gcc-6.4.0/configure --target="$TARGET" --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --with-gmp="$(brew --prefix gmp)" --with-mpfr="$(brew --prefix mpfr)" --with-mpc="$(brew --prefix libmpc)"
   make all-gcc
   make all-target-libgcc
   make install-gcc
