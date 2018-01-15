@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Appendix C: Mac OS X Install Script - intermezzOS</title>
+        <title>Appendix C: Mac OS X Install Script - </title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,9 +46,6 @@
         <!-- Fetch store.js from local - TODO add CDN when 2.x.x is available on cdnjs -->
         <script src="store.js"></script>
 
-        <!-- Custom JS script -->
-        
-
     </head>
     <body class="light">
         <!-- Set the theme before any content is loaded, prevents flash -->
@@ -72,13 +69,14 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page" tabindex="-1">
+                
                 <div id="menu-bar" class="menu-bar">
                     <div class="left-buttons">
-                        <i id="sidebar-toggle" class="fa fa-bars"></i>
-                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                        <i id="sidebar-toggle" class="fa fa-bars" title="Toggle sidebar"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush" title="Change theme"></i>
                     </div>
 
-                    <h1 class="menu-title">intermezzOS</h1>
+                    <h1 class="menu-title"></h1>
 
                     <div class="right-buttons">
                         <a href="print.html">
@@ -128,16 +126,16 @@ brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
 
 cd &quot;$HOME/src&quot;
 
-if [ ! -d &quot;binutils-2.25&quot; ]; then
+if [ ! -d &quot;binutils-2.27&quot; ]; then
   echo &quot;&quot;
   echo &quot;Installing \`binutils\`&quot;
   echo &quot;&quot;
-  curl http://ftp.gnu.org/gnu/binutils/binutils-2.25.tar.gz &gt; binutils-2.25.tar.gz
-  tar xfz binutils-2.25.tar.gz
-  rm binutils-2.25.tar.gz
+  curl http://ftp.gnu.org/gnu/binutils/binutils-2.27.tar.gz &gt; binutils-2.27.tar.gz
+  tar xfz binutils-2.27.tar.gz
+  rm binutils-2.27.tar.gz
   mkdir -p build-binutils
   cd build-binutils
-  ../binutils-2.25/configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --with-sysroot --disable-nls --disable-werror
+  ../binutils-2.27/configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --with-sysroot --disable-nls --disable-werror
   make
   make install
 fi
@@ -145,16 +143,16 @@ fi
 # gcc
 cd &quot;$HOME/src&quot;
 
-if [ ! -d &quot;gcc-5.3.0&quot; ]; then
+if [ ! -d &quot;gcc-6.4.0&quot; ]; then
   echo &quot;&quot;
   echo &quot;Installing \`gcc\`&quot;
   echo &quot;&quot;
-  curl -L http://ftpmirror.gnu.org/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2 &gt; gcc-5.3.0.tar.bz2
-  tar jxf gcc-5.3.0.tar.bz2
-  rm gcc-5.3.0.tar.bz2
+  curl -L http://ftpmirror.gnu.org/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz &gt; gcc-6.4.0.tar.gz
+  tar jxf gcc-6.4.0.tar.gz
+  rm gcc-6.4.0.tar.gz
   mkdir -p build-gcc
   cd build-gcc
-  ../gcc-5.3.0/configure --target=&quot;$TARGET&quot; --prefix=&quot;$PREFIX&quot; --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=&quot;$(brew --prefix gmp)&quot; --with-mpfr=&quot;$(brew --prefix mpfr)&quot; --with-mpc=&quot;$(brew --prefix libmpc)&quot;
+  ../gcc-6.4.0/configure --target=&quot;$TARGET&quot; --prefix=&quot;$PREFIX&quot; --disable-nls --enable-languages=c,c++ --without-headers --with-gmp=&quot;$(brew --prefix gmp)&quot; --with-mpfr=&quot;$(brew --prefix mpfr)&quot; --with-mpc=&quot;$(brew --prefix libmpc)&quot;
   make all-gcc
   make all-target-libgcc
   make install-gcc
@@ -202,7 +200,7 @@ fi
 
                 <!-- Mobile navigation buttons -->
                 
-                    <a rel="prev" href="appendix/numeral-systems.html" class="mobile-nav-chapters previous">
+                    <a rel="prev" href="appendix/numeral-systems.html" class="mobile-nav-chapters previous" title="Previous chapter">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
@@ -240,5 +238,9 @@ fi
 
         <script src="highlight.js"></script>
         <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
     </body>
 </html>
