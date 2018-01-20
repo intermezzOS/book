@@ -36,3 +36,4 @@ After it is done you should have all the tools you need located in `~/opt`. The
 tools _should_ be named the same as the tools used in other chapters, but they
 might be prefixed with a `x86_64-pc-elf-`. The exception to this is `grub`. The
 default path for the binaries installed using the above script is `$HOME/opt/bin` so adjust the PATH variable appropriately.
+Note: If you are using swiftenv make sure that `$HOME/opt/bin` comes before swiftenv in your path. To ensure this, move the line `if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi` in your shell config file (.zshrc || .bashrc) before your modification of the path variable. This will ensure that swiftenv is added to your path and then `export PATH="$HOME/opt/bin:$PATH"` will insert `$HOME/opt/bin` in the front your path. Also run `cd` into `$HOME/opt/bin` and run `ln -s x86_64-pc-elf-ld ld`.
