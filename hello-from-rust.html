@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" class="sidebar-visible">
     <head>
+        <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Hello from Rust! - </title>
+        <title>Hello from Rust! - intermezzOS</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
 
         <base href="">
 
@@ -35,58 +37,117 @@
             }
         </script>
 
-        <!-- Fetch JQuery from CDN but have a local fallback -->
-        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script>
-            if (typeof jQuery == 'undefined') {
-                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
-            }
-        </script>
-
-        <!-- Fetch store.js from local - TODO add CDN when 2.x.x is available on cdnjs -->
-        <script src="store.js"></script>
+        <noscript>
+            <style type="text/css">
+                .javascript-only {
+                    display: none;
+                }
+            </style>
+        </noscript>
 
     </head>
     <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
-            var theme = store.get('mdbook-theme');
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
             if (theme === null || theme === undefined) { theme = 'light'; }
-            $('body').removeClass().addClass(theme);
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script type="text/javascript">
-            var sidebar = store.get('mdbook-sidebar');
-            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
-            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
-        <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong>1.</strong> Background</a></li><li><ul class="section"><li><a href="what.html"><strong>1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong>1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong>1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong>1.4.</strong> What tools will we use?</a></li></ul></li><li><a href="setup.html"><strong>2.</strong> Setting up a development environment</a></li><li><ul class="section"><li><a href="installing-rust.html"><strong>2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong>2.2.</strong> Linux</a></li><li><a href="osx.html"><strong>2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong>2.4.</strong> Windows</a></li></ul></li><li><a href="booting-up.html"><strong>3.</strong> Booting up</a></li><li><ul class="section"><li><a href="multiboot-headers.html"><strong>3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong>3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong>3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong>3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong>3.5.</strong> Automation with Make</a></li></ul></li><li><a href="transitioning-to-long-mode.html"><strong>4.</strong> Transitioning to Long Mode</a></li><li><ul class="section"><li><a href="paging.html"><strong>4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong>4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong>4.3.</strong> Jumping headlong into long mode</a></li></ul></li><li><a href="a-rust-kmain.html"><strong>5.</strong> A Rust kmain()</a></li><li><ul class="section"><li><a href="creating-our-first-crate.html"><strong>5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html" class="active"><strong>5.2.</strong> Hello from Rust!</a></li></ul></li><li><strong>6.</strong> A simple VGA driver</li><li><strong>7.</strong> Keyboard input</li><li><strong>8.</strong> Serial Ports</li><li><strong>9.</strong> Paging</li><li><strong>10.</strong> Running a user-mode program</li><li><strong>11.</strong> Filesystems</li><li><strong>12.</strong> Multitasking</li><li class="spacer"></li><li class="affix"><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ul>
-        </div>
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html" class="active"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+        </nav>
 
         <div id="page-wrapper" class="page-wrapper">
 
-            <div class="page" tabindex="-1">
+            <div class="page">
                 
                 <div id="menu-bar" class="menu-bar">
-                    <div class="left-buttons">
-                        <i id="sidebar-toggle" class="fa fa-bars" title="Toggle sidebar"></i>
-                        <i id="theme-toggle" class="fa fa-paint-brush" title="Change theme"></i>
-                    </div>
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons javascript-only">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
 
-                    <h1 class="menu-title"></h1>
+                        <h1 class="menu-title">intermezzOS</h1> 
 
-                    <div class="right-buttons">
-                        <a href="print.html">
-                            <i id="print-button" class="fa fa-print" title="Print this book"></i>
-                        </a>
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
+                
+                <div id="searchbar-outer" class="searchbar-outer">
+                    <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                </div>
+                <div id="searchresults-outer" class="searchresults-outer">
+                    <div class="searchresults-header" id="searchresults-header"></div>
+                    <ul id="searchresults">
+                    </ul>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
                 <div id="content" class="content">
-                    <a class="header" href="hello-from-rust.html#hello-from-rust" id="hello-from-rust"><h1>Hello from Rust!</h1></a>
+                    <main>
+                        <a class="header" href="hello-from-rust.html#hello-from-rust" id="hello-from-rust"><h1>Hello from Rust!</h1></a>
 <p>Okay, time for the big finale: printing our <code>OKAY</code> from Rust. First, let's
 change our <code>Makefile</code> to add the Rust code into our assembly code. We can build
 on the steps we did earlier. Here's a new rule to add to the <code>Makefile</code>:</p>
@@ -207,59 +268,82 @@ main function will look like this, instead:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
+# #[macro_export]
+# macro_rules! kprintln {
+#     ($ctx:ident, $fmt:expr) =&gt; ();
+# }
+#
 #[no_mangle]
 pub extern fn kmain() -&gt; ! {
-    kprintln!(&quot;Hello, world!&quot;);
+    kprintln!(CONTEXT, &quot;Hello, world!&quot;);
 
     loop { }
 }
 #}</code></pre></pre>
 <p>But for now, kick back and enjoy what you've done. Congratulations!</p>
 
-                </div>
+                    </main>
 
-                <!-- Mobile navigation buttons -->
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="creating-our-first-crate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="appendix/troubleshooting.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="creating-our-first-crate.html" class="mobile-nav-chapters previous" title="Previous chapter">
+                    <a href="creating-our-first-crate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="appendix/troubleshooting.html" class="mobile-nav-chapters next" title="Next chapter">
+                    <a href="appendix/troubleshooting.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
-
-            </div>
-
-            
-                <a href="creating-our-first-crate.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
-                    <i class="fa fa-angle-left"></i>
-                </a>
-            
-
-            
-                <a href="appendix/troubleshooting.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            
+            </nav>
 
         </div>
 
 
         <!-- Local fallback for Font Awesome -->
         <script>
-            if ($(".fa").css("font-family") !== "FontAwesome") {
-                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
             }
         </script>
 
-        <!-- Livereload script (if served using the cli tool) -->
         
 
         
 
+        
+
+        
+        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
+        
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
         
