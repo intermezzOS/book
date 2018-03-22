@@ -110,7 +110,7 @@ rough edges, but they’re not too big of a deal.
 
 Rust will allow us to write:
 
-```rust
+```rust,should_panic
 // foo.rs
 
 use std::process;
