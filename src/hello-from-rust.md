@@ -153,9 +153,14 @@ This is just the beginning, though. At the end of the next chapter, your
 main function will look like this, instead:
 
 ```rust
+# #[macro_export]
+# macro_rules! kprintln {
+#     ($ctx:ident, $fmt:expr) => ();
+# }
+#
 #[no_mangle]
 pub extern fn kmain() -> ! {
-    kprintln!("Hello, world!");
+    kprintln!(CONTEXT, "Hello, world!");
 
     loop { }
 }

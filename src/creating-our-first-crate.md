@@ -186,7 +186,7 @@ cross-compile `libcore`, then set up Cargo to use it.
 Let's modify `src/lib.rs` to get rid of that useless test, and to say we don't want to
 use the standard library:
 
-```rust
+```rust,compile_fail
 #![no_std]
 ```
 
@@ -235,7 +235,7 @@ need to be defined by us.
 Both of these language items involve a feature of Rust called 'panics.'
 Here's a Rust program that panics:
 
-```rust
+```rust,should_panic
 fn main() {
      panic!("oh no!");
 }
@@ -254,7 +254,7 @@ By adding this to our `Cargo.toml`, Rust will abort when it hits a panic,
 rather than unwind. That's good! However, we still need to define those
 language items. Modify `src/lib.rs` to look like this:
 
-```rust
+```rust,ignore
 #![feature(lang_items)]
 #![no_std]
 

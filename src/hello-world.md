@@ -176,7 +176,7 @@ write `H`.
 The other two numbers are colors. There are 16 colors available, each with a
 number. Here’s the table:
 
-```
+```text
 | Value | Color          |
 |-------|----------------|
 | 0x0   | black          |
