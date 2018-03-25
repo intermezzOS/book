@@ -1,4 +1,8 @@
 [book]
-authors = []
+title = "The intermezzOS Book"
+authors = ["The intermezzOS Project Developers"]
 multilingual = false
 src = "src"
+
+[output.html]
+additional-css = ["src/theme/extra.css"]
