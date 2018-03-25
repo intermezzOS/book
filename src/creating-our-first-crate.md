@@ -208,7 +208,7 @@ $ rustup component add rust-src
 And now let's build:
 
 ```bash
-$ xargo build --release --target x86_64-unknown-intermezzos-gnu
+$ xargo build --release --target=x86_64-unknown-intermezzos-gnu
    Compiling sysroot for x86_64-unknown-intermezzos-gnu
    Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
    Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
@@ -277,7 +277,7 @@ should never return, so we put in an inifinite `loop`.
 Let's try compiling again:
 
 ```bash
-$ xargo build --release --target x86_64-unknown-intermezzos-gnu
+$ xargo build --release --target=x86_64-unknown-intermezzos-gnu
    Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
 $
 ```
