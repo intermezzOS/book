@@ -5,7 +5,8 @@ rust:
 before_script:
   - cargo install mdbook
 script:
-  - PATH=$PATH:/home/travis/.cargo/bin mdbook build
+  - PATH=$PATH:/home/travis/.cargo/bin cd first-edition && mdbook build
+  - PATH=$PATH:/home/travis/.cargo/bin cd ../second-edition && mdbook build
 after_success:
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
 env:
