@@ -2557,7 +2557,7 @@ builds a custom <code>libcore</code> for us. Add it with <code>rustup</code>:</p
 <pre><code class="language-bash">$ rustup component add rust-src
 </code></pre>
 <p>And now let's build:</p>
-<pre><code class="language-bash">$ xargo build --release --target x86_64-unknown-intermezzos-gnu
+<pre><code class="language-bash">$ xargo build --release --target=x86_64-unknown-intermezzos-gnu
    Compiling sysroot for x86_64-unknown-intermezzos-gnu
    Compiling core v0.0.0 (file:///home/steve/.xargo/src/libcore)
    Compiling alloc v0.0.0 (file:///home/steve/.xargo/src/liballoc)
@@ -2610,7 +2610,7 @@ the <code>#[lang]</code> attribute to inform Rust that these functions are our l
 items. <code>eh_personality()</code> doesn't need to do anything, but <code>rust_begin_panic()</code>
 should never return, so we put in an inifinite <code>loop</code>.</p>
 <p>Let's try compiling again:</p>
-<pre><code class="language-bash">$ xargo build --release --target x86_64-unknown-intermezzos-gnu
+<pre><code class="language-bash">$ xargo build --release --target=x86_64-unknown-intermezzos-gnu
    Compiling intermezzos v0.1.0 (file:///path/to/your/kernel)
 $
 </code></pre>
