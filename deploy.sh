@@ -9,11 +9,10 @@ mkdir output
 
 cp index.html output/index.html
 
-mkdir -p output/first-edition
-mkdir -p output/second-edition
+mkdir output
 
-mv first-edition/book output/first-edition
-mv second-edition/book output/second-edition
+mv first-edition/book output/first-edition/
+mv second-edition/book output/second-edition/
 
 # now deploy
 cd output
