@@ -3,12 +3,13 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Preface - The intermezzOS Book</title>
+        <title>What kinds of OS are there? - The intermezzOS Book</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
+        <base href="../">
 
         <link rel="stylesheet" href="book.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -86,7 +87,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html" class="active">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html" class="active"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -148,129 +149,74 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 class="center">intermezzOS</h1>
-<p><img class="center" src="assets/rhizome.jpg" alt="rhizome" /></p>
-<p class="center">An operating system for learning</p>
-<a class="header" href="preface.html#preface" id="preface"><h2>Preface</h2></a>
-<p>This book describes the intermezzOS project. intermezzOS is a hobby operating
-system, specifically targeted at showing beginners how to get into operating
-systems development. Rather than describe some sort of final OS, it instead
-proceeds in a tutorial-like fashion, allowing you to implement intermezzOS
-yourself, alongside the book.</p>
-<p>The book assumes that you have programmed in some language before, but not any
-particular one. In fact, people who have not done low-level programming before
-are a specific target of this book; I’ll be explaining a lot of things that
-other resources will just assume that you know.</p>
-<p>intermezzOS is implemented in <a href="https://www.rust-lang.org/">Rust</a>, and some
-assembly code. We’ll try to explain Rust along the way, but may refer you to
-its documentation when things get tricky. This book isn’t <em>really</em> about
-learning Rust, but you might accidentally along the way.</p>
-<p>You can find all of this stuff <a href="https://github.com/intermezzOS/">on GitHub</a>.
-This book is in the <code>book</code> repository, the kernel is in <code>kernel</code>, and the
-website is there too. Feel free to open issues if you want to discuss things
-in a general sense, and send bug reports and PRs to the appropriate repos if
-you’d like to help with a particular component.</p>
-<a class="header" href="preface.html#the-story" id="the-story"><h2>The Story</h2></a>
-<p>A long time ago, in college, my friends and I were working on a hobby operating
-system, <a href="http://xomb.org">XOmB</a>. It was... tough. Frankly, while I learned a
-lot, I was a pretty minor contributor. I got frustrated too easily. One day, I
-found Ruby, and I was pretty much done with low-level programming. I had done
-it most of my life, and I was bored. Bored, and sick of dealing with core
-dumps.</p>
-<p>Those details aren’t that important. What is important is that over the years,
-I’ve always wanted to get back into this stuff. But the problem is this: there
-are a lot of people who do hobby operating system work, but... I don’t like
-their attitudes.</p>
-<p>You see, a lot of people see low-level programming as some kind of superior,
-only-for-the-smartest kind of thing. They have a puritanical world-view: “I
-suffered to learn this, so you too must suffer to build character.” I think
-that’s short sighted. Low level programming <em>is</em> difficult to get into, but
-that says more about the teachers’ faults than the students’.</p>
-<p>Anyway, as my professional life has moved back towards the low level, I’ve been
-thinking about this topic a lot again. That’s when I found an awesome link:
-<a href="http://os.phil-opp.com/">Writing an OS in Rust by Philipp Oppermann</a>. I cannot speak enough
-about how awesome Phil’s tutorial is; it single-handedly inspired me to get
-back into operating systems.</p>
-<p>The big difference with Phil’s tutorial is that it doesn’t treat you as being
-stupid for not knowing ‘the basics’. It doesn’t say “spend hours debugging this
-thing, because I did.” It doesn’t insult you for being new. It just explains
-the basics of a kernel.</p>
-<p>It’s amazing how much a little bit of a framing can completely change the way
-you see something. When the examples I found were all about how you have to be
-an amazing rockstar ninja and we won’t give you all the code because you suck
-if you can’t figure it out, I hated this stuff. When it was kind,
-understanding, and helpful, I couldn’t get enough.</p>
-<p>Once I got to a certain part in Phil’s tutorial, I started implementing stuff
-myself. A lot of the initial code here is going to be similar to Phil’s.
-But I’m going to write about it anyway. There’s a good reason for that:</p>
+                        <a class="header" href="background/what-kind-is-there.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
+<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
+The core component is called a ‘kernel’. The non-kernel bits of an operating system
+are collectively called a ‘userland’. Typically a kernel has more direct access to the
+machine than a userland and thus acts somewhat like a super user (with powers that even
+‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
+So, as OS developers, when we categorize operating systems, we tend to categorize them
+by what kinds of kernel they have.</p>
 <blockquote>
-<p>Writing is nature’s way of showing us how sloppy our thinking is.</p>
-<ul>
-<li>Leslie Lamport</li>
-</ul>
+<p><strong>By the way...</strong></p>
+<p>Although you may be used to hearing the term ‘Linux’ used as a name for an
+operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
+That’s because virtually all Linux distributions today use a Linux kernel + a
+GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
+the credit. By the same token, a lot of people say ‘the kernel’ when they mean
+‘the Linux kernel.’ This gets an entirely different set of people mad.</p>
 </blockquote>
-<p>By re-explaining things in my own words, I hope to understand it even better.
-This is just a perpetual theme with me: I like teaching because it helps me
-learn. I like writing because it helps me understand.</p>
-<p>We'll be using a tool Phil developed called <code>bootimage</code>, and we'll explain
-similar concepts, but with different code and in different ways, and in a
-different order.</p>
-<p>Furthermore, I will not commit to any kind of schedule for this project. It’s
-going to be in my spare time, and I’m learning a lot of this as I go, too.</p>
-<a class="header" href="preface.html#the-name" id="the-name"><h2>The Name</h2></a>
-<blockquote>
-<p>The nomad has a territory; he follows customary paths; he goes from one point
-to another; he is not ignorant of points (water points, dwelling points,
-assembly points, etc.). But the question is what in nomad life is a principle
-and what is only a consequence. To begin with, although the points determine
-paths, they are strictly subordinated to the paths they determine, the
-reverse happens with the sedentary. The water point is reached only in order
-to be left behind; every point is a relay and exists only as a relay. A path
-is always between two points, but the in-between has taken on all the
-consistency and enjoys both an autonomy and a direction of its own. The life
-of the nomad is the intermezzo.</p>
-<p>Deleuze and Guattari, “A Thousand Plateaus”, p380</p>
-</blockquote>
-<p>If you’re not into particular kinds of philosophy, this quote won’t mean a lot.
-Let’s look at the dictionary definition:</p>
-<blockquote>
-<p>An intermezzo, in the most general sense, is a composition which fits between
-other musical or dramatic entities, such as acts of a play or movements of a
-larger musical work.</p>
-<p><a href="https://en.wikipedia.org/wiki/Intermezzo">https://en.wikipedia.org/wiki/Intermezzo</a></p>
-</blockquote>
-<p>I want this project to be about learning. Learning is often referred to as a
-journey. You start off in ignorance and end in knowledge. In other words,
-‘learning’ is that part in the middle, the in-between state.</p>
-<p>The tricky thing about learning is, you never stop learning. Once you learn
-something, there’s something new to learn, and you’re on a journey again.</p>
-<p>If you want to learn a lot, then you’ll find yourself perpetually in the
-middle.</p>
-<p>There is another sense by which this name makes sense: as we’ll learn in the
-beginning of the book, operating systems are largely about abstractions. And
-abstractions are themselves ‘in the middle’, between what they’re abstracting
-and who they are abstracting it for.</p>
-<a class="header" href="preface.html#principles" id="principles"><h2>Principles</h2></a>
-<p>Here are the guiding principles of intermezzOS:</p>
-<ul>
-<li>We’re all actual people. Please treat each other as such.</li>
-<li>We’re all here to learn. Let’s help each other learn, rather than being some
-kind of vanguard of knowledge.</li>
-<li>The only thing that matters about your language background is the amount you
-may have to learn.</li>
-<li>Everything must be documented, or it’s not done.</li>
-</ul>
-<p>And of course, everything related to this project is under the <a href="http://intermezzos.github.io/code-of-conduct.html">Code of
-Conduct</a>.</p>
+<p>At the start, our ‘operating system’ will be just the kernel, and so we’ll tend
+to focus on kernels for the first part of our journey.</p>
+<p>The way that we categorize different kernels largely comes down to “what is in
+the kernel and what is in userspace.” Upon reading this, you might then think
+the easiest kind of kernel to write is the smallest, where everything is in
+userspace. After all, smaller should be easier, right? Well... that’s not
+actually true. Or at least, it’s not clear that it’s true.</p>
+<a class="header" href="background/what-kind-is-there.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
+<p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
+Most real-world kernels are monolithic kernels, or at least, pretend to be.
+Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
+<p>This means that monolithic kernels are kind of ‘the default’. Other kernels
+usually define themselves by solving some kind of problem that monolithic
+kernels have.</p>
+<p>If a monolithic kernel were a web application, it would be a big ol’ Rails
+application. One repository. A million subdirectories. It may be a big ball
+of mud, but it pays the bills.</p>
+<a class="header" href="background/what-kind-is-there.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
+<p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
+the kernel is in userspace instead. This is a good idea in theory, but
+historically, microkernels have had issues. All that communication has
+overhead, which makes them slower.</p>
+<p>Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
+up being one, but Mac OS X uses a version of Mach from before that work was
+done... so it’s a bit blurry.</p>
+<p>If a microkernel were a web application, it would be a microservice. And a
+bunch of the other stuff that’s in kernel space in a monolithic kernel are
+other microservices, but in userspace instead. It’s a bit cooler than a single
+monolithic web app by itself, and the communication is nice for flexibility’s
+sake, but has some overhead.</p>
+<a class="header" href="background/what-kind-is-there.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
+<p>These two kinds of operating systems are closely related, but it’s a bit harder
+to dig into what exactly makes them different. Unikernels have one
+easy-to-describe feature: they only run one single program at a time.
+Exokernels are ‘more micro than micro’, but the details aren’t important right
+now.</p>
+<p>The important thing to know here is that there are a lot of other kinds of
+designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
+                            <a rel="prev" href="background/what.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
 
                         
-                            <a rel="next" href="background/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="background/what-kind-are-we-making.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -282,9 +228,13 @@ Conduct</a>.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
+                    <a href="background/what.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
 
                 
-                    <a href="background/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="background/what-kind-are-we-making.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

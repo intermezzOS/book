@@ -1,0 +1,361 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>What tools will we use? - The intermezzOS Book</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+        <link rel="stylesheet" href="src/theme/extra.css">
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+        <noscript>
+            <style type="text/css">
+                .javascript-only {
+                    display: none;
+                }
+            </style>
+        </noscript>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html" class="active"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons javascript-only">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">The intermezzOS Book</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="searchbar-outer" class="searchbar-outer">
+                    <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                </div>
+                <div id="searchresults-outer" class="searchresults-outer">
+                    <div class="searchresults-header" id="searchresults-header"></div>
+                    <ul id="searchresults">
+                    </ul>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="background/tools.html#what-tools-will-we-use" id="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
+<p>Before we can make a kernel, we need to figure out the tools we’re going to
+use. The first question, of course, is what programming language?</p>
+<p>In our case, we’re going to use two. The first one is the language that
+<em>every</em> kernel must use: assembly language.</p>
+<a class="header" href="background/tools.html#assembly" id="assembly"><h2>Assembly</h2></a>
+<p>Assembly language gives us direct access to a specific machine. If the basis of
+computer science is abstraction, the very bottom of the software abstraction layer
+is assembly. Below it lies only hardware and physics.</p>
+<p>There are many kinds of assembly languages each targeted at different
+‘instruction set’ architectures (also known as ISA or simply as instruction sets).
+These instruction sets are the list of commands that a given CPU can understand. For
+example, if your computer has an Intel Pentium processor of some kind then it
+understands the x86 instruction set. So if you were to write assembly for another
+instruction set (say MIPS or ARM), you would not be able to run it on your computer.</p>
+<p>This is one of the reasons we'll want to get away from the assembly world as
+fast as possible. If we want our kernel to work for a bunch of different
+architectures, any code we end up writing in assembly will need to be duplicated.
+However, if we use a more high-level language like C, C++ or the language we'll
+really be using, Rust, we can write the code once and cross-compile
+to different architectures.</p>
+<p>Assembly language looks like this:</p>
+<pre><code class="language-x86asm">; foo.asm
+
+section .data
+global _start
+
+_start:
+    mov rax, 0
+loop:
+    add rax, 1
+    cmp rax, 10
+    jne loop
+
+    mov rbx, rax
+    mov rax, 1
+    int 80h
+</code></pre>
+<p>This is a little program in assembly language. If it looks totally alien to you,
+don't worry. While we could write our entire kernel in assembly, we'll only be
+learning as much assembly as we need to not have to use it any more.</p>
+<p>When you write assembly language you are actually directly manipulating the
+individual registers of the CPU and memory inside of RAM and other hardware
+devices like CD drives or display screens.</p>
+<blockquote>
+<p><strong>By the way...</strong></p>
+<p>CPUs are composed of registers each of which can only hold small amounts of data.
+The amount of data a register can hold dictates what type of CPU the register
+belongs to. If you didn't know why your machine is classified as either 32 bit
+or 64 bit it's because the machine's registers can either hold 32 bits of data at a
+time or 64 bits at a time.</p>
+</blockquote>
+<p>In assembly we can only do very simple things: move data between registers or
+to/from RAM; perform simple arithmetic like addition, subtraction, multiplication
+and division; compare values in different registers, and based on these comparisons
+jump to different points in our code (à la GOTO). Fancy high level concepts
+like while loops and if statements, let alone garbage collection are nowhere to be
+found. Even functions as you know them aren't really supported in assembly.
+Each assembly program is just a bunch of data in registers or in memory and a
+list of instructions, carried out one after the other.</p>
+<p>For instance, in our code above we used the <code>mov</code> instruction several times to
+move values into specific registers with weird names like <code>rax</code> and <code>rbx</code>. We
+used the <code>cmp</code> instruction to compare the value inside of the <code>rax</code> register
+with the number <code>10</code>. We used the <code>jne</code> instruction to jump to another part of
+our code if the numbers we just compared were not equal. Finally we used the <code>int</code>
+instruction to trigger a hardware <em>int</em>errupt.</p>
+<p>Again, you don't need to fully understand this program at this point. Right now
+you should just have an impression for how assembly is composed of simple
+instructions that do very simple things.</p>
+<p>When it comes time to write some actual assembly code we'll touch on all this again.</p>
+<p>Let's run this little program:</p>
+<pre><code class="language-bash">$ nasm -f elf64 foo.asm # assemble into foo.o
+$ ld foo.o              # link into a.out
+$ ./a.out               # run it
+$ echo $?               # print out the exit code
+10
+$
+</code></pre>
+<p>Don't worry too much about what programs we're using to actually compile (or
+‘assemble’ as it's known in the assembly world) our program. We'll be going
+over each one of these commands and explaining what they are and how to use
+them.</p>
+<a class="header" href="background/tools.html#rust" id="rust"><h2>Rust</h2></a>
+<p>We will augment our assembly with code written in
+<a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to
+Rust-land as quickly as we possibly can. Rust is a really great programming
+language, and it’s pretty great for writing operating systems. It has some
+rough edges, but they’re not too big of a deal.</p>
+<p>Rust will allow us to write:</p>
+<pre><pre class="playpen"><code class="language-rust should_panic">// foo.rs
+
+use std::process;
+
+fn main() {
+    let mut a = 0;
+
+    for _ in 0..10 {
+        a = a + 1;
+    }
+
+    process::exit(a);
+}
+</code></pre></pre>
+<p>This does the same thing as our assembly code:</p>
+<pre><code class="language-bash">$ rustc foo.rs # compile our Rust code to foo
+$ ./foo        # run it
+$ echo $?      # print out the exit code
+10
+$
+</code></pre>
+<p>That Rust code probably looks more like a programming language you’ve used in
+the past. It’s a lot nicer to write complex things in a higher-level
+programming language like Rust. That said, virtually all languages are
+higher-level than assembly, so that’s not saying all that much. Rust is still a
+low-level language by many standards.</p>
+<p>So why choose Rust? Well, I’m picking it for two reasons:</p>
+<ol>
+<li>I love it.</li>
+<li>There aren’t a lot of kernels in it yet.</li>
+</ol>
+<p>There are a suprising number of people working on kernels in Rust. But since
+it’s a newer language, there aren’t nearly as many as for older, more
+established languages.</p>
+<a class="header" href="background/tools.html#do-i-need-to-be-a-wizard" id="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
+<p>No, you do not. A common theme of this project is “this is all we’ll need to
+know about this topic for now.” There’s no reason that you need to absolutely
+master everything before going forward. For example, in order to get Rust
+going, we need only about 100 lines of assembly, as mentioned above. Do you
+need to be a complete expert in assembly language to understand those well
+enough to keep going? Not at all. Will learning more about it help? Absolutely!</p>
+<p>There’s nobody that’s monitoring your credentials to see if you’re allowed to
+move on. Do it at your own pace. Skip stuff. Come back when you don’t
+understand what’s going on. Try it, wait a week, and then try it again.</p>
+<p>There’s no wrong way to do this stuff, including by being a beginner. Everyone
+was once. Don’t let anyone discourage you.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="background/what-kind-are-we-making.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="setup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="background/what-kind-are-we-making.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="setup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+
+        
+
+        
+
+        
+        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
+        
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>

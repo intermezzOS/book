@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title></title>
+        <title>The intermezzOS Book</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +25,8 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme -->
+        
+        <link rel="stylesheet" href="src/theme/extra.css">
         
 
         
@@ -85,7 +87,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -115,7 +117,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title"></h1> 
+                        <h1 class="menu-title">The intermezzOS Book</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -147,7 +149,500 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="print.html#chapter-1" id="chapter-1"><h1>Chapter 1</h1></a>
+                        <h1 class="center">intermezzOS</h1>
+<p><img class="center" src="assets/rhizome.jpg" alt="rhizome" /></p>
+<p class="center">An operating system for learning</p>
+<a class="header" href="print.html#preface" id="preface"><h2>Preface</h2></a>
+<p>This book describes the intermezzOS project. intermezzOS is a hobby operating
+system, specifically targeted at showing beginners how to get into operating
+systems development. Rather than describe some sort of final OS, it instead
+proceeds in a tutorial-like fashion, allowing you to implement intermezzOS
+yourself, alongside the book.</p>
+<p>The book assumes that you have programmed in some language before, but not any
+particular one. In fact, people who have not done low-level programming before
+are a specific target of this book; I’ll be explaining a lot of things that
+other resources will just assume that you know.</p>
+<p>intermezzOS is implemented in <a href="https://www.rust-lang.org/">Rust</a>, and some
+assembly code. We’ll try to explain Rust along the way, but may refer you to
+its documentation when things get tricky. This book isn’t <em>really</em> about
+learning Rust, but you might accidentally along the way.</p>
+<p>You can find all of this stuff <a href="https://github.com/intermezzOS/">on GitHub</a>.
+This book is in the <code>book</code> repository, the kernel is in <code>kernel</code>, and the
+website is there too. Feel free to open issues if you want to discuss things
+in a general sense, and send bug reports and PRs to the appropriate repos if
+you’d like to help with a particular component.</p>
+<a class="header" href="print.html#the-story" id="the-story"><h2>The Story</h2></a>
+<p>A long time ago, in college, my friends and I were working on a hobby operating
+system, <a href="http://xomb.org">XOmB</a>. It was... tough. Frankly, while I learned a
+lot, I was a pretty minor contributor. I got frustrated too easily. One day, I
+found Ruby, and I was pretty much done with low-level programming. I had done
+it most of my life, and I was bored. Bored, and sick of dealing with core
+dumps.</p>
+<p>Those details aren’t that important. What is important is that over the years,
+I’ve always wanted to get back into this stuff. But the problem is this: there
+are a lot of people who do hobby operating system work, but... I don’t like
+their attitudes.</p>
+<p>You see, a lot of people see low-level programming as some kind of superior,
+only-for-the-smartest kind of thing. They have a puritanical world-view: “I
+suffered to learn this, so you too must suffer to build character.” I think
+that’s short sighted. Low level programming <em>is</em> difficult to get into, but
+that says more about the teachers’ faults than the students’.</p>
+<p>Anyway, as my professional life has moved back towards the low level, I’ve been
+thinking about this topic a lot again. That’s when I found an awesome link:
+<a href="http://os.phil-opp.com/">Writing an OS in Rust by Philipp Oppermann</a>. I cannot speak enough
+about how awesome Phil’s tutorial is; it single-handedly inspired me to get
+back into operating systems.</p>
+<p>The big difference with Phil’s tutorial is that it doesn’t treat you as being
+stupid for not knowing ‘the basics’. It doesn’t say “spend hours debugging this
+thing, because I did.” It doesn’t insult you for being new. It just explains
+the basics of a kernel.</p>
+<p>It’s amazing how much a little bit of a framing can completely change the way
+you see something. When the examples I found were all about how you have to be
+an amazing rockstar ninja and we won’t give you all the code because you suck
+if you can’t figure it out, I hated this stuff. When it was kind,
+understanding, and helpful, I couldn’t get enough.</p>
+<p>Once I got to a certain part in Phil’s tutorial, I started implementing stuff
+myself. A lot of the initial code here is going to be similar to Phil’s.
+But I’m going to write about it anyway. There’s a good reason for that:</p>
+<blockquote>
+<p>Writing is nature’s way of showing us how sloppy our thinking is.</p>
+<ul>
+<li>Leslie Lamport</li>
+</ul>
+</blockquote>
+<p>By re-explaining things in my own words, I hope to understand it even better.
+This is just a perpetual theme with me: I like teaching because it helps me
+learn. I like writing because it helps me understand.</p>
+<p>We'll be using a tool Phil developed called <code>bootimage</code>, and we'll explain
+similar concepts, but with different code and in different ways, and in a
+different order.</p>
+<p>Furthermore, I will not commit to any kind of schedule for this project. It’s
+going to be in my spare time, and I’m learning a lot of this as I go, too.</p>
+<a class="header" href="print.html#the-name" id="the-name"><h2>The Name</h2></a>
+<blockquote>
+<p>The nomad has a territory; he follows customary paths; he goes from one point
+to another; he is not ignorant of points (water points, dwelling points,
+assembly points, etc.). But the question is what in nomad life is a principle
+and what is only a consequence. To begin with, although the points determine
+paths, they are strictly subordinated to the paths they determine, the
+reverse happens with the sedentary. The water point is reached only in order
+to be left behind; every point is a relay and exists only as a relay. A path
+is always between two points, but the in-between has taken on all the
+consistency and enjoys both an autonomy and a direction of its own. The life
+of the nomad is the intermezzo.</p>
+<p>Deleuze and Guattari, “A Thousand Plateaus”, p380</p>
+</blockquote>
+<p>If you’re not into particular kinds of philosophy, this quote won’t mean a lot.
+Let’s look at the dictionary definition:</p>
+<blockquote>
+<p>An intermezzo, in the most general sense, is a composition which fits between
+other musical or dramatic entities, such as acts of a play or movements of a
+larger musical work.</p>
+<p><a href="https://en.wikipedia.org/wiki/Intermezzo">https://en.wikipedia.org/wiki/Intermezzo</a></p>
+</blockquote>
+<p>I want this project to be about learning. Learning is often referred to as a
+journey. You start off in ignorance and end in knowledge. In other words,
+‘learning’ is that part in the middle, the in-between state.</p>
+<p>The tricky thing about learning is, you never stop learning. Once you learn
+something, there’s something new to learn, and you’re on a journey again.</p>
+<p>If you want to learn a lot, then you’ll find yourself perpetually in the
+middle.</p>
+<p>There is another sense by which this name makes sense: as we’ll learn in the
+beginning of the book, operating systems are largely about abstractions. And
+abstractions are themselves ‘in the middle’, between what they’re abstracting
+and who they are abstracting it for.</p>
+<a class="header" href="print.html#principles" id="principles"><h2>Principles</h2></a>
+<p>Here are the guiding principles of intermezzOS:</p>
+<ul>
+<li>We’re all actual people. Please treat each other as such.</li>
+<li>We’re all here to learn. Let’s help each other learn, rather than being some
+kind of vanguard of knowledge.</li>
+<li>The only thing that matters about your language background is the amount you
+may have to learn.</li>
+<li>Everything must be documented, or it’s not done.</li>
+</ul>
+<p>And of course, everything related to this project is under the <a href="http://intermezzos.github.io/code-of-conduct.html">Code of
+Conduct</a>.</p>
+<a class="header" href="print.html#background" id="background"><h1>Background</h1></a>
+<p>Before we get going, we should probably have some idea of where we’re headed.</p>
+<a class="header" href="print.html#what-is-an-os" id="what-is-an-os"><h1>What is an OS?</h1></a>
+<p>It’s actually kind of difficult to define what an operating system is. There
+are a lot of different kinds of operating systems, and they all do different
+kinds of things.</p>
+<p>Some things are commonly bundled with operating systems, but are arguably not
+part of the essence of what makes an OS an OS. For example, many operating
+systems are often marketed as coming equipped with a web browser or email
+client. Are web browsers and email clients essential to operating systems?
+Many would argue the answer is no.</p>
+<p>There are some shared goals we can find among all operating systems, however.
+Let’s try this out as a working definition:</p>
+<blockquote>
+<p>An operating system is a program that provides a platform for other
+programs. It provides two things to these programs: abstractions and
+isolation.</p>
+</blockquote>
+<p>This is good enough for now. Let’s consider this a test for inclusion,
+but not exclusion. In other words, things that fit this definition
+<em>are</em> operating systems, but things that don’t may or may not be,
+we don’t quite know.</p>
+<a class="header" href="print.html#creating-abstractions" id="creating-abstractions"><h2>Creating abstractions</h2></a>
+<p>There are many reasons to create a platform for other programs, but a
+common one for operating systems is to abstract over hardware.</p>
+<p>Consider a program, running on some hardware:</p>
+<p><img alt="program on hardware" class="center" src="assets/program_hardware.png" /></p>
+<p>This program will need to know <em>exactly</em> about what kind of hardware exists.
+If you want to run it on a different computer, it will have to know exactly
+about that computer too. And if you want to write a second program, you’ll
+have to re-write a bunch of code for interacting with the hardware.</p>
+<blockquote>
+<p>All problems in computer science can be solved by another level of
+indirection.</p>
+<ul>
+<li>David Wheeler</li>
+</ul>
+</blockquote>
+<p>To solve this problem, we can introduce an abstraction:</p>
+<p><img alt="program on os on hardware" class="center" src="assets/program_os_hardware.png" /></p>
+<p>Now, the operating system can handle the details of the hardware, and provide
+an API for it. A program can be written for that operating system’s API, and
+can then run on any hardware that the operating system supports.</p>
+<p>At some point, though, we developed many operating systems. Since operating
+systems are platforms, most people pick one and have only that one on their
+computer. So now we have a problem that looks the same, but is a bit
+different: our program is now specific to an OS, rather than specific to
+a particular bit of hardware.</p>
+<p>To solve this, some programming languages have a ‘virtual machine.’ This
+was a big selling point of Java, for example: the Java Virtual Machine.
+The idea here is that we create a <em>virtual</em> machine on top of the <em>real</em>
+machine.</p>
+<p><img alt="program on vm " class="center" src="assets/program_vm_os_hardware.png" /></p>
+<p>Now, you write programs for the Java Virtual Machine, which is then ported
+to each operating system, which is then ported to all the hardware. Whew!</p>
+<p>This, of course, leads to the corollary to the previous maxim:</p>
+<blockquote>
+<p>...except for the problem of too many layers of indirection.</p>
+<ul>
+<li>Kevlin Henney</li>
+</ul>
+</blockquote>
+<p>We now have a pattern:</p>
+<ul>
+<li>I have <code>A</code>.</li>
+<li><code>A</code> is written explicitly for <code>X</code>...</li>
+<li>... but I want to support <code>X</code> and <code>Y</code>,</li>
+<li>so I put abstraction <code>B</code> in the middle.</li>
+</ul>
+<p>We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
+are always in the middle.</p>
+<a class="header" href="print.html#isolation" id="isolation"><h2>Isolation</h2></a>
+<p>Many of the abstractions provided are, as we discussed, abstractions over
+hardware. And hardware often has a pretty serious restriction: only one
+program can access the hardware at a time. So if our operating system is going
+to be able to run multiple programs, which is a common feature of many
+operating systems, we’ll also need to make sure that multiple programs cannot
+access hardware at the same time.</p>
+<p>This really applies to more than just hardware though: it also applies to
+shared resources (e.g. memory). Once we have two programs, it would
+be ideal to not let them mess with each other. Consider any sort of program that
+deals with your password: if programs could mess with each other’s memory
+and code, then a program could trivially steal your password from another program!</p>
+<p>This is just one symptom of a general problem. It’s much better to isolate
+programs from each other, for a number of different reasons. For now, we’ll
+just consider isolation as one of our important jobs, as OS authors.</p>
+<a class="header" href="print.html#wait-a-minute" id="wait-a-minute"><h3>Wait a minute...</h3></a>
+<p>Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
+just a poor abstraction? In other words, if we had an abstraction where we
+could interact with other things being abstracted... isn’t that just a bad job
+of doing the abstraction? And in that sense, is the only thing an operating
+system does abstraction? Is the only thing everything does abstraction?</p>
+<p>I don’t have answers for you. If you figure it out, let me know...</p>
+<a class="header" href="print.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
+<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
+The core component is called a ‘kernel’. The non-kernel bits of an operating system
+are collectively called a ‘userland’. Typically a kernel has more direct access to the
+machine than a userland and thus acts somewhat like a super user (with powers that even
+‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
+So, as OS developers, when we categorize operating systems, we tend to categorize them
+by what kinds of kernel they have.</p>
+<blockquote>
+<p><strong>By the way...</strong></p>
+<p>Although you may be used to hearing the term ‘Linux’ used as a name for an
+operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
+That’s because virtually all Linux distributions today use a Linux kernel + a
+GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
+the credit. By the same token, a lot of people say ‘the kernel’ when they mean
+‘the Linux kernel.’ This gets an entirely different set of people mad.</p>
+</blockquote>
+<p>At the start, our ‘operating system’ will be just the kernel, and so we’ll tend
+to focus on kernels for the first part of our journey.</p>
+<p>The way that we categorize different kernels largely comes down to “what is in
+the kernel and what is in userspace.” Upon reading this, you might then think
+the easiest kind of kernel to write is the smallest, where everything is in
+userspace. After all, smaller should be easier, right? Well... that’s not
+actually true. Or at least, it’s not clear that it’s true.</p>
+<a class="header" href="print.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
+<p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
+Most real-world kernels are monolithic kernels, or at least, pretend to be.
+Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
+<p>This means that monolithic kernels are kind of ‘the default’. Other kernels
+usually define themselves by solving some kind of problem that monolithic
+kernels have.</p>
+<p>If a monolithic kernel were a web application, it would be a big ol’ Rails
+application. One repository. A million subdirectories. It may be a big ball
+of mud, but it pays the bills.</p>
+<a class="header" href="print.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
+<p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
+the kernel is in userspace instead. This is a good idea in theory, but
+historically, microkernels have had issues. All that communication has
+overhead, which makes them slower.</p>
+<p>Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
+up being one, but Mac OS X uses a version of Mach from before that work was
+done... so it’s a bit blurry.</p>
+<p>If a microkernel were a web application, it would be a microservice. And a
+bunch of the other stuff that’s in kernel space in a monolithic kernel are
+other microservices, but in userspace instead. It’s a bit cooler than a single
+monolithic web app by itself, and the communication is nice for flexibility’s
+sake, but has some overhead.</p>
+<a class="header" href="print.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
+<p>These two kinds of operating systems are closely related, but it’s a bit harder
+to dig into what exactly makes them different. Unikernels have one
+easy-to-describe feature: they only run one single program at a time.
+Exokernels are ‘more micro than micro’, but the details aren’t important right
+now.</p>
+<p>The important thing to know here is that there are a lot of other kinds of
+designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
+<a class="header" href="print.html#what-kind-are-we-making" id="what-kind-are-we-making"><h1>What kind are we making?</h1></a>
+<p>So, given all these kinds of operating systems, what kind are we making?</p>
+<p>The answer is “it doesn’t even matter at first.” There’s some commonality in
+almost all of these styles of operating systems, and we have to get all that
+done before we even make those decisions.</p>
+<p>Secondly, we could waste a <em>lot</em> of time trying to design our perfect OS. And
+then never actually build it. Remember, the goal here is <em>to learn</em>, not <em>to
+make the best OS that ever existed</em>. So really, what it ends up looking like
+just doesn’t really matter at all. Most hobby operating system projects die
+quite young.</p>
+<p>Let’s focus on the <em>doing</em>, and less on the categorization, planning, and
+being. A nice thing about operating systems is that there’s a lot of freedom of
+direction. To tie it back into the example earlier, Phil’s tutorial starts
+going into memory-management after getting printing to the screen going. We’ll
+be going into keyboards first instead. There are, of course, some dependencies,
+but there’s also a lot of freedom.</p>
+<a class="header" href="print.html#what-tools-will-we-use" id="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
+<p>Before we can make a kernel, we need to figure out the tools we’re going to
+use. The first question, of course, is what programming language?</p>
+<p>In our case, we’re going to use two. The first one is the language that
+<em>every</em> kernel must use: assembly language.</p>
+<a class="header" href="print.html#assembly" id="assembly"><h2>Assembly</h2></a>
+<p>Assembly language gives us direct access to a specific machine. If the basis of
+computer science is abstraction, the very bottom of the software abstraction layer
+is assembly. Below it lies only hardware and physics.</p>
+<p>There are many kinds of assembly languages each targeted at different
+‘instruction set’ architectures (also known as ISA or simply as instruction sets).
+These instruction sets are the list of commands that a given CPU can understand. For
+example, if your computer has an Intel Pentium processor of some kind then it
+understands the x86 instruction set. So if you were to write assembly for another
+instruction set (say MIPS or ARM), you would not be able to run it on your computer.</p>
+<p>This is one of the reasons we'll want to get away from the assembly world as
+fast as possible. If we want our kernel to work for a bunch of different
+architectures, any code we end up writing in assembly will need to be duplicated.
+However, if we use a more high-level language like C, C++ or the language we'll
+really be using, Rust, we can write the code once and cross-compile
+to different architectures.</p>
+<p>Assembly language looks like this:</p>
+<pre><code class="language-x86asm">; foo.asm
+
+section .data
+global _start
+
+_start:
+    mov rax, 0
+loop:
+    add rax, 1
+    cmp rax, 10
+    jne loop
+
+    mov rbx, rax
+    mov rax, 1
+    int 80h
+</code></pre>
+<p>This is a little program in assembly language. If it looks totally alien to you,
+don't worry. While we could write our entire kernel in assembly, we'll only be
+learning as much assembly as we need to not have to use it any more.</p>
+<p>When you write assembly language you are actually directly manipulating the
+individual registers of the CPU and memory inside of RAM and other hardware
+devices like CD drives or display screens.</p>
+<blockquote>
+<p><strong>By the way...</strong></p>
+<p>CPUs are composed of registers each of which can only hold small amounts of data.
+The amount of data a register can hold dictates what type of CPU the register
+belongs to. If you didn't know why your machine is classified as either 32 bit
+or 64 bit it's because the machine's registers can either hold 32 bits of data at a
+time or 64 bits at a time.</p>
+</blockquote>
+<p>In assembly we can only do very simple things: move data between registers or
+to/from RAM; perform simple arithmetic like addition, subtraction, multiplication
+and division; compare values in different registers, and based on these comparisons
+jump to different points in our code (à la GOTO). Fancy high level concepts
+like while loops and if statements, let alone garbage collection are nowhere to be
+found. Even functions as you know them aren't really supported in assembly.
+Each assembly program is just a bunch of data in registers or in memory and a
+list of instructions, carried out one after the other.</p>
+<p>For instance, in our code above we used the <code>mov</code> instruction several times to
+move values into specific registers with weird names like <code>rax</code> and <code>rbx</code>. We
+used the <code>cmp</code> instruction to compare the value inside of the <code>rax</code> register
+with the number <code>10</code>. We used the <code>jne</code> instruction to jump to another part of
+our code if the numbers we just compared were not equal. Finally we used the <code>int</code>
+instruction to trigger a hardware <em>int</em>errupt.</p>
+<p>Again, you don't need to fully understand this program at this point. Right now
+you should just have an impression for how assembly is composed of simple
+instructions that do very simple things.</p>
+<p>When it comes time to write some actual assembly code we'll touch on all this again.</p>
+<p>Let's run this little program:</p>
+<pre><code class="language-bash">$ nasm -f elf64 foo.asm # assemble into foo.o
+$ ld foo.o              # link into a.out
+$ ./a.out               # run it
+$ echo $?               # print out the exit code
+10
+$
+</code></pre>
+<p>Don't worry too much about what programs we're using to actually compile (or
+‘assemble’ as it's known in the assembly world) our program. We'll be going
+over each one of these commands and explaining what they are and how to use
+them.</p>
+<a class="header" href="print.html#rust" id="rust"><h2>Rust</h2></a>
+<p>We will augment our assembly with code written in
+<a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to
+Rust-land as quickly as we possibly can. Rust is a really great programming
+language, and it’s pretty great for writing operating systems. It has some
+rough edges, but they’re not too big of a deal.</p>
+<p>Rust will allow us to write:</p>
+<pre><pre class="playpen"><code class="language-rust should_panic">// foo.rs
+
+use std::process;
+
+fn main() {
+    let mut a = 0;
+
+    for _ in 0..10 {
+        a = a + 1;
+    }
+
+    process::exit(a);
+}
+</code></pre></pre>
+<p>This does the same thing as our assembly code:</p>
+<pre><code class="language-bash">$ rustc foo.rs # compile our Rust code to foo
+$ ./foo        # run it
+$ echo $?      # print out the exit code
+10
+$
+</code></pre>
+<p>That Rust code probably looks more like a programming language you’ve used in
+the past. It’s a lot nicer to write complex things in a higher-level
+programming language like Rust. That said, virtually all languages are
+higher-level than assembly, so that’s not saying all that much. Rust is still a
+low-level language by many standards.</p>
+<p>So why choose Rust? Well, I’m picking it for two reasons:</p>
+<ol>
+<li>I love it.</li>
+<li>There aren’t a lot of kernels in it yet.</li>
+</ol>
+<p>There are a suprising number of people working on kernels in Rust. But since
+it’s a newer language, there aren’t nearly as many as for older, more
+established languages.</p>
+<a class="header" href="print.html#do-i-need-to-be-a-wizard" id="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
+<p>No, you do not. A common theme of this project is “this is all we’ll need to
+know about this topic for now.” There’s no reason that you need to absolutely
+master everything before going forward. For example, in order to get Rust
+going, we need only about 100 lines of assembly, as mentioned above. Do you
+need to be a complete expert in assembly language to understand those well
+enough to keep going? Not at all. Will learning more about it help? Absolutely!</p>
+<p>There’s nobody that’s monitoring your credentials to see if you’re allowed to
+move on. Do it at your own pace. Skip stuff. Come back when you don’t
+understand what’s going on. Try it, wait a week, and then try it again.</p>
+<p>There’s no wrong way to do this stuff, including by being a beginner. Everyone
+was once. Don’t let anyone discourage you.</p>
+<a class="header" href="print.html#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
+<p>Frankly, one of the hardest parts of starting an operating system is getting a
+development environment going. Normally, you’re doing work on the same
+operating system you’re developing for, and we don’t have that luxury. Yet!</p>
+<p>There is a convention called a ‘target triple’ to describe a particular
+platform. It’s a ‘triple’ because it has three parts:</p>
+<pre><code class="language-text">arch-kernel-userland
+</code></pre>
+<p>So, a target triple for a computer which has an x86-64 bit processor running a
+Linux kernel and the GNU userland would look like this:</p>
+<pre><code class="language-text">x86_64-linux-gnu
+</code></pre>
+<p>However, it can also be useful to know the operating system as well, and so
+the ‘triple’ part can be extended to include it:</p>
+<pre><code class="language-text">x86_64-unknown-linux-gnu
+</code></pre>
+<p>This is for some unknown Linux. If we were targeting Debian specifically, it
+would be:</p>
+<pre><code class="language-text">x86_64-debian-linux-gnu
+</code></pre>
+<p>Since it’s four parts, it’s called a ‘target’ rather than a ‘target triple’,
+but you’ll still hear some people call it a triple anyway.</p>
+<p>Kernels themselves don’t need to be for a specific userland, and so you’ll
+see ‘none’ get used:</p>
+<pre><code class="language-text">x86_64-unknown-none
+</code></pre>
+<a class="header" href="print.html#hosts--targets" id="hosts--targets"><h2>Hosts &amp; Targets</h2></a>
+<p>The reason that they’re called a ‘target’ is that it’s the architecture you’re
+compiling <em>to</em>. The architecture you’re compiling <em>from</em> is called the ‘host
+architecture’.</p>
+<p>If the target and the host are the same, we call it ‘compiling’. If they are
+different, we call it ‘cross-compiling’. So you’ll see people say things like</p>
+<blockquote>
+<p>I cross-compiled from x86_64-linux-gnu to x86-unknown-none.</p>
+</blockquote>
+<p>This means that the computer that the developer was using was a 64-bit
+GNU/Linux machine, but the final binary was for a 32-bit x86 machine with no
+OS.</p>
+<p>So we need a slightly special environment to build our OS: we need to
+cross-compile from whatever kind of computer we are using to our new target.</p>
+<a class="header" href="print.html#cheat-codes" id="cheat-codes"><h2>Cheat codes</h2></a>
+<p>... but we can also cheat. It’s okay to cheat. Well, in this case, it’s really
+only okay at the start. We’ll eventually <em>have</em> to cross-compile, or things
+will go wrong.</p>
+<p>Here’s the cheat: if you are developing on an x86_64 Linux machine, and you’re
+not using any special Linux kernel features, then the difference between
+<code>x86_64-linux-gnu</code> and <code>x86_64-unknown-none</code> is really just theoretical. It
+will still technically <em>work</em>. For now.</p>
+<p>This is a common pitfall with new operating system developers. They’ll start
+off with the cheat, and it will come back to haunt them later. Don’t worry;
+I will actually show you how to fix things before they go wrong. Knowing the
+difference here is still useful.</p>
+<a class="header" href="print.html#installing-rust" id="installing-rust"><h2>Installing Rust</h2></a>
+<p>First, you need to get a copy of Rust! There's one catch though: you'll need to
+get <em>exactly</em> the correct version of Rust. Unfortunately, for OS development,
+we need to take advantage of some cutting-edge features that aren't yet stable.</p>
+<p>Luckily, the Rust project has a tool that makes it easy to switch between Rust
+versions: <code>rustup</code>. You can get it from the <a href="http://rust-lang.org/install.html">install
+page</a> of the Rust website.</p>
+<p>By default, <code>rustup</code> uses stable Rust. So let's tell it to install nightly:</p>
+<pre><code class="language-bash">$ rustup update nightly
+</code></pre>
+<p>This installs the current version of nightly Rust. We run all of the examples
+in this book under continuous integration, so we should know if something
+changes in nightly Rust and breaks. But please <a href="https://github.com/intermezzOS/book/issues/new">file bugs</a> if something doesn't
+work.</p>
+<p>Because nightly Rust includes unstable features, you shouldn't use it unless
+you really need to, which is why <code>rustup</code> allows you to override the default
+version only when you're in a particular directory. We don't have a directory
+for our project yet, so let's create one:</p>
+<pre><code class="language-bash">$ mkdir intermezzOS
+$ cd intermezzOS
+</code></pre>
+<p>A fun way to follow along is to pick a different name for your kernel, and
+then change it as we go. Call your kernel whatever you want. intermezzOS was
+almost called ‘Nucleus’, until I found out that there’s already a kernel with
+that name that’s installed on billions of embedded devices. Whoops!</p>
+<p>Inside your project directory, set up the override:</p>
+<pre><code class="language-bash">$ rustup override add nightly
+</code></pre>
+<p>Nice and easy. We can't get the version wrong; <code>rustup</code> handles it for us.</p>
 
                     </main>
 
