@@ -315,10 +315,15 @@ start:
 <p>Lower case <code>e</code> is <code>65</code> in ASCII, at least, in hexadecimal. And <code>02</code> is our same
 color code. But you’ll notice that the memory location is different.</p>
 <p>Okay, so we copied four hexadecimal digits into memory, right? For our <code>H</code>.
-<code>0248</code>. A hexadecimal digit has sixteen values, which is 4 bits, so two of them
-make 8 bits, i.e. one byte. We copied one byte for the colors, <code>02</code>, and one for
-the letter, <code>48</code>, so that's two bytes. Hence, if our first memory position is at
-<code>0</code>, the second letter will start at <code>2</code>.</p>
+<code>0248</code>. A hexadecimal digit has sixteen values, which is 4 bits (for example, <code>0xf</code>
+would be represented in bits as <code>1111</code>). Two of them make 8 bits, i.e. one byte.
+Since we need half a word for the colors (<code>02</code>), and half a word for the <code>H</code> (<code>48</code>),
+that’s one word in total (or two bytes). Each place that the memory address points
+to can hold one byte (a.k.a. 8 bits or half a word). Hence, if our first memory
+position is at <code>0</code>, the second letter will start at <code>2</code>.</p>
+<blockquote>
+<p>You might be wondering, &quot;If we're in 32 bit mode, isn't a word 32 bits?&quot; since sometimes ‘word’ is used to talk about native CPU register size. Well, the ‘word’ keyword in the context of x86_64 assembly specifically refers to 2 bytes, or 16 bits of data.  This is for reasons of backwards compatibility.</p>
+</blockquote>
 <p>This math gets easier the more often you do it. And we won’t be doing <em>that</em> much
 more of it. There is a lot of working with hex numbers in operating systems work,
 so you’ll get better as we practice.</p>
