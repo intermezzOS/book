@@ -5,7 +5,7 @@ set -o errexit -o nounset
 rev=$(git rev-parse --short HEAD)
 
 # assemble the output
-mkdir -p output
+mkdir -p output/{first-edition,second-edition}
 
 cp index.html output/index.html
 
