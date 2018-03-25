@@ -15,6 +15,11 @@ You also can download Rust [here][1].
 $ git clone git@github.com:intermezzOS/book.git intermezzOS/book
 $ cd intermezzOS/book
 $ cargo install mdbook
+```
+
+Then, inside the `first-edition` or `second-edition` directories, run this:
+
+```
 $ mdbook build
 ```
 
