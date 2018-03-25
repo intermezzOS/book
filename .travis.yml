@@ -1,16 +1,25 @@
 language: rust
+
 sudo: false
+
 cache:
   - cargo
+
 rust:
   - stable
+
 before_script:
-  - cargo install mdbook
+  - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+  - (test -x $HOME/.cargo/bin/mdbook || cargo install mdbook)
+  - cargo install-update -a
+
 script:
-  - PATH=$PATH:/home/travis/.cargo/bin cd first-edition && mdbook build
-  - PATH=$PATH:/home/travis/.cargo/bin cd ../second-edition && mdbook build
+  - cd first-edition && mdbook build
+  - cd ../second-edition && mdbook build
+
 after_success:
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && cd .. && bash deploy.sh
+
 env:
   global:
     secure: "PBPp9uilUCXyj5h/Yt7Edyk40AUJzC+usmYGUa+iAq5K1MrRtS+zp9pnmtreYXmZz4h3UQsx6BnRkG9O2FdUPKl1SGB304mUE8ulNI399RmCQ00fU88czgtbeckxYENXAHlMPkEG+dF4KHRjbFPa4k7bVbabsuyt9gnt8GSdUyhIIIZF8Q7om6/XZMQ7SVpxA0w1izkAaKlJ3pm0VOXFe8mzss2DTVHvoNU8ICDIKn2L7gm6jmNoeLVG1L4MuE1wWrL3MZKIzqYF1Xi3nP65/vF9zgjNdAjTZFRl/VZv/IKqWHsl4W2S3CXWW/I8RSS0s98N8VMxzwOCUDPME77DRbs7/Jr+uQHtlnSjZf5LsAW/Y4bH9VrMwY9dC/bbjkgn7hJhMynSvhFnwmxwOHWlckRLwkesr1tk4Td9zbj8ojqE1Rjbdm/LTD+IROQy4QC8FnL+02t5gUVvRgICdZyirFYJQIa9E26pV3HbMtuIJ5YDtAdykQIctxw+S86Y8qzj9fuxCA3P5t8vUZRFISbugqi1QgtasA7sNmqlIrpFYobN2ZEBe+HVfnoWf3jqeQiJ+bfX1AtxP3jJYpFyGsRL9LOHgK+g6MPV1LelvwZ/ofTY2wqP7Wd5vyzrqOtrrN9OdwwY4yIL4QGZdmTygNZ7WacbQFv0SlUrEMuQX38vgU8="
