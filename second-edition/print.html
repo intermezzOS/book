@@ -87,7 +87,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li></ol></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -562,87 +562,118 @@ move on. Do it at your own pace. Skip stuff. Come back when you don’t
 understand what’s going on. Try it, wait a week, and then try it again.</p>
 <p>There’s no wrong way to do this stuff, including by being a beginner. Everyone
 was once. Don’t let anyone discourage you.</p>
+<a class="header" href="print.html#from-zero-to-hello-world" id="from-zero-to-hello-world"><h1>From Zero to &quot;Hello, world!&quot;</h1></a>
+<p>A &quot;hello world&quot; program is traditional amongst programmers as your first program. This dates back
+to 1972, in the &quot;Tutorial Introduction to the Language B&quot;, a language that proceeded C. A &quot;hello world&quot;
+program does nothing other than print out the words &quot;hello, world&quot; to the screen. While it's fun to
+participate in traditions, it also serves a practical purpose: if you can get this simple program
+working, you know that you've installed everything correctly, you've got your build set up, and that
+everything is working.</p>
+<p>In this chapter, we'll:</p>
+<ul>
+<li>Set up a development environment</li>
+<li>Get everything building</li>
+<li>Boot up our OS and print &quot;Hello world&quot; to the screen</li>
+</ul>
+<p>Let's get started!</p>
 <a class="header" href="print.html#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
-<p>Frankly, one of the hardest parts of starting an operating system is getting a
-development environment going. Normally, you’re doing work on the same
-operating system you’re developing for, and we don’t have that luxury. Yet!</p>
-<p>There is a convention called a ‘target triple’ to describe a particular
-platform. It’s a ‘triple’ because it has three parts:</p>
-<pre><code class="language-text">arch-kernel-userland
+<p>Traditionally, getting a development environment set up for working on an
+operating system is really hard. However, we have it pretty easy! We'll be
+using the <a href="https://www.rust-lang.org/">Rust programming language</a> to develop our kernel, and thanks to
+some awesome work by the language developers, as well as the homebrew Rust
+operating system community, getting our environment set up is really easy.</p>
+<p>To get going, you'll need a few tools:</p>
+<ul>
+<li>An editor or IDE to write the source code</li>
+<li>A compiler and other tools to turn that source code into binary code</li>
+<li>A virtual machine to try our OS out without installing it on our computer</li>
+<li>A project directory to do develop in</li>
+</ul>
+<p>You can get all of these tools working on Windows, macOS, and Linux. Other
+operating systems may work, but we've only tried this on these systems. This
+section is the only one with OS-specific instructions; from here on out,
+everything will be identical.</p>
+<a class="header" href="print.html#an-editor-or-ide" id="an-editor-or-ide"><h2>An editor or IDE</h2></a>
+<p>This is needed, but is also largely a personal choice. You can use whatever
+you'd like here, and that's 100% fine.</p>
+<p>If you're not sure what to use, I do have two recommendations though. If
+you prefer text editiors, give <a href="https://code.visualstudio.com/">Visual Studio: Code</a> a try. It's fairly
+light-weight, but also has some nice features, and a great Rust plugin
+provided by the Rust team.</p>
+<p>If you prefer IDEs, I'd suggest <a href="https://www.jetbrains.com/clion/">Clion</a> with the Rust plugin. JetBrains
+makes a suite of IDEs for a ton of languages, and their Rust support is
+solid!</p>
+<p>Really, anything works though: I use both of the above, and also <code>vim</code> at
+times. It's just not a huge deal.</p>
+<a class="header" href="print.html#the-compiler-and-other-tools" id="the-compiler-and-other-tools"><h2>The compiler and other tools</h2></a>
+<p>Next, we need to get the Rust compiler installed. To do that, head to
+<a href="https://www.rust-lang.org/en-US/install.html">Rust's install page</a> and follow the instructions. You can also install
+Rust another way if you'd prefer, such as from your system's package
+manager, but through the website is generally easiest.</p>
+<p>This will give you a tool called <code>rustup</code>, used to manage versions of
+<code>rustc</code>, the Rust compiler, and Cargo, the package manager and
+build tool. To check that this was installed properly, run these
+three commands and check that you get some output:</p>
+<pre><code class="language-bash">$ rustup --version
+$ rustc --version
+$ cargo --version
 </code></pre>
-<p>So, a target triple for a computer which has an x86-64 bit processor running a
-Linux kernel and the GNU userland would look like this:</p>
-<pre><code class="language-text">x86_64-linux-gnu
-</code></pre>
-<p>However, it can also be useful to know the operating system as well, and so
-the ‘triple’ part can be extended to include it:</p>
-<pre><code class="language-text">x86_64-unknown-linux-gnu
-</code></pre>
-<p>This is for some unknown Linux. If we were targeting Debian specifically, it
-would be:</p>
-<pre><code class="language-text">x86_64-debian-linux-gnu
-</code></pre>
-<p>Since it’s four parts, it’s called a ‘target’ rather than a ‘target triple’,
-but you’ll still hear some people call it a triple anyway.</p>
-<p>Kernels themselves don’t need to be for a specific userland, and so you’ll
-see ‘none’ get used:</p>
-<pre><code class="language-text">x86_64-unknown-none
-</code></pre>
-<a class="header" href="print.html#hosts--targets" id="hosts--targets"><h2>Hosts &amp; Targets</h2></a>
-<p>The reason that they’re called a ‘target’ is that it’s the architecture you’re
-compiling <em>to</em>. The architecture you’re compiling <em>from</em> is called the ‘host
-architecture’.</p>
-<p>If the target and the host are the same, we call it ‘compiling’. If they are
-different, we call it ‘cross-compiling’. So you’ll see people say things like</p>
-<blockquote>
-<p>I cross-compiled from x86_64-linux-gnu to x86-unknown-none.</p>
-</blockquote>
-<p>This means that the computer that the developer was using was a 64-bit
-GNU/Linux machine, but the final binary was for a 32-bit x86 machine with no
-OS.</p>
-<p>So we need a slightly special environment to build our OS: we need to
-cross-compile from whatever kind of computer we are using to our new target.</p>
-<a class="header" href="print.html#cheat-codes" id="cheat-codes"><h2>Cheat codes</h2></a>
-<p>... but we can also cheat. It’s okay to cheat. Well, in this case, it’s really
-only okay at the start. We’ll eventually <em>have</em> to cross-compile, or things
-will go wrong.</p>
-<p>Here’s the cheat: if you are developing on an x86_64 Linux machine, and you’re
-not using any special Linux kernel features, then the difference between
-<code>x86_64-linux-gnu</code> and <code>x86_64-unknown-none</code> is really just theoretical. It
-will still technically <em>work</em>. For now.</p>
-<p>This is a common pitfall with new operating system developers. They’ll start
-off with the cheat, and it will come back to haunt them later. Don’t worry;
-I will actually show you how to fix things before they go wrong. Knowing the
-difference here is still useful.</p>
-<a class="header" href="print.html#installing-rust" id="installing-rust"><h2>Installing Rust</h2></a>
-<p>First, you need to get a copy of Rust! There's one catch though: you'll need to
-get <em>exactly</em> the correct version of Rust. Unfortunately, for OS development,
-we need to take advantage of some cutting-edge features that aren't yet stable.</p>
-<p>Luckily, the Rust project has a tool that makes it easy to switch between Rust
-versions: <code>rustup</code>. You can get it from the <a href="http://rust-lang.org/install.html">install
-page</a> of the Rust website.</p>
-<p>By default, <code>rustup</code> uses stable Rust. So let's tell it to install nightly:</p>
+<p>If you do, everything's good!</p>
+<a class="header" href="print.html#stable-vs-nightly-rust" id="stable-vs-nightly-rust"><h3>Stable vs. Nightly Rust</h3></a>
+<p>One of the reasons that it's easiest is that you can't use any version
+of Rust to develop OSes; you need &quot;nightly&quot; Rust. Basically, Rust comes
+in different flavors, and in order to develop operating systems, we need
+to use some experimental, cutting-edge features. As such, we can't use
+the stable Rust distribution, we need the nightly one.</p>
+<p>To install nightly, do this:</p>
 <pre><code class="language-bash">$ rustup update nightly
 </code></pre>
-<p>This installs the current version of nightly Rust. We run all of the examples
-in this book under continuous integration, so we should know if something
-changes in nightly Rust and breaks. But please <a href="https://github.com/intermezzOS/book/issues/new">file bugs</a> if something doesn't
-work.</p>
-<p>Because nightly Rust includes unstable features, you shouldn't use it unless
-you really need to, which is why <code>rustup</code> allows you to override the default
-version only when you're in a particular directory. We don't have a directory
-for our project yet, so let's create one:</p>
-<pre><code class="language-bash">$ mkdir intermezzOS
-$ cd intermezzOS
+<p>This will download and install the nightly toolchain. We'll configure the
+use of this toolchain automatically in the next section.</p>
+<a class="header" href="print.html#other-tools" id="other-tools"><h3>Other tools</h3></a>
+<p>We need to install two more tools for building our OS. The first is
+called <code>bootimage</code>, and its job is to take our kernel and produce a file
+that our virtual machine (discussed in the next section) knows how to
+run. To install it:</p>
+<pre><code class="language-bash">$ cargo install bootimage
 </code></pre>
-<p>A fun way to follow along is to pick a different name for your kernel, and
-then change it as we go. Call your kernel whatever you want. intermezzOS was
-almost called ‘Nucleus’, until I found out that there’s already a kernel with
-that name that’s installed on billions of embedded devices. Whoops!</p>
-<p>Inside your project directory, set up the override:</p>
-<pre><code class="language-bash">$ rustup override add nightly
+<p>To check that it installed correctly, run this:</p>
+<pre><code class="language-bash">$ bootimage --help
 </code></pre>
-<p>Nice and easy. We can't get the version wrong; <code>rustup</code> handles it for us.</p>
+<p>And you should see a help message printed to the screen.</p>
+<p>The second tool is called <code>xargo</code>. It extends Cargo, allowing us to
+build Rust's core libraries for other OSes than the ones provided by
+the Rust team. To install it:</p>
+<pre><code class="language-bash">$ cargo install xargo
+</code></pre>
+<p>And to check that it was installed correctly, run this:</p>
+<pre><code class="language-bash">$ xargo --version
+</code></pre>
+<p>And make sure that you get some version output.</p>
+<p>Additionally, to do its job, <code>xargo</code> needs the source code for these
+core libraries; to get those, run this:</p>
+<pre><code class="language-bash">$ rustup component add rust-src --toolchain=nightly
+</code></pre>
+<p>With that, we're all set up!</p>
+<a class="header" href="print.html#a-virtual-machine" id="a-virtual-machine"><h2>A virtual machine</h2></a>
+<p>In order to see that your code runs, you <em>could</em> install it on a real computer,
+but that is way too complex for regular development. Instead, we can use a virtual
+machine to give our OS a try locally.</p>
+<p>There's a few options, but for this, we'll use <a href="https://www.qemu.org/">Qemu</a>. Qemu works on all of our
+platforms, and has enough features for us too. <a href="https://www.qemu.org/download/">Qemu's downloads page</a> should help
+you get it installed.</p>
+<p>To check that it's working, try this:</p>
+<pre><code class="language-bash">$  qemu-system-x86_64 --version
+</code></pre>
+<p>And make sure it spits out a version number.</p>
+<a class="header" href="print.html#a-project-directory" id="a-project-directory"><h2>A project directory</h2></a>
+<p>Finally, we need to put our source code somewhere. This can be wherever you'd like,
+but for this book, we'll call ours <code>~/src/</code>. You'll see examples have this path in
+the output, just to have something, but you can do this anywhere you'd like. We'll
+call this &quot;your project directory&quot; a few times in the book, and we mean wherever you
+decided to put stuff.</p>
+<a class="header" href="print.html#thats-it" id="thats-it"><h2>That's it!</h2></a>
+<p>With that, we're done! Let's actually get some code going!</p>
 
                     </main>
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>What kinds of OS are there? - The intermezzOS Book</title>
+        <title>Setting up a development environment - The intermezzOS Book</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,7 +87,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html" class="active"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li></ol></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html" class="active"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li></ol></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -149,76 +149,115 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="background/what-kind-is-there.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
-<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
-The core component is called a ‘kernel’. The non-kernel bits of an operating system
-are collectively called a ‘userland’. Typically a kernel has more direct access to the
-machine than a userland and thus acts somewhat like a super user (with powers that even
-‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
-So, as OS developers, when we categorize operating systems, we tend to categorize them
-by what kinds of kernel they have.</p>
-<blockquote>
-<p><strong>By the way...</strong></p>
-<p>Although you may be used to hearing the term ‘Linux’ used as a name for an
-operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
-That’s because virtually all Linux distributions today use a Linux kernel + a
-GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
-the credit. By the same token, a lot of people say ‘the kernel’ when they mean
-‘the Linux kernel.’ This gets an entirely different set of people mad.</p>
-</blockquote>
-<p>At the start, our ‘operating system’ will be just the kernel, and so we’ll tend
-to focus on kernels for the first part of our journey.</p>
-<p>The way that we categorize different kernels largely comes down to “what is in
-the kernel and what is in userspace.” Upon reading this, you might then think
-the easiest kind of kernel to write is the smallest, where everything is in
-userspace. After all, smaller should be easier, right? Well... that’s not
-actually true. Or at least, it’s not clear that it’s true.</p>
-<a class="header" href="background/what-kind-is-there.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
-<p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
-Most real-world kernels are monolithic kernels, or at least, pretend to be.
-Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
-<p>This means that monolithic kernels are kind of ‘the default’. Other kernels
-usually define themselves by solving some kind of problem that monolithic
-kernels have.</p>
-<p>If a monolithic kernel were a web application, it would be a big ol’ Rails
-application. One repository. A million subdirectories. It may be a big ball
-of mud, but it pays the bills.</p>
-<a class="header" href="background/what-kind-is-there.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
-<p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
-the kernel is in userspace instead. This is a good idea in theory, but
-historically, microkernels have had issues. All that communication has
-overhead, which makes them slower.</p>
-<p>Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
-up being one, but Mac OS X uses a version of Mach from before that work was
-done... so it’s a bit blurry.</p>
-<p>If a microkernel were a web application, it would be a microservice. And a
-bunch of the other stuff that’s in kernel space in a monolithic kernel are
-other microservices, but in userspace instead. It’s a bit cooler than a single
-monolithic web app by itself, and the communication is nice for flexibility’s
-sake, but has some overhead.</p>
-<a class="header" href="background/what-kind-is-there.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
-<p>These two kinds of operating systems are closely related, but it’s a bit harder
-to dig into what exactly makes them different. Unikernels have one
-easy-to-describe feature: they only run one single program at a time.
-Exokernels are ‘more micro than micro’, but the details aren’t important right
-now.</p>
-<p>The important thing to know here is that there are a lot of other kinds of
-designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
+                        <a class="header" href="hello-world/setup.html#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
+<p>Traditionally, getting a development environment set up for working on an
+operating system is really hard. However, we have it pretty easy! We'll be
+using the <a href="https://www.rust-lang.org/">Rust programming language</a> to develop our kernel, and thanks to
+some awesome work by the language developers, as well as the homebrew Rust
+operating system community, getting our environment set up is really easy.</p>
+<p>To get going, you'll need a few tools:</p>
+<ul>
+<li>An editor or IDE to write the source code</li>
+<li>A compiler and other tools to turn that source code into binary code</li>
+<li>A virtual machine to try our OS out without installing it on our computer</li>
+<li>A project directory to do develop in</li>
+</ul>
+<p>You can get all of these tools working on Windows, macOS, and Linux. Other
+operating systems may work, but we've only tried this on these systems. This
+section is the only one with OS-specific instructions; from here on out,
+everything will be identical.</p>
+<a class="header" href="hello-world/setup.html#an-editor-or-ide" id="an-editor-or-ide"><h2>An editor or IDE</h2></a>
+<p>This is needed, but is also largely a personal choice. You can use whatever
+you'd like here, and that's 100% fine.</p>
+<p>If you're not sure what to use, I do have two recommendations though. If
+you prefer text editiors, give <a href="https://code.visualstudio.com/">Visual Studio: Code</a> a try. It's fairly
+light-weight, but also has some nice features, and a great Rust plugin
+provided by the Rust team.</p>
+<p>If you prefer IDEs, I'd suggest <a href="https://www.jetbrains.com/clion/">Clion</a> with the Rust plugin. JetBrains
+makes a suite of IDEs for a ton of languages, and their Rust support is
+solid!</p>
+<p>Really, anything works though: I use both of the above, and also <code>vim</code> at
+times. It's just not a huge deal.</p>
+<a class="header" href="hello-world/setup.html#the-compiler-and-other-tools" id="the-compiler-and-other-tools"><h2>The compiler and other tools</h2></a>
+<p>Next, we need to get the Rust compiler installed. To do that, head to
+<a href="https://www.rust-lang.org/en-US/install.html">Rust's install page</a> and follow the instructions. You can also install
+Rust another way if you'd prefer, such as from your system's package
+manager, but through the website is generally easiest.</p>
+<p>This will give you a tool called <code>rustup</code>, used to manage versions of
+<code>rustc</code>, the Rust compiler, and Cargo, the package manager and
+build tool. To check that this was installed properly, run these
+three commands and check that you get some output:</p>
+<pre><code class="language-bash">$ rustup --version
+$ rustc --version
+$ cargo --version
+</code></pre>
+<p>If you do, everything's good!</p>
+<a class="header" href="hello-world/setup.html#stable-vs-nightly-rust" id="stable-vs-nightly-rust"><h3>Stable vs. Nightly Rust</h3></a>
+<p>One of the reasons that it's easiest is that you can't use any version
+of Rust to develop OSes; you need &quot;nightly&quot; Rust. Basically, Rust comes
+in different flavors, and in order to develop operating systems, we need
+to use some experimental, cutting-edge features. As such, we can't use
+the stable Rust distribution, we need the nightly one.</p>
+<p>To install nightly, do this:</p>
+<pre><code class="language-bash">$ rustup update nightly
+</code></pre>
+<p>This will download and install the nightly toolchain. We'll configure the
+use of this toolchain automatically in the next section.</p>
+<a class="header" href="hello-world/setup.html#other-tools" id="other-tools"><h3>Other tools</h3></a>
+<p>We need to install two more tools for building our OS. The first is
+called <code>bootimage</code>, and its job is to take our kernel and produce a file
+that our virtual machine (discussed in the next section) knows how to
+run. To install it:</p>
+<pre><code class="language-bash">$ cargo install bootimage
+</code></pre>
+<p>To check that it installed correctly, run this:</p>
+<pre><code class="language-bash">$ bootimage --help
+</code></pre>
+<p>And you should see a help message printed to the screen.</p>
+<p>The second tool is called <code>xargo</code>. It extends Cargo, allowing us to
+build Rust's core libraries for other OSes than the ones provided by
+the Rust team. To install it:</p>
+<pre><code class="language-bash">$ cargo install xargo
+</code></pre>
+<p>And to check that it was installed correctly, run this:</p>
+<pre><code class="language-bash">$ xargo --version
+</code></pre>
+<p>And make sure that you get some version output.</p>
+<p>Additionally, to do its job, <code>xargo</code> needs the source code for these
+core libraries; to get those, run this:</p>
+<pre><code class="language-bash">$ rustup component add rust-src --toolchain=nightly
+</code></pre>
+<p>With that, we're all set up!</p>
+<a class="header" href="hello-world/setup.html#a-virtual-machine" id="a-virtual-machine"><h2>A virtual machine</h2></a>
+<p>In order to see that your code runs, you <em>could</em> install it on a real computer,
+but that is way too complex for regular development. Instead, we can use a virtual
+machine to give our OS a try locally.</p>
+<p>There's a few options, but for this, we'll use <a href="https://www.qemu.org/">Qemu</a>. Qemu works on all of our
+platforms, and has enough features for us too. <a href="https://www.qemu.org/download/">Qemu's downloads page</a> should help
+you get it installed.</p>
+<p>To check that it's working, try this:</p>
+<pre><code class="language-bash">$  qemu-system-x86_64 --version
+</code></pre>
+<p>And make sure it spits out a version number.</p>
+<a class="header" href="hello-world/setup.html#a-project-directory" id="a-project-directory"><h2>A project directory</h2></a>
+<p>Finally, we need to put our source code somewhere. This can be wherever you'd like,
+but for this book, we'll call ours <code>~/src/</code>. You'll see examples have this path in
+the output, just to have something, but you can do this anywhere you'd like. We'll
+call this &quot;your project directory&quot; a few times in the book, and we mean wherever you
+decided to put stuff.</p>
+<a class="header" href="hello-world/setup.html#thats-it" id="thats-it"><h2>That's it!</h2></a>
+<p>With that, we're done! Let's actually get some code going!</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="background/what.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="hello-world/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
-                        
-                            <a rel="next" href="background/what-kind-are-we-making.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -228,15 +267,11 @@ designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="background/what.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="hello-world/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
-                
-                    <a href="background/what-kind-are-we-making.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 
