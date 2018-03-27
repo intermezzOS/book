@@ -1,123 +1,159 @@
 # Setting up a development environment
 
-Frankly, one of the hardest parts of starting an operating system is getting a
-development environment going. Normally, you’re doing work on the same
-operating system you’re developing for, and we don’t have that luxury. Yet!
+Traditionally, getting a development environment set up for working on an
+operating system is really hard. However, we have it pretty easy! We'll be
+using the [Rust programming language] to develop our kernel, and thanks to
+some awesome work by the language developers, as well as the homebrew Rust
+operating system community, getting our environment set up is really easy.
 
-There is a convention called a ‘target triple’ to describe a particular
-platform. It’s a ‘triple’ because it has three parts:
+[Rust programming language]: https://www.rust-lang.org/
 
-```text
-arch-kernel-userland
+To get going, you'll need a few tools:
+
+* An editor or IDE to write the source code
+* A compiler and other tools to turn that source code into binary code
+* A virtual machine to try our OS out without installing it on our computer
+* A project directory to do develop in
+
+You can get all of these tools working on Windows, macOS, and Linux. Other
+operating systems may work, but we've only tried this on these systems. This
+section is the only one with OS-specific instructions; from here on out,
+everything will be identical.
+
+## An editor or IDE
+
+This is needed, but is also largely a personal choice. You can use whatever
+you'd like here, and that's 100% fine.
+
+If you're not sure what to use, I do have two recommendations though. If
+you prefer text editiors, give [Visual Studio: Code] a try. It's fairly
+light-weight, but also has some nice features, and a great Rust plugin
+provided by the Rust team.
+
+[Visual Studio: Code]: https://code.visualstudio.com/
+
+If you prefer IDEs, I'd suggest [Clion] with the Rust plugin. JetBrains
+makes a suite of IDEs for a ton of languages, and their Rust support is
+solid!
+
+[Clion]: https://www.jetbrains.com/clion/
+
+Really, anything works though: I use both of the above, and also `vim` at
+times. It's just not a huge deal.
+
+## The compiler and other tools
+
+Next, we need to get the Rust compiler installed. To do that, head to
+[Rust's install page] and follow the instructions. You can also install
+Rust another way if you'd prefer, such as from your system's package
+manager, but through the website is generally easiest.
+
+[Rust's install page]: https://www.rust-lang.org/en-US/install.html
+
+This will give you a tool called `rustup`, used to manage versions of
+`rustc`, the Rust compiler, and Cargo, the package manager and
+build tool. To check that this was installed properly, run these
+three commands and check that you get some output:
+
+```bash
+$ rustup --version
+$ rustc --version
+$ cargo --version
 ```
 
-So, a target triple for a computer which has an x86-64 bit processor running a
-Linux kernel and the GNU userland would look like this:
+If you do, everything's good!
 
-```text
-x86_64-linux-gnu
-```
+### Stable vs. Nightly Rust
 
-However, it can also be useful to know the operating system as well, and so
-the ‘triple’ part can be extended to include it:
+One of the reasons that it's easiest is that you can't use any version
+of Rust to develop OSes; you need "nightly" Rust. Basically, Rust comes
+in different flavors, and in order to develop operating systems, we need
+to use some experimental, cutting-edge features. As such, we can't use
+the stable Rust distribution, we need the nightly one.
 
-```text
-x86_64-unknown-linux-gnu
-```
-
-This is for some unknown Linux. If we were targeting Debian specifically, it
-would be:
-
-```text
-x86_64-debian-linux-gnu
-```
-
-Since it’s four parts, it’s called a ‘target’ rather than a ‘target triple’,
-but you’ll still hear some people call it a triple anyway.
-
-Kernels themselves don’t need to be for a specific userland, and so you’ll
-see ‘none’ get used:
-
-```text
-x86_64-unknown-none
-```
-
-## Hosts & Targets
-
-The reason that they’re called a ‘target’ is that it’s the architecture you’re
-compiling _to_. The architecture you’re compiling _from_ is called the ‘host
-architecture’.
-
-If the target and the host are the same, we call it ‘compiling’. If they are
-different, we call it ‘cross-compiling’. So you’ll see people say things like
-
-> I cross-compiled from x86\_64-linux-gnu to x86-unknown-none.
-
-This means that the computer that the developer was using was a 64-bit
-GNU/Linux machine, but the final binary was for a 32-bit x86 machine with no
-OS.
-
-So we need a slightly special environment to build our OS: we need to
-cross-compile from whatever kind of computer we are using to our new target.
-
-## Cheat codes
-
-... but we can also cheat. It’s okay to cheat. Well, in this case, it’s really
-only okay at the start. We’ll eventually _have_ to cross-compile, or things
-will go wrong.
-
-Here’s the cheat: if you are developing on an x86\_64 Linux machine, and you’re
-not using any special Linux kernel features, then the difference between
-`x86_64-linux-gnu` and `x86_64-unknown-none` is really just theoretical. It
-will still technically _work_. For now.
-
-This is a common pitfall with new operating system developers. They’ll start
-off with the cheat, and it will come back to haunt them later. Don’t worry;
-I will actually show you how to fix things before they go wrong. Knowing the
-difference here is still useful.
-
-## Installing Rust
-
-First, you need to get a copy of Rust! There's one catch though: you'll need to
-get _exactly_ the correct version of Rust. Unfortunately, for OS development,
-we need to take advantage of some cutting-edge features that aren't yet stable.
-
-Luckily, the Rust project has a tool that makes it easy to switch between Rust
-versions: `rustup`. You can get it from the [install
-page](http://rust-lang.org/install.html) of the Rust website.
-
-By default, `rustup` uses stable Rust. So let's tell it to install nightly:
+To install nightly, do this:
 
 ```bash
 $ rustup update nightly
 ```
 
-This installs the current version of nightly Rust. We run all of the examples
-in this book under continuous integration, so we should know if something
-changes in nightly Rust and breaks. But please [file bugs] if something doesn't
-work.
+This will download and install the nightly toolchain. We'll configure the
+use of this toolchain automatically in the next section.
 
-[file bugs]: https://github.com/intermezzOS/book/issues/new
+### Other tools
 
-Because nightly Rust includes unstable features, you shouldn't use it unless
-you really need to, which is why `rustup` allows you to override the default
-version only when you're in a particular directory. We don't have a directory
-for our project yet, so let's create one:
+We need to install two more tools for building our OS. The first is
+called `bootimage`, and its job is to take our kernel and produce a file
+that our virtual machine (discussed in the next section) knows how to
+run. To install it:
 
 ```bash
-$ mkdir intermezzOS
-$ cd intermezzOS
+$ cargo install bootimage
 ```
 
-A fun way to follow along is to pick a different name for your kernel, and
-then change it as we go. Call your kernel whatever you want. intermezzOS was
-almost called ‘Nucleus’, until I found out that there’s already a kernel with
-that name that’s installed on billions of embedded devices. Whoops!
-
-Inside your project directory, set up the override:
+To check that it installed correctly, run this:
 
 ```bash
-$ rustup override add nightly
+$ bootimage --help
 ```
 
-Nice and easy. We can't get the version wrong; `rustup` handles it for us.
+And you should see a help message printed to the screen.
+
+The second tool is called `xargo`. It extends Cargo, allowing us to
+build Rust's core libraries for other OSes than the ones provided by
+the Rust team. To install it:
+
+```bash
+$ cargo install xargo
+```
+
+And to check that it was installed correctly, run this:
+
+```bash
+$ xargo --version
+```
+
+And make sure that you get some version output.
+
+Additionally, to do its job, `xargo` needs the source code for these
+core libraries; to get those, run this:
+
+```bash
+$ rustup component add rust-src --toolchain=nightly
+```
+
+With that, we're all set up!
+
+## A virtual machine
+
+In order to see that your code runs, you *could* install it on a real computer,
+but that is way too complex for regular development. Instead, we can use a virtual
+machine to give our OS a try locally.
+
+There's a few options, but for this, we'll use [Qemu]. Qemu works on all of our
+platforms, and has enough features for us too. [Qemu's downloads page] should help
+you get it installed.
+
+[Qemu]: https://www.qemu.org/
+
+[Qemu's downloads page]: https://www.qemu.org/download/
+
+To check that it's working, try this:
+
+```bash
+$  qemu-system-x86_64 --version
+```
+
+And make sure it spits out a version number.
+
+## A project directory
+
+Finally, we need to put our source code somewhere. This can be wherever you'd like,
+but for this book, we'll call ours `~/src/`. You'll see examples have this path in
+the output, just to have something, but you can do this anywhere you'd like. We'll
+call this "your project directory" a few times in the book, and we mean wherever you
+decided to put stuff.
+
+## That's it!
+
+With that, we're done! Let's actually get some code going!
