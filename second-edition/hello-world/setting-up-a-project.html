@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Setting up a project - The intermezzOS Book</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+        <link rel="stylesheet" href="src/theme/extra.css">
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+        <noscript>
+            <style type="text/css">
+                .javascript-only {
+                    display: none;
+                }
+            </style>
+        </noscript>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html" class="active"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons javascript-only">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">The intermezzOS Book</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="searchbar-outer" class="searchbar-outer">
+                    <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                </div>
+                <div id="searchresults-outer" class="searchresults-outer">
+                    <div class="searchresults-header" id="searchresults-header"></div>
+                    <ul id="searchresults">
+                    </ul>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="hello-world/setting-up-a-project.html#setting-up-a-project" id="setting-up-a-project"><h1>Setting up a project</h1></a>
+<p>Now that we are all set up, let's get going! First, let's go to our project directory:</p>
+<pre><code class="language-bash">$ cd ~/src
+</code></pre>
+<p>And then, we'll use <code>cargo new</code> to create a new binary project:</p>
+<pre><code class="language-bash">$ cargo new --bin intermezzos
+     Created binary (application) `intermezzos` project
+</code></pre>
+<blockquote>
+<p>Feel free to name your kernel something else!</p>
+</blockquote>
+<p>This will create a new directory, <code>intermezzos</code>, inside our project directory. Let's
+move into it:</p>
+<pre><code class="language-bash">$ cd intermezzos
+</code></pre>
+<p>Cargo has created three things for us: a <code>src/main.rs</code> file, that contains our Rust source
+code. A <code>Cargo.toml</code>, which contains metadata about our project. And finally, a <code>.gitignore</code>,
+if you use <code>git</code>.</p>
+<blockquote>
+<p>Sidebar: Rust knowledge</p>
+<p>We don't inherently assume that you know Rust well, but this book also isn't a Rust tutorial.
+We'll try to explain the basics of the code we're writing, but you may want to check out
+<a href="https://doc.rust-lang.org/book/second-edition/">The Rust Programming Language</a> if you don't
+understand our basic explanations here. If you've never used Rust before, you might want to
+take a moment and skim <a href="https://doc.rust-lang.org/book/second-edition/ch03-00-common-programming-concepts.html">Chapter 3</a>,
+which covers the basic syntax and talks about stuff you've seen in programming languages you
+have used in the past.</p>
+</blockquote>
+<a class="header" href="hello-world/setting-up-a-project.html#our-first-hello-world" id="our-first-hello-world"><h2>Our first Hello, World</h2></a>
+<p>If you investigate the contents of <code>src/main.rs</code>, you'll find this:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    println!(&quot;Hello, world!&quot;);
+}
+</code></pre></pre>
+<p>Cargo generated a &quot;hello world&quot; program for us! Let's try it out:</p>
+<pre><code class="language-bash">$ cargo run
+   Compiling intermezzos v0.1.0 (file:///~/src/intermezzos)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.5 secs
+     Running `target/debug/intermezzos.exe`
+Hello, world!
+</code></pre>
+<p>If you see the &quot;Hello, world!&quot; printed to your screen, then your Rust toolchain is working!</p>
+<a class="header" href="hello-world/setting-up-a-project.html#hosts-and-targets" id="hosts-and-targets"><h2>Hosts and Targets</h2></a>
+<p>This program is compiled for our own computer hardware and operating system.
+The computer we're compiling <em>from</em> is called the &quot;host system.&quot; But, our new
+OS won't be using the OS of the computer we're doing development on! The
+computer we want to compile <em>to</em> is called the &quot;target system.&quot;</p>
+<p>When the host and target system are the same, most people just say
+&quot;compiling.&quot; When they host and taget are different, people say that you're
+&quot;cross-compiling.&quot;</p>
+<p>To cross-compile, <code>cargo</code> takes an argument, <code>--target</code>. We can then tell it what
+kind of computer we want to compile to, and it will do the right thing. However,
+by default, Rust can't know every single kind of computer and OS that we would
+want to compile to: after all, we're creating a new OS right now!</p>
+<p>To solve this, we need to write some JSON.</p>
+<a class="header" href="hello-world/setting-up-a-project.html#creating-intermezzosjson" id="creating-intermezzosjson"><h3>Creating intermezzos.json</h3></a>
+<p>Rust has a feature called &quot;target specifications&quot; that lets us, well, specify
+a target. To do that, we create a JSON file, and use it to describe all the
+things that the compiler needs to know in order to generate the proper code.</p>
+<p>Create a new file named <code>intermezzos.json</code> and put this in it:</p>
+<pre><code class="language-json">{
+  &quot;llvm-target&quot;: &quot;x86_64-unknown-none&quot;,
+  &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
+  &quot;arch&quot;: &quot;x86_64&quot;,
+  &quot;target-endian&quot;: &quot;little&quot;,
+  &quot;target-pointer-width&quot;: &quot;64&quot;,
+  &quot;target-c-int-width&quot;: &quot;32&quot;,
+  &quot;os&quot;: &quot;none&quot;,
+  &quot;linker-flavor&quot;: &quot;ld.lld&quot;,
+  &quot;executables&quot;: true,
+  &quot;features&quot;: &quot;-mmx,-sse,+soft-float&quot;,
+  &quot;disable-redzone&quot;: true,
+  &quot;panic-strategy&quot;: &quot;abort&quot;
+}
+</code></pre>
+<p>To learn more about this file, check out Appendix A. For now, it's mostly a distraction;
+you don't <em>need</em> to know what's going on here to continue.</p>
+<a class="header" href="hello-world/setting-up-a-project.html#removing-the-standard-library" id="removing-the-standard-library"><h2>Removing the standard library</h2></a>
+<p>Okay, let's write some Rust! Delete the code in <code>src/main.rs</code>, and replace it with this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#![feature(lang_items)]
+
+#![no_std]
+#![no_main]
+
+#fn main() {
+#[lang = &quot;panic_fmt&quot;]
+#[no_mangle]
+pub extern &quot;C&quot; fn rust_begin_panic(
+    _msg: core::fmt::Arguments,
+    _file: &amp;'static str,
+    _line: u32,
+    _column: u32,
+) -&gt; ! {
+    loop {}
+}
+
+#[no_mangle]
+pub fn _start() -&gt; ! {
+    loop {}
+}
+#}</code></pre></pre>
+<p>Let's go over the code, bit by bit:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// ...
+
+#![no_std]
+#![no_main]
+
+// ...
+#}</code></pre></pre>
+<p>These two attributes tell Rust, &quot;hey, we don't want a standard library, and we don't want a <code>main</code> function.&quot;
+When writing an OS, we want full control over the details. The Rust standard library assumes that an operating
+system exists, and we don't have any of that yet, so we can't use it. Rust's default <code>main</code> includes stuff that
+we <em>could</em> use, but it's nicer to write our own, so we have that full control.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#![feature(lang_items)]
+
+#fn main() {
+// ... 
+
+#[lang = &quot;panic_fmt&quot;]
+#[no_mangle]
+pub extern &quot;C&quot; fn rust_begin_panic(
+    _msg: core::fmt::Arguments,
+    _file: &amp;'static str,
+    _line: u32,
+    _column: u32,
+) -&gt; ! {
+    loop {}
+}
+#}</code></pre></pre>
+<p>When we don't include the standard library, then we're missing one important thing: if we <code>panic!</code>, Rust wants
+to call a callback before aborting. This is that callback. For now, we'll just <code>loop</code> forever. As such, all
+the arguments start with <code>_</code>, so that Rust won't warn us that the parameters are unused. The <code>#[lang]</code> attribute
+is what makes Rust understand that that's what this function for.</p>
+<p>Other than that, this is boilerplate: Rust itself determines the exact arguments and the rest of it. We'll talk
+about this stuff more when we actually do something on panics; for now, don't worry about it.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// ...
+
+#[no_mangle]
+pub fn _start() -&gt; ! {
+    loop {}
+}
+#}</code></pre></pre>
+<p>This is our <code>main</code> function, even though it's named <code>_start</code>. Have you ever wondered how <code>main</code> gets called?
+Technically, <code>_start</code> gets called first, then that calls your <code>main</code> function. Any setup code goes in <code>_start</code>,
+and would run before it calls <code>main</code>.</p>
+<p>Let's explain this function in a <em>bit</em> more detail. The <code>#[no_mangle]</code> attribute says &quot;hey Rust, it's really
+important that this function is named <em>exactly</em> this.&quot; You see, Rust is free to rename functions for you. There's
+good reasons for this that we won't get into here. This attribute disables that. If Rust renamed this function,
+then we wouldn't be able to boot up properly. We'll explain more in the next section.</p>
+<p>The <code>!</code> return type means we never return, and we never return because the only thing we do is <code>loop</code> forever!</p>
+<p>With this code, our little kernel will start, and then do nothing. It's a start!</p>
+<a class="header" href="hello-world/setting-up-a-project.html#compiling-with-bootimage" id="compiling-with-bootimage"><h2>Compiling with <code>bootimage</code></h2></a>
+<a class="header" href="hello-world/setting-up-a-project.html#running-with-qemu" id="running-with-qemu"><h2>Running with <code>qemu</code></h2></a>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="hello-world/setup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="appendix/target-specifications.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="hello-world/setup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="appendix/target-specifications.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+
+        
+
+        
+
+        
+        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
+        
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>

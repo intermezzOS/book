@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>What kinds of OS are there? - The intermezzOS Book</title>
+        <title>Appendix A: target specifications - The intermezzOS Book</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,7 +87,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html" class="active"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html" class="active">Appendix A: target specifications</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -149,76 +149,80 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="background/what-kind-is-there.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
-<p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
-The core component is called a ‘kernel’. The non-kernel bits of an operating system
-are collectively called a ‘userland’. Typically a kernel has more direct access to the
-machine than a userland and thus acts somewhat like a super user (with powers that even
-‘sudo’ cannot give you). A kernel forms the basis of the abstractions and isolations.
-So, as OS developers, when we categorize operating systems, we tend to categorize them
-by what kinds of kernel they have.</p>
-<blockquote>
-<p><strong>By the way...</strong></p>
-<p>Although you may be used to hearing the term ‘Linux’ used as a name for an
-operating system, you may hear some people say, “It’s GNU/Linux, not Linux.”
-That’s because virtually all Linux distributions today use a Linux kernel + a
-GNU userland. So the GNU folks are a bit annoyed that the kernel gets all
-the credit. By the same token, a lot of people say ‘the kernel’ when they mean
-‘the Linux kernel.’ This gets an entirely different set of people mad.</p>
-</blockquote>
-<p>At the start, our ‘operating system’ will be just the kernel, and so we’ll tend
-to focus on kernels for the first part of our journey.</p>
-<p>The way that we categorize different kernels largely comes down to “what is in
-the kernel and what is in userspace.” Upon reading this, you might then think
-the easiest kind of kernel to write is the smallest, where everything is in
-userspace. After all, smaller should be easier, right? Well... that’s not
-actually true. Or at least, it’s not clear that it’s true.</p>
-<a class="header" href="background/what-kind-is-there.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
-<p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
-Most real-world kernels are monolithic kernels, or at least, pretend to be.
-Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
-<p>This means that monolithic kernels are kind of ‘the default’. Other kernels
-usually define themselves by solving some kind of problem that monolithic
-kernels have.</p>
-<p>If a monolithic kernel were a web application, it would be a big ol’ Rails
-application. One repository. A million subdirectories. It may be a big ball
-of mud, but it pays the bills.</p>
-<a class="header" href="background/what-kind-is-there.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
-<p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
-the kernel is in userspace instead. This is a good idea in theory, but
-historically, microkernels have had issues. All that communication has
-overhead, which makes them slower.</p>
-<p>Mach, the kernel that Mac OS X uses, is a microkernel. Well, sort of. It ended
-up being one, but Mac OS X uses a version of Mach from before that work was
-done... so it’s a bit blurry.</p>
-<p>If a microkernel were a web application, it would be a microservice. And a
-bunch of the other stuff that’s in kernel space in a monolithic kernel are
-other microservices, but in userspace instead. It’s a bit cooler than a single
-monolithic web app by itself, and the communication is nice for flexibility’s
-sake, but has some overhead.</p>
-<a class="header" href="background/what-kind-is-there.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
-<p>These two kinds of operating systems are closely related, but it’s a bit harder
-to dig into what exactly makes them different. Unikernels have one
-easy-to-describe feature: they only run one single program at a time.
-Exokernels are ‘more micro than micro’, but the details aren’t important right
-now.</p>
-<p>The important thing to know here is that there are a lot of other kinds of
-designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
+                        <a class="header" href="appendix/target-specifications.html#appendix-a-target-specifications" id="appendix-a-target-specifications"><h1>Appendix A: target specifications</h1></a>
+<p>In Chapter 2, we created <code>intermezzos.json</code>, a &quot;target speciifcation.&quot;
+Here's the reasons for setting each thing:</p>
+<pre><code class="language-json">  &quot;llvm-target&quot;: &quot;x86_64-unknown-none&quot;,
+</code></pre>
+<p>This is called a &quot;target triple&quot;, and is fed to <a href="http://llvm.org/">LLVM</a>, the
+project that <code>rustc</code> uses to generate the final binary code. It's called a &quot;triple&quot;
+becuase it has three parts: the CPU, the vendor, and the OS. So for this target,
+we choose the x86_64 CPU, an 'unknown' vendor since we're not a big company or
+something, and 'none' for the OS, since our OS does not rely on an OS.</p>
+<pre><code class="language-json">  &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
+</code></pre>
+<p>This is another LLVM thing, you can find the documentation
+<a href="http://llvm.org/docs/LangRef.html#data-layout">here</a>. Honestly, it's not
+very interesting; feel free to read those docs if you want to learn more.</p>
+<pre><code class="language-json">  &quot;arch&quot;: &quot;x86_64&quot;,
+</code></pre>
+<p>This also sets our CPU architecture; as we said in the target above, it's <code>x86_64</code>.</p>
+<pre><code class="language-json">  &quot;target-endian&quot;: &quot;little&quot;,
+</code></pre>
+<p>&quot;Endian-ness&quot; is a property of how binary numbers are transmitted; there are three
+forms: &quot;big endian,&quot; &quot;little endian,&quot; and &quot;network endian&quot;, which is a synonym for
+&quot;big endian.&quot; This is because most network protocols choose big endian.</p>
+<p>Intel uses little endian for their processors, however, and so we set that here.</p>
+<pre><code class="language-json">  &quot;target-pointer-width&quot;: &quot;64&quot;,
+</code></pre>
+<p>We're building a 64-bit OS, so our pointers are 64 bits wide. If you don't know what
+a pointer is, don't worry about it yet.</p>
+<pre><code class="language-json">  &quot;target-c-int-width&quot;: &quot;32&quot;,
+</code></pre>
+<p>We're not using C, so this doesn't matter, but if we were, we'd make integers
+32 bits. This is common on the x86_64 platform.</p>
+<pre><code class="language-json">  &quot;os&quot;: &quot;none&quot;,
+</code></pre>
+<p>We don't have an OS! We're building one!</p>
+<pre><code class="language-json">  &quot;linker-flavor&quot;: &quot;ld.lld&quot;,
+</code></pre>
+<p>We'll be using <a href="https://lld.llvm.org/">LLD</a> for linking; this linker is
+provided by the LLVM project, and automatically distributed with Rust.</p>
+<pre><code class="language-json">  &quot;executables&quot;: true,
+</code></pre>
+<p>Are executables allowed on this target, or only libraries? That might
+sound silly, but iOS, for example, won't let you create executables.</p>
+<pre><code class="language-json">  &quot;features&quot;: &quot;-mmx,-sse,+soft-float&quot;,
+</code></pre>
+<p>These flags control the kind of code that Rust generates. For reasons we
+won't get into right now, many kernels don't use floating point numbers or
+<a href="https://en.wikipedia.org/wiki/SIMD">SIMD registers</a> in the kernel, so we
+want to turn those options off. (MMX is a similar feature to SIMD). &quot;soft
+float&quot; means to not use actual floating point hardware instructions, but to
+emulate them in software. We won't be using floating point numbers at all,
+directly, but just in case, we want to make sure that we're not going to be
+using the hardware for it. We'll talk more about this later.</p>
+<pre><code class="language-json">  &quot;disable-redzone&quot;: true,
+</code></pre>
+<p>This is a very tricky one! The x86_64 &quot;calling convention&quot;, that is, the way
+that assembly code for functions is called, allows for a thing called the
+&quot;red zone.&quot; We <em>do not want</em> this for a kernel. Forgetting this setting runs
+into all kinds of really strange looking bugs.</p>
+<pre><code class="language-json">  &quot;panic-strategy&quot;: &quot;abort&quot;
+</code></pre>
+<p>Finally, we don't want to use Rust's panics, so by setting them to abort
+instead of unwind, we don't generate code to handle panics.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="background/what.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="hello-world/setting-up-a-project.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
-                        
-                            <a rel="next" href="background/what-kind-are-we-making.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -228,15 +232,11 @@ designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="background/what.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="hello-world/setting-up-a-project.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
-                
-                    <a href="background/what-kind-are-we-making.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 
