@@ -1,0 +1,199 @@
+# Setting up a project
+
+Now that we are all set up, let's get going! First, let's go to our project directory:
+
+```bash
+$ cd ~/src
+```
+
+And then, we'll use `cargo new` to create a new binary project:
+
+```bash
+$ cargo new --bin intermezzos
+     Created binary (application) `intermezzos` project
+```
+
+> Feel free to name your kernel something else!
+
+This will create a new directory, `intermezzos`, inside our project directory. Let's
+move into it:
+
+```bash
+$ cd intermezzos
+```
+
+Cargo has created three things for us: a `src/main.rs` file, that contains our Rust source
+code. A `Cargo.toml`, which contains metadata about our project. And finally, a `.gitignore`,
+if you use `git`.
+
+> Sidebar: Rust knowledge
+>
+> We don't inherently assume that you know Rust well, but this book also isn't a Rust tutorial.
+> We'll try to explain the basics of the code we're writing, but you may want to check out
+> [The Rust Programming Language](https://doc.rust-lang.org/book/second-edition/) if you don't
+> understand our basic explanations here. If you've never used Rust before, you might want to
+> take a moment and skim [Chapter 3](https://doc.rust-lang.org/book/second-edition/ch03-00-common-programming-concepts.html),
+> which covers the basic syntax and talks about stuff you've seen in programming languages you
+> have used in the past.
+
+## Our first Hello, World
+
+If you investigate the contents of `src/main.rs`, you'll find this:
+
+```rust
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+Cargo generated a "hello world" program for us! Let's try it out:
+
+```bash
+$ cargo run
+   Compiling intermezzos v0.1.0 (file:///~/src/intermezzos)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.5 secs
+     Running `target/debug/intermezzos.exe`
+Hello, world!
+```
+
+If you see the "Hello, world!" printed to your screen, then your Rust toolchain is working!
+
+## Hosts and Targets
+
+This program is compiled for our own computer hardware and operating system.
+The computer we're compiling *from* is called the "host system." But, our new
+OS won't be using the OS of the computer we're doing development on! The
+computer we want to compile *to* is called the "target system."
+
+When the host and target system are the same, most people just say
+"compiling." When they host and taget are different, people say that you're
+"cross-compiling."
+
+To cross-compile, `cargo` takes an argument, `--target`. We can then tell it what
+kind of computer we want to compile to, and it will do the right thing. However,
+by default, Rust can't know every single kind of computer and OS that we would
+want to compile to: after all, we're creating a new OS right now!
+
+To solve this, we need to write some JSON.
+
+### Creating intermezzos.json
+
+Rust has a feature called "target specifications" that lets us, well, specify
+a target. To do that, we create a JSON file, and use it to describe all the
+things that the compiler needs to know in order to generate the proper code.
+
+Create a new file named `intermezzos.json` and put this in it:
+
+```json
+{
+  "llvm-target": "x86_64-unknown-none",
+  "data-layout": "e-m:e-i64:64-f80:128-n8:16:32:64-S128",
+  "arch": "x86_64",
+  "target-endian": "little",
+  "target-pointer-width": "64",
+  "target-c-int-width": "32",
+  "os": "none",
+  "linker-flavor": "ld.lld",
+  "executables": true,
+  "features": "-mmx,-sse,+soft-float",
+  "disable-redzone": true,
+  "panic-strategy": "abort"
+}
+```
+
+To learn more about this file, check out Appendix A. For now, it's mostly a distraction;
+you don't *need* to know what's going on here to continue.
+
+## Removing the standard library
+
+Okay, let's write some Rust! Delete the code in `src/main.rs`, and replace it with this:
+
+```rust
+#![feature(lang_items)]
+
+#![no_std]
+#![no_main]
+
+#[lang = "panic_fmt"]
+#[no_mangle]
+pub extern "C" fn rust_begin_panic(
+    _msg: core::fmt::Arguments,
+    _file: &'static str,
+    _line: u32,
+    _column: u32,
+) -> ! {
+    loop {}
+}
+
+#[no_mangle]
+pub fn _start() -> ! {
+    loop {}
+}
+```
+
+Let's go over the code, bit by bit:
+
+```rust
+// ...
+
+#![no_std]
+#![no_main]
+
+// ...
+```
+
+These two attributes tell Rust, "hey, we don't want a standard library, and we don't want a `main` function."
+When writing an OS, we want full control over the details. The Rust standard library assumes that an operating
+system exists, and we don't have any of that yet, so we can't use it. Rust's default `main` includes stuff that
+we *could* use, but it's nicer to write our own, so we have that full control.
+
+```rust
+#![feature(lang_items)]
+
+// ... 
+
+#[lang = "panic_fmt"]
+#[no_mangle]
+pub extern "C" fn rust_begin_panic(
+    _msg: core::fmt::Arguments,
+    _file: &'static str,
+    _line: u32,
+    _column: u32,
+) -> ! {
+    loop {}
+}
+```
+
+When we don't include the standard library, then we're missing one important thing: if we `panic!`, Rust wants
+to call a callback before aborting. This is that callback. For now, we'll just `loop` forever. As such, all
+the arguments start with `_`, so that Rust won't warn us that the parameters are unused. The `#[lang]` attribute
+is what makes Rust understand that that's what this function for.
+
+Other than that, this is boilerplate: Rust itself determines the exact arguments and the rest of it. We'll talk
+about this stuff more when we actually do something on panics; for now, don't worry about it.
+
+```rust
+// ...
+
+#[no_mangle]
+pub fn _start() -> ! {
+    loop {}
+}
+```
+
+This is our `main` function, even though it's named `_start`. Have you ever wondered how `main` gets called?
+Technically, `_start` gets called first, then that calls your `main` function. Any setup code goes in `_start`,
+and would run before it calls `main`.
+
+Let's explain this function in a *bit* more detail. The `#[no_mangle]` attribute says "hey Rust, it's really
+important that this function is named *exactly* this." You see, Rust is free to rename functions for you. There's
+good reasons for this that we won't get into here. This attribute disables that. If Rust renamed this function,
+then we wouldn't be able to boot up properly. We'll explain more in the next section.
+
+The `!` return type means we never return, and we never return because the only thing we do is `loop` forever!
+
+With this code, our little kernel will start, and then do nothing. It's a start!
+
+## Compiling with `bootimage`
+
+## Running with `qemu`
