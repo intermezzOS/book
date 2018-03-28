@@ -675,7 +675,8 @@ decided to put stuff.</p>
 <a class="header" href="print.html#thats-it" id="thats-it"><h2>That's it!</h2></a>
 <p>With that, we're done! Let's actually get some code going!</p>
 <a class="header" href="print.html#setting-up-a-project" id="setting-up-a-project"><h1>Setting up a project</h1></a>
-<p>Now that we are all set up, let's get going! First, let's go to our project directory:</p>
+<p>Now that we are all set up, let's get going! First, let's go to our project
+directory:</p>
 <pre><code class="language-bash">$ cd ~/src
 </code></pre>
 <p>And then, we'll use <code>cargo new</code> to create a new binary project:</p>
@@ -685,22 +686,24 @@ decided to put stuff.</p>
 <blockquote>
 <p>Feel free to name your kernel something else!</p>
 </blockquote>
-<p>This will create a new directory, <code>intermezzos</code>, inside our project directory. Let's
-move into it:</p>
+<p>This will create a new directory, <code>intermezzos</code>, inside our project
+directory. Let's move into it:</p>
 <pre><code class="language-bash">$ cd intermezzos
 </code></pre>
-<p>Cargo has created three things for us: a <code>src/main.rs</code> file, that contains our Rust source
-code. A <code>Cargo.toml</code>, which contains metadata about our project. And finally, a <code>.gitignore</code>,
-if you use <code>git</code>.</p>
+<p>Cargo has created three things for us: a <code>src/main.rs</code> file, that contains
+our Rust source code. A <code>Cargo.toml</code>, which contains metadata about our
+project. And finally, a <code>.gitignore</code>, if you use <code>git</code>.</p>
 <blockquote>
 <p>Sidebar: Rust knowledge</p>
-<p>We don't inherently assume that you know Rust well, but this book also isn't a Rust tutorial.
-We'll try to explain the basics of the code we're writing, but you may want to check out
-<a href="https://doc.rust-lang.org/book/second-edition/">The Rust Programming Language</a> if you don't
-understand our basic explanations here. If you've never used Rust before, you might want to
-take a moment and skim <a href="https://doc.rust-lang.org/book/second-edition/ch03-00-common-programming-concepts.html">Chapter 3</a>,
-which covers the basic syntax and talks about stuff you've seen in programming languages you
-have used in the past.</p>
+<p>We don't inherently assume that you know Rust well, but this book also
+isn't a Rust tutorial. We'll try to explain the basics of the code we're
+writing, but you may want to check out <a href="https://doc.rust-lang.org/book/second-edition/">The Rust Programming
+Language</a> if you don't
+understand our basic explanations here. If you've never used Rust before, you
+might want to take a moment and skim <a href="https://doc.rust-lang.org/book/second-edition/ch03-00-common-programming-concepts.html">Chapter
+3</a>,
+which covers the basic syntax and talks about stuff you've seen in
+programming languages you have used in the past.</p>
 </blockquote>
 <a class="header" href="print.html#our-first-hello-world" id="our-first-hello-world"><h2>Our first Hello, World</h2></a>
 <p>If you investigate the contents of <code>src/main.rs</code>, you'll find this:</p>
@@ -724,10 +727,11 @@ computer we want to compile <em>to</em> is called the &quot;target system.&quot;
 <p>When the host and target system are the same, most people just say
 &quot;compiling.&quot; When they host and taget are different, people say that you're
 &quot;cross-compiling.&quot;</p>
-<p>To cross-compile, <code>cargo</code> takes an argument, <code>--target</code>. We can then tell it what
-kind of computer we want to compile to, and it will do the right thing. However,
-by default, Rust can't know every single kind of computer and OS that we would
-want to compile to: after all, we're creating a new OS right now!</p>
+<p>To cross-compile, <code>cargo</code> takes an argument, <code>--target</code>. We can then tell it
+what kind of computer we want to compile to, and it will do the right thing.
+However, by default, Rust can't know every single kind of computer and OS
+that we would want to compile to: after all, we're creating a new OS right
+now!</p>
 <p>To solve this, we need to write some JSON.</p>
 <a class="header" href="print.html#creating-intermezzosjson" id="creating-intermezzosjson"><h3>Creating intermezzos.json</h3></a>
 <p>Rust has a feature called &quot;target specifications&quot; that lets us, well, specify
@@ -749,10 +753,11 @@ things that the compiler needs to know in order to generate the proper code.</p>
   &quot;panic-strategy&quot;: &quot;abort&quot;
 }
 </code></pre>
-<p>To learn more about this file, check out Appendix A. For now, it's mostly a distraction;
-you don't <em>need</em> to know what's going on here to continue.</p>
+<p>To learn more about this file, check out Appendix A. For now, it's mostly a
+distraction; you don't <em>need</em> to know what's going on here to continue.</p>
 <a class="header" href="print.html#removing-the-standard-library" id="removing-the-standard-library"><h2>Removing the standard library</h2></a>
-<p>Okay, let's write some Rust! Delete the code in <code>src/main.rs</code>, and replace it with this:</p>
+<p>Okay, let's write some Rust! Delete the code in <code>src/main.rs</code>, and replace it
+with this:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #![feature(lang_items)]
@@ -788,10 +793,12 @@ pub fn _start() -&gt; ! {
 
 // ...
 #}</code></pre></pre>
-<p>These two attributes tell Rust, &quot;hey, we don't want a standard library, and we don't want a <code>main</code> function.&quot;
-When writing an OS, we want full control over the details. The Rust standard library assumes that an operating
-system exists, and we don't have any of that yet, so we can't use it. Rust's default <code>main</code> includes stuff that
-we <em>could</em> use, but it's nicer to write our own, so we have that full control.</p>
+<p>These two attributes tell Rust, &quot;hey, we don't want a standard library, and
+we don't want a <code>main</code> function.&quot; When writing an OS, we want full control
+over the details. The Rust standard library assumes that an operating system
+exists, and we don't have any of that yet, so we can't use it. Rust's default
+<code>main</code> includes stuff that we <em>could</em> use, but it's nicer to write our own,
+so we have that full control.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #![feature(lang_items)]
@@ -810,12 +817,15 @@ pub extern &quot;C&quot; fn rust_begin_panic(
     loop {}
 }
 #}</code></pre></pre>
-<p>When we don't include the standard library, then we're missing one important thing: if we <code>panic!</code>, Rust wants
-to call a callback before aborting. This is that callback. For now, we'll just <code>loop</code> forever. As such, all
-the arguments start with <code>_</code>, so that Rust won't warn us that the parameters are unused. The <code>#[lang]</code> attribute
-is what makes Rust understand that that's what this function for.</p>
-<p>Other than that, this is boilerplate: Rust itself determines the exact arguments and the rest of it. We'll talk
-about this stuff more when we actually do something on panics; for now, don't worry about it.</p>
+<p>When we don't include the standard library, then we're missing one important
+thing: if we <code>panic!</code>, Rust wants to call a callback before aborting. This is
+that callback. For now, we'll just <code>loop</code> forever. As such, all the arguments
+start with <code>_</code>, so that Rust won't warn us that the parameters are unused.
+The <code>#[lang]</code> attribute is what makes Rust understand that that's what this
+function for.</p>
+<p>Other than that, this is boilerplate: Rust itself determines the exact
+arguments and the rest of it. We'll talk about this stuff more when we
+actually do something on panics; for now, don't worry about it.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -826,17 +836,85 @@ pub fn _start() -&gt; ! {
     loop {}
 }
 #}</code></pre></pre>
-<p>This is our <code>main</code> function, even though it's named <code>_start</code>. Have you ever wondered how <code>main</code> gets called?
-Technically, <code>_start</code> gets called first, then that calls your <code>main</code> function. Any setup code goes in <code>_start</code>,
-and would run before it calls <code>main</code>.</p>
-<p>Let's explain this function in a <em>bit</em> more detail. The <code>#[no_mangle]</code> attribute says &quot;hey Rust, it's really
-important that this function is named <em>exactly</em> this.&quot; You see, Rust is free to rename functions for you. There's
-good reasons for this that we won't get into here. This attribute disables that. If Rust renamed this function,
-then we wouldn't be able to boot up properly. We'll explain more in the next section.</p>
-<p>The <code>!</code> return type means we never return, and we never return because the only thing we do is <code>loop</code> forever!</p>
-<p>With this code, our little kernel will start, and then do nothing. It's a start!</p>
+<p>This is our <code>main</code> function, even though it's named <code>_start</code>. Have you ever
+wondered how <code>main</code> gets called? Technically, <code>_start</code> gets called first,
+then that calls your <code>main</code> function. Any setup code goes in <code>_start</code>, and
+would run before it calls <code>main</code>.</p>
+<p>Let's explain this function in a <em>bit</em> more detail. The <code>#[no_mangle]</code>
+attribute says &quot;hey Rust, it's really important that this function is named
+<em>exactly</em> this.&quot; You see, Rust is free to rename functions for you. There's
+good reasons for this that we won't get into here. This attribute disables
+that. If Rust renamed this function, then we wouldn't be able to boot up
+properly. We'll explain more in the next section.</p>
+<p>The <code>!</code> return type means we never return, and we never return because the
+only thing we do is <code>loop</code> forever!</p>
+<p>With this code, our little kernel will start, and then do nothing. It's a
+start!</p>
 <a class="header" href="print.html#compiling-with-bootimage" id="compiling-with-bootimage"><h2>Compiling with <code>bootimage</code></h2></a>
+<p>Now that we have our code, it's time to compile it! First, we want to make
+sure that we are using the nightly version of Rust, so run this:</p>
+<pre><code class="language-bash">$ rustup override set nightly
+</code></pre>
+<p>Now, any time we're in this project, <code>rustup</code> will ensure we're using nightly
+Rust, automatically.</p>
+<p>To build the project, we use the <em>bootimage</em> tool we installed earlier. Run
+this:</p>
+<pre><code class="language-bash">$ bootimage --target=intermezzos
+</code></pre>
+<p>The target flag must have the same name as the <code>.json</code> file you've made, so
+if you picked a different name, make sure to use it here!</p>
+<p>You should see some output that looks like this:</p>
+<pre><code class="language-bash">$ bootimage --target=intermezzos
+   Compiling core v0.0.0 (file:///~/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/lib/rustlib/src/rust/src/libcore)
+    Finished release [optimized] target(s) in 65.72 secs
+   Compiling intermezzos v0.1.0 (file:///~/src/intermezzos/intermezzos)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.82 secs
+Downloading bootloader...
+Creating disk image at bootimage.bin
+</code></pre>
+<p>If you remember from Chapter 2, we installed two tools: <code>bootimage</code> and
+<code>xargo</code>. In this case, what happens is:</p>
+<ul>
+<li><code>bootimage</code> calls <code>xargo</code> to compile <code>libcore</code>, Rust's smallest library.</li>
+<li><code>xargo</code> calls <code>cargo</code> to build our OS, passing flags to use that new
+<code>libcore</code>.</li>
+<li><code>cargo</code> calls <code>rustc</code> to actually compile our OS's code itself.</li>
+<li><code>bootimage</code> then takes our code and makes a <code>.bin</code> file.</li>
+</ul>
+<p>Whew! That's a lot of stuff. We'll go over the details of what exactly these
+steps mean in the next section. But at this point, if <code>bootimage.bin</code> exists,
+you've successfully compiled your very first OS! It doesn't do much, but
+everyone starts somewhere.</p>
 <a class="header" href="print.html#running-with-qemu" id="running-with-qemu"><h2>Running with <code>qemu</code></h2></a>
+<p>Let's try running it! To load up our OS in <code>qemu</code>, type this:</p>
+<pre><code class="language-bash">$ qemu-system-x86_64 -drive format=raw,file=bootimage.bin
+</code></pre>
+<p>You should hopefully get something that looks like this:</p>
+<p><img alt="program on hardware" class="center" src="assets/qemu.png" /></p>
+<p>Hooray! Since our OS does nothing, we get a blank screen. To be clear, this
+is emulating hardware, and our OS is running on it, on our own computer.
+Excellent!</p>
+<p>Let's step back slightly and go over what that command does:</p>
+<pre><code class="language-bash">qemu-system-x86_64
+</code></pre>
+<p><code>qemu</code> installs virtual machines for all kinds of systems, we specifically
+want an <code>x86_64</code> machine, so we need to invoke the command that will start
+it.</p>
+<pre><code class="language-bash">-drive
+</code></pre>
+<p>This parameter sets up a disk drive for our virtual machine. We need one of
+those so that it knows what to actually load.</p>
+<pre><code class="language-bash">format=raw,file=bootimage.bin
+</code></pre>
+<p>This is the value of the <code>-drive</code> parameter. It's split into two parts; the
+first is that we want the format to be 'raw', that is, just use the bytes
+directly, it's not formatted as a specific filesystem. The second is the file
+that we want to actually load for that disk; it's our <code>bootimage.bin</code> file we
+just produced with <code>bootimage</code>.</p>
+<a class="header" href="print.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
+<p>Congrats! This is the first step on our journey building operating systems.
+It only gets cooler from here. But before we move on, let's take a step back
+and investigate in a bit more depth what we actually just did.</p>
 <a class="header" href="print.html#appendix-a-target-specifications" id="appendix-a-target-specifications"><h1>Appendix A: target specifications</h1></a>
 <p>In Chapter 2, we created <code>intermezzos.json</code>, a &quot;target speciifcation.&quot;
 Here's the reasons for setting each thing:</p>
