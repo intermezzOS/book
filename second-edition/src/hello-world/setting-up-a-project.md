@@ -302,19 +302,28 @@ just produced with `bootimage`.
 
 ## Some conveniences
 
-`bootimage` can make this even easier! Check this out:
+`bootimage` can make this even easier! Go to your `Cargo.toml`, and add
+this section:
+
+```toml
+[package.metadata.bootimage]
+default-target = "intermezzos.json"
+```
+
+If you named your JSON file something different, use it.
+
+Once we've done this, we can do:
 
 ```shell
 $ bootimage build
 $ bootimage run
 ```
 
-The former looks for a `.json` file in the current directory, and passes it
-to `--target` for you. The latter will automatically invoke the qemu command
-that we've been running. Even easier!
+With this, `bootimage build` will default to `--target=intermezzos.json`, and
+`bootimage run` will run the same Qemu command we've been using so far. This
+is much more convenient!
 
-Both of these things are configurable, but the defaults work for us, so we
-don't have to do anything special. For more info, see [bootimage's
+For more info, see [bootimage's
 documentation](https://github.com/rust-osdev/bootimage#configuration).
 
 ## Conclusion
