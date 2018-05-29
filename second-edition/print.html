@@ -898,15 +898,20 @@ directly, it's not formatted as a specific filesystem. The second is the file
 that we want to actually load for that disk; it's our <code>bootimage.bin</code> file we
 just produced with <code>bootimage</code>.</p>
 <a class="header" href="print.html#some-conveniences" id="some-conveniences"><h2>Some conveniences</h2></a>
-<p><code>bootimage</code> can make this even easier! Check this out:</p>
+<p><code>bootimage</code> can make this even easier! Go to your <code>Cargo.toml</code>, and add
+this section:</p>
+<pre><code class="language-toml">[package.metadata.bootimage]
+default-target = &quot;intermezzos.json&quot;
+</code></pre>
+<p>If you named your JSON file something different, use it.</p>
+<p>Once we've done this, we can do:</p>
 <pre><code class="language-shell">$ bootimage build
 $ bootimage run
 </code></pre>
-<p>The former looks for a <code>.json</code> file in the current directory, and passes it
-to <code>--target</code> for you. The latter will automatically invoke the qemu command
-that we've been running. Even easier!</p>
-<p>Both of these things are configurable, but the defaults work for us, so we
-don't have to do anything special. For more info, see <a href="https://github.com/rust-osdev/bootimage#configuration">bootimage's
+<p>With this, <code>bootimage build</code> will default to <code>--target=intermezzos.json</code>, and
+<code>bootimage run</code> will run the same Qemu command we've been using so far. This
+is much more convenient!</p>
+<p>For more info, see <a href="https://github.com/rust-osdev/bootimage#configuration">bootimage's
 documentation</a>.</p>
 <a class="header" href="print.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
 <p>Congrats! This is the first step on our journey building operating systems.
