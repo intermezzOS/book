@@ -372,6 +372,17 @@ first is that we want the format to be 'raw', that is, just use the bytes
 directly, it's not formatted as a specific filesystem. The second is the file
 that we want to actually load for that disk; it's our <code>bootimage.bin</code> file we
 just produced with <code>bootimage</code>.</p>
+<a class="header" href="hello-world/setting-up-a-project.html#some-conveniences" id="some-conveniences"><h2>Some conveniences</h2></a>
+<p><code>bootimage</code> can make this even easier! Check this out:</p>
+<pre><code class="language-shell">$ bootimage build
+$ bootimage run
+</code></pre>
+<p>The former looks for a <code>.json</code> file in the current directory, and passes it
+to <code>--target</code> for you. The latter will automatically invoke the qemu command
+that we've been running. Even easier!</p>
+<p>Both of these things are configurable, but the defaults work for us, so we
+don't have to do anything special. For more info, see <a href="https://github.com/rust-osdev/bootimage#configuration">bootimage's
+documentation</a>.</p>
 <a class="header" href="hello-world/setting-up-a-project.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
 <p>Congrats! This is the first step on our journey building operating systems.
 It only gets cooler from here. But before we move on, let's take a step back
