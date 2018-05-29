@@ -300,6 +300,23 @@ directly, it's not formatted as a specific filesystem. The second is the file
 that we want to actually load for that disk; it's our `bootimage.bin` file we
 just produced with `bootimage`.
 
+## Some conveniences
+
+`bootimage` can make this even easier! Check this out:
+
+```shell
+$ bootimage build
+$ bootimage run
+```
+
+The former looks for a `.json` file in the current directory, and passes it
+to `--target` for you. The latter will automatically invoke the qemu command
+that we've been running. Even easier!
+
+Both of these things are configurable, but the defaults work for us, so we
+don't have to do anything special. For more info, see [bootimage's
+documentation](https://github.com/rust-osdev/bootimage#configuration).
+
 ## Conclusion
 
 Congrats! This is the first step on our journey building operating systems.
