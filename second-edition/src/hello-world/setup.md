@@ -99,23 +99,23 @@ $ bootimage --help
 
 And you should see a help message printed to the screen.
 
-The second tool is called `xargo`. It extends Cargo, allowing us to
-build Rust's core libraries for other OSes than the ones provided by
-the Rust team. To install it:
+The second tool is called `cargo-xbuild`. It extends Cargo, allowing us to
+build Rust's core libraries for other OSes than the ones provided by the Rust
+team. To install it:
 
 ```bash
-$ cargo install xargo
+$ cargo install cargo-xbuild
 ```
 
 And to check that it was installed correctly, run this:
 
 ```bash
-$ xargo --version
+$ cargo xbuild --version
 ```
 
 And make sure that you get some version output.
 
-Additionally, to do its job, `xargo` needs the source code for these
+Additionally, to do its job, `cargo-xbuild` needs the source code for these
 core libraries; to get those, run this:
 
 ```bash

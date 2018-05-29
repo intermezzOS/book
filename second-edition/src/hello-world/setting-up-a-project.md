@@ -244,10 +244,10 @@ Creating disk image at bootimage.bin
 ```
 
 If you remember from Chapter 2, we installed two tools: `bootimage` and
-`xargo`. In this case, what happens is:
+`cargo-xbuild`. In this case, what happens is:
 
 * `bootimage` calls `xargo` to compile `libcore`, Rust's smallest library.
-* `xargo` calls `cargo` to build our OS, passing flags to use that new
+* `cargo-xbuild` calls `cargo` to build our OS, passing flags to use that new
   `libcore`.
 * `cargo` calls `rustc` to actually compile our OS's code itself.
 * `bootimage` then takes our code and makes a `.bin` file.
