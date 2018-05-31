@@ -225,7 +225,7 @@ To build the project, we use the *bootimage* tool we installed earlier. Run
 this:
 
 ```bash
-$ bootimage --target=intermezzos
+$ bootimage build --target=intermezzos.json
 ```
 
 The target flag must have the same name as the `.json` file you've made, so
