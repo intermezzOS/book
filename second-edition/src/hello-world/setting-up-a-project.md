@@ -114,20 +114,18 @@ Okay, let's write some Rust! Delete the code in `src/main.rs`, and replace it
 with this:
 
 ```rust
-#![feature(lang_items)]
-
+#![feature(panic_implementation)]
+#![feature(core_intrinsics)]
 #![no_std]
 #![no_main]
 
-#[lang = "panic_fmt"]
+use core::intrinsics;
+use core::panic::PanicInfo;
+
+#[panic_implementation]
 #[no_mangle]
-pub extern "C" fn rust_begin_panic(
-    _msg: core::fmt::Arguments,
-    _file: &'static str,
-    _line: u32,
-    _column: u32,
-) -> ! {
-    loop {}
+fn panic(_info: &PanicInfo) -> ! {
+    unsafe { intrinsics::abort() }
 }
 
 #[no_mangle]
@@ -155,31 +153,26 @@ exists, and we don't have any of that yet, so we can't use it. Rust's default
 so we have that full control.
 
 ```rust
-#![feature(lang_items)]
+#![feature(panic_implementation)]
+#![feature(core_intrinsics)]
 
 // ... 
 
-#[lang = "panic_fmt"]
+use core::intrinsics;
+use core::panic::PanicInfo;
+
+#[panic_implementation]
 #[no_mangle]
-pub extern "C" fn rust_begin_panic(
-    _msg: core::fmt::Arguments,
-    _file: &'static str,
-    _line: u32,
-    _column: u32,
-) -> ! {
-    loop {}
+fn panic(_info: &PanicInfo) -> ! {
+    unsafe { intrinsics::abort() }
 }
 ```
 
 When we don't include the standard library, then we're missing one important
 thing: if we `panic!`, Rust wants to call a callback before aborting. This is
-that callback. For now, we'll just `loop` forever. As such, all the arguments
-start with `_`, so that Rust won't warn us that the parameters are unused.
-The `#[lang]` attribute is what makes Rust understand that that's what this
-function for.
+that callback. All we do is abort our program.
 
-Other than that, this is boilerplate: Rust itself determines the exact
-arguments and the rest of it. We'll talk about this stuff more when we
+Other than that, this is boilerplate. We'll talk about this stuff more when we
 actually do something on panics; for now, don't worry about it.
 
 ```rust
