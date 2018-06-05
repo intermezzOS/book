@@ -746,21 +746,19 @@ distraction; you don't <em>need</em> to know what's going on here to continue.</
 with this:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
-#![feature(lang_items)]
-
+#![feature(panic_implementation)]
+#![feature(core_intrinsics)]
 #![no_std]
 #![no_main]
 
 #fn main() {
-#[lang = &quot;panic_fmt&quot;]
+use core::intrinsics;
+use core::panic::PanicInfo;
+
+#[panic_implementation]
 #[no_mangle]
-pub extern &quot;C&quot; fn rust_begin_panic(
-    _msg: core::fmt::Arguments,
-    _file: &amp;'static str,
-    _line: u32,
-    _column: u32,
-) -&gt; ! {
-    loop {}
+fn panic(_info: &amp;PanicInfo) -&gt; ! {
+    unsafe { intrinsics::abort() }
 }
 
 #[no_mangle]
@@ -787,30 +785,25 @@ exists, and we don't have any of that yet, so we can't use it. Rust's default
 so we have that full control.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
-#![feature(lang_items)]
+#![feature(panic_implementation)]
+#![feature(core_intrinsics)]
 
 #fn main() {
 // ... 
 
-#[lang = &quot;panic_fmt&quot;]
+use core::intrinsics;
+use core::panic::PanicInfo;
+
+#[panic_implementation]
 #[no_mangle]
-pub extern &quot;C&quot; fn rust_begin_panic(
-    _msg: core::fmt::Arguments,
-    _file: &amp;'static str,
-    _line: u32,
-    _column: u32,
-) -&gt; ! {
-    loop {}
+fn panic(_info: &amp;PanicInfo) -&gt; ! {
+    unsafe { intrinsics::abort() }
 }
 #}</code></pre></pre>
 <p>When we don't include the standard library, then we're missing one important
 thing: if we <code>panic!</code>, Rust wants to call a callback before aborting. This is
-that callback. For now, we'll just <code>loop</code> forever. As such, all the arguments
-start with <code>_</code>, so that Rust won't warn us that the parameters are unused.
-The <code>#[lang]</code> attribute is what makes Rust understand that that's what this
-function for.</p>
-<p>Other than that, this is boilerplate: Rust itself determines the exact
-arguments and the rest of it. We'll talk about this stuff more when we
+that callback. All we do is abort our program.</p>
+<p>Other than that, this is boilerplate. We'll talk about this stuff more when we
 actually do something on panics; for now, don't worry about it.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
