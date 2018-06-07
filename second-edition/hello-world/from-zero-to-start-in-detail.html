@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>From zero to _start in detail - The intermezzOS Book</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="_FontAwesome/css/font-awesome.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+        <link rel="stylesheet" href="src/theme/extra.css">
+        
+
+        
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html" class="active"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">The intermezzOS Book</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="hello-world/from-zero-to-start-in-detail.html#from-zero-to-_start-in-detail" id="from-zero-to-_start-in-detail"><h1>From zero to <code>_start</code> in detail</h1></a>
+<p>We now have a little kernel. But we used a lot of tools to make it happen.
+What do these tools actually <em>do</em>? This section is titled &quot;in detail,&quot; but
+it's really &quot;in more detail than we've seen thus far.&quot; We're going to talk
+about what happens, so you can dig in deeper if you're interested, but we
+can't possibly cover every single bit in depth.</p>
+<p>Here's the basic set of steps:</p>
+<ol>
+<li>We write our kernel code.</li>
+<li>We build it with <code>bootimage build</code>.
+<ol>
+<li>This invokes <code>cargo-xbuild</code> to cross-compile <code>libcore</code>.</li>
+<li>It then invokes <code>cargo</code> to take our configuration and set up a build.</li>
+<li>Cargo invokes <code>rustc</code> to actually build the code.</li>
+<li>It then takes a precompiled 'bootloader' and our kernel and makes a <code>.bin</code> file.</li>
+</ol>
+</li>
+<li>We run it with <code>bootimage run</code>.
+<ol>
+<li>This takes our <code>.bin</code> file, and runs Qeumu, using that <code>.bin</code> as its hard drive.</li>
+</ol>
+</li>
+</ol>
+<p>Whew! That's a lot of stuff. It's not completely different from writing any Rust
+program, however: you write code, you build it, then you run it. Easy peasy.</p>
+<p>Let's dig in a bit!</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#we-write-our-kernel-code" id="we-write-our-kernel-code"><h2>We write our kernel code</h2></a>
+<p>This is the most straightforward step. Write the code! There is some subtlety
+here, but we talked about it earlier in the chapter: we have to cross-compile
+to our new platform. We remove the standard library. We configure both the
+panic handler and the behavior for when a panic happens.</p>
+<p>The rest of this book is largely about what to do during this step of
+development, so we won't belabor it here. You type some code, hit save. Done.</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#building-our-code-with-bootimage-build" id="building-our-code-with-bootimage-build"><h2>Building our code with <code>bootimage build</code></h2></a>
+<p>Normally, we build Rust code with <code>cargo build</code>, but for an OS, we use
+<code>bootimage</code> instead. This is a tool written by Phil Opperman (who we mentioned
+in the preface), and it wraps up another tool, also written by Phil,
+<code>cargo-xbuild</code>. That tool wraps Cargo. So, in the end, running <code>bootimage build</code> is not too far away from running <code>cargo build</code> conceptually; it's mostly
+that Cargo isn't extensible in the way we need at the moment, so we have
+to wrap it.</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#invoking-cargo-xbuild-to-cross-compile-libcore" id="invoking-cargo-xbuild-to-cross-compile-libcore"><h3>Invoking <code>cargo-xbuild</code> to cross-compile <code>libcore</code></h3></a>
+<p><code>cargo-xbuild</code>'s job is to cross compile Rust's <code>core</code> library. You see, Rust
+has an interesting relationship between the language and libraries: some
+important parts of the language are implemented as a library, not as a
+built-in thing. These foundations, and some other goodies, are included in
+the <code>core</code> library. So, before we can build our code, we need to build a copy
+of <code>core</code> for our OS. <code>cargo-xbuild</code> makes this easy: it knows how to ask
+<code>rustup</code> for a copy of <code>core</code>'s source code, and then builds it with our
+custom target JSON.</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#invoking-cargo-to-take-our-configuration-and-set-up-a-build" id="invoking-cargo-to-take-our-configuration-and-set-up-a-build"><h3>Invoking <code>cargo</code> to take our configuration and set up a build</h3></a>
+<p>Now that <code>core</code> is built, we can build our code! Cargo is <em>the</em> tool
+in Rust for this task, so <code>cargo-xbuild</code> calls on it to do so. It
+passes along our custom target JSON to make sure that we're outputting
+a binary for the correct target.</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#invoking-rustc-to-build-the-code" id="invoking-rustc-to-build-the-code"><h3>Invoking <code>rustc</code> to build the code</h3></a>
+<p>Cargo doesn't actually build our code: it invokes <code>rustc</code>, the Rust compiler,
+to actually do the building. Right now our OS is very simple, but as it
+grows, and as we split our code into packages, and use external packages,
+it's much nicer to let Cargo handle calling <code>rustc</code> rather than doing it by
+hand.</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#creating-a-bin-file" id="creating-a-bin-file"><h3>Creating a <code>.bin</code> file</h3></a>
+<p>Now that we have our OS compiled, we need to prepare it for running. To do
+so, <code>bootimage</code> creates a special file, called a <code>.bin</code> file. The <code>.bin</code>
+stands for &quot;binary&quot;, and it has no real format. It's just a bunch of binary
+code. There's no structure, headings, layout, nothing. Just a big old bag of
+bits.</p>
+<p>However, that doesn't mean that what's in there is random. You see, when you
+start up your computer, something called the BIOS runs first. The BIOS is
+all-but hard-coded into your motherboard, and it runs some diagnostic checks
+to make sure that everything is in order. It then runs the 'bootloader'.</p>
+<p>This is either the most interesting or most boring part of this whole
+enterprise. Almost all of this is piles and piles of backwards compatibility
+hacks. Since early computers were very small, the bootloader only gets to
+have <em>256 bytes</em> of stuff inside it. The eventual goal is to run your OS,
+but there's a few other possibilities. For example, maybe you have more
+than one OS on your computer, so the bootloader invokes a program that
+lets you choose between them. Additionally, even on today's high-powered
+CPUs, when the bootloader is invoked, they're in a backwards-compatible mode
+that makes them think they're a processor from the 70s. That's right,
+we basically didn't ever change the foundations here, simply piled new
+things on top. &quot;Oh, you think you're an 8-bit computer? Let's set up
+16-bit mode. Oh, now you think you're a 16-bit computer? Let's set up
+32-bit mode. Oh, now you think you're a 32-bit computer? Let's set up
+64-bit mode.&quot; And <em>then</em> we can finally start our OS.</p>
+<p>You may be wondering, &quot;How does the bootloader do all this in only 256 bytes?
+This quesiton itself is like 90 bytes!&quot; The answer? Compatibility hacks.
+Virutally all bootloaders today are multiple stages: the first tiny bootloader
+sets up a secondary bootloader, and that one then can be larger and do more
+work.</p>
+<p><code>bootimage</code> has a custom-written bootloader that puts your CPU into
+64-bit mode, then calls the <code>_start</code> function of our OS. It assembles
+the bootloader's code and our OSs' code into that one <code>.bin</code> file.</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#running-our-code-with-bootimage-run" id="running-our-code-with-bootimage-run"><h2>Running our code with <code>bootimage run</code></h2></a>
+<p><code>bootimage run</code> takes our <code>.bin</code> file and passes it to Qemu, the emulator
+we discussed earlier in the chapter. Qemu uses the <code>.bin</code> file as the
+hard drive, and so when it starts up, its BIOS calls the bootloader
+which calls our kernel. It also emulates the screen, so when we start
+printing stuff to the screen, we'll see it pop up!</p>
+<a class="header" href="hello-world/from-zero-to-start-in-detail.html#summary" id="summary"><h2>Summary</h2></a>
+<p>There's more to explore here, but for now, we're not going to worry about
+this stuff. It's very platform-specific, and mostly papering over legacy.
+Instead, let's move forward and make our kernel actually <em>do</em> stuff, not
+worry about how to put a processor into a specific mode.</p>
+<p>In the next chapter, we'll print some characters on the screen!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="hello-world/setting-up-a-project.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="appendix/target-specifications.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="hello-world/setting-up-a-project.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="appendix/target-specifications.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+
+        
+        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
+        
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+    </body>
+</html>
