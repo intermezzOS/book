@@ -202,6 +202,28 @@ only thing we do is `loop` forever!
 With this code, our little kernel will start, and then do nothing. It's a
 start!
 
+## Aborting on panic
+
+While we set up a panic handler, that's not the only thing that occurs on
+a panic. After our handler is called, Rust can do one of two things: abort
+the entire program, or "unwind the stack." Since we're an OS, if our OS
+panics, we want to abort. Unwinding can be useful for some applications, but
+not an OS, as if we crash, it's all over. As such, we're going to skip over
+explaining what unwinding is for now, and simply set things up to abort. Go
+into `Cargo.toml` and add these lines:
+
+```toml
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+```
+
+Cargo has a concept of "release profiles" that let us get a development
+build or a release build. With this configuration, we're telling the
+Rust compiler that we want to abort when a panic occurs.
+
 ## Compiling with `bootimage`
 
 Now that we have our code, it's time to compile it! First, we want to make
@@ -303,7 +325,7 @@ this section:
 default-target = "intermezzos.json"
 ```
 
-If you named your JSON file something different, use it.
+If you named your JSON file something different, use that name.
 
 Once we've done this, we can do:
 
