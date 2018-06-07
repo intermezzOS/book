@@ -10,7 +10,7 @@
 - [From Zero to "Hello, world!"](hello-world/index.md)
     - [Setting up a development environment](hello-world/setup.md)
     - [Setting up a project](hello-world/setting-up-a-project.md)
-    - [The Build Process in Detail](hello-world/build-process-in-detail.md)
+    - [From zero to `_start` in detail](hello-world/from-zero-to-start-in-detail.md)
 
 -------
 
