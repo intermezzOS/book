@@ -11,6 +11,7 @@
     - [Setting up a development environment](hello-world/setup.md)
     - [Setting up a project](hello-world/setting-up-a-project.md)
     - [From zero to `_start` in detail](hello-world/from-zero-to-start-in-detail.md)
+- [Interlude: fractal learning](fractal-learning.md)
 
 -------
 
