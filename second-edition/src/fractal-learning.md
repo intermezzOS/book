@@ -29,7 +29,9 @@ Well, there is a good reason, but it's 100% irrelevant to writing a yellow
 character on the screen. So we say "This color means yellow" and just get
 on with life. I've written this VGA code probably ten different times in
 at least three different languages in the past ten years, and I didn't know
-why that number meant yellow until last night.
+why that number meant yellow until last night. In the previous sections, we
+managed to build a whole "hello world" kernel without understanding fully
+what was going on. We then circled back and dug in a bit.
 
 It's okay to not "fully" understand something before moving on, whatever
 that means. You'll get back to it. Sometimes, learning something else is

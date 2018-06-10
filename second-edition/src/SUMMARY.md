@@ -12,6 +12,10 @@
     - [Setting up a project](hello-world/setting-up-a-project.md)
     - [From zero to `_start` in detail](hello-world/from-zero-to-start-in-detail.md)
 - [Interlude: fractal learning](fractal-learning.md)
+- [Printing to the screen: a text mode VGA driver](vga/index.md)
+    - [A VGA "hello world"](vga/hello-world.md)
+    - [Understanding text mode](vga/understanding-text-mode.md)
+    - [A nicer implementation](vga/nicer-implementation.md)
 
 -------
 
