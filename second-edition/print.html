@@ -71,7 +71,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li class="spacer"></li><li class="affix"><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -1058,12 +1058,69 @@ Well, there is a good reason, but it's 100% irrelevant to writing a yellow
 character on the screen. So we say &quot;This color means yellow&quot; and just get
 on with life. I've written this VGA code probably ten different times in
 at least three different languages in the past ten years, and I didn't know
-why that number meant yellow until last night.</p>
+why that number meant yellow until last night. In the previous sections, we
+managed to build a whole &quot;hello world&quot; kernel without understanding fully
+what was going on. We then circled back and dug in a bit.</p>
 <p>It's okay to not &quot;fully&quot; understand something before moving on, whatever
 that means. You'll get back to it. Sometimes, learning something else is
 more important than diving into every last detail. And, since you now
 have the words to understand what it is you need to learn, coming back
 to the topic later is even easier. You have the terms to search for.</p>
+<a class="header" href="print.html#printing-to-the-screen-a-text-mode-vga-driver" id="printing-to-the-screen-a-text-mode-vga-driver"><h1>Printing to the screen: a text mode VGA driver</h1></a>
+<p>Now that we can build and run our new kernel, it's time to make it actually
+do someting! We'll get started by printing stuff to the screen. PC-compatible
+computers implement a graphics API called &quot;VGA&quot;, or &quot;video graphics array.&quot;
+You'll come to learn quite soon why that's the name!</p>
+<p>First, we'll write out the simplest &quot;hello world&quot; possible. Then, we'll dig
+a bit deeper into exactly what we did. Finally, we'll refactor our code into
+an actual, nice-to-use library.</p>
+<a class="header" href="print.html#a-vga-hello-world" id="a-vga-hello-world"><h1>A VGA &quot;hello world&quot;</h1></a>
+<p>In the previous chapter, we set up a &quot;hello world&quot; kernel, but we didn't even
+print &quot;hello world&quot; to the screen! Let's fix that. Open up your <code>src/main.rs</code>
+and modify your <code>_start()</code> function to look like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[no_mangle]
+pub fn _start() -&gt; ! {
+    let slice = unsafe { core::slice::from_raw_parts_mut(0xb8000 as *mut u8, 4000) };
+
+    slice[0] = b'h';
+    slice[1] = 0x02;
+    slice[2] = b'e';
+    slice[3] = 0x02;
+    slice[4] = b'l';
+    slice[5] = 0x02;
+    slice[6] = b'l';
+    slice[7] = 0x02;
+    slice[8] = b'o';
+    slice[9] = 0x02;
+    slice[10] = b' ';
+    slice[11] = 0x02;
+    slice[12] = b'w';
+    slice[13] = 0x02;
+    slice[14] = b'o';
+    slice[15] = 0x02;
+    slice[16] = b'r';
+    slice[17] = 0x02;
+    slice[18] = b'l';
+    slice[19] = 0x02;
+    slice[20] = b'd';
+    slice[21] = 0x02;
+
+    loop {}
+}
+#}</code></pre></pre>
+<p>If you compile and build with <code>bootimage run</code>, you should see something like
+this appear!</p>
+<p><img alt="program on hardware" class="center" src="assets/hello-ascii.png" /></p>
+<p>Congrats! You've gotten it to print to the screen. If you look at the code above, you
+<em>may</em> be getting an idea of why VGA is called &quot;video graphics array&quot;... in the next
+section, we'll explain what the code above is actually doing.</p>
+<a class="header" href="print.html#understanding-text-mode" id="understanding-text-mode"><h1>Understanding text mode</h1></a>
+<p>Coming soon!</p>
+<a class="header" href="print.html#a-nicer-implementation" id="a-nicer-implementation"><h1>A nicer implementation</h1></a>
+<p>Coming soon!</p>
 <a class="header" href="print.html#appendix-a-target-specifications" id="appendix-a-target-specifications"><h1>Appendix A: target specifications</h1></a>
 <p>In Chapter 2, we created <code>intermezzos.json</code>, a &quot;target speciifcation.&quot;
 Here's the reasons for setting each thing:</p>
