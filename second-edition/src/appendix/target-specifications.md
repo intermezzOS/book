@@ -1,6 +1,6 @@
 # Appendix A: target specifications
 
-In Chapter 2, we created `intermezzos.json`, a "target speciifcation."
+In Chapter 2, we created `intermezzos.json`, a "target specification."
 Here's the reasons for setting each thing:
 
 ```json
