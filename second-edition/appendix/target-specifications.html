@@ -18,7 +18,7 @@
         <link rel="shortcut icon" href="favicon.png">
 
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="_FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
 
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
@@ -170,7 +170,8 @@ a pointer is, don't worry about it yet.</p>
 <pre><code class="language-json">  &quot;os&quot;: &quot;none&quot;,
 </code></pre>
 <p>We don't have an OS! We're building one!</p>
-<pre><code class="language-json">  &quot;linker-flavor&quot;: &quot;ld.lld&quot;,
+<pre><code class="language-json">  &quot;linker&quot;: &quot;rust-lld&quot;,
+  &quot;linker-flavor&quot;: &quot;ld.lld&quot;,
 </code></pre>
 <p>We'll be using <a href="https://lld.llvm.org/">LLD</a> for linking; this linker is
 provided by the LLVM project, and automatically distributed with Rust.</p>
@@ -235,8 +236,6 @@ instead of unwind, we don't generate code to handle panics.</p>
         
 
         
-
-        
         <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
         
         
@@ -250,6 +249,8 @@ instead of unwind, we don't generate code to handle panics.</p>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        
+
         
 
     </body>
