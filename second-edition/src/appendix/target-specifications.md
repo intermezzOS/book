@@ -58,6 +58,7 @@ We're not using C, so this doesn't matter, but if we were, we'd make integers
 We don't have an OS! We're building one!
 
 ```json
+  "linker": "rust-lld",
   "linker-flavor": "ld.lld",
 ```
 

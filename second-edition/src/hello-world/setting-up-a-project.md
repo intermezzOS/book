@@ -97,6 +97,7 @@ Create a new file named `intermezzos.json` and put this in it:
   "target-pointer-width": "64",
   "target-c-int-width": "32",
   "os": "none",
+  "linker": "rust-lld",
   "linker-flavor": "ld.lld",
   "executables": true,
   "features": "-mmx,-sse,+soft-float",
