@@ -753,6 +753,8 @@ with this:</p>
 #![no_main]
 
 #fn main() {
+extern crate bootloader_precompiled;
+
 use core::intrinsics;
 use core::panic::PanicInfo;
 
@@ -792,6 +794,8 @@ so we have that full control.</p>
 #fn main() {
 // ... 
 
+extern crate bootloader_precompiled;
+
 use core::intrinsics;
 use core::panic::PanicInfo;
 
@@ -804,6 +808,8 @@ fn panic(_info: &amp;PanicInfo) -&gt; ! {
 <p>When we don't include the standard library, then we're missing one important
 thing: if we <code>panic!</code>, Rust wants to call a callback before aborting. This is
 that callback. All we do is abort our program.</p>
+<p>The <code>extern crate</code> line will set up our bootloader, that is, the code that
+loads our OS after the computer starts up. We'll talk more about this later.</p>
 <p>Other than that, this is boilerplate. We'll talk about this stuff more when we
 actually do something on panics; for now, don't worry about it.</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -847,6 +853,12 @@ panic = &quot;abort&quot;
 <p>Cargo has a concept of &quot;release profiles&quot; that let us get a development
 build or a release build. With this configuration, we're telling the
 Rust compiler that we want to abort when a panic occurs.</p>
+<a class="header" href="print.html#including-a-bootloader" id="including-a-bootloader"><h2>Including a bootloader</h2></a>
+<p>Earlier we had an <code>extern crate</code> line talking about <code>bootloader_precompiled</code>.
+We need to add that to our <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+bootloader_precompiled = &quot;0.2.0&quot;
+</code></pre>
 <a class="header" href="print.html#compiling-with-bootimage" id="compiling-with-bootimage"><h2>Compiling with <code>bootimage</code></h2></a>
 <p>Now that we have our code, it's time to compile it! First, we want to make
 sure that we are using the nightly version of Rust, so run this:</p>
