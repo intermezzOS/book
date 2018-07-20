@@ -120,6 +120,8 @@ with this:
 #![no_std]
 #![no_main]
 
+extern crate bootloader_precompiled;
+
 use core::intrinsics;
 use core::panic::PanicInfo;
 
@@ -159,6 +161,8 @@ so we have that full control.
 
 // ... 
 
+extern crate bootloader_precompiled;
+
 use core::intrinsics;
 use core::panic::PanicInfo;
 
@@ -172,6 +176,9 @@ fn panic(_info: &PanicInfo) -> ! {
 When we don't include the standard library, then we're missing one important
 thing: if we `panic!`, Rust wants to call a callback before aborting. This is
 that callback. All we do is abort our program.
+
+The `extern crate` line will set up our bootloader, that is, the code that
+loads our OS after the computer starts up. We'll talk more about this later.
 
 Other than that, this is boilerplate. We'll talk about this stuff more when we
 actually do something on panics; for now, don't worry about it.
@@ -224,6 +231,16 @@ panic = "abort"
 Cargo has a concept of "release profiles" that let us get a development
 build or a release build. With this configuration, we're telling the
 Rust compiler that we want to abort when a panic occurs.
+
+## Including a bootloader
+
+Earlier we had an `extern crate` line talking about `bootloader_precompiled`.
+We need to add that to our `Cargo.toml`:
+
+```toml
+[dependencies]
+bootloader_precompiled = "0.2.0"
+```
 
 ## Compiling with `bootimage`
 
