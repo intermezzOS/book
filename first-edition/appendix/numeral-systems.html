@@ -9,28 +9,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="../">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
-        <link rel="shortcut icon" href="favicon.png">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
 
         
-
     </head>
     <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "../";</script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
             try {
@@ -69,7 +72,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html" class="active">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="../installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="../linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="../osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="../windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="../booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="../multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="../hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="../making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="../running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="../automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="../transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="../paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="../setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="../jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="../a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="../creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="../hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="../appendix/numeral-systems.html" class="active">Appendix B: Numeral Systems</a></li><li class="affix"><a href="../appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -102,7 +105,7 @@
                         <h1 class="menu-title">intermezzOS</h1> 
 
                         <div class="right-buttons">
-                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
                         </div>
@@ -133,11 +136,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="appendix/numeral-systems.html#numeral-systems" id="numeral-systems"><h1>Numeral Systems</h1></a>
+                        <a class="header" href="#numeral-systems" id="numeral-systems"><h1>Numeral Systems</h1></a>
 <p>In math we use a particular <strong>numeral system</strong> to denote a particular number. A
 numeral system is defined by the particular symbols it uses to convey numbers.</p>
 <p>Below we'll examine three numeral systems: decimal, binary and hexadecimal.</p>
-<a class="header" href="appendix/numeral-systems.html#decimal-system" id="decimal-system"><h2>Decimal System</h2></a>
+<a class="header" href="#decimal-system" id="decimal-system"><h2>Decimal System</h2></a>
 <p>The numeral system you're probably most familiar with is the <strong>decimal system</strong>.
 The symbols (or &quot;digits&quot;) used in decimal are: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>,
 <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>.</p>
@@ -154,7 +157,7 @@ though <code>2</code> times. We start new cycles at a regular interval - every t
 cycled through all the symbols of the digit furthest to the left.</p>
 <p>If you're familiar with Roman numerals, you know that that system did not work
 that way. &quot;Orders of magnitude&quot; don't start and stop at regular intervals.</p>
-<a class="header" href="appendix/numeral-systems.html#lets-count" id="lets-count"><h3>Let's Count</h3></a>
+<a class="header" href="#lets-count" id="lets-count"><h3>Let's Count</h3></a>
 <p>At the risk of taking things too slow, let's count in decimal the number of <code>|</code>s here:</p>
 <p><code>||||||||||||</code></p>
 <p>Let's begin with zero and go higher:</p>
@@ -166,7 +169,7 @@ over.</p>
 <p>Sorry if that was a bit too easy. You're probably pretty good with the decimal
 system already so this wasn't too big of a challenge. But we'll do the same
 exercise with other numeral systems to get a better feel for them.</p>
-<a class="header" href="appendix/numeral-systems.html#lets-use-math" id="lets-use-math"><h3>Let's Use Math</h3></a>
+<a class="header" href="#lets-use-math" id="lets-use-math"><h3>Let's Use Math</h3></a>
 <p>We can summarize what we just said with a math formula:</p>
 <p>\[ 1 \cdot 10^1 + 2 \cdot 10^0 = 12 \]</p>
 <p>Here we've written out that we've cycled completely through the numbers once
@@ -197,14 +200,14 @@ want to convert from some other numeral system to decimal.</p>
 <p>Now we'll examine two new numeral systems. The are positional just like decimal, but
 have different bases. We'll examine <strong>binary</strong> with a base of two, and <strong>hexadecimal</strong>
 with a base of sixteen.</p>
-<a class="header" href="appendix/numeral-systems.html#binary-system" id="binary-system"><h2>Binary system</h2></a>
+<a class="header" href="#binary-system" id="binary-system"><h2>Binary system</h2></a>
 <p>Unlike decimal's base of ten, binary has a base of two. Meaning we only have two
 symbols to work with to represent all the numbers: <code>0</code>, <code>1</code>. Say
 goodbye to <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, and <code>9</code>. We can't use them.</p>
 <p>So when we have the binary number <code>10</code> we don't have the number ten. What we've really
 done is counted <em>once through all the digits of the system</em> <code>0</code>, <code>1</code> and
 started again. So we have the number two.</p>
-<a class="header" href="appendix/numeral-systems.html#lets-count-1" id="lets-count-1"><h3>Let's Count</h3></a>
+<a class="header" href="#lets-count-1" id="lets-count-1"><h3>Let's Count</h3></a>
 <p>Let's count <code>|</code> again, but this time in binary:</p>
 <p><code>|||||||</code></p>
 <p>If we were counting in decimal we would use the symbol <code>7</code> to refer to this
@@ -214,7 +217,7 @@ number. Let's start at zero:</p>
 made a full round trip, so let's start over.</p>
 <p>... <code>10</code>, <code>11</code>, <code>100</code>, <code>101</code>, <code>110</code>, <code>111</code></p>
 <p>We've successfully counted to the number seven using binary!</p>
-<a class="header" href="appendix/numeral-systems.html#lets-use-math-1" id="lets-use-math-1"><h3>Let's Use Math</h3></a>
+<a class="header" href="#lets-use-math-1" id="lets-use-math-1"><h3>Let's Use Math</h3></a>
 <p>The binary value <code>100</code> means we have counted <em>one times two (a.k.a the base) times
 through all the digits (a.k.a. the base)</em>, which would equal to <code>4</code> in decimal.</p>
 <p>\[1 \cdot base^2 + 0 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^2 + 0 \cdot 2^1 + 0 \cdot 2^0 = 4 \]</p>
@@ -223,7 +226,7 @@ through all the digits (a.k.a. the base)</em>, which would equal to <code>4</cod
 and <em>one times two (a.k.a the base) times two (a.k.a the base) digits</em>.</p>
 <p>\[ 1 \cdot base^3 + 0 \cdot base ^2 + 1 \cdot base^1 + 0 \cdot base^0 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 = 8 + 2 = 10\]</p>
 <p>Hurray! We've successfully converted binary to decimal!</p>
-<a class="header" href="appendix/numeral-systems.html#hexadecimal-system" id="hexadecimal-system"><h2>Hexadecimal System</h2></a>
+<a class="header" href="#hexadecimal-system" id="hexadecimal-system"><h2>Hexadecimal System</h2></a>
 <p>And now we meet hexadecimal with a base of sixteen. Before we begin we have to answer the
 question of how we represent sixteen unique digits when we're used to representing only ten.</p>
 <p>To represent the digits after <code>9</code> until a new cycle begins we'll use the letters
@@ -235,7 +238,7 @@ one, but we chose <code>1</code> instead.</p>
 <em>through all the digits of the system once</em> and are starting the cycle again.
 However, instead of it being ten, it's sixteen. Another way of thinking about
 this is <code>10</code> in hexadecimal is equal to <code>16</code> in decimal.</p>
-<a class="header" href="appendix/numeral-systems.html#lets-count-2" id="lets-count-2"><h3>Let's Count</h3></a>
+<a class="header" href="#lets-count-2" id="lets-count-2"><h3>Let's Count</h3></a>
 <p>Once again, let's count <code>|</code>s but this time using hexadecimal notation:</p>
 <p><code>||||||||||||||||||||</code></p>
 <p>If we were using decimal we would use the symbol <code>20</code> to refer to this number.
@@ -244,13 +247,13 @@ Let's start again at zero:</p>
 <p>Don't be tempted to do the decimal thing and use <code>10</code>!</p>
 <p>... <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>, <code>10</code>, <code>11</code>, <code>12</code>, <code>13</code>, <code>14</code></p>
 <p>Congrats! You've counted to twenty in hexadecimal!</p>
-<a class="header" href="appendix/numeral-systems.html#lets-use-math-2" id="lets-use-math-2"><h3>Let's Use Math</h3></a>
+<a class="header" href="#lets-use-math-2" id="lets-use-math-2"><h3>Let's Use Math</h3></a>
 <p>Let's do the math thing one more time with an exotic hexadecimal value: <code>3e8</code>.
 This value means we have counted <em>three times sixteen (a.k.a the base) times all the
 digits of the system (a.k.a the base)</em> and <em><code>e</code> times, which is equal to 14 in decimal,
 all digits (a.k.a the base)</em> and <em>8 remaining elements</em>.</p>
 <p>\[ 3 \cdot base^2 + e \cdot base^1 + 8 \cdot base^0 = 3 \cdot 16^2 + 14 \cdot 16^1 + 8 \cdot 16^0 = 768 + 224 + 8 = 1000 \]</p>
-<a class="header" href="appendix/numeral-systems.html#converting-from-decimal-to-another-base" id="converting-from-decimal-to-another-base"><h2>Converting From Decimal to Another Base</h2></a>
+<a class="header" href="#converting-from-decimal-to-another-base" id="converting-from-decimal-to-another-base"><h2>Converting From Decimal to Another Base</h2></a>
 <p>Until now, we have only converted values from a numeral system with a specific base
 to the decimal system. But what if we want to do the opposite?</p>
 <p>For this we are going to use the <strong>divison</strong> and <strong>remainders</strong></p>
@@ -295,7 +298,7 @@ The value we are going to convert from decimal to hexadecimal is <code>43981</co
 <p>We get the binary number <code>101001</code>, let's check:</p>
 <p>\[ 1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 41 \]</p>
 <p>Fantastic, it worked once again!</p>
-<a class="header" href="appendix/numeral-systems.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
+<a class="header" href="#conclusion" id="conclusion"><h2>Conclusion</h2></a>
 <p>In this chapter we have learned there were many numeral systems beside the decimal
 system we use in our every day life. We've seen why the hexadecimal system uses the
 letters <code>a</code> through <code>f</code> and finally we have learned how to convert back and forth
@@ -306,13 +309,13 @@ between any numeral system and the decimal system.</p>
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="appendix/troubleshooting.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../appendix/troubleshooting.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="appendix/osx-install.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../appendix/osx-install.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -324,13 +327,13 @@ between any numeral system and the decimal system.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="appendix/troubleshooting.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="../appendix/troubleshooting.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="appendix/osx-install.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="../appendix/osx-install.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -345,17 +348,14 @@ between any numeral system and the decimal system.</p>
         
 
         
-        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
-        
-        
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         

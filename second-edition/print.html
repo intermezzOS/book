@@ -9,17 +9,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
-        <link rel="shortcut icon" href="favicon.png">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-
+        <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
@@ -30,9 +31,11 @@
         
 
         
-
     </head>
     <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
             try {
@@ -138,7 +141,7 @@
                         <h1 class="center">intermezzOS</h1>
 <p><img class="center" src="assets/rhizome.jpg" alt="rhizome" /></p>
 <p class="center">An operating system for learning</p>
-<a class="header" href="print.html#preface" id="preface"><h2>Preface</h2></a>
+<a class="header" href="#preface" id="preface"><h2>Preface</h2></a>
 <p>This book describes the intermezzOS project. intermezzOS is a hobby operating
 system, specifically targeted at showing beginners how to get into operating
 systems development. Rather than describe some sort of final OS, it instead
@@ -157,7 +160,7 @@ This book is in the <code>book</code> repository, the kernel is in <code>kernel<
 website is there too. Feel free to open issues if you want to discuss things
 in a general sense, and send bug reports and PRs to the appropriate repos if
 you’d like to help with a particular component.</p>
-<a class="header" href="print.html#the-story" id="the-story"><h2>The Story</h2></a>
+<a class="header" href="#the-story" id="the-story"><h2>The Story</h2></a>
 <p>A long time ago, in college, my friends and I were working on a hobby operating
 system, <a href="http://xomb.org">XOmB</a>. It was... tough. Frankly, while I learned a
 lot, I was a pretty minor contributor. I got frustrated too easily. One day, I
@@ -204,7 +207,7 @@ similar concepts, but with different code and in different ways, and in a
 different order.</p>
 <p>Furthermore, I will not commit to any kind of schedule for this project. It’s
 going to be in my spare time, and I’m learning a lot of this as I go, too.</p>
-<a class="header" href="print.html#the-name" id="the-name"><h2>The Name</h2></a>
+<a class="header" href="#the-name" id="the-name"><h2>The Name</h2></a>
 <blockquote>
 <p>The nomad has a territory; he follows customary paths; he goes from one point
 to another; he is not ignorant of points (water points, dwelling points,
@@ -237,7 +240,7 @@ middle.</p>
 beginning of the book, operating systems are largely about abstractions. And
 abstractions are themselves ‘in the middle’, between what they’re abstracting
 and who they are abstracting it for.</p>
-<a class="header" href="print.html#principles" id="principles"><h2>Principles</h2></a>
+<a class="header" href="#principles" id="principles"><h2>Principles</h2></a>
 <p>Here are the guiding principles of intermezzOS:</p>
 <ul>
 <li>We’re all actual people. Please treat each other as such.</li>
@@ -249,9 +252,9 @@ may have to learn.</li>
 </ul>
 <p>And of course, everything related to this project is under the <a href="http://intermezzos.github.io/code-of-conduct.html">Code of
 Conduct</a>.</p>
-<a class="header" href="print.html#background" id="background"><h1>Background</h1></a>
+<a class="header" href="#background" id="background"><h1>Background</h1></a>
 <p>Before we get going, we should probably have some idea of where we’re headed.</p>
-<a class="header" href="print.html#what-is-an-os" id="what-is-an-os"><h1>What is an OS?</h1></a>
+<a class="header" href="#what-is-an-os" id="what-is-an-os"><h1>What is an OS?</h1></a>
 <p>It’s actually kind of difficult to define what an operating system is. There
 are a lot of different kinds of operating systems, and they all do different
 kinds of things.</p>
@@ -271,7 +274,7 @@ isolation.</p>
 but not exclusion. In other words, things that fit this definition
 <em>are</em> operating systems, but things that don’t may or may not be,
 we don’t quite know.</p>
-<a class="header" href="print.html#creating-abstractions" id="creating-abstractions"><h2>Creating abstractions</h2></a>
+<a class="header" href="#creating-abstractions" id="creating-abstractions"><h2>Creating abstractions</h2></a>
 <p>There are many reasons to create a platform for other programs, but a
 common one for operating systems is to abstract over hardware.</p>
 <p>Consider a program, running on some hardware:</p>
@@ -320,7 +323,7 @@ to each operating system, which is then ported to all the hardware. Whew!</p>
 </ul>
 <p>We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
 are always in the middle.</p>
-<a class="header" href="print.html#isolation" id="isolation"><h2>Isolation</h2></a>
+<a class="header" href="#isolation" id="isolation"><h2>Isolation</h2></a>
 <p>Many of the abstractions provided are, as we discussed, abstractions over
 hardware. And hardware often has a pretty serious restriction: only one
 program can access the hardware at a time. So if our operating system is going
@@ -335,14 +338,14 @@ and code, then a program could trivially steal your password from another progra
 <p>This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
 just consider isolation as one of our important jobs, as OS authors.</p>
-<a class="header" href="print.html#wait-a-minute" id="wait-a-minute"><h3>Wait a minute...</h3></a>
+<a class="header" href="#wait-a-minute" id="wait-a-minute"><h3>Wait a minute...</h3></a>
 <p>Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
 just a poor abstraction? In other words, if we had an abstraction where we
 could interact with other things being abstracted... isn’t that just a bad job
 of doing the abstraction? And in that sense, is the only thing an operating
 system does abstraction? Is the only thing everything does abstraction?</p>
 <p>I don’t have answers for you. If you figure it out, let me know...</p>
-<a class="header" href="print.html#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
+<a class="header" href="#what-kinds-of-os-are-there" id="what-kinds-of-os-are-there"><h1>What kinds of OS are there?</h1></a>
 <p>Okay, so here’s the thing: operating systems are made up of a <em>lot</em> of components.
 The core component is called a ‘kernel’. The non-kernel bits of an operating system
 are collectively called a ‘userland’. Typically a kernel has more direct access to the
@@ -366,7 +369,7 @@ the kernel and what is in userspace.” Upon reading this, you might then think
 the easiest kind of kernel to write is the smallest, where everything is in
 userspace. After all, smaller should be easier, right? Well... that’s not
 actually true. Or at least, it’s not clear that it’s true.</p>
-<a class="header" href="print.html#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
+<a class="header" href="#monolithic-kernels" id="monolithic-kernels"><h2>Monolithic kernels</h2></a>
 <p>First, we have ‘monolithic kernels’. ‘Mono’ meaning ‘one’. One big ol’ kernel.
 Most real-world kernels are monolithic kernels, or at least, pretend to be.
 Don’t worry about it. Linux, for example, is a monolithic kernel.</p>
@@ -376,7 +379,7 @@ kernels have.</p>
 <p>If a monolithic kernel were a web application, it would be a big ol’ Rails
 application. One repository. A million subdirectories. It may be a big ball
 of mud, but it pays the bills.</p>
-<a class="header" href="print.html#microkernels" id="microkernels"><h2>Microkernels</h2></a>
+<a class="header" href="#microkernels" id="microkernels"><h2>Microkernels</h2></a>
 <p>Microkernels are, well, micro. Smaller. A lot of the functionality that’s typically in
 the kernel is in userspace instead. This is a good idea in theory, but
 historically, microkernels have had issues. All that communication has
@@ -389,7 +392,7 @@ bunch of the other stuff that’s in kernel space in a monolithic kernel are
 other microservices, but in userspace instead. It’s a bit cooler than a single
 monolithic web app by itself, and the communication is nice for flexibility’s
 sake, but has some overhead.</p>
-<a class="header" href="print.html#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
+<a class="header" href="#exokernels--unikernels" id="exokernels--unikernels"><h2>Exokernels &amp; Unikernels</h2></a>
 <p>These two kinds of operating systems are closely related, but it’s a bit harder
 to dig into what exactly makes them different. Unikernels have one
 easy-to-describe feature: they only run one single program at a time.
@@ -397,7 +400,7 @@ Exokernels are ‘more micro than micro’, but the details aren’t important r
 now.</p>
 <p>The important thing to know here is that there are a lot of other kinds of
 designs than just monolithic vs. micro. There’s a lot of stuff to learn!</p>
-<a class="header" href="print.html#what-kind-are-we-making" id="what-kind-are-we-making"><h1>What kind are we making?</h1></a>
+<a class="header" href="#what-kind-are-we-making" id="what-kind-are-we-making"><h1>What kind are we making?</h1></a>
 <p>So, given all these kinds of operating systems, what kind are we making?</p>
 <p>The answer is “it doesn’t even matter at first.” There’s some commonality in
 almost all of these styles of operating systems, and we have to get all that
@@ -413,12 +416,12 @@ direction. To tie it back into the example earlier, Phil’s tutorial starts
 going into memory-management after getting printing to the screen going. We’ll
 be going into keyboards first instead. There are, of course, some dependencies,
 but there’s also a lot of freedom.</p>
-<a class="header" href="print.html#what-tools-will-we-use" id="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
+<a class="header" href="#what-tools-will-we-use" id="what-tools-will-we-use"><h1>What tools will we use?</h1></a>
 <p>Before we can make a kernel, we need to figure out the tools we’re going to
 use. The first question, of course, is what programming language?</p>
 <p>In our case, we’re going to use two. The first one is the language that
 <em>every</em> kernel must use: assembly language.</p>
-<a class="header" href="print.html#assembly" id="assembly"><h2>Assembly</h2></a>
+<a class="header" href="#assembly" id="assembly"><h2>Assembly</h2></a>
 <p>Assembly language gives us direct access to a specific machine. If the basis of
 computer science is abstraction, the very bottom of the software abstraction layer
 is assembly. Below it lies only hardware and physics.</p>
@@ -495,7 +498,7 @@ $
 ‘assemble’ as it's known in the assembly world) our program. We'll be going
 over each one of these commands and explaining what they are and how to use
 them.</p>
-<a class="header" href="print.html#rust" id="rust"><h2>Rust</h2></a>
+<a class="header" href="#rust" id="rust"><h2>Rust</h2></a>
 <p>We will augment our assembly with code written in
 <a href="https://www.rust-lang.org/">Rust</a>. In fact, we will be trying to get to
 Rust-land as quickly as we possibly can. Rust is a really great programming
@@ -536,7 +539,7 @@ low-level language by many standards.</p>
 <p>There are a suprising number of people working on kernels in Rust. But since
 it’s a newer language, there aren’t nearly as many as for older, more
 established languages.</p>
-<a class="header" href="print.html#do-i-need-to-be-a-wizard" id="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
+<a class="header" href="#do-i-need-to-be-a-wizard" id="do-i-need-to-be-a-wizard"><h2>Do I need to be a wizard?</h2></a>
 <p>No, you do not. A common theme of this project is “this is all we’ll need to
 know about this topic for now.” There’s no reason that you need to absolutely
 master everything before going forward. For example, in order to get Rust
@@ -548,7 +551,7 @@ move on. Do it at your own pace. Skip stuff. Come back when you don’t
 understand what’s going on. Try it, wait a week, and then try it again.</p>
 <p>There’s no wrong way to do this stuff, including by being a beginner. Everyone
 was once. Don’t let anyone discourage you.</p>
-<a class="header" href="print.html#from-zero-to-hello-world" id="from-zero-to-hello-world"><h1>From Zero to &quot;Hello, world!&quot;</h1></a>
+<a class="header" href="#from-zero-to-hello-world" id="from-zero-to-hello-world"><h1>From Zero to &quot;Hello, world!&quot;</h1></a>
 <p>A &quot;hello world&quot; program is traditional amongst programmers as your first program. This dates back
 to 1972, in the &quot;Tutorial Introduction to the Language B&quot;, a language that proceeded C. A &quot;hello world&quot;
 program does nothing other than print out the words &quot;hello, world&quot; to the screen. While it's fun to
@@ -562,7 +565,7 @@ everything is working.</p>
 <li>Boot up our OS and print &quot;Hello world&quot; to the screen</li>
 </ul>
 <p>Let's get started!</p>
-<a class="header" href="print.html#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
+<a class="header" href="#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
 <p>Traditionally, getting a development environment set up for working on an
 operating system is really hard. However, we have it pretty easy! We'll be
 using the <a href="https://www.rust-lang.org/">Rust programming language</a> to develop our kernel, and thanks to
@@ -579,7 +582,7 @@ operating system community, getting our environment set up is really easy.</p>
 operating systems may work, but we've only tried this on these systems. This
 section is the only one with OS-specific instructions; from here on out,
 everything will be identical.</p>
-<a class="header" href="print.html#an-editor-or-ide" id="an-editor-or-ide"><h2>An editor or IDE</h2></a>
+<a class="header" href="#an-editor-or-ide" id="an-editor-or-ide"><h2>An editor or IDE</h2></a>
 <p>This is needed, but is also largely a personal choice. You can use whatever
 you'd like here, and that's 100% fine.</p>
 <p>If you're not sure what to use, I do have two recommendations though. If
@@ -591,7 +594,7 @@ makes a suite of IDEs for a ton of languages, and their Rust support is
 solid!</p>
 <p>Really, anything works though: I use both of the above, and also <code>vim</code> at
 times. It's just not a huge deal.</p>
-<a class="header" href="print.html#the-compiler-and-other-tools" id="the-compiler-and-other-tools"><h2>The compiler and other tools</h2></a>
+<a class="header" href="#the-compiler-and-other-tools" id="the-compiler-and-other-tools"><h2>The compiler and other tools</h2></a>
 <p>Next, we need to get the Rust compiler installed. To do that, head to
 <a href="https://www.rust-lang.org/en-US/install.html">Rust's install page</a> and follow the instructions. You can also install
 Rust another way if you'd prefer, such as from your system's package
@@ -605,7 +608,7 @@ $ rustc --version
 $ cargo --version
 </code></pre>
 <p>If you do, everything's good!</p>
-<a class="header" href="print.html#stable-vs-nightly-rust" id="stable-vs-nightly-rust"><h3>Stable vs. Nightly Rust</h3></a>
+<a class="header" href="#stable-vs-nightly-rust" id="stable-vs-nightly-rust"><h3>Stable vs. Nightly Rust</h3></a>
 <p>One of the reasons that it's easiest is that you can't use any version
 of Rust to develop OSes; you need &quot;nightly&quot; Rust. Basically, Rust comes
 in different flavors, and in order to develop operating systems, we need
@@ -616,7 +619,7 @@ the stable Rust distribution, we need the nightly one.</p>
 </code></pre>
 <p>This will download and install the nightly toolchain. We'll configure the
 use of this toolchain automatically in the next section.</p>
-<a class="header" href="print.html#other-tools" id="other-tools"><h3>Other tools</h3></a>
+<a class="header" href="#other-tools" id="other-tools"><h3>Other tools</h3></a>
 <p>We need to install two more tools for building our OS. The first is
 called <code>bootimage</code>, and its job is to take our kernel and produce a file
 that our virtual machine (discussed in the next section) knows how to
@@ -641,7 +644,7 @@ core libraries; to get those, run this:</p>
 <pre><code class="language-bash">$ rustup component add rust-src --toolchain=nightly
 </code></pre>
 <p>With that, we're all set up!</p>
-<a class="header" href="print.html#a-virtual-machine" id="a-virtual-machine"><h2>A virtual machine</h2></a>
+<a class="header" href="#a-virtual-machine" id="a-virtual-machine"><h2>A virtual machine</h2></a>
 <p>In order to see that your code runs, you <em>could</em> install it on a real computer,
 but that is way too complex for regular development. Instead, we can use a virtual
 machine to give our OS a try locally.</p>
@@ -652,15 +655,15 @@ you get it installed.</p>
 <pre><code class="language-bash">$  qemu-system-x86_64 --version
 </code></pre>
 <p>And make sure it spits out a version number.</p>
-<a class="header" href="print.html#a-project-directory" id="a-project-directory"><h2>A project directory</h2></a>
+<a class="header" href="#a-project-directory" id="a-project-directory"><h2>A project directory</h2></a>
 <p>Finally, we need to put our source code somewhere. This can be wherever you'd like,
 but for this book, we'll call ours <code>~/src/</code>. You'll see examples have this path in
 the output, just to have something, but you can do this anywhere you'd like. We'll
 call this &quot;your project directory&quot; a few times in the book, and we mean wherever you
 decided to put stuff.</p>
-<a class="header" href="print.html#thats-it" id="thats-it"><h2>That's it!</h2></a>
+<a class="header" href="#thats-it" id="thats-it"><h2>That's it!</h2></a>
 <p>With that, we're done! Let's actually get some code going!</p>
-<a class="header" href="print.html#setting-up-a-project" id="setting-up-a-project"><h1>Setting up a project</h1></a>
+<a class="header" href="#setting-up-a-project" id="setting-up-a-project"><h1>Setting up a project</h1></a>
 <p>Now that we are all set up, let's get going! First, let's go to our project
 directory:</p>
 <pre><code class="language-bash">$ cd ~/src
@@ -691,7 +694,7 @@ might want to take a moment and skim <a href="https://doc.rust-lang.org/book/sec
 which covers the basic syntax and talks about stuff you've seen in
 programming languages you have used in the past.</p>
 </blockquote>
-<a class="header" href="print.html#our-first-hello-world" id="our-first-hello-world"><h2>Our first Hello, World</h2></a>
+<a class="header" href="#our-first-hello-world" id="our-first-hello-world"><h2>Our first Hello, World</h2></a>
 <p>If you investigate the contents of <code>src/main.rs</code>, you'll find this:</p>
 <pre><pre class="playpen"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -705,7 +708,7 @@ programming languages you have used in the past.</p>
 Hello, world!
 </code></pre>
 <p>If you see the &quot;Hello, world!&quot; printed to your screen, then your Rust toolchain is working!</p>
-<a class="header" href="print.html#hosts-and-targets" id="hosts-and-targets"><h2>Hosts and Targets</h2></a>
+<a class="header" href="#hosts-and-targets" id="hosts-and-targets"><h2>Hosts and Targets</h2></a>
 <p>This program is compiled for our own computer hardware and operating system.
 The computer we're compiling <em>from</em> is called the &quot;host system.&quot; But, our new
 OS won't be using the OS of the computer we're doing development on! The
@@ -719,7 +722,7 @@ However, by default, Rust can't know every single kind of computer and OS
 that we would want to compile to: after all, we're creating a new OS right
 now!</p>
 <p>To solve this, we need to write some JSON.</p>
-<a class="header" href="print.html#creating-intermezzosjson" id="creating-intermezzosjson"><h3>Creating intermezzos.json</h3></a>
+<a class="header" href="#creating-intermezzosjson" id="creating-intermezzosjson"><h3>Creating intermezzos.json</h3></a>
 <p>Rust has a feature called &quot;target specifications&quot; that lets us, well, specify
 a target. To do that, we create a JSON file, and use it to describe all the
 things that the compiler needs to know in order to generate the proper code.</p>
@@ -742,7 +745,7 @@ things that the compiler needs to know in order to generate the proper code.</p>
 </code></pre>
 <p>To learn more about this file, check out Appendix A. For now, it's mostly a
 distraction; you don't <em>need</em> to know what's going on here to continue.</p>
-<a class="header" href="print.html#removing-the-standard-library" id="removing-the-standard-library"><h2>Removing the standard library</h2></a>
+<a class="header" href="#removing-the-standard-library" id="removing-the-standard-library"><h2>Removing the standard library</h2></a>
 <p>Okay, let's write some Rust! Delete the code in <code>src/main.rs</code>, and replace it
 with this:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -836,7 +839,7 @@ properly. We'll explain more in the next section.</p>
 only thing we do is <code>loop</code> forever!</p>
 <p>With this code, our little kernel will start, and then do nothing. It's a
 start!</p>
-<a class="header" href="print.html#aborting-on-panic" id="aborting-on-panic"><h2>Aborting on panic</h2></a>
+<a class="header" href="#aborting-on-panic" id="aborting-on-panic"><h2>Aborting on panic</h2></a>
 <p>While we set up a panic handler, that's not the only thing that occurs on
 a panic. After our handler is called, Rust can do one of two things: abort
 the entire program, or &quot;unwind the stack.&quot; Since we're an OS, if our OS
@@ -853,13 +856,13 @@ panic = &quot;abort&quot;
 <p>Cargo has a concept of &quot;release profiles&quot; that let us get a development
 build or a release build. With this configuration, we're telling the
 Rust compiler that we want to abort when a panic occurs.</p>
-<a class="header" href="print.html#including-a-bootloader" id="including-a-bootloader"><h2>Including a bootloader</h2></a>
+<a class="header" href="#including-a-bootloader" id="including-a-bootloader"><h2>Including a bootloader</h2></a>
 <p>Earlier we had an <code>extern crate</code> line talking about <code>bootloader_precompiled</code>.
 We need to add that to our <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
 bootloader_precompiled = &quot;0.2.0&quot;
 </code></pre>
-<a class="header" href="print.html#compiling-with-bootimage" id="compiling-with-bootimage"><h2>Compiling with <code>bootimage</code></h2></a>
+<a class="header" href="#compiling-with-bootimage" id="compiling-with-bootimage"><h2>Compiling with <code>bootimage</code></h2></a>
 <p>Now that we have our code, it's time to compile it! First, we want to make
 sure that we are using the nightly version of Rust, so run this:</p>
 <pre><code class="language-bash">$ rustup override set nightly
@@ -894,7 +897,7 @@ Creating disk image at bootimage.bin
 steps mean in the next section. But at this point, if <code>bootimage.bin</code> exists,
 you've successfully compiled your very first OS! It doesn't do much, but
 everyone starts somewhere.</p>
-<a class="header" href="print.html#running-with-qemu" id="running-with-qemu"><h2>Running with <code>qemu</code></h2></a>
+<a class="header" href="#running-with-qemu" id="running-with-qemu"><h2>Running with <code>qemu</code></h2></a>
 <p>Let's try running it! To load up our OS in <code>qemu</code>, type this:</p>
 <pre><code class="language-bash">$ qemu-system-x86_64 -drive format=raw,file=bootimage.bin
 </code></pre>
@@ -920,7 +923,7 @@ first is that we want the format to be 'raw', that is, just use the bytes
 directly, it's not formatted as a specific filesystem. The second is the file
 that we want to actually load for that disk; it's our <code>bootimage.bin</code> file we
 just produced with <code>bootimage</code>.</p>
-<a class="header" href="print.html#some-conveniences" id="some-conveniences"><h2>Some conveniences</h2></a>
+<a class="header" href="#some-conveniences" id="some-conveniences"><h2>Some conveniences</h2></a>
 <p><code>bootimage</code> can make this even easier! Go to your <code>Cargo.toml</code>, and add
 this section:</p>
 <pre><code class="language-toml">[package.metadata.bootimage]
@@ -936,11 +939,11 @@ $ bootimage run
 is much more convenient!</p>
 <p>For more info, see <a href="https://github.com/rust-osdev/bootimage#configuration">bootimage's
 documentation</a>.</p>
-<a class="header" href="print.html#conclusion" id="conclusion"><h2>Conclusion</h2></a>
+<a class="header" href="#conclusion" id="conclusion"><h2>Conclusion</h2></a>
 <p>Congrats! This is the first step on our journey building operating systems.
 It only gets cooler from here. But before we move on, let's take a step back
 and investigate in a bit more depth what we actually just did.</p>
-<a class="header" href="print.html#from-zero-to-_start-in-detail" id="from-zero-to-_start-in-detail"><h1>From zero to <code>_start</code> in detail</h1></a>
+<a class="header" href="#from-zero-to-_start-in-detail" id="from-zero-to-_start-in-detail"><h1>From zero to <code>_start</code> in detail</h1></a>
 <p>We now have a little kernel. But we used a lot of tools to make it happen.
 What do these tools actually <em>do</em>? This section is titled &quot;in detail,&quot; but
 it's really &quot;in more detail than we've seen thus far.&quot; We're going to talk
@@ -966,21 +969,21 @@ can't possibly cover every single bit in depth.</p>
 <p>Whew! That's a lot of stuff. It's not completely different from writing any Rust
 program, however: you write code, you build it, then you run it. Easy peasy.</p>
 <p>Let's dig in a bit!</p>
-<a class="header" href="print.html#we-write-our-kernel-code" id="we-write-our-kernel-code"><h2>We write our kernel code</h2></a>
+<a class="header" href="#we-write-our-kernel-code" id="we-write-our-kernel-code"><h2>We write our kernel code</h2></a>
 <p>This is the most straightforward step. Write the code! There is some subtlety
 here, but we talked about it earlier in the chapter: we have to cross-compile
 to our new platform. We remove the standard library. We configure both the
 panic handler and the behavior for when a panic happens.</p>
 <p>The rest of this book is largely about what to do during this step of
 development, so we won't belabor it here. You type some code, hit save. Done.</p>
-<a class="header" href="print.html#building-our-code-with-bootimage-build" id="building-our-code-with-bootimage-build"><h2>Building our code with <code>bootimage build</code></h2></a>
+<a class="header" href="#building-our-code-with-bootimage-build" id="building-our-code-with-bootimage-build"><h2>Building our code with <code>bootimage build</code></h2></a>
 <p>Normally, we build Rust code with <code>cargo build</code>, but for an OS, we use
 <code>bootimage</code> instead. This is a tool written by Phil Opperman (who we mentioned
 in the preface), and it wraps up another tool, also written by Phil,
 <code>cargo-xbuild</code>. That tool wraps Cargo. So, in the end, running <code>bootimage build</code> is not too far away from running <code>cargo build</code> conceptually; it's mostly
 that Cargo isn't extensible in the way we need at the moment, so we have
 to wrap it.</p>
-<a class="header" href="print.html#invoking-cargo-xbuild-to-cross-compile-libcore" id="invoking-cargo-xbuild-to-cross-compile-libcore"><h3>Invoking <code>cargo-xbuild</code> to cross-compile <code>libcore</code></h3></a>
+<a class="header" href="#invoking-cargo-xbuild-to-cross-compile-libcore" id="invoking-cargo-xbuild-to-cross-compile-libcore"><h3>Invoking <code>cargo-xbuild</code> to cross-compile <code>libcore</code></h3></a>
 <p><code>cargo-xbuild</code>'s job is to cross compile Rust's <code>core</code> library. You see, Rust
 has an interesting relationship between the language and libraries: some
 important parts of the language are implemented as a library, not as a
@@ -989,18 +992,18 @@ the <code>core</code> library. So, before we can build our code, we need to buil
 of <code>core</code> for our OS. <code>cargo-xbuild</code> makes this easy: it knows how to ask
 <code>rustup</code> for a copy of <code>core</code>'s source code, and then builds it with our
 custom target JSON.</p>
-<a class="header" href="print.html#invoking-cargo-to-take-our-configuration-and-set-up-a-build" id="invoking-cargo-to-take-our-configuration-and-set-up-a-build"><h3>Invoking <code>cargo</code> to take our configuration and set up a build</h3></a>
+<a class="header" href="#invoking-cargo-to-take-our-configuration-and-set-up-a-build" id="invoking-cargo-to-take-our-configuration-and-set-up-a-build"><h3>Invoking <code>cargo</code> to take our configuration and set up a build</h3></a>
 <p>Now that <code>core</code> is built, we can build our code! Cargo is <em>the</em> tool
 in Rust for this task, so <code>cargo-xbuild</code> calls on it to do so. It
 passes along our custom target JSON to make sure that we're outputting
 a binary for the correct target.</p>
-<a class="header" href="print.html#invoking-rustc-to-build-the-code" id="invoking-rustc-to-build-the-code"><h3>Invoking <code>rustc</code> to build the code</h3></a>
+<a class="header" href="#invoking-rustc-to-build-the-code" id="invoking-rustc-to-build-the-code"><h3>Invoking <code>rustc</code> to build the code</h3></a>
 <p>Cargo doesn't actually build our code: it invokes <code>rustc</code>, the Rust compiler,
 to actually do the building. Right now our OS is very simple, but as it
 grows, and as we split our code into packages, and use external packages,
 it's much nicer to let Cargo handle calling <code>rustc</code> rather than doing it by
 hand.</p>
-<a class="header" href="print.html#creating-a-bin-file" id="creating-a-bin-file"><h3>Creating a <code>.bin</code> file</h3></a>
+<a class="header" href="#creating-a-bin-file" id="creating-a-bin-file"><h3>Creating a <code>.bin</code> file</h3></a>
 <p>Now that we have our OS compiled, we need to prepare it for running. To do
 so, <code>bootimage</code> creates a special file, called a <code>.bin</code> file. The <code>.bin</code>
 stands for &quot;binary&quot;, and it has no real format. It's just a bunch of binary
@@ -1032,19 +1035,19 @@ work.</p>
 <p><code>bootimage</code> has a custom-written bootloader that puts your CPU into
 64-bit mode, then calls the <code>_start</code> function of our OS. It assembles
 the bootloader's code and our OSs' code into that one <code>.bin</code> file.</p>
-<a class="header" href="print.html#running-our-code-with-bootimage-run" id="running-our-code-with-bootimage-run"><h2>Running our code with <code>bootimage run</code></h2></a>
+<a class="header" href="#running-our-code-with-bootimage-run" id="running-our-code-with-bootimage-run"><h2>Running our code with <code>bootimage run</code></h2></a>
 <p><code>bootimage run</code> takes our <code>.bin</code> file and passes it to Qemu, the emulator
 we discussed earlier in the chapter. Qemu uses the <code>.bin</code> file as the
 hard drive, and so when it starts up, its BIOS calls the bootloader
 which calls our kernel. It also emulates the screen, so when we start
 printing stuff to the screen, we'll see it pop up!</p>
-<a class="header" href="print.html#summary" id="summary"><h2>Summary</h2></a>
+<a class="header" href="#summary" id="summary"><h2>Summary</h2></a>
 <p>There's more to explore here, but for now, we're not going to worry about
 this stuff. It's very platform-specific, and mostly papering over legacy.
 Instead, let's move forward and make our kernel actually <em>do</em> stuff, not
 worry about how to put a processor into a specific mode.</p>
 <p>In the next chapter, we'll print some characters on the screen!</p>
-<a class="header" href="print.html#interlude-fractal-learning" id="interlude-fractal-learning"><h1>Interlude: fractal learning</h1></a>
+<a class="header" href="#interlude-fractal-learning" id="interlude-fractal-learning"><h1>Interlude: fractal learning</h1></a>
 <p>At this point, we're about to start actually learning about how an OS works,
 and start writing real code. Before we do, I'd like to explain <em>how</em> we're
 going to learn this stuff. I think this framing is important. I know you're
@@ -1079,7 +1082,7 @@ that means. You'll get back to it. Sometimes, learning something else is
 more important than diving into every last detail. And, since you now
 have the words to understand what it is you need to learn, coming back
 to the topic later is even easier. You have the terms to search for.</p>
-<a class="header" href="print.html#printing-to-the-screen-a-text-mode-vga-driver" id="printing-to-the-screen-a-text-mode-vga-driver"><h1>Printing to the screen: a text mode VGA driver</h1></a>
+<a class="header" href="#printing-to-the-screen-a-text-mode-vga-driver" id="printing-to-the-screen-a-text-mode-vga-driver"><h1>Printing to the screen: a text mode VGA driver</h1></a>
 <p>Now that we can build and run our new kernel, it's time to make it actually
 do someting! We'll get started by printing stuff to the screen. PC-compatible
 computers implement a graphics API called &quot;VGA&quot;, or &quot;video graphics array.&quot;
@@ -1087,7 +1090,7 @@ You'll come to learn quite soon why that's the name!</p>
 <p>First, we'll write out the simplest &quot;hello world&quot; possible. Then, we'll dig
 a bit deeper into exactly what we did. Finally, we'll refactor our code into
 an actual, nice-to-use library.</p>
-<a class="header" href="print.html#a-vga-hello-world" id="a-vga-hello-world"><h1>A VGA &quot;hello world&quot;</h1></a>
+<a class="header" href="#a-vga-hello-world" id="a-vga-hello-world"><h1>A VGA &quot;hello world&quot;</h1></a>
 <p>In the previous chapter, we set up a &quot;hello world&quot; kernel, but we didn't even
 print &quot;hello world&quot; to the screen! Let's fix that. Open up your <code>src/main.rs</code>
 and modify your <code>_start()</code> function to look like this:</p>
@@ -1130,11 +1133,11 @@ this appear!</p>
 <p>Congrats! You've gotten it to print to the screen. If you look at the code above, you
 <em>may</em> be getting an idea of why VGA is called &quot;video graphics array&quot;... in the next
 section, we'll explain what the code above is actually doing.</p>
-<a class="header" href="print.html#understanding-text-mode" id="understanding-text-mode"><h1>Understanding text mode</h1></a>
+<a class="header" href="#understanding-text-mode" id="understanding-text-mode"><h1>Understanding text mode</h1></a>
 <p>Coming soon!</p>
-<a class="header" href="print.html#a-nicer-implementation" id="a-nicer-implementation"><h1>A nicer implementation</h1></a>
+<a class="header" href="#a-nicer-implementation" id="a-nicer-implementation"><h1>A nicer implementation</h1></a>
 <p>Coming soon!</p>
-<a class="header" href="print.html#appendix-a-target-specifications" id="appendix-a-target-specifications"><h1>Appendix A: target specifications</h1></a>
+<a class="header" href="#appendix-a-target-specifications" id="appendix-a-target-specifications"><h1>Appendix A: target specifications</h1></a>
 <p>In Chapter 2, we created <code>intermezzos.json</code>, a &quot;target specification.&quot;
 Here's the reasons for setting each thing:</p>
 <pre><code class="language-json">  &quot;llvm-target&quot;: &quot;x86_64-unknown-none&quot;,
@@ -1226,9 +1229,6 @@ instead of unwind, we don't generate code to handle panics.</p>
 
         
 
-        
-        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
-        
         
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>

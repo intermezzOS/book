@@ -9,20 +9,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="../">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
-        <link rel="shortcut icon" href="favicon.png">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
@@ -30,9 +31,11 @@
         
 
         
-
     </head>
     <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "../";</script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
             try {
@@ -71,7 +74,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html" class="active"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html" class="active"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -104,7 +107,7 @@
                         <h1 class="menu-title">The intermezzOS Book</h1> 
 
                         <div class="right-buttons">
-                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
                         </div>
@@ -135,7 +138,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="background/what.html#what-is-an-os" id="what-is-an-os"><h1>What is an OS?</h1></a>
+                        <a class="header" href="#what-is-an-os" id="what-is-an-os"><h1>What is an OS?</h1></a>
 <p>It’s actually kind of difficult to define what an operating system is. There
 are a lot of different kinds of operating systems, and they all do different
 kinds of things.</p>
@@ -155,7 +158,7 @@ isolation.</p>
 but not exclusion. In other words, things that fit this definition
 <em>are</em> operating systems, but things that don’t may or may not be,
 we don’t quite know.</p>
-<a class="header" href="background/what.html#creating-abstractions" id="creating-abstractions"><h2>Creating abstractions</h2></a>
+<a class="header" href="#creating-abstractions" id="creating-abstractions"><h2>Creating abstractions</h2></a>
 <p>There are many reasons to create a platform for other programs, but a
 common one for operating systems is to abstract over hardware.</p>
 <p>Consider a program, running on some hardware:</p>
@@ -204,7 +207,7 @@ to each operating system, which is then ported to all the hardware. Whew!</p>
 </ul>
 <p>We will see this pattern over and over again. Hence ‘intermezzo’: abstractions
 are always in the middle.</p>
-<a class="header" href="background/what.html#isolation" id="isolation"><h2>Isolation</h2></a>
+<a class="header" href="#isolation" id="isolation"><h2>Isolation</h2></a>
 <p>Many of the abstractions provided are, as we discussed, abstractions over
 hardware. And hardware often has a pretty serious restriction: only one
 program can access the hardware at a time. So if our operating system is going
@@ -219,7 +222,7 @@ and code, then a program could trivially steal your password from another progra
 <p>This is just one symptom of a general problem. It’s much better to isolate
 programs from each other, for a number of different reasons. For now, we’ll
 just consider isolation as one of our important jobs, as OS authors.</p>
-<a class="header" href="background/what.html#wait-a-minute" id="wait-a-minute"><h3>Wait a minute...</h3></a>
+<a class="header" href="#wait-a-minute" id="wait-a-minute"><h3>Wait a minute...</h3></a>
 <p>Here’s a question for you to ponder: if we didn’t provide isolation, isn’t that
 just a poor abstraction? In other words, if we had an abstraction where we
 could interact with other things being abstracted... isn’t that just a bad job
@@ -232,13 +235,13 @@ system does abstraction? Is the only thing everything does abstraction?</p>
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="background/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../background/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="background/what-kind-is-there.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../background/what-kind-is-there.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -250,13 +253,13 @@ system does abstraction? Is the only thing everything does abstraction?</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="background/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="../background/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="background/what-kind-is-there.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="../background/what-kind-is-there.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -271,17 +274,14 @@ system does abstraction? Is the only thing everything does abstraction?</p>
         
 
         
-        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
-        
-        
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         

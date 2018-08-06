@@ -9,17 +9,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
-        <link rel="shortcut icon" href="favicon.png">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-
+        <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
@@ -28,9 +29,11 @@
         
 
         
-
     </head>
     <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
             try {
@@ -133,10 +136,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="hello-world.html#hello-world" id="hello-world"><h1>Hello, world!</h1></a>
+                        <a class="header" href="#hello-world" id="hello-world"><h1>Hello, world!</h1></a>
 <p>Now that we’ve got the headers out of the way, let’s do the traditional first
 program: Hello, world!</p>
-<a class="header" href="hello-world.html#the-smallest-kernel" id="the-smallest-kernel"><h2>The smallest kernel</h2></a>
+<a class="header" href="#the-smallest-kernel" id="the-smallest-kernel"><h2>The smallest kernel</h2></a>
 <p>Our hello world will be just <em>20</em> lines of assembly code. Let’s begin.
 Open a file called <code>boot.asm</code> and put this in it:</p>
 <pre><code class="language-x86asm">start:
@@ -343,7 +346,7 @@ file:</p>
 <pre><code class="language-bash">$ nasm -f elf64 boot.asm
 </code></pre>
 <p>This will produce a <code>boot.o</code> file. We’re almost ready to go!</p>
-<a class="header" href="hello-world.html#linking-it-together" id="linking-it-together"><h2>Linking it together</h2></a>
+<a class="header" href="#linking-it-together" id="linking-it-together"><h2>Linking it together</h2></a>
 <p>Okay! So we have two different <code>.o</code> files: <code>multiboot_header.o</code> and <code>boot.o</code>.
 But what we need is <em>one</em> file with both of them. Our OS doesn’t have the
 ability to do anything yet, let alone load itself in two parts somehow. We just
@@ -473,9 +476,6 @@ make an ISO out of it, so that we can load it up in QEMU.</p>
 
         
 
-        
-        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
-        
         
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>

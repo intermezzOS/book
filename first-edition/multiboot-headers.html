@@ -9,17 +9,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
-        <link rel="shortcut icon" href="favicon.png">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-
+        <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
@@ -28,9 +29,11 @@
         
 
         
-
     </head>
     <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
             try {
@@ -133,7 +136,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="multiboot-headers.html#multiboot-headers" id="multiboot-headers"><h1>Multiboot headers</h1></a>
+                        <a class="header" href="#multiboot-headers" id="multiboot-headers"><h1>Multiboot headers</h1></a>
 <p>Let’s get going! The very first thing we’re going to do is create a ‘multiboot
 header’. What’s that, you ask? Well, to explain it, let’s take a small step
 back and talk about how a computer boots up.</p>
@@ -171,7 +174,7 @@ we have to do it.</p>
 </blockquote>
 <p>So that’s the task ahead of us: make the jump up the ladder and get to
 long mode. We can do it! Let’s talk more details.</p>
-<a class="header" href="multiboot-headers.html#firmware-and-the-bios" id="firmware-and-the-bios"><h2>Firmware and the BIOS</h2></a>
+<a class="header" href="#firmware-and-the-bios" id="firmware-and-the-bios"><h2>Firmware and the BIOS</h2></a>
 <p>So let's begin by turning the power to our computer on.</p>
 <p>When we press the power button, electricity starts running, and a special piece of
 software, known as the BIOS in Intel land, automatically runs.</p>
@@ -213,7 +216,7 @@ are used on our way to building an OS. Such is life at such a low level...</p>
 memory and transfers execution to it. With this process, we move away from what
 comes dictated by the computer manufacturer and move ever closer to getting our
 OS running.</p>
-<a class="header" href="multiboot-headers.html#bootloaders" id="bootloaders"><h2>Bootloaders</h2></a>
+<a class="header" href="#bootloaders" id="bootloaders"><h2>Bootloaders</h2></a>
 <p>The part of our bootable drive that gets executed is called a ‘bootloader’,
 since it loads things at boot time. The bootloader’s job is to take our kernel,
 put it into memory, and then transition control to it.</p>
@@ -224,7 +227,7 @@ than it is anything else. That stuff may interest you, and maybe someday we’ll
 come back and write a bootloader of our own.</p>
 <p>In the interest of actually getting around to implementing a kernel, instead, we’ll
 use an existing bootloader: GRUB.</p>
-<a class="header" href="multiboot-headers.html#grub-and-multiboot" id="grub-and-multiboot"><h2>GRUB and Multiboot</h2></a>
+<a class="header" href="#grub-and-multiboot" id="grub-and-multiboot"><h2>GRUB and Multiboot</h2></a>
 <p>GRUB stands for ‘<em>gr</em>and <em>u</em>nified <em>b</em>ootloader’, and it’s a common one for
 GNU/Linux systems. GRUB implements a specification called Multiboot, which is a
 set of conventions for how a kernel should get loaded into memory. By following
@@ -237,7 +240,7 @@ to protected mode for us, skipping the first step. We don’t even need to know
 anything about all of that old stuff. If you’re curious about the kinds of
 things you would have needed to know, put “A20 line” into your favorite search
 engine, and get ready to cry yourself to sleep.</p>
-<a class="header" href="multiboot-headers.html#writing-our-own-multiboot-header" id="writing-our-own-multiboot-header"><h2>Writing our own Multiboot header</h2></a>
+<a class="header" href="#writing-our-own-multiboot-header" id="writing-our-own-multiboot-header"><h2>Writing our own Multiboot header</h2></a>
 <p>I said we were gonna get to the code, and then I went on about more history.
 Sorry about that! It’s code time for real! Inside your project directory, make
 a new file called <code>multiboot_header.asm</code>, and open it in your favorite editor.
@@ -251,7 +254,7 @@ stuff, and <em>then</em> abstract it afterwards. It’s easier to start with a m
 clean it up than it is to try to get it perfect on the first try.</p>
 <p>Second, this is a <code>.asm</code> file, which is short for ‘assembly’. That’s right, we’re
 going to write some assembly code here. Don’t worry! It’s not super hard.</p>
-<a class="header" href="multiboot-headers.html#an-aside-about-assembly" id="an-aside-about-assembly"><h3>An aside about assembly</h3></a>
+<a class="header" href="#an-aside-about-assembly" id="an-aside-about-assembly"><h3>An aside about assembly</h3></a>
 <p>Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
 In it, he draws a distinction between these two words, which are commonly used as
 synonyms.</p>
@@ -261,7 +264,7 @@ a little bit of assembly programming to build our operating system, but we
 don’t need to know <em>that much</em>. It is completely learnable, even for someone
 coming from a high-level language. You might need to practice a bit, and take
 it slow, but I believe in you. You’ve got this.</p>
-<a class="header" href="multiboot-headers.html#the-magic-number" id="the-magic-number"><h3>The Magic Number</h3></a>
+<a class="header" href="#the-magic-number" id="the-magic-number"><h3>The Magic Number</h3></a>
 <p>Our first assembly file will be almost entirely <em>data</em>, not code. Here’s the
 first line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
@@ -298,7 +301,7 @@ it was a 16-bit architecture set. That meant that the amount of data that could 
 held in a CPU register (or one ‘word’ as it's commonly known) was 16 bits.
 To transition to a 32-bit architecture without losing backwards compatibility,
 x86 got the concept of a ‘double word’ or double 16 bits.</p>
-<a class="header" href="multiboot-headers.html#the-mode-code" id="the-mode-code"><h3>The mode code</h3></a>
+<a class="header" href="#the-mode-code" id="the-mode-code"><h3>The mode code</h3></a>
 <p>Okay, time to add a second line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
 dd 0          ; protected mode code
@@ -306,7 +309,7 @@ dd 0          ; protected mode code
 <p>This is another form of magic number. We want to boot into protected mode, and
 so we put a zero here, using <code>dd</code> again. If we wanted GRUB to do something
 else, we could look up another code, but this is the one that we want.</p>
-<a class="header" href="multiboot-headers.html#header-length" id="header-length"><h3>Header length</h3></a>
+<a class="header" href="#header-length" id="header-length"><h3>Header length</h3></a>
 <p>The next thing that’s required is a header length. We could use <code>dd</code> and count
 out exactly how many bytes that our header is, but there’s two reasons why
 we’re not doing that:</p>
@@ -339,7 +342,7 @@ how many bytes there are by hand. Awesome.</p>
 <p>You’ll also notice that I indented the <code>dd</code> statements. Usually, labels go in
 the first column, and you indent actual instructions. How much you indent is up
 to you; it’s a pretty flexible format.</p>
-<a class="header" href="multiboot-headers.html#the-checksum" id="the-checksum"><h3>The Checksum</h3></a>
+<a class="header" href="#the-checksum" id="the-checksum"><h3>The Checksum</h3></a>
 <p>The fourth field multiboot requires is a ‘checksum’. The idea is that we sum up
 some numbers, and then use that number to check that they’re all what we
 expected things to be. It’s similar to a hash, in this sense: it lets us and GRUB
@@ -372,7 +375,7 @@ from a big number. <code>dd</code> then puts that value into this spot in our fi
 <p>So what we can do here is &quot;trick&quot; the computer into giving us zero when we do the addition. Imagine for the sake of argument that <code>magic_number</code> + <code>architecture</code> + <code>header_length</code> somehow works out to be 0xFFFFFFFE. The number we'd add to that in order to make 0 would be 0x00000002. This is 0x100000000-0xFFFFFFFE, because 0x100000000 technically maps to 0 when we wrap around. So we replace 0xFFFFFFFE in our contrived example here with <code>magic_number</code> + <code>architecture</code> + <code>header_length</code>. This gives us:
 <code>dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))</code></p>
 </blockquote>
-<a class="header" href="multiboot-headers.html#ending-tag" id="ending-tag"><h3>Ending tag</h3></a>
+<a class="header" href="#ending-tag" id="ending-tag"><h3>Ending tag</h3></a>
 <p>After the checksum you can list a series of “tags”, which is a way for the OS to
 tell the bootloader to do some extra things before handing control over to the
 OS, or to give the OS some extra information once started. We donʼt need any of
@@ -397,7 +400,7 @@ bits or 2 bytes on the x86_64 architecture. The multiboot specification demands
 that this be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.</p>
-<a class="header" href="multiboot-headers.html#the-section" id="the-section"><h3>The Section</h3></a>
+<a class="header" href="#the-section" id="the-section"><h3>The Section</h3></a>
 <p>We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
 sections later, so for now, just put what I tell you at the top of the file.</p>
 <p>Here’s the final file:</p>
@@ -418,7 +421,7 @@ header_end:
 </code></pre>
 <p>That’s it! Congrats, you’ve written a multiboot compliant header. It’s a lot of
 esoterica, but it’s pretty straightforward once you’ve seen it a few times.</p>
-<a class="header" href="multiboot-headers.html#assembling-with-nasm" id="assembling-with-nasm"><h2>Assembling with <code>nasm</code></h2></a>
+<a class="header" href="#assembling-with-nasm" id="assembling-with-nasm"><h2>Assembling with <code>nasm</code></h2></a>
 <p>We can’t use this file directly, we need to turn it into binary. We can use a
 program called an ‘assembler’ to ‘assemble’ our assembly code into binary code.
 It’s very similar to using a ‘compiler’ to ‘compile’ our source code into
@@ -439,7 +442,7 @@ the same directory. This is our ‘object file’, hence the <code>.o</code>. Do
 word ‘object’ confuse you. It has nothing to do with anything object oriented.
 ‘Object files’ are just binary code with some metadata in a particular format -
 in our case ELF. Later, we’ll take this file and use it to build our OS.</p>
-<a class="header" href="multiboot-headers.html#summary" id="summary"><h2>Summary</h2></a>
+<a class="header" href="#summary" id="summary"><h2>Summary</h2></a>
 <p>Congratulations! This is the first step towards building an operating system.
 We learned about the boot process, the GRUB bootloader, and the Multiboot
 specification. We wrote a Multiboot-compliant header file in assembly code, and
@@ -489,9 +492,6 @@ used <code>nasm</code> to create an object file from it.</p>
 
         
 
-        
-        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
-        
         
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>

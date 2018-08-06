@@ -9,17 +9,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
-        <link rel="shortcut icon" href="favicon.png">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-
+        <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
@@ -28,9 +29,11 @@
         
 
         
-
     </head>
     <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
             try {
@@ -133,7 +136,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="creating-our-first-crate.html#creating-our-first-crate" id="creating-our-first-crate"><h1>Creating our first crate</h1></a>
+                        <a class="header" href="#creating-our-first-crate" id="creating-our-first-crate"><h1>Creating our first crate</h1></a>
 <p>Now that we've got Rust installed, time to write some Rust code! <code>rustup</code> has
 also installed Cargo for us, Rust's build tool and package manager. Generate
 a new Cargo package like this:</p>
@@ -212,7 +215,7 @@ build  deps  examples  libintermezzos.a  native
 path: <code>target/debug</code>. That's where Cargo puts output for debugging builds. We
 probably should use a release build instead: <code>cargo build --release</code> will
 give us that, and put the output in <code>target/release</code>.</p>
-<a class="header" href="creating-our-first-crate.html#creating-a-target" id="creating-a-target"><h2>Creating a target</h2></a>
+<a class="header" href="#creating-a-target" id="creating-a-target"><h2>Creating a target</h2></a>
 <p>Remember back in the setup chapters, where we talked about <a href="setup.html#Hosts%20&amp;%20Targets">hosts and targets</a>?
 We need to do the equivalent for Rust. We <em>could</em> leave things where they are,
 but that would cause us problems later. So let's just get it out of the way
@@ -270,7 +273,7 @@ library for it yet! In fact, we don't want a standard library: our operating sys
 is far from containing the proper features to support it. Instead, we only want
 Rust's <code>libcore</code> library. This library contains just the essential stuff, without
 all of the fancy features we can't support yet.</p>
-<a class="header" href="creating-our-first-crate.html#building-libcore-with-xargo" id="building-libcore-with-xargo"><h2>Building libcore with xargo</h2></a>
+<a class="header" href="#building-libcore-with-xargo" id="building-libcore-with-xargo"><h2>Building libcore with xargo</h2></a>
 <p>So how do we get a copy of <code>libcore</code> for intermezzOS? The answer is <a href="https://github.com/japaric/xargo"><code>xargo</code></a>. It's
 a wrapper around Cargo that knows how to read a <code>target.json</code> file and automatically
 cross-compile <code>libcore</code>, then set up Cargo to use it.</p>
@@ -306,7 +309,7 @@ error: Could not compile `intermezzos`.
 </code></pre>
 <p>So why'd we get yet another error? For that, we need to understand a Rust
 feature, panics.</p>
-<a class="header" href="creating-our-first-crate.html#panic--abort" id="panic--abort"><h2>Panic == abort</h2></a>
+<a class="header" href="#panic--abort" id="panic--abort"><h2>Panic == abort</h2></a>
 <p>The specific error we got said &quot;language item required, but not found&quot;. Rust
 lets you implement bits of itself through these language items. <code>libcore</code>
 defines most of them, but the last two, <code>panic_fmt</code> and <code>eh_personality</code>,
@@ -353,7 +356,7 @@ ready to go.</p>
 <p>But now, we've got all of our Rust-related stuff in <code>src</code>. But the rest of our
 files are still strewn around in our top-level directory. Let's do a little bit
 of cleaning up.</p>
-<a class="header" href="creating-our-first-crate.html#some-reorganization" id="some-reorganization"><h2>Some reorganization</h2></a>
+<a class="header" href="#some-reorganization" id="some-reorganization"><h2>Some reorganization</h2></a>
 <p>We have a couple of different ways that we could re-organize the assembly
 language. If we were planning on making our OS portable across architectures, a
 good solution would be to move it into <code>src/arch/arch_name</code>. That way, we could
@@ -370,7 +373,7 @@ $ mv grub.cfg src/asm/
 make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multiboot_header.o'.  Stop.
 </code></pre>
 <p>Let's fix up our <code>Makefile</code> to work again.</p>
-<a class="header" href="creating-our-first-crate.html#fixing-our-makefile" id="fixing-our-makefile"><h2>Fixing our Makefile</h2></a>
+<a class="header" href="#fixing-our-makefile" id="fixing-our-makefile"><h2>Fixing our Makefile</h2></a>
 <p>The first thing we need to do is fix up the paths:</p>
 <pre><code class="language-makefile">build/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p build
@@ -515,9 +518,6 @@ might be an interesting diversion.</p>
 
         
 
-        
-        <script src="searchindex.js" type="text/javascript" charset="utf-8"></script>
-        
         
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
