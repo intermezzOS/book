@@ -124,46 +124,7 @@ slice[1] = 0x02;
 See how there's both a `0` and a `2`? The first value is `0`, the background
 color, which is black. The second is `2`, the foreground color, which is
 green. This is an example of why hexidecimal is useful; we can look at `0x02`
-and say "oh, black and green" because of the `0` and the `2`. If we were to
-write this all in decimal:
-
-| name | value |
-|------|-------|
-| Black | `0` |
-| Blue | `1` |
-| Green | `2` |
-| Cyan | `3` |
-| Red | `4` |
-| Magenta | `5` |
-| Brown | `6` |
-| Gray | `7` |
-| DarkGray | `8` |
-| BrightBlue | `9` |
-| BrightGreen | `10` |
-| BrightCyan | `11` |
-| BrightRed | `12` |
-| BrightMagenta | `13` |
-| Yellow | `14` |
-| White | `15` |
-
-The code becomes:
-
-```rust
-slice[1] = 2;
-```
-
-This will work just as well, but we've lost that `0` to let us know that we
-have black. Furthermore, let's take a look at a more complex version:
-
-```rust
-slice[1] = 0xFA; // White background, BrightGreen foreground
-
-slice[1] = 250;
-```
-
-`0xFA` in hexidecimal is `250` in decimal, and it completely loses all of the
-meaning. We'd have to do the math ourselves to figure out what the color is.
-Much easier to write it in hexidecimal in the first place.
+and say "oh, black and green" because of the `0` and the `2`.
 
 ### Conclusion
 
