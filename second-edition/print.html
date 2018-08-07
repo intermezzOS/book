@@ -74,7 +74,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="appendix/hexidecimal-numbers.html">Appendix B: hexidecimal numbers</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -1134,7 +1134,121 @@ this appear!</p>
 <em>may</em> be getting an idea of why VGA is called &quot;video graphics array&quot;... in the next
 section, we'll explain what the code above is actually doing.</p>
 <a class="header" href="#understanding-text-mode" id="understanding-text-mode"><h1>Understanding text mode</h1></a>
-<p>Coming soon!</p>
+<p>We've called this a &quot;VGA driver&quot; so far, but it's a bit more specific than
+that: VGA has both graphical and text modes. We're going to be doing text mode,
+as it's simpler than graphics, and we need to get <em>something</em> going in order to
+see output.</p>
+<a class="header" href="#memory-mapping" id="memory-mapping"><h2>Memory mapping</h2></a>
+<p>The first thing to understand about how VGA's text mode works is that it's
+&quot;memory mapped.&quot; This means that you interact with it by writing to a chunk
+of memory.</p>
+<p>We haven't talked too much about memory yet, and we'll talk about it much
+more in the future; one of a kernel's many jobs is to manage memory. In
+general, for the kind of hardware we're writing, memory is <em>linear</em>, that is,
+the first memory address starts at 0, the next one at 1, and so on and so on.</p>
+<blockquote>
+<p>Like all things, this is fundamentally an abstraction: in the future, when
+we have programs running on our OS, they will think they're using linear
+memory even when they're not! That's getting a bit ahead of ourselves, though...</p>
+</blockquote>
+<p>We can refer to a memory location by its particular number, and read values
+from it, or store values in it. Its number is called its &quot;address,&quot; and the
+amount of memory we can give an address to is called &quot;addressable memory.&quot;</p>
+<p>How much is that? Well, it depends on the amount of RAM that's installed in
+our computer. Eventually, our kernel will learn how to ask how much memory is
+available, but for now, we're using so little memory that we're just going to
+assume that it's all there and works okay. You have to walk before you can run!</p>
+<p>Furthermore, memory addresses are usually written in <em>hexidecimal</em>. The usual
+system of numbers humans used is &quot;decimal&quot;, or &quot;base 10.&quot; Hexidecimal is
+&quot;base 16.&quot; If you haven't worked with hexidecimal numbers before, you should
+check out <a href="../appendix/hexidecimal-numbers.html">Appendix B</a>. If you don't want
+to, you don't have to: just know that hexidecimal numbers have the letters
+<code>a</code> through <code>f</code> in them, and you should be able to follow along at first.
+You'll eventually want to come back to this and learn it, though, as we'll be
+using them more and more as time goes on.</p>
+<p>So, applying this to VGA text mode: there's a block of memory located at the
+address <code>0xb8000</code>, and it consists of four thousand bytes. In our case, a
+byte is eight bits, each consisting of a zero or a one. Why is it at this
+address? Because that's what the specification says. I'm sure there's a
+justification, but it doesn't really matter for our purposes: that's what it
+says, so that's what we do.</p>
+<p>With this understanding, this line of code on the previous page may make some sense:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let slice = unsafe { core::slice::from_raw_parts_mut(0xb8000 as *mut u8, 4000) };
+#}</code></pre></pre>
+<p>This creates a <code>&amp;mut [u8]</code>, a mutable &quot;slice&quot; of bytes. <code>from_raw_parts_mut</code>
+takes a <code>*mut u8</code>, a &quot;raw pointer&quot;, and a length, and creates a slice of that
+length starting from that pointer. To make a raw pointer, we can write out
+the memory address, and then cast with <code>as</code>. The address starts with <code>0x</code>
+because it's written in hexidecimal.</p>
+<p>Finally, this is <em>very</em> unsafe, in a Rust sense: we're creating a slice to an
+arbitrary spot in memory, and are gonna start writing values to it. We know
+that this is okay, because we're a kernel and we know the specification. Rust
+doesn't know anything about VGA, and so can't check that this code is
+correct. We can, and that's exactly what <code>unsafe</code> is there for.</p>
+<a class="header" href="#writing-to-the-map" id="writing-to-the-map"><h2>Writing to the map</h2></a>
+<p>Now that we have a slice, we can use <code>[]</code> to index it, and read or write from
+any index. The next bit of code looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+slice[0] = b'h';
+slice[1] = 0x02;
+#}</code></pre></pre>
+<p>It repeats in this pattern over and over, in twos.</p>
+<p>We're writing things to the first and second locations in our slice. But why do
+we write these specific things? Well, the first one is called the <em>character byte</em>,
+and the second is called the <em>attribute byte</em>.</p>
+<a class="header" href="#the-character-byte" id="the-character-byte"><h3>The character byte</h3></a>
+<p>The first byte is called the &quot;character byte&quot; because well, it's a character!
+More specifically, you can put ASCII characters in here. But more
+importantly, you don't write the character itself, you write <em>its numeric
+value</em>. That's what the <code>b''</code> is doing; instead of an <code>'h'</code>, which would be a
+<code>char</code> in Rust, and therefore be four bytes (thanks to Unicode), we want the
+ASCII version. Rust provides the <code>b''</code> construct to make getting this value
+easy; we can write <code>b'h'</code>, but actually get a <code>u8</code> instead of a <code>char</code>.</p>
+<a class="header" href="#the-attribute-byte" id="the-attribute-byte"><h3>The attribute byte</h3></a>
+<p>The second byte is the &quot;attribute&quot; byte, and it sets two different things:
+the foreground color, and the background color. Here's the list of possible
+colors and their numeric values:</p>
+<table><thead><tr><th> name </th><th> value </th></tr></thead><tbody>
+<tr><td> Black </td><td> <code>0x0</code> </td></tr>
+<tr><td> Blue </td><td> <code>0x1</code> </td></tr>
+<tr><td> Green </td><td> <code>0x2</code> </td></tr>
+<tr><td> Cyan </td><td> <code>0x3</code> </td></tr>
+<tr><td> Red </td><td> <code>0x4</code> </td></tr>
+<tr><td> Magenta </td><td> <code>0x5</code> </td></tr>
+<tr><td> Brown </td><td> <code>0x6</code> </td></tr>
+<tr><td> Gray </td><td> <code>0x7</code> </td></tr>
+<tr><td> DarkGray </td><td> <code>0x8</code> </td></tr>
+<tr><td> BrightBlue </td><td> <code>0x9</code> </td></tr>
+<tr><td> BrightGreen </td><td> <code>0xA</code> </td></tr>
+<tr><td> BrightCyan </td><td> <code>0xB</code> </td></tr>
+<tr><td> BrightRed </td><td> <code>0xC</code> </td></tr>
+<tr><td> BrightMagenta </td><td> <code>0xD</code> </td></tr>
+<tr><td> Yellow </td><td> <code>0xE</code> </td></tr>
+<tr><td> White </td><td> <code>0xF</code> </td></tr>
+</tbody></table>
+<p>So, these are individual colors, but how do you choose both? Let's look closely
+at that line again:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+slice[1] = 0x02;
+#}</code></pre></pre>
+<p>See how there's both a <code>0</code> and a <code>2</code>? The first value is <code>0</code>, the background
+color, which is black. The second is <code>2</code>, the foreground color, which is
+green. This is an example of why hexidecimal is useful; we can look at <code>0x02</code>
+and say &quot;oh, black and green&quot; because of the <code>0</code> and the <code>2</code>.</p>
+<a class="header" href="#conclusion-1" id="conclusion-1"><h3>Conclusion</h3></a>
+<p>To get a feeling for all of this, try to change the foreground colors,
+background colors, and letters. Write some letters in different colors than
+other letters. It's up to you! Once you feel comfortable with this, you can
+move on to the next section. Even though you <em>can</em> memorize these numbers,
+you don't have to: we'll create a nicer implementation that makes this much
+more readable.</p>
 <a class="header" href="#a-nicer-implementation" id="a-nicer-implementation"><h1>A nicer implementation</h1></a>
 <p>Coming soon!</p>
 <a class="header" href="#appendix-a-target-specifications" id="appendix-a-target-specifications"><h1>Appendix A: target specifications</h1></a>
@@ -1201,6 +1315,45 @@ into all kinds of really strange looking bugs.</p>
 </code></pre>
 <p>Finally, we don't want to use Rust's panics, so by setting them to abort
 instead of unwind, we don't generate code to handle panics.</p>
+<a class="header" href="#appendix-b-hexidecimal-numbers" id="appendix-b-hexidecimal-numbers"><h1>Appendix B: hexidecimal numbers</h1></a>
+<p>This is a work in progress, and isn't ready to ready yet!</p>
+<p>If we were to write this all in decimal:</p>
+<table><thead><tr><th> name </th><th> value </th></tr></thead><tbody>
+<tr><td> Black </td><td> <code>0</code> </td></tr>
+<tr><td> Blue </td><td> <code>1</code> </td></tr>
+<tr><td> Green </td><td> <code>2</code> </td></tr>
+<tr><td> Cyan </td><td> <code>3</code> </td></tr>
+<tr><td> Red </td><td> <code>4</code> </td></tr>
+<tr><td> Magenta </td><td> <code>5</code> </td></tr>
+<tr><td> Brown </td><td> <code>6</code> </td></tr>
+<tr><td> Gray </td><td> <code>7</code> </td></tr>
+<tr><td> DarkGray </td><td> <code>8</code> </td></tr>
+<tr><td> BrightBlue </td><td> <code>9</code> </td></tr>
+<tr><td> BrightGreen </td><td> <code>10</code> </td></tr>
+<tr><td> BrightCyan </td><td> <code>11</code> </td></tr>
+<tr><td> BrightRed </td><td> <code>12</code> </td></tr>
+<tr><td> BrightMagenta </td><td> <code>13</code> </td></tr>
+<tr><td> Yellow </td><td> <code>14</code> </td></tr>
+<tr><td> White </td><td> <code>15</code> </td></tr>
+</tbody></table>
+<p>The code becomes:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+slice[1] = 2;
+#}</code></pre></pre>
+<p>This will work just as well, but we've lost that <code>0</code> to let us know that we
+have black. Furthermore, let's take a look at a more complex version:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+slice[1] = 0xFA; // White background, BrightGreen foreground
+
+slice[1] = 250;
+#}</code></pre></pre>
+<p><code>0xFA</code> in hexidecimal is <code>250</code> in decimal, and it completely loses all of the
+meaning. We'd have to do the math ourselves to figure out what the color is.
+Much easier to write it in hexidecimal in the first place.</p>
 
                     </main>
 
