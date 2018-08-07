@@ -20,5 +20,6 @@
 -------
 
 [Appendix A: target specifications](appendix/target-specifications.md)
+[Appendix B: hexidecimal numbers](appendix/hexidecimal-numbers.md)
 
 More to come!
