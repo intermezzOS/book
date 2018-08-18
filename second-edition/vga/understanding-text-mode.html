@@ -74,7 +74,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html" class="active"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="../appendix/hexidecimal-numbers.html">Appendix B: hexidecimal numbers</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html" class="active"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="../appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -163,11 +163,11 @@ amount of memory we can give an address to is called &quot;addressable memory.&q
 our computer. Eventually, our kernel will learn how to ask how much memory is
 available, but for now, we're using so little memory that we're just going to
 assume that it's all there and works okay. You have to walk before you can run!</p>
-<p>Furthermore, memory addresses are usually written in <em>hexidecimal</em>. The usual
-system of numbers humans used is &quot;decimal&quot;, or &quot;base 10.&quot; Hexidecimal is
-&quot;base 16.&quot; If you haven't worked with hexidecimal numbers before, you should
-check out <a href="../appendix/hexidecimal-numbers.html">Appendix B</a>. If you don't want
-to, you don't have to: just know that hexidecimal numbers have the letters
+<p>Furthermore, memory addresses are usually written in <em>hexadecimal</em>. The usual
+system of numbers humans used is &quot;decimal&quot;, or &quot;base 10.&quot; Hexadecimal is
+&quot;base 16.&quot; If you haven't worked with hexadecimal numbers before, you should
+check out <a href="../appendix/hexadecimal-numbers.html">Appendix B</a>. If you don't want
+to, you don't have to: just know that hexadecimal numbers have the letters
 <code>a</code> through <code>f</code> in them, and you should be able to follow along at first.
 You'll eventually want to come back to this and learn it, though, as we'll be
 using them more and more as time goes on.</p>
@@ -187,7 +187,7 @@ let slice = unsafe { core::slice::from_raw_parts_mut(0xb8000 as *mut u8, 4000) }
 takes a <code>*mut u8</code>, a &quot;raw pointer&quot;, and a length, and creates a slice of that
 length starting from that pointer. To make a raw pointer, we can write out
 the memory address, and then cast with <code>as</code>. The address starts with <code>0x</code>
-because it's written in hexidecimal.</p>
+because it's written in hexadecimal.</p>
 <p>Finally, this is <em>very</em> unsafe, in a Rust sense: we're creating a slice to an
 arbitrary spot in memory, and are gonna start writing values to it. We know
 that this is okay, because we're a kernel and we know the specification. Rust
@@ -245,7 +245,7 @@ slice[1] = 0x02;
 #}</code></pre></pre>
 <p>See how there's both a <code>0</code> and a <code>2</code>? The first value is <code>0</code>, the background
 color, which is black. The second is <code>2</code>, the foreground color, which is
-green. This is an example of why hexidecimal is useful; we can look at <code>0x02</code>
+green. This is an example of why hexadecimal is useful; we can look at <code>0x02</code>
 and say &quot;oh, black and green&quot; because of the <code>0</code> and the <code>2</code>.</p>
 <a class="header" href="#conclusion" id="conclusion"><h3>Conclusion</h3></a>
 <p>To get a feeling for all of this, try to change the foreground colors,
