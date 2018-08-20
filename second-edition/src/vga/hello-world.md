@@ -39,7 +39,7 @@ pub fn _start() -> ! {
 If you compile and build with `bootimage run`, you should see something like
 this appear!
 
-<img alt="program on hardware" class="center" src="assets/hello-ascii.png" />
+<img alt="program on hardware" class="center" src="../assets/hello-ascii.png" />
 
 Congrats! You've gotten it to print to the screen. If you look at the code above, you
 *may* be getting an idea of why VGA is called "video graphics array"... in the next

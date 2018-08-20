@@ -1,6 +1,6 @@
 # Appendix B: hexadecimal numbers
 
-This is a work in progress, and isn't ready to ready yet!
+This is a work in progress, and isn't ready to read yet!
 
 If we were to write this all in decimal:
 
