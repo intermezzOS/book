@@ -278,7 +278,7 @@ we don’t quite know.</p>
 <p>There are many reasons to create a platform for other programs, but a
 common one for operating systems is to abstract over hardware.</p>
 <p>Consider a program, running on some hardware:</p>
-<p><img alt="program on hardware" class="center" src="assets/program_hardware.png" /></p>
+<p><img alt="program on hardware" class="center" src="../assets/program_hardware.png" /></p>
 <p>This program will need to know <em>exactly</em> about what kind of hardware exists.
 If you want to run it on a different computer, it will have to know exactly
 about that computer too. And if you want to write a second program, you’ll
@@ -291,7 +291,7 @@ indirection.</p>
 </ul>
 </blockquote>
 <p>To solve this problem, we can introduce an abstraction:</p>
-<p><img alt="program on os on hardware" class="center" src="assets/program_os_hardware.png" /></p>
+<p><img alt="program on os on hardware" class="center" src="../assets/program_os_hardware.png" /></p>
 <p>Now, the operating system can handle the details of the hardware, and provide
 an API for it. A program can be written for that operating system’s API, and
 can then run on any hardware that the operating system supports.</p>
@@ -304,7 +304,7 @@ a particular bit of hardware.</p>
 was a big selling point of Java, for example: the Java Virtual Machine.
 The idea here is that we create a <em>virtual</em> machine on top of the <em>real</em>
 machine.</p>
-<p><img alt="program on vm " class="center" src="assets/program_vm_os_hardware.png" /></p>
+<p><img alt="program on vm " class="center" src="../assets/program_vm_os_hardware.png" /></p>
 <p>Now, you write programs for the Java Virtual Machine, which is then ported
 to each operating system, which is then ported to all the hardware. Whew!</p>
 <p>This, of course, leads to the corollary to the previous maxim:</p>
@@ -902,7 +902,7 @@ everyone starts somewhere.</p>
 <pre><code class="language-bash">$ qemu-system-x86_64 -drive format=raw,file=bootimage.bin
 </code></pre>
 <p>You should hopefully get something that looks like this:</p>
-<p><img alt="program on hardware" class="center" src="assets/qemu.png" /></p>
+<p><img alt="program on hardware" class="center" src="../assets/qemu.png" /></p>
 <p>Hooray! Since our OS does nothing, we get a blank screen. To be clear, this
 is emulating hardware, and our OS is running on it, on our own computer.
 Excellent!</p>
@@ -1129,7 +1129,7 @@ pub fn _start() -&gt; ! {
 #}</code></pre></pre>
 <p>If you compile and build with <code>bootimage run</code>, you should see something like
 this appear!</p>
-<p><img alt="program on hardware" class="center" src="assets/hello-ascii.png" /></p>
+<p><img alt="program on hardware" class="center" src="../assets/hello-ascii.png" /></p>
 <p>Congrats! You've gotten it to print to the screen. If you look at the code above, you
 <em>may</em> be getting an idea of why VGA is called &quot;video graphics array&quot;... in the next
 section, we'll explain what the code above is actually doing.</p>
@@ -1316,7 +1316,7 @@ into all kinds of really strange looking bugs.</p>
 <p>Finally, we don't want to use Rust's panics, so by setting them to abort
 instead of unwind, we don't generate code to handle panics.</p>
 <a class="header" href="#appendix-b-hexadecimal-numbers" id="appendix-b-hexadecimal-numbers"><h1>Appendix B: hexadecimal numbers</h1></a>
-<p>This is a work in progress, and isn't ready to ready yet!</p>
+<p>This is a work in progress, and isn't ready to read yet!</p>
 <p>If we were to write this all in decimal:</p>
 <table><thead><tr><th> name </th><th> value </th></tr></thead><tbody>
 <tr><td> Black </td><td> <code>0</code> </td></tr>
