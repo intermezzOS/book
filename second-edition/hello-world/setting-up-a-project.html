@@ -225,7 +225,7 @@ distraction; you don't <em>need</em> to know what's going on here to continue.</
 with this:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
-#![feature(panic_implementation)]
+#![feature(panic_handler)]
 #![feature(core_intrinsics)]
 #![no_std]
 #![no_main]
@@ -236,7 +236,7 @@ extern crate bootloader_precompiled;
 use core::intrinsics;
 use core::panic::PanicInfo;
 
-#[panic_implementation]
+#[panic_handler]
 #[no_mangle]
 fn panic(_info: &amp;PanicInfo) -&gt; ! {
     unsafe { intrinsics::abort() }
@@ -266,7 +266,7 @@ exists, and we don't have any of that yet, so we can't use it. Rust's default
 so we have that full control.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
-#![feature(panic_implementation)]
+#![feature(panic_handler)]
 #![feature(core_intrinsics)]
 
 #fn main() {
@@ -277,7 +277,7 @@ extern crate bootloader_precompiled;
 use core::intrinsics;
 use core::panic::PanicInfo;
 
-#[panic_implementation]
+#[panic_handler]
 #[no_mangle]
 fn panic(_info: &amp;PanicInfo) -&gt; ! {
     unsafe { intrinsics::abort() }
