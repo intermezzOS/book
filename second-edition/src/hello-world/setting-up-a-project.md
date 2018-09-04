@@ -115,7 +115,7 @@ Okay, let's write some Rust! Delete the code in `src/main.rs`, and replace it
 with this:
 
 ```rust
-#![feature(panic_implementation)]
+#![feature(panic_handler)]
 #![feature(core_intrinsics)]
 #![no_std]
 #![no_main]
@@ -125,7 +125,7 @@ extern crate bootloader_precompiled;
 use core::intrinsics;
 use core::panic::PanicInfo;
 
-#[panic_implementation]
+#[panic_handler]
 #[no_mangle]
 fn panic(_info: &PanicInfo) -> ! {
     unsafe { intrinsics::abort() }
@@ -156,7 +156,7 @@ exists, and we don't have any of that yet, so we can't use it. Rust's default
 so we have that full control.
 
 ```rust
-#![feature(panic_implementation)]
+#![feature(panic_handler)]
 #![feature(core_intrinsics)]
 
 // ... 
@@ -166,7 +166,7 @@ extern crate bootloader_precompiled;
 use core::intrinsics;
 use core::panic::PanicInfo;
 
-#[panic_implementation]
+#[panic_handler]
 #[no_mangle]
 fn panic(_info: &PanicInfo) -> ! {
     unsafe { intrinsics::abort() }
