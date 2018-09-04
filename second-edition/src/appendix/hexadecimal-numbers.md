@@ -1,6 +1,6 @@
-# Appendix B: hexidecimal numbers
+# Appendix B: hexadecimal numbers
 
-This is a work in progress, and isn't ready to ready yet!
+This is a work in progress, and isn't ready to read yet!
 
 If we were to write this all in decimal:
 
@@ -38,6 +38,6 @@ slice[1] = 0xFA; // White background, BrightGreen foreground
 slice[1] = 250;
 ```
 
-`0xFA` in hexidecimal is `250` in decimal, and it completely loses all of the
+`0xFA` in hexadecimal is `250` in decimal, and it completely loses all of the
 meaning. We'd have to do the math ourselves to figure out what the color is.
-Much easier to write it in hexidecimal in the first place.
+Much easier to write it in hexadecimal in the first place.

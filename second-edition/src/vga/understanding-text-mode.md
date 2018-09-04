@@ -29,11 +29,11 @@ our computer. Eventually, our kernel will learn how to ask how much memory is
 available, but for now, we're using so little memory that we're just going to
 assume that it's all there and works okay. You have to walk before you can run!
 
-Furthermore, memory addresses are usually written in *hexidecimal*. The usual
-system of numbers humans used is "decimal", or "base 10." Hexidecimal is
-"base 16." If you haven't worked with hexidecimal numbers before, you should
-check out [Appendix B](../appendix/hexidecimal-numbers.md). If you don't want
-to, you don't have to: just know that hexidecimal numbers have the letters
+Furthermore, memory addresses are usually written in *hexadecimal*. The usual
+system of numbers humans used is "decimal", or "base 10." Hexadecimal is
+"base 16." If you haven't worked with hexadecimal numbers before, you should
+check out [Appendix B](../appendix/hexadecimal-numbers.md). If you don't want
+to, you don't have to: just know that hexadecimal numbers have the letters
 `a` through `f` in them, and you should be able to follow along at first.
 You'll eventually want to come back to this and learn it, though, as we'll be
 using them more and more as time goes on.
@@ -55,7 +55,7 @@ This creates a `&mut [u8]`, a mutable "slice" of bytes. `from_raw_parts_mut`
 takes a `*mut u8`, a "raw pointer", and a length, and creates a slice of that
 length starting from that pointer. To make a raw pointer, we can write out
 the memory address, and then cast with `as`. The address starts with `0x`
-because it's written in hexidecimal.
+because it's written in hexadecimal.
 
 Finally, this is *very* unsafe, in a Rust sense: we're creating a slice to an
 arbitrary spot in memory, and are gonna start writing values to it. We know
@@ -123,7 +123,7 @@ slice[1] = 0x02;
 
 See how there's both a `0` and a `2`? The first value is `0`, the background
 color, which is black. The second is `2`, the foreground color, which is
-green. This is an example of why hexidecimal is useful; we can look at `0x02`
+green. This is an example of why hexadecimal is useful; we can look at `0x02`
 and say "oh, black and green" because of the `0` and the `2`.
 
 ### Conclusion

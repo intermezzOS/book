@@ -300,7 +300,7 @@ $ qemu-system-x86_64 -drive format=raw,file=bootimage.bin
 
 You should hopefully get something that looks like this:
 
-<img alt="program on hardware" class="center" src="assets/qemu.png" />
+<img alt="program on hardware" class="center" src="../assets/qemu.png" />
 
 Hooray! Since our OS does nothing, we get a blank screen. To be clear, this
 is emulating hardware, and our OS is running on it, on our own computer.
