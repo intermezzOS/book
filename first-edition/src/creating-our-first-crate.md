@@ -5,7 +5,7 @@ also installed Cargo for us, Rust's build tool and package manager. Generate
 a new Cargo package like this:
 
 ```bash
-$ cargo init --name intermezzos
+$ cargo init --name intermezzos --lib
 ```
 
 This will create a new package called '`intermezzos`' in the current directory.
