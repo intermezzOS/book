@@ -80,7 +80,7 @@ if [ ! -d "objconv" ]; then
   echo ""
   echo "Installing \`objconv\`"
   echo ""
-  curl http://www.agner.org/optimize/objconv.zip > objconv.zip
+  curl -L https://www.agner.org/optimize/objconv.zip > objconv.zip
   mkdir -p build-objconv
   unzip objconv.zip -d build-objconv
   cd build-objconv
