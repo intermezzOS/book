@@ -4,6 +4,8 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Setting up a development environment - The intermezzOS Book</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,14 +29,17 @@
 
         <!-- Custom theme stylesheets -->
         
-        <link rel="stylesheet" href="src/theme/extra.css">
+        <link rel="stylesheet" href="../src/theme/extra.css">
         
 
         
     </head>
     <body class="light">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "../";</script>
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -55,8 +60,8 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
         </script>
@@ -74,7 +79,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html" class="active"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="../appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html" class="active"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="../appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -91,7 +99,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -104,12 +112,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">The intermezzOS Book</h1> 
+                        <h1 class="menu-title">The intermezzOS Book</h1>
 
                         <div class="right-buttons">
                             <a href="../print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -138,7 +147,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#setting-up-a-development-environment" id="setting-up-a-development-environment"><h1>Setting up a development environment</h1></a>
+                        <h1><a class="header" href="#setting-up-a-development-environment" id="setting-up-a-development-environment">Setting up a development environment</a></h1>
 <p>Traditionally, getting a development environment set up for working on an
 operating system is really hard. However, we have it pretty easy! We'll be
 using the <a href="https://www.rust-lang.org/">Rust programming language</a> to develop our kernel, and thanks to
@@ -155,7 +164,7 @@ operating system community, getting our environment set up is really easy.</p>
 operating systems may work, but we've only tried this on these systems. This
 section is the only one with OS-specific instructions; from here on out,
 everything will be identical.</p>
-<a class="header" href="#an-editor-or-ide" id="an-editor-or-ide"><h2>An editor or IDE</h2></a>
+<h2><a class="header" href="#an-editor-or-ide" id="an-editor-or-ide">An editor or IDE</a></h2>
 <p>This is needed, but is also largely a personal choice. You can use whatever
 you'd like here, and that's 100% fine.</p>
 <p>If you're not sure what to use, I do have two recommendations though. If
@@ -167,7 +176,7 @@ makes a suite of IDEs for a ton of languages, and their Rust support is
 solid!</p>
 <p>Really, anything works though: I use both of the above, and also <code>vim</code> at
 times. It's just not a huge deal.</p>
-<a class="header" href="#the-compiler-and-other-tools" id="the-compiler-and-other-tools"><h2>The compiler and other tools</h2></a>
+<h2><a class="header" href="#the-compiler-and-other-tools" id="the-compiler-and-other-tools">The compiler and other tools</a></h2>
 <p>Next, we need to get the Rust compiler installed. To do that, head to
 <a href="https://www.rust-lang.org/en-US/install.html">Rust's install page</a> and follow the instructions. You can also install
 Rust another way if you'd prefer, such as from your system's package
@@ -181,7 +190,7 @@ $ rustc --version
 $ cargo --version
 </code></pre>
 <p>If you do, everything's good!</p>
-<a class="header" href="#stable-vs-nightly-rust" id="stable-vs-nightly-rust"><h3>Stable vs. Nightly Rust</h3></a>
+<h3><a class="header" href="#stable-vs-nightly-rust" id="stable-vs-nightly-rust">Stable vs. Nightly Rust</a></h3>
 <p>One of the reasons that it's easiest is that you can't use any version
 of Rust to develop OSes; you need &quot;nightly&quot; Rust. Basically, Rust comes
 in different flavors, and in order to develop operating systems, we need
@@ -192,7 +201,7 @@ the stable Rust distribution, we need the nightly one.</p>
 </code></pre>
 <p>This will download and install the nightly toolchain. We'll configure the
 use of this toolchain automatically in the next section.</p>
-<a class="header" href="#other-tools" id="other-tools"><h3>Other tools</h3></a>
+<h3><a class="header" href="#other-tools" id="other-tools">Other tools</a></h3>
 <p>We need to install two more tools for building our OS. The first is
 called <code>bootimage</code>, and its job is to take our kernel and produce a file
 that our virtual machine (discussed in the next section) knows how to
@@ -217,7 +226,7 @@ core libraries; to get those, run this:</p>
 <pre><code class="language-bash">$ rustup component add rust-src --toolchain=nightly
 </code></pre>
 <p>With that, we're all set up!</p>
-<a class="header" href="#a-virtual-machine" id="a-virtual-machine"><h2>A virtual machine</h2></a>
+<h2><a class="header" href="#a-virtual-machine" id="a-virtual-machine">A virtual machine</a></h2>
 <p>In order to see that your code runs, you <em>could</em> install it on a real computer,
 but that is way too complex for regular development. Instead, we can use a virtual
 machine to give our OS a try locally.</p>
@@ -228,13 +237,13 @@ you get it installed.</p>
 <pre><code class="language-bash">$  qemu-system-x86_64 --version
 </code></pre>
 <p>And make sure it spits out a version number.</p>
-<a class="header" href="#a-project-directory" id="a-project-directory"><h2>A project directory</h2></a>
+<h2><a class="header" href="#a-project-directory" id="a-project-directory">A project directory</a></h2>
 <p>Finally, we need to put our source code somewhere. This can be wherever you'd like,
 but for this book, we'll call ours <code>~/src/</code>. You'll see examples have this path in
 the output, just to have something, but you can do this anywhere you'd like. We'll
 call this &quot;your project directory&quot; a few times in the book, and we mean wherever you
 decided to put stuff.</p>
-<a class="header" href="#thats-it" id="thats-it"><h2>That's it!</h2></a>
+<h2><a class="header" href="#thats-it" id="thats-it">That's it!</a></h2>
 <p>With that, we're done! Let's actually get some code going!</p>
 
                     </main>

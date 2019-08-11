@@ -4,6 +4,8 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Creating our first crate - intermezzOS</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +34,10 @@
     </head>
     <body class="light">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,8 +58,8 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
         </script>
@@ -72,7 +77,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="creating-our-first-crate.html" class="active"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="creating-our-first-crate.html" class="active"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +97,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +110,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">intermezzOS</h1> 
+                        <h1 class="menu-title">intermezzOS</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,11 +145,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#creating-our-first-crate" id="creating-our-first-crate"><h1>Creating our first crate</h1></a>
+                        <h1><a class="header" href="#creating-our-first-crate" id="creating-our-first-crate">Creating our first crate</a></h1>
 <p>Now that we've got Rust installed, time to write some Rust code! <code>rustup</code> has
 also installed Cargo for us, Rust's build tool and package manager. Generate
 a new Cargo package like this:</p>
-<pre><code class="language-bash">$ cargo init --name intermezzos
+<pre><code class="language-bash">$ cargo init --name intermezzos --lib
 </code></pre>
 <p>This will create a new package called '<code>intermezzos</code>' in the current directory.
 We have some new files. First, <code>Cargo.toml</code>:</p>
@@ -215,26 +224,26 @@ build  deps  examples  libintermezzos.a  native
 path: <code>target/debug</code>. That's where Cargo puts output for debugging builds. We
 probably should use a release build instead: <code>cargo build --release</code> will
 give us that, and put the output in <code>target/release</code>.</p>
-<a class="header" href="#creating-a-target" id="creating-a-target"><h2>Creating a target</h2></a>
+<h2><a class="header" href="#creating-a-target" id="creating-a-target">Creating a target</a></h2>
 <p>Remember back in the setup chapters, where we talked about <a href="setup.html#Hosts%20&amp;%20Targets">hosts and targets</a>?
 We need to do the equivalent for Rust. We <em>could</em> leave things where they are,
 but that would cause us problems later. So let's just get it out of the way
 now, while we're doing all this other setup.</p>
 <p>Create a file named <code>x86_64-unknown-intermezzos-gnu.json</code>, and put this in it:</p>
 <pre><code class="language-json">{
-    &quot;arch&quot;: &quot;x86_64&quot;,
-    &quot;cpu&quot;: &quot;x86-64&quot;,
-    &quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
-    &quot;llvm-target&quot;: &quot;x86_64-unknown-none-gnu&quot;,
-    &quot;linker-flavor&quot;: &quot;gcc&quot;,
-    &quot;no-compiler-rt&quot;: true,
-    &quot;os&quot;: &quot;intermezzos&quot;,
-    &quot;target-endian&quot;: &quot;little&quot;,
-    &quot;target-pointer-width&quot;: &quot;64&quot;,
-    &quot;target-c-int-width&quot;: &quot;32&quot;,
-    &quot;features&quot;: &quot;-mmx,-fxsr,-sse,-sse2,+soft-float&quot;,
-    &quot;disable-redzone&quot;: true,
-    &quot;eliminate-frame-pointer&quot;: false
+	&quot;arch&quot;: &quot;x86_64&quot;,
+	&quot;cpu&quot;: &quot;x86-64&quot;,
+	&quot;data-layout&quot;: &quot;e-m:e-i64:64-f80:128-n8:16:32:64-S128&quot;,
+	&quot;llvm-target&quot;: &quot;x86_64-unknown-none-gnu&quot;,
+	&quot;linker-flavor&quot;: &quot;gcc&quot;,
+	&quot;no-compiler-rt&quot;: true,
+	&quot;os&quot;: &quot;intermezzos&quot;,
+	&quot;target-endian&quot;: &quot;little&quot;,
+	&quot;target-pointer-width&quot;: &quot;64&quot;,
+	&quot;target-c-int-width&quot;: &quot;32&quot;,
+	&quot;features&quot;: &quot;-mmx,-fxsr,-sse,-sse2,+soft-float&quot;,
+	&quot;disable-redzone&quot;: true,
+	&quot;eliminate-frame-pointer&quot;: false
 }
 </code></pre>
 <p>Unlike <code>gcc</code>, where you have to build a cross-compiler by actually building a
@@ -273,7 +282,7 @@ library for it yet! In fact, we don't want a standard library: our operating sys
 is far from containing the proper features to support it. Instead, we only want
 Rust's <code>libcore</code> library. This library contains just the essential stuff, without
 all of the fancy features we can't support yet.</p>
-<a class="header" href="#building-libcore-with-xargo" id="building-libcore-with-xargo"><h2>Building libcore with xargo</h2></a>
+<h2><a class="header" href="#building-libcore-with-xargo" id="building-libcore-with-xargo">Building libcore with xargo</a></h2>
 <p>So how do we get a copy of <code>libcore</code> for intermezzOS? The answer is <a href="https://github.com/japaric/xargo"><code>xargo</code></a>. It's
 a wrapper around Cargo that knows how to read a <code>target.json</code> file and automatically
 cross-compile <code>libcore</code>, then set up Cargo to use it.</p>
@@ -309,7 +318,7 @@ error: Could not compile `intermezzos`.
 </code></pre>
 <p>So why'd we get yet another error? For that, we need to understand a Rust
 feature, panics.</p>
-<a class="header" href="#panic--abort" id="panic--abort"><h2>Panic == abort</h2></a>
+<h2><a class="header" href="#panic--abort" id="panic--abort">Panic == abort</a></h2>
 <p>The specific error we got said &quot;language item required, but not found&quot;. Rust
 lets you implement bits of itself through these language items. <code>libcore</code>
 defines most of them, but the last two, <code>panic_fmt</code> and <code>eh_personality</code>,
@@ -356,7 +365,7 @@ ready to go.</p>
 <p>But now, we've got all of our Rust-related stuff in <code>src</code>. But the rest of our
 files are still strewn around in our top-level directory. Let's do a little bit
 of cleaning up.</p>
-<a class="header" href="#some-reorganization" id="some-reorganization"><h2>Some reorganization</h2></a>
+<h2><a class="header" href="#some-reorganization" id="some-reorganization">Some reorganization</a></h2>
 <p>We have a couple of different ways that we could re-organize the assembly
 language. If we were planning on making our OS portable across architectures, a
 good solution would be to move it into <code>src/arch/arch_name</code>. That way, we could
@@ -373,7 +382,7 @@ $ mv grub.cfg src/asm/
 make: *** No rule to make target 'multiboot_header.asm', needed by 'build/multiboot_header.o'.  Stop.
 </code></pre>
 <p>Let's fix up our <code>Makefile</code> to work again.</p>
-<a class="header" href="#fixing-our-makefile" id="fixing-our-makefile"><h2>Fixing our Makefile</h2></a>
+<h2><a class="header" href="#fixing-our-makefile" id="fixing-our-makefile">Fixing our Makefile</a></h2>
 <p>The first thing we need to do is fix up the paths:</p>
 <pre><code class="language-makefile">build/multiboot_header.o: src/asm/multiboot_header.asm
         mkdir -p build

@@ -4,6 +4,8 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Multiboot headers - intermezzOS</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +34,10 @@
     </head>
     <body class="light">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,8 +58,8 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
         </script>
@@ -72,7 +77,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="multiboot-headers.html" class="active"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="preface.html">Preface</a></li><li><a href="background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="multiboot-headers.html" class="active"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="appendix/troubleshooting.html">Appendix A: Troubleshooting</a></li><li class="affix"><a href="appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +97,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +110,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">intermezzOS</h1> 
+                        <h1 class="menu-title">intermezzOS</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +145,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#multiboot-headers" id="multiboot-headers"><h1>Multiboot headers</h1></a>
+                        <h1><a class="header" href="#multiboot-headers" id="multiboot-headers">Multiboot headers</a></h1>
 <p>Let’s get going! The very first thing we’re going to do is create a ‘multiboot
 header’. What’s that, you ask? Well, to explain it, let’s take a small step
 back and talk about how a computer boots up.</p>
@@ -174,7 +183,7 @@ we have to do it.</p>
 </blockquote>
 <p>So that’s the task ahead of us: make the jump up the ladder and get to
 long mode. We can do it! Let’s talk more details.</p>
-<a class="header" href="#firmware-and-the-bios" id="firmware-and-the-bios"><h2>Firmware and the BIOS</h2></a>
+<h2><a class="header" href="#firmware-and-the-bios" id="firmware-and-the-bios">Firmware and the BIOS</a></h2>
 <p>So let's begin by turning the power to our computer on.</p>
 <p>When we press the power button, electricity starts running, and a special piece of
 software, known as the BIOS in Intel land, automatically runs.</p>
@@ -216,7 +225,7 @@ are used on our way to building an OS. Such is life at such a low level...</p>
 memory and transfers execution to it. With this process, we move away from what
 comes dictated by the computer manufacturer and move ever closer to getting our
 OS running.</p>
-<a class="header" href="#bootloaders" id="bootloaders"><h2>Bootloaders</h2></a>
+<h2><a class="header" href="#bootloaders" id="bootloaders">Bootloaders</a></h2>
 <p>The part of our bootable drive that gets executed is called a ‘bootloader’,
 since it loads things at boot time. The bootloader’s job is to take our kernel,
 put it into memory, and then transition control to it.</p>
@@ -227,7 +236,7 @@ than it is anything else. That stuff may interest you, and maybe someday we’ll
 come back and write a bootloader of our own.</p>
 <p>In the interest of actually getting around to implementing a kernel, instead, we’ll
 use an existing bootloader: GRUB.</p>
-<a class="header" href="#grub-and-multiboot" id="grub-and-multiboot"><h2>GRUB and Multiboot</h2></a>
+<h2><a class="header" href="#grub-and-multiboot" id="grub-and-multiboot">GRUB and Multiboot</a></h2>
 <p>GRUB stands for ‘<em>gr</em>and <em>u</em>nified <em>b</em>ootloader’, and it’s a common one for
 GNU/Linux systems. GRUB implements a specification called Multiboot, which is a
 set of conventions for how a kernel should get loaded into memory. By following
@@ -240,7 +249,7 @@ to protected mode for us, skipping the first step. We don’t even need to know
 anything about all of that old stuff. If you’re curious about the kinds of
 things you would have needed to know, put “A20 line” into your favorite search
 engine, and get ready to cry yourself to sleep.</p>
-<a class="header" href="#writing-our-own-multiboot-header" id="writing-our-own-multiboot-header"><h2>Writing our own Multiboot header</h2></a>
+<h2><a class="header" href="#writing-our-own-multiboot-header" id="writing-our-own-multiboot-header">Writing our own Multiboot header</a></h2>
 <p>I said we were gonna get to the code, and then I went on about more history.
 Sorry about that! It’s code time for real! Inside your project directory, make
 a new file called <code>multiboot_header.asm</code>, and open it in your favorite editor.
@@ -254,7 +263,7 @@ stuff, and <em>then</em> abstract it afterwards. It’s easier to start with a m
 clean it up than it is to try to get it perfect on the first try.</p>
 <p>Second, this is a <code>.asm</code> file, which is short for ‘assembly’. That’s right, we’re
 going to write some assembly code here. Don’t worry! It’s not super hard.</p>
-<a class="header" href="#an-aside-about-assembly" id="an-aside-about-assembly"><h3>An aside about assembly</h3></a>
+<h3><a class="header" href="#an-aside-about-assembly" id="an-aside-about-assembly">An aside about assembly</a></h3>
 <p>Have you ever watched Rich Hickey’s talk “Simple vs. Easy”? It’s a wonderful talk.
 In it, he draws a distinction between these two words, which are commonly used as
 synonyms.</p>
@@ -264,7 +273,7 @@ a little bit of assembly programming to build our operating system, but we
 don’t need to know <em>that much</em>. It is completely learnable, even for someone
 coming from a high-level language. You might need to practice a bit, and take
 it slow, but I believe in you. You’ve got this.</p>
-<a class="header" href="#the-magic-number" id="the-magic-number"><h3>The Magic Number</h3></a>
+<h3><a class="header" href="#the-magic-number" id="the-magic-number">The Magic Number</a></h3>
 <p>Our first assembly file will be almost entirely <em>data</em>, not code. Here’s the
 first line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
@@ -301,7 +310,7 @@ it was a 16-bit architecture set. That meant that the amount of data that could 
 held in a CPU register (or one ‘word’ as it's commonly known) was 16 bits.
 To transition to a 32-bit architecture without losing backwards compatibility,
 x86 got the concept of a ‘double word’ or double 16 bits.</p>
-<a class="header" href="#the-mode-code" id="the-mode-code"><h3>The mode code</h3></a>
+<h3><a class="header" href="#the-mode-code" id="the-mode-code">The mode code</a></h3>
 <p>Okay, time to add a second line:</p>
 <pre><code class="language-x86asm">dd 0xe85250d6 ; magic number
 dd 0          ; protected mode code
@@ -309,7 +318,7 @@ dd 0          ; protected mode code
 <p>This is another form of magic number. We want to boot into protected mode, and
 so we put a zero here, using <code>dd</code> again. If we wanted GRUB to do something
 else, we could look up another code, but this is the one that we want.</p>
-<a class="header" href="#header-length" id="header-length"><h3>Header length</h3></a>
+<h3><a class="header" href="#header-length" id="header-length">Header length</a></h3>
 <p>The next thing that’s required is a header length. We could use <code>dd</code> and count
 out exactly how many bytes that our header is, but there’s two reasons why
 we’re not doing that:</p>
@@ -342,7 +351,7 @@ how many bytes there are by hand. Awesome.</p>
 <p>You’ll also notice that I indented the <code>dd</code> statements. Usually, labels go in
 the first column, and you indent actual instructions. How much you indent is up
 to you; it’s a pretty flexible format.</p>
-<a class="header" href="#the-checksum" id="the-checksum"><h3>The Checksum</h3></a>
+<h3><a class="header" href="#the-checksum" id="the-checksum">The Checksum</a></h3>
 <p>The fourth field multiboot requires is a ‘checksum’. The idea is that we sum up
 some numbers, and then use that number to check that they’re all what we
 expected things to be. It’s similar to a hash, in this sense: it lets us and GRUB
@@ -375,7 +384,7 @@ from a big number. <code>dd</code> then puts that value into this spot in our fi
 <p>So what we can do here is &quot;trick&quot; the computer into giving us zero when we do the addition. Imagine for the sake of argument that <code>magic_number</code> + <code>architecture</code> + <code>header_length</code> somehow works out to be 0xFFFFFFFE. The number we'd add to that in order to make 0 would be 0x00000002. This is 0x100000000-0xFFFFFFFE, because 0x100000000 technically maps to 0 when we wrap around. So we replace 0xFFFFFFFE in our contrived example here with <code>magic_number</code> + <code>architecture</code> + <code>header_length</code>. This gives us:
 <code>dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))</code></p>
 </blockquote>
-<a class="header" href="#ending-tag" id="ending-tag"><h3>Ending tag</h3></a>
+<h3><a class="header" href="#ending-tag" id="ending-tag">Ending tag</a></h3>
 <p>After the checksum you can list a series of “tags”, which is a way for the OS to
 tell the bootloader to do some extra things before handing control over to the
 OS, or to give the OS some extra information once started. We donʼt need any of
@@ -400,7 +409,7 @@ bits or 2 bytes on the x86_64 architecture. The multiboot specification demands
 that this be exactly a word. You’ll find that this is super common in operating systems:
 the exact size and amount of everything matters. It’s just a side-effect of
 working at a low level.</p>
-<a class="header" href="#the-section" id="the-section"><h3>The Section</h3></a>
+<h3><a class="header" href="#the-section" id="the-section">The Section</a></h3>
 <p>We have one last thing to do: add a ‘section’ annotation. We’ll talk more about
 sections later, so for now, just put what I tell you at the top of the file.</p>
 <p>Here’s the final file:</p>
@@ -421,7 +430,7 @@ header_end:
 </code></pre>
 <p>That’s it! Congrats, you’ve written a multiboot compliant header. It’s a lot of
 esoterica, but it’s pretty straightforward once you’ve seen it a few times.</p>
-<a class="header" href="#assembling-with-nasm" id="assembling-with-nasm"><h2>Assembling with <code>nasm</code></h2></a>
+<h2><a class="header" href="#assembling-with-nasm" id="assembling-with-nasm">Assembling with <code>nasm</code></a></h2>
 <p>We can’t use this file directly, we need to turn it into binary. We can use a
 program called an ‘assembler’ to ‘assemble’ our assembly code into binary code.
 It’s very similar to using a ‘compiler’ to ‘compile’ our source code into
@@ -442,7 +451,7 @@ the same directory. This is our ‘object file’, hence the <code>.o</code>. Do
 word ‘object’ confuse you. It has nothing to do with anything object oriented.
 ‘Object files’ are just binary code with some metadata in a particular format -
 in our case ELF. Later, we’ll take this file and use it to build our OS.</p>
-<a class="header" href="#summary" id="summary"><h2>Summary</h2></a>
+<h2><a class="header" href="#summary" id="summary">Summary</a></h2>
 <p>Congratulations! This is the first step towards building an operating system.
 We learned about the boot process, the GRUB bootloader, and the Multiboot
 specification. We wrote a Multiboot-compliant header file in assembly code, and

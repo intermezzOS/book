@@ -4,6 +4,8 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Preface - The intermezzOS Book</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +36,10 @@
     </head>
     <body class="light">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -55,8 +60,8 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
         </script>
@@ -74,7 +79,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="preface.html" class="active">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="preface.html" class="active">Preface</a></li><li><a href="background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="hello-world/setting-up-a-project.html"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -91,7 +99,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -104,12 +112,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">The intermezzOS Book</h1> 
+                        <h1 class="menu-title">The intermezzOS Book</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -139,9 +148,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 class="center">intermezzOS</h1>
-<p><img class="center" src="assets/rhizome.jpg" alt="rhizome" /></p>
+<img class="center" src="assets/rhizome.jpg" alt="rhizome" />
 <p class="center">An operating system for learning</p>
-<a class="header" href="#preface" id="preface"><h2>Preface</h2></a>
+<h2><a class="header" href="#preface" id="preface">Preface</a></h2>
 <p>This book describes the intermezzOS project. intermezzOS is a hobby operating
 system, specifically targeted at showing beginners how to get into operating
 systems development. Rather than describe some sort of final OS, it instead
@@ -160,7 +169,7 @@ This book is in the <code>book</code> repository, the kernel is in <code>kernel<
 website is there too. Feel free to open issues if you want to discuss things
 in a general sense, and send bug reports and PRs to the appropriate repos if
 you’d like to help with a particular component.</p>
-<a class="header" href="#the-story" id="the-story"><h2>The Story</h2></a>
+<h2><a class="header" href="#the-story" id="the-story">The Story</a></h2>
 <p>A long time ago, in college, my friends and I were working on a hobby operating
 system, <a href="http://xomb.org">XOmB</a>. It was... tough. Frankly, while I learned a
 lot, I was a pretty minor contributor. I got frustrated too easily. One day, I
@@ -207,7 +216,7 @@ similar concepts, but with different code and in different ways, and in a
 different order.</p>
 <p>Furthermore, I will not commit to any kind of schedule for this project. It’s
 going to be in my spare time, and I’m learning a lot of this as I go, too.</p>
-<a class="header" href="#the-name" id="the-name"><h2>The Name</h2></a>
+<h2><a class="header" href="#the-name" id="the-name">The Name</a></h2>
 <blockquote>
 <p>The nomad has a territory; he follows customary paths; he goes from one point
 to another; he is not ignorant of points (water points, dwelling points,
@@ -240,7 +249,7 @@ middle.</p>
 beginning of the book, operating systems are largely about abstractions. And
 abstractions are themselves ‘in the middle’, between what they’re abstracting
 and who they are abstracting it for.</p>
-<a class="header" href="#principles" id="principles"><h2>Principles</h2></a>
+<h2><a class="header" href="#principles" id="principles">Principles</a></h2>
 <p>Here are the guiding principles of intermezzOS:</p>
 <ul>
 <li>We’re all actual people. Please treat each other as such.</li>

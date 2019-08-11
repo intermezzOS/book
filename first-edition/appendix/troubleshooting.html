@@ -4,6 +4,8 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Appendix A: Troubleshooting - intermezzOS</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +34,10 @@
     </head>
     <body class="light">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "../";</script>
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,8 +58,8 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
         </script>
@@ -72,7 +77,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="../installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="../linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="../osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="../windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="../booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="../multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="../hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="../making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="../running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="../automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="../transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="../paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="../setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="../jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="../a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="../creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="../hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/troubleshooting.html" class="active">Appendix A: Troubleshooting</a></li><li class="affix"><a href="../appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="../appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../setup.html"><strong aria-hidden="true">2.</strong> Setting up a development environment</a></li><li><ol class="section"><li><a href="../installing-rust.html"><strong aria-hidden="true">2.1.</strong> Installing Rust</a></li><li><a href="../linux.html"><strong aria-hidden="true">2.2.</strong> Linux</a></li><li><a href="../osx.html"><strong aria-hidden="true">2.3.</strong> Mac OS X</a></li><li><a href="../windows.html"><strong aria-hidden="true">2.4.</strong> Windows</a></li></ol></li><li><a href="../booting-up.html"><strong aria-hidden="true">3.</strong> Booting up</a></li><li><ol class="section"><li><a href="../multiboot-headers.html"><strong aria-hidden="true">3.1.</strong> Multiboot headers</a></li><li><a href="../hello-world.html"><strong aria-hidden="true">3.2.</strong> Hello, world!</a></li><li><a href="../making-an-iso.html"><strong aria-hidden="true">3.3.</strong> Making an ISO</a></li><li><a href="../running-in-qemu.html"><strong aria-hidden="true">3.4.</strong> Running in QEMU</a></li><li><a href="../automation-with-make.html"><strong aria-hidden="true">3.5.</strong> Automation with Make</a></li></ol></li><li><a href="../transitioning-to-long-mode.html"><strong aria-hidden="true">4.</strong> Transitioning to Long Mode</a></li><li><ol class="section"><li><a href="../paging.html"><strong aria-hidden="true">4.1.</strong> Paging</a></li><li><a href="../setting-up-a-gdt.html"><strong aria-hidden="true">4.2.</strong> Setting up a GDT</a></li><li><a href="../jumping-headlong-into-long-mode.html"><strong aria-hidden="true">4.3.</strong> Jumping headlong into long mode</a></li></ol></li><li><a href="../a-rust-kmain.html"><strong aria-hidden="true">5.</strong> A Rust kmain()</a></li><li><ol class="section"><li><a href="../creating-our-first-crate.html"><strong aria-hidden="true">5.1.</strong> Creating our first crate</a></li><li><a href="../hello-from-rust.html"><strong aria-hidden="true">5.2.</strong> Hello from Rust!</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/troubleshooting.html" class="active">Appendix A: Troubleshooting</a></li><li class="affix"><a href="../appendix/numeral-systems.html">Appendix B: Numeral Systems</a></li><li class="affix"><a href="../appendix/osx-install.html">Appendix C: Mac OS X Install Script</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +97,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +110,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">intermezzOS</h1> 
+                        <h1 class="menu-title">intermezzOS</h1>
 
                         <div class="right-buttons">
                             <a href="../print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,12 +145,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#appendix-a-troubleshooting" id="appendix-a-troubleshooting"><h1>Appendix A: Troubleshooting</h1></a>
+                        <h1><a class="header" href="#appendix-a-troubleshooting" id="appendix-a-troubleshooting">Appendix A: Troubleshooting</a></h1>
 <p>In this appendix, we will cover common errors and their solutions for
 various chapters of the book.</p>
-<a class="header" href="#chapter-3" id="chapter-3"><h2>Chapter 3</h2></a>
+<h2><a class="header" href="#chapter-3" id="chapter-3">Chapter 3</a></h2>
 <p>Here are various solutions to issues you may run into in Chapter 3:</p>
-<a class="header" href="#the-ld-tool-does-not-work" id="the-ld-tool-does-not-work"><h3>The ld tool does not work</h3></a>
+<h3><a class="header" href="#the-ld-tool-does-not-work" id="the-ld-tool-does-not-work">The ld tool does not work</a></h3>
 <p>When running the linker tool ld, it may freeze and not produce output. Check the linker file for a syntax error. Make sure comments are closed. You can also run the command with --verbose for more output during linking to help in debugging.</p>
 <p>Linux:</p>
 <pre><code class="language-bash">$ ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
@@ -149,7 +158,7 @@ various chapters of the book.</p>
 <p>Mac OS X:</p>
 <pre><code class="language-bash">$ ~/opt/bin/x86_64-pc-elf-ld --verbose --nmagic --output kernel.bin --script linker.ld multiboot_header.o boot.o
 </code></pre>
-<a class="header" href="#error-no-multiboot-header-found" id="error-no-multiboot-header-found"><h3>Error: no multiboot header found</h3></a>
+<h3><a class="header" href="#error-no-multiboot-header-found" id="error-no-multiboot-header-found">Error: no multiboot header found</a></h3>
 <p>When booting up your kernel, QEMU may print out a message like this:</p>
 <pre><code class="language-text">error: no multiboot header found
 error: you need to load the kernel first
@@ -158,7 +167,7 @@ error: you need to load the kernel first
 something. Double check your code against the examples and make sure that
 they’re <em>identical</em>, especially things like magic numbers. They’re easy to
 mis-type.</p>
-<a class="header" href="#could-not-read-from-cdrom-code-0009" id="could-not-read-from-cdrom-code-0009"><h3>Could not read from CDROM (code 0009)</h3></a>
+<h3><a class="header" href="#could-not-read-from-cdrom-code-0009" id="could-not-read-from-cdrom-code-0009">Could not read from CDROM (code 0009)</a></h3>
 <p>On a system that uses EFI to boot, you may see an error like this:</p>
 <pre><code class="language-text">$ qemu-system-x86_64 -cdrom os.iso
 Could not read from CDROM (code 0009)
@@ -171,14 +180,14 @@ before trying QEMU again:</p>
 <pre><code class="language-bash">$ grub-mkrescue -o os.iso isofiles
 $ qemu-system-x86_64 -cdrom os.iso
 </code></pre>
-<a class="header" href="#xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image" id="xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image"><h3>xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image</h3></a>
+<h3><a class="header" href="#xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image" id="xorriso--failure--cannot-find-path-efiimg-in-loaded-iso-image">xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image</a></h3>
 <p>When building the ISO, you may see a message like this:</p>
 <pre><code class="language-text">xorriso : FAILURE : Cannot find path ‘/efi.img’ in loaded ISO image
 </code></pre>
 <p>The solution may be to install the <code>mtools</code> package:</p>
 <pre><code class="language-bash">$ sudo apt-get install mtools
 </code></pre>
-<a class="header" href="#could-not-initialize-sdlno-available-video-device---exiting" id="could-not-initialize-sdlno-available-video-device---exiting"><h3>Could not initialize SDL(No available video device) - exiting</h3></a>
+<h3><a class="header" href="#could-not-initialize-sdlno-available-video-device---exiting" id="could-not-initialize-sdlno-available-video-device---exiting">Could not initialize SDL(No available video device) - exiting</a></h3>
 <p>When booting your kernel in QEMU, you may see an error like this:</p>
 <pre><code class="language-text">Could not initialize SDL(No available video device) - exiting
 </code></pre>

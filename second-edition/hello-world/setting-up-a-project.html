@@ -4,6 +4,8 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Setting up a project - The intermezzOS Book</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,14 +29,17 @@
 
         <!-- Custom theme stylesheets -->
         
-        <link rel="stylesheet" href="src/theme/extra.css">
+        <link rel="stylesheet" href="../src/theme/extra.css">
         
 
         
     </head>
     <body class="light">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "../";</script>
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -55,8 +60,8 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
         </script>
@@ -74,7 +79,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html" class="active"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="../appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="../preface.html">Preface</a></li><li><a href="../background/index.html"><strong aria-hidden="true">1.</strong> Background</a></li><li><ol class="section"><li><a href="../background/what.html"><strong aria-hidden="true">1.1.</strong> What is an OS?</a></li><li><a href="../background/what-kind-is-there.html"><strong aria-hidden="true">1.2.</strong> What kinds of OS are there?</a></li><li><a href="../background/what-kind-are-we-making.html"><strong aria-hidden="true">1.3.</strong> What kind are we making?</a></li><li><a href="../background/tools.html"><strong aria-hidden="true">1.4.</strong> What tools will we use?</a></li></ol></li><li><a href="../hello-world/index.html"><strong aria-hidden="true">2.</strong> From Zero to &quot;Hello, world!&quot;</a></li><li><ol class="section"><li><a href="../hello-world/setup.html"><strong aria-hidden="true">2.1.</strong> Setting up a development environment</a></li><li><a href="../hello-world/setting-up-a-project.html" class="active"><strong aria-hidden="true">2.2.</strong> Setting up a project</a></li><li><a href="../hello-world/from-zero-to-start-in-detail.html"><strong aria-hidden="true">2.3.</strong> From zero to _start in detail</a></li></ol></li><li><a href="../fractal-learning.html"><strong aria-hidden="true">3.</strong> Interlude: fractal learning</a></li><li><a href="../vga/index.html"><strong aria-hidden="true">4.</strong> Printing to the screen: a text mode VGA driver</a></li><li><ol class="section"><li><a href="../vga/hello-world.html"><strong aria-hidden="true">4.1.</strong> A VGA &quot;hello world&quot;</a></li><li><a href="../vga/understanding-text-mode.html"><strong aria-hidden="true">4.2.</strong> Understanding text mode</a></li><li><a href="../vga/nicer-implementation.html"><strong aria-hidden="true">4.3.</strong> A nicer implementation</a></li><li class="spacer"></li></ol></li><li><a href="../appendix/target-specifications.html">Appendix A: target specifications</a></li><li class="affix"><a href="../appendix/hexadecimal-numbers.html">Appendix B: hexadecimal numbers</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -91,7 +99,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -104,12 +112,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">The intermezzOS Book</h1> 
+                        <h1 class="menu-title">The intermezzOS Book</h1>
 
                         <div class="right-buttons">
                             <a href="../print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -138,7 +147,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#setting-up-a-project" id="setting-up-a-project"><h1>Setting up a project</h1></a>
+                        <h1><a class="header" href="#setting-up-a-project" id="setting-up-a-project">Setting up a project</a></h1>
 <p>Now that we are all set up, let's get going! First, let's go to our project
 directory:</p>
 <pre><code class="language-bash">$ cd ~/src
@@ -169,7 +178,7 @@ might want to take a moment and skim <a href="https://doc.rust-lang.org/book/sec
 which covers the basic syntax and talks about stuff you've seen in
 programming languages you have used in the past.</p>
 </blockquote>
-<a class="header" href="#our-first-hello-world" id="our-first-hello-world"><h2>Our first Hello, World</h2></a>
+<h2><a class="header" href="#our-first-hello-world" id="our-first-hello-world">Our first Hello, World</a></h2>
 <p>If you investigate the contents of <code>src/main.rs</code>, you'll find this:</p>
 <pre><pre class="playpen"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -183,7 +192,7 @@ programming languages you have used in the past.</p>
 Hello, world!
 </code></pre>
 <p>If you see the &quot;Hello, world!&quot; printed to your screen, then your Rust toolchain is working!</p>
-<a class="header" href="#hosts-and-targets" id="hosts-and-targets"><h2>Hosts and Targets</h2></a>
+<h2><a class="header" href="#hosts-and-targets" id="hosts-and-targets">Hosts and Targets</a></h2>
 <p>This program is compiled for our own computer hardware and operating system.
 The computer we're compiling <em>from</em> is called the &quot;host system.&quot; But, our new
 OS won't be using the OS of the computer we're doing development on! The
@@ -197,7 +206,7 @@ However, by default, Rust can't know every single kind of computer and OS
 that we would want to compile to: after all, we're creating a new OS right
 now!</p>
 <p>To solve this, we need to write some JSON.</p>
-<a class="header" href="#creating-intermezzosjson" id="creating-intermezzosjson"><h3>Creating intermezzos.json</h3></a>
+<h3><a class="header" href="#creating-intermezzosjson" id="creating-intermezzosjson">Creating intermezzos.json</a></h3>
 <p>Rust has a feature called &quot;target specifications&quot; that lets us, well, specify
 a target. To do that, we create a JSON file, and use it to describe all the
 things that the compiler needs to know in order to generate the proper code.</p>
@@ -220,7 +229,7 @@ things that the compiler needs to know in order to generate the proper code.</p>
 </code></pre>
 <p>To learn more about this file, check out Appendix A. For now, it's mostly a
 distraction; you don't <em>need</em> to know what's going on here to continue.</p>
-<a class="header" href="#removing-the-standard-library" id="removing-the-standard-library"><h2>Removing the standard library</h2></a>
+<h2><a class="header" href="#removing-the-standard-library" id="removing-the-standard-library">Removing the standard library</a></h2>
 <p>Okay, let's write some Rust! Delete the code in <code>src/main.rs</code>, and replace it
 with this:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -314,7 +323,7 @@ properly. We'll explain more in the next section.</p>
 only thing we do is <code>loop</code> forever!</p>
 <p>With this code, our little kernel will start, and then do nothing. It's a
 start!</p>
-<a class="header" href="#aborting-on-panic" id="aborting-on-panic"><h2>Aborting on panic</h2></a>
+<h2><a class="header" href="#aborting-on-panic" id="aborting-on-panic">Aborting on panic</a></h2>
 <p>While we set up a panic handler, that's not the only thing that occurs on
 a panic. After our handler is called, Rust can do one of two things: abort
 the entire program, or &quot;unwind the stack.&quot; Since we're an OS, if our OS
@@ -331,13 +340,13 @@ panic = &quot;abort&quot;
 <p>Cargo has a concept of &quot;release profiles&quot; that let us get a development
 build or a release build. With this configuration, we're telling the
 Rust compiler that we want to abort when a panic occurs.</p>
-<a class="header" href="#including-a-bootloader" id="including-a-bootloader"><h2>Including a bootloader</h2></a>
+<h2><a class="header" href="#including-a-bootloader" id="including-a-bootloader">Including a bootloader</a></h2>
 <p>Earlier we had an <code>extern crate</code> line talking about <code>bootloader_precompiled</code>.
 We need to add that to our <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[dependencies]
 bootloader_precompiled = &quot;0.2.0&quot;
 </code></pre>
-<a class="header" href="#compiling-with-bootimage" id="compiling-with-bootimage"><h2>Compiling with <code>bootimage</code></h2></a>
+<h2><a class="header" href="#compiling-with-bootimage" id="compiling-with-bootimage">Compiling with <code>bootimage</code></a></h2>
 <p>Now that we have our code, it's time to compile it! First, we want to make
 sure that we are using the nightly version of Rust, so run this:</p>
 <pre><code class="language-bash">$ rustup override set nightly
@@ -372,12 +381,12 @@ Creating disk image at bootimage.bin
 steps mean in the next section. But at this point, if <code>bootimage.bin</code> exists,
 you've successfully compiled your very first OS! It doesn't do much, but
 everyone starts somewhere.</p>
-<a class="header" href="#running-with-qemu" id="running-with-qemu"><h2>Running with <code>qemu</code></h2></a>
+<h2><a class="header" href="#running-with-qemu" id="running-with-qemu">Running with <code>qemu</code></a></h2>
 <p>Let's try running it! To load up our OS in <code>qemu</code>, type this:</p>
 <pre><code class="language-bash">$ qemu-system-x86_64 -drive format=raw,file=bootimage.bin
 </code></pre>
 <p>You should hopefully get something that looks like this:</p>
-<p><img alt="program on hardware" class="center" src="../assets/qemu.png" /></p>
+<img alt="program on hardware" class="center" src="../assets/qemu.png" />
 <p>Hooray! Since our OS does nothing, we get a blank screen. To be clear, this
 is emulating hardware, and our OS is running on it, on our own computer.
 Excellent!</p>
@@ -398,7 +407,7 @@ first is that we want the format to be 'raw', that is, just use the bytes
 directly, it's not formatted as a specific filesystem. The second is the file
 that we want to actually load for that disk; it's our <code>bootimage.bin</code> file we
 just produced with <code>bootimage</code>.</p>
-<a class="header" href="#some-conveniences" id="some-conveniences"><h2>Some conveniences</h2></a>
+<h2><a class="header" href="#some-conveniences" id="some-conveniences">Some conveniences</a></h2>
 <p><code>bootimage</code> can make this even easier! Go to your <code>Cargo.toml</code>, and add
 this section:</p>
 <pre><code class="language-toml">[package.metadata.bootimage]
@@ -414,7 +423,7 @@ $ bootimage run
 is much more convenient!</p>
 <p>For more info, see <a href="https://github.com/rust-osdev/bootimage#configuration">bootimage's
 documentation</a>.</p>
-<a class="header" href="#conclusion" id="conclusion"><h2>Conclusion</h2></a>
+<h2><a class="header" href="#conclusion" id="conclusion">Conclusion</a></h2>
 <p>Congrats! This is the first step on our journey building operating systems.
 It only gets cooler from here. But before we move on, let's take a step back
 and investigate in a bit more depth what we actually just did.</p>
