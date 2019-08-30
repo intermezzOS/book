@@ -33,7 +33,7 @@ mkdir -p "$HOME/src"
 mkdir -p "$PREFIX"
 
 # gmp mpfr libmpc
-brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
+brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu pkg-config
 
 # binutils
 
