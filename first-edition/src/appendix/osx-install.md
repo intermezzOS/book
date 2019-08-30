@@ -99,6 +99,7 @@ if [ ! -d "grub" ]; then
   echo ""
   git clone --depth 1 git://git.savannah.gnu.org/grub.git
   cd grub
+  ./bootstrap
   sh autogen.sh
   mkdir -p build-grub
   cd build-grub
