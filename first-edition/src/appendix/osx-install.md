@@ -102,6 +102,7 @@ if [ ! -d "grub" ]; then
   sh autogen.sh
   mkdir -p build-grub
   cd build-grub
+  export PATH=$PATH:~/opt/bin
   ../configure --disable-werror TARGET_CC=$TARGET-gcc TARGET_OBJCOPY=$TARGET-objcopy \
     TARGET_STRIP=$TARGET-strip TARGET_NM=$TARGET-nm TARGET_RANLIB=$TARGET-ranlib --target=$TARGET --prefix="$PREFIX"
   make
