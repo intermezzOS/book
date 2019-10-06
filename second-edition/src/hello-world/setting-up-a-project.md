@@ -120,7 +120,7 @@ with this:
 #![no_std]
 #![no_main]
 
-extern crate bootloader_precompiled;
+extern crate bootloader;
 
 use core::intrinsics;
 use core::panic::PanicInfo;
@@ -161,7 +161,7 @@ so we have that full control.
 
 // ... 
 
-extern crate bootloader_precompiled;
+extern crate bootloader;
 
 use core::intrinsics;
 use core::panic::PanicInfo;
@@ -234,12 +234,12 @@ Rust compiler that we want to abort when a panic occurs.
 
 ## Including a bootloader
 
-Earlier we had an `extern crate` line talking about `bootloader_precompiled`.
+Earlier we had an `extern crate` line talking about `bootloader`.
 We need to add that to our `Cargo.toml`:
 
 ```toml
 [dependencies]
-bootloader_precompiled = "0.2.0"
+bootloader = "0.6.4"
 ```
 
 ## Compiling with `bootimage`
