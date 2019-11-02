@@ -33,7 +33,7 @@ mkdir -p "$HOME/src"
 mkdir -p "$PREFIX"
 
 # gmp mpfr libmpc
-brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
+brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu pkg-config
 
 # binutils
 
@@ -99,6 +99,7 @@ if [ ! -d "grub" ]; then
   echo ""
   git clone --depth 1 git://git.savannah.gnu.org/grub.git
   cd grub
+  ./bootstrap
   sh autogen.sh
   mkdir -p build-grub
   cd build-grub
